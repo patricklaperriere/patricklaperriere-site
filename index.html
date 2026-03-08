@@ -358,7 +358,8 @@
 
     .featured-card:focus-visible,
     .project-card:focus-visible,
-    .connect-card:focus-visible {
+    .connect-card:focus-visible,
+    .review-button:focus-visible {
       outline: 2px solid rgba(122, 162, 255, 0.7);
       outline-offset: 2px;
     }
@@ -449,7 +450,8 @@
 
     .featured-card:hover .cta-arrow,
     .project-card:hover .cta-arrow,
-    .connect-card:hover .cta-arrow {
+    .connect-card:hover .cta-arrow,
+    .review-button:hover .cta-arrow {
       transform: translate(2px, -2px);
     }
 
@@ -596,7 +598,7 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 22px 18px;
+      padding: 24px 18px 22px;
       border-radius: 24px;
       background:
         linear-gradient(180deg, rgba(122,162,255,0.05), rgba(255,255,255,0.025));
@@ -650,6 +652,7 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
+      margin-bottom: 16px;
     }
 
     .trust-pill {
@@ -665,6 +668,47 @@
       font-weight: 600;
       line-height: 1;
       white-space: nowrap;
+    }
+
+    .review-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, rgba(122,162,255,0.16), rgba(122,162,255,0.10));
+      border: 1px solid rgba(122, 162, 255, 0.28);
+      box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.18),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      font-size: 0.92rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition:
+        transform 0.22s ease,
+        box-shadow 0.22s ease,
+        border-color 0.22s ease,
+        background 0.22s ease;
+    }
+
+    .review-button:hover {
+      transform: translateY(-2px);
+      border-color: rgba(156, 192, 255, 0.42);
+      background: linear-gradient(180deg, rgba(122,162,255,0.22), rgba(122,162,255,0.13));
+      box-shadow:
+        0 14px 28px rgba(0, 0, 0, 0.22),
+        0 0 0 1px rgba(122, 162, 255, 0.08);
+    }
+
+    .review-note {
+      margin-top: 12px;
+      color: var(--muted-2);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      max-width: 520px;
     }
 
     .footer {
@@ -732,6 +776,11 @@
 
       .trust-stars {
         letter-spacing: 0.22em;
+      }
+
+      .review-button {
+        width: 100%;
+        max-width: 280px;
       }
     }
 
@@ -989,12 +1038,28 @@
         <p class="trust-copy">
           Working with entrepreneurs and experts to build digital brands, platforms, and online experiences that support real-world businesses.
         </p>
+
         <div class="trust-list">
           <div class="trust-pill">HP Addik</div>
           <div class="trust-pill">Inspection Habitation Outaouais</div>
           <div class="trust-pill">Envita Wellness</div>
           <div class="trust-pill">Habita</div>
         </div>
+
+        <a
+          class="review-button"
+          href="https://g.page/r/CWugaf6956_yEAI/review"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Leave a review on Google"
+        >
+          <span>Leave a Review on Google</span>
+          <span class="cta-arrow">↗</span>
+        </a>
+
+        <p class="review-note">
+          If we’ve worked together and you liked the experience, your review helps build trust and supports future collaborations.
+        </p>
       </div>
     </div>
 
