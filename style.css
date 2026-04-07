@@ -387,7 +387,7 @@ body:hover .cursor-glow { opacity: 1; }
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  height: 36px;
   transition: opacity 0.3s, transform 0.3s;
 }
 
@@ -398,7 +398,6 @@ body:hover .cursor-glow { opacity: 1; }
 .tool-card img {
   height: 100%;
   width: auto;
-  max-width: 100px;
   object-fit: contain;
   filter: none;
   opacity: 0.45;
@@ -414,7 +413,7 @@ body:hover .cursor-glow { opacity: 1; }
     gap: 18px 24px;
   }
   .tool-card {
-    height: 24px;
+    height: 26px;
   }
 }
 
