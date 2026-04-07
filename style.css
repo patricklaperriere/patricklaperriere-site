@@ -378,21 +378,28 @@ body:hover .cursor-glow { opacity: 1; }
 .platforms {
   display: flex;
   flex-wrap: nowrap;
-  gap: 10px;
+  gap: 8px;
   justify-content: center;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+.platforms::-webkit-scrollbar { display: none; }
 
 .chip {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 9px 15px;
+  gap: 6px;
+  padding: 7px 12px;
   border-radius: 999px;
   background: var(--surface);
   border: 1px solid var(--border);
   color: rgba(240, 237, 232, 0.7);
-  font-size: 0.86rem;
+  font-size: 0.78rem;
   font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: border-color 0.25s, color 0.25s, background 0.25s, transform 0.25s;
   cursor: default;
 }
