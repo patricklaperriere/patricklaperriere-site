@@ -377,8 +377,9 @@ body:hover .cursor-glow { opacity: 1; }
 
 .platforms {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 10px;
+  justify-content: center;
 }
 
 .chip {
