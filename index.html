@@ -17,7 +17,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -106,26 +106,69 @@
     </div>
   </section>
 
-  <!-- Featured -->
-  <section class="featured-section reveal">
-    <p class="label">Featured Project</p>
-    <a class="featured-card" href="https://habita-eight.vercel.app/" target="_blank" rel="noopener noreferrer">
-      <div class="featured-eyebrow">
-        <div class="badge"><span class="badge-dot"></span> In Development</div>
-        <span class="arrow-icon">&#8599;</span>
+  <!-- Habita Showcase -->
+  <section class="showcase-section reveal">
+    <div class="showcase-header">
+      <div class="showcase-badge">
+        <span class="showcase-badge-dot"></span>
+        Featured Project — In Development
       </div>
-      <div class="featured-body">
-        <div class="featured-text">
-          <div class="featured-name">Habita</div>
-          <p class="featured-desc">
-            A modern property inspection platform streamlining reporting, organizing findings, and creating a faster, more scalable workflow for inspectors.
-          </p>
+      <h2 class="showcase-title">A better way to <span>manage inspections</span></h2>
+      <p class="showcase-desc">
+        Habita is a modern inspection workspace I'm building for Canadian building professionals. Photos, findings, reports — all in one place.
+      </p>
+      <a class="showcase-link" href="https://habita-eight.vercel.app/" target="_blank" rel="noopener noreferrer">
+        View the project <span>&#8594;</span>
+      </a>
+    </div>
+
+    <div class="showcase-devices">
+      <!-- Desktop -->
+      <div class="device-desktop">
+        <div class="device-desktop-bar">
+          <span class="device-desktop-dot"></span>
+          <span class="device-desktop-dot"></span>
+          <span class="device-desktop-dot"></span>
+          <span class="device-desktop-url">habita-eight.vercel.app</span>
         </div>
-        <div class="featured-icon">
-          <img src="https://cdn.shopify.com/s/files/1/0652/8365/3716/files/logo_header2.png?v=1772921793" alt="Habita" />
-        </div>
+        <img src="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/desktop.png" alt="Habita Desktop" loading="lazy" />
       </div>
-    </a>
+      <!-- Mobile -->
+      <div class="device-mobile">
+        <div class="device-mobile-notch"></div>
+        <div class="device-mobile-screen">
+          <img src="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/mobile.png" alt="Habita Mobile" loading="lazy" />
+        </div>
+        <div class="device-mobile-bar"></div>
+      </div>
+    </div>
+
+    <div class="showcase-features">
+      <div class="showcase-feature">
+        <div class="showcase-feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
+        </div>
+        <div class="showcase-feature-name">Photo Organization</div>
+      </div>
+      <div class="showcase-feature">
+        <div class="showcase-feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+        </div>
+        <div class="showcase-feature-name">AI-Assisted Findings</div>
+      </div>
+      <div class="showcase-feature">
+        <div class="showcase-feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+        </div>
+        <div class="showcase-feature-name">Report Generation</div>
+      </div>
+      <div class="showcase-feature">
+        <div class="showcase-feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+        </div>
+        <div class="showcase-feature-name">Offline-Ready</div>
+      </div>
+    </div>
   </section>
 
   <!-- Projects -->
