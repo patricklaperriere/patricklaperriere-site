@@ -54,9 +54,9 @@
   <div class="contact-grid reveal">
 
     <!-- Form -->
-    <form class="contact-form" action="https://formsubmit.co/patricklaperriere819@gmail.com" method="POST">
+    <form class="contact-form" id="contactForm" action="https://formsubmit.co/patricklaperriere819@gmail.com" method="POST">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://patricklaperriere.com/contact.html">
+      <input type="hidden" name="_next" value="https://patricklaperriere.com/contact.html?sent=true">
 
       <div class="form-group">
         <label class="form-label" for="name">Name</label>
@@ -65,7 +65,7 @@
 
       <div class="form-group">
         <label class="form-label" for="email">Email</label>
-        <input class="form-input" type="email" id="email" name="email" placeholder="patricklaperriere819@gmail.com" required />
+        <input class="form-input" type="email" id="email" name="email" placeholder="your@email.com" required />
       </div>
 
       <div class="form-group">
@@ -78,9 +78,13 @@
         <textarea class="form-textarea" id="message" name="message" placeholder="Tell me about your project..." required></textarea>
       </div>
 
-      <button class="btn-primary" type="submit">
+      <button class="btn-primary" type="submit" id="submitBtn">
         Send Message <span>&#8594;</span>
       </button>
+      <div class="form-success" id="formSuccess" style="display:none;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span>Message sent! I'll get back to you soon.</span>
+      </div>
     </form>
 
     <!-- Info Cards -->
@@ -152,5 +156,16 @@
 </footer>
 
 <script src="script.js"></script>
+<script>
+  if (new URLSearchParams(window.location.search).get('sent') === 'true') {
+    const form = document.getElementById('contactForm');
+    const btn = document.getElementById('submitBtn');
+    const msg = document.getElementById('formSuccess');
+    form.reset();
+    btn.style.display = 'none';
+    msg.style.display = 'flex';
+    window.history.replaceState({}, '', 'contact.html');
+  }
+</script>
 </body>
 </html>

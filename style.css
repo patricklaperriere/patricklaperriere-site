@@ -1419,6 +1419,20 @@ body:hover .cursor-glow { opacity: 1; }
   min-height: 140px;
 }
 
+.form-success {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 12px;
+  background: rgba(74, 222, 128, 0.08);
+  border: 1px solid rgba(74, 222, 128, 0.2);
+  color: #4ade80;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
 .contact-info {
   display: flex;
   flex-direction: column;
