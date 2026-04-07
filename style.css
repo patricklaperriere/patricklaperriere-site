@@ -377,15 +377,10 @@ body:hover .cursor-glow { opacity: 1; }
 
 .platforms {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   gap: 8px;
   justify-content: center;
-  overflow-x: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }
-
-.platforms::-webkit-scrollbar { display: none; }
 
 .chip {
   display: inline-flex;
