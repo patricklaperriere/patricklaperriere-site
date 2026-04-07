@@ -54,9 +54,8 @@
   <div class="contact-grid reveal">
 
     <!-- Form -->
-    <form class="contact-form" id="contactForm" action="https://formsubmit.co/patricklaperriere819@gmail.com" method="POST">
+    <form class="contact-form" id="contactForm">
       <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://patricklaperriere.com/contact.html?sent=true">
 
       <div class="form-group">
         <label class="form-label" for="name">Name</label>
@@ -157,15 +156,30 @@
 
 <script src="script.js"></script>
 <script>
-  if (new URLSearchParams(window.location.search).get('sent') === 'true') {
-    const form = document.getElementById('contactForm');
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
     const btn = document.getElementById('submitBtn');
     const msg = document.getElementById('formSuccess');
-    form.reset();
-    btn.style.display = 'none';
-    msg.style.display = 'flex';
-    window.history.replaceState({}, '', 'contact.html');
-  }
+    const form = this;
+
+    btn.innerHTML = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      await fetch('https://formsubmit.co/ajax/patricklaperriere819@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      form.reset();
+      btn.style.display = 'none';
+      msg.style.display = 'flex';
+    } catch (err) {
+      btn.innerHTML = 'Send Message <span>&#8594;</span>';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again.');
+    }
+  });
 </script>
 </body>
 </html>
