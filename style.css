@@ -25,11 +25,15 @@ html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
-  background: var(--bg);
+  background: transparent;
   color: var(--text);
   min-height: 100vh;
   overflow-x: hidden;
   padding: 0;
+}
+
+html {
+  background: var(--bg);
 }
 
 /* ── GRAIN OVERLAY ── */
@@ -49,21 +53,20 @@ body::before {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   z-index: -2;
-  opacity: 0.25;
 }
 
 .video-bg-overlay {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   z-index: -1;
-  background: linear-gradient(180deg, rgba(11,17,33,0.5) 0%, rgba(11,17,33,0.85) 50%, var(--bg) 100%);
+  background: rgba(11,17,33,0.7);
 }
 
 /* ── CURSOR GLOW ── */
