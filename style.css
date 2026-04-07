@@ -376,51 +376,45 @@ body:hover .cursor-glow { opacity: 1; }
 .platforms-section { margin-bottom: 72px; }
 
 .tool-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 32px;
+  justify-content: center;
+  align-items: center;
 }
 
 .tool-card {
   display: flex;
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 20px;
-  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
-  overflow: hidden;
+  height: 32px;
+  transition: opacity 0.3s, transform 0.3s;
 }
 
 .tool-card:hover {
-  border-color: var(--border-hover);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px -8px rgba(0,0,0,0.4);
+  transform: translateY(-2px);
 }
 
 .tool-card img {
-  max-width: 70%;
-  max-height: 70%;
+  height: 100%;
+  width: auto;
+  max-width: 100px;
   object-fit: contain;
   filter: none;
-  opacity: 0.8;
+  opacity: 0.45;
   transition: opacity 0.3s;
 }
 
 .tool-card:hover img {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 @media (max-width: 480px) {
   .tool-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
+    gap: 18px 24px;
   }
   .tool-card {
-    padding: 12px;
-    border-radius: 12px;
+    height: 24px;
   }
 }
 
