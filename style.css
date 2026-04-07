@@ -44,6 +44,28 @@ body::before {
   background-size: 180px 180px;
 }
 
+/* ── VIDEO BACKGROUND ── */
+.video-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+  opacity: 0.25;
+}
+
+.video-bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: linear-gradient(180deg, rgba(11,17,33,0.5) 0%, rgba(11,17,33,0.85) 50%, var(--bg) 100%);
+}
+
 /* ── CURSOR GLOW ── */
 .cursor-glow {
   position: fixed;
