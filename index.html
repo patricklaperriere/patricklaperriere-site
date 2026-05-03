@@ -72,31 +72,37 @@
     body::after {
       content: '';
       position: fixed;
-      inset: 0;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
       z-index: 0;
       pointer-events: none;
       background-image: url('https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/1.jpg');
       background-size: cover;
-      background-position: center top;
-      background-attachment: fixed;
-      filter: brightness(0.55) saturate(1.1) contrast(1.05);
-      opacity: 0.85;
+      background-position: center 35%;
+      background-repeat: no-repeat;
+      filter: brightness(0.6) saturate(1.1) contrast(1.05);
+      opacity: 0.95;
+    }
+    /* Overlay sombre dégradé pour la lisibilité du texte */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(10, 14, 26, 0.5) 0%, rgba(10, 14, 26, 0.2) 50%, rgba(10, 14, 26, 0.7) 100%),
+        radial-gradient(ellipse at center, transparent 0%, rgba(10, 14, 26, 0.4) 100%);
     }
     /* Overlay foncé par-dessus l'image globale pour la lisibilité */
     body > * {
       position: relative;
       z-index: 2;
-    }
-
-    /* ── Background grain texture ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
-      opacity: 0.04;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
     /* ── Cursor glow effect ── */
@@ -266,9 +272,12 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 120px 0 80px;
+      padding: 120px 32px 80px;
       position: relative;
       overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      .hero { padding: 100px 16px 60px; }
     }
 
     /* ── Hero local effects (l'image principale est sur le body) ── */
@@ -1388,6 +1397,188 @@
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
 
+    /* ═══ CONTACT MODAL ═══ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 8, 16, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .modal-overlay.visible {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      background: rgba(15, 20, 36, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      max-width: 540px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+    }
+    .modal-overlay.visible .modal-content {
+      transform: translateY(0);
+    }
+    @media (max-width: 600px) {
+      .modal-content { padding: 32px 24px; }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--line);
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    .modal-close:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.1);
+      transform: rotate(90deg);
+    }
+
+    .modal-header {
+      margin-bottom: 32px;
+    }
+    .modal-header .label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .modal-header .label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .modal-header h3 {
+      font-family: var(--font-display);
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .modal-header p {
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-label {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      transition: all 0.2s ease;
+      font-weight: 400;
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(0,0,0,0.5);
+      box-shadow: 0 0 0 3px rgba(227, 6, 19, 0.1);
+    }
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+      font-family: var(--font-body);
+    }
+    .form-input::placeholder, .form-textarea::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      background: var(--accent);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 32px var(--accent-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-family: var(--font-body);
+    }
+    .form-submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px var(--accent-glow);
+    }
+    .form-submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .form-success {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      padding: 20px;
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      border-radius: var(--radius-sm);
+      color: #4ade80;
+      font-size: 14px;
+    }
+    .form-success.visible { display: flex; }
+    .form-success svg {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+    }
+
     /* ═══ MOBILE NAV ═══ */
     @media (max-width: 768px) {
       .nav-links { gap: 16px; }
@@ -1425,7 +1616,7 @@
         <button class="lang-btn active" data-lang="en">EN</button>
         <button class="lang-btn" data-lang="fr">FR</button>
       </div>
-      <a href="mailto:patricklaperriere819@gmail.com?subject=Dealer%20Web%20Partnership" class="nav-cta" data-en="Let's talk" data-fr="Parlons-en">Let's talk</a>
+      <a href="#contact" class="nav-cta open-modal" data-en="Let's talk" data-fr="Parlons-en">Let's talk</a>
     </div>
   </div>
 </nav>
@@ -1457,7 +1648,7 @@
     </p>
 
     <div class="hero-cta-row reveal reveal-delay-4">
-      <a class="btn-primary" href="mailto:patricklaperriere819@gmail.com?subject=Discovery%20Call%20Request">
+      <a class="btn-primary open-modal" href="#contact">
         <span data-en="Book a discovery call" data-fr="Réserver un appel découverte">Book a discovery call</span>
         <span class="arrow">→</span>
       </a>
@@ -1834,12 +2025,60 @@
        data-fr="Appel découverte de 30 minutes. Aucune pression, aucun pitch de vente. Juste deux gars de powersport qui regardent si on fit ensemble. <strong>4 places sur 5 encore disponibles.</strong>">
       30-minute discovery call. No pressure, no sales pitch. Just two powersport people figuring out if we're a good fit. <strong>4 of 5 spots still open.</strong>
     </p>
-    <a class="btn-primary" href="mailto:patricklaperriere819@gmail.com?subject=Dealer%20Web%20Partnership">
+    <a class="btn-primary open-modal" href="#contact">
       <span data-en="Let's talk" data-fr="Parlons-en">Let's talk</span>
       <span class="arrow">→</span>
     </a>
   </section>
 
+</div>
+
+<!-- ═══ CONTACT MODAL ═══ -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+
+    <div class="modal-header">
+      <p class="label" data-en="Discovery Call" data-fr="Appel découverte">Discovery Call</p>
+      <h3 data-en="Let's talk." data-fr="Parlons-en.">Let's talk.</h3>
+      <p data-en="Tell me about your dealership. I'll get back to you within 24 hours." data-fr="Parle-moi de ton concessionnaire. Je te réponds dans les 24h.">Tell me about your dealership. I'll get back to you within 24 hours.</p>
+    </div>
+
+    <form id="contactForm">
+      <div class="form-group">
+        <label class="form-label" for="cname" data-en="Your name" data-fr="Ton nom">Your name</label>
+        <input class="form-input" type="text" id="cname" name="name" required data-en-placeholder="Patrick Smith" data-fr-placeholder="Jean Tremblay" placeholder="Patrick Smith" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cdealer" data-en="Your dealership" data-fr="Ton concessionnaire">Your dealership</label>
+        <input class="form-input" type="text" id="cdealer" name="dealership" data-en-placeholder="Wheelsport, Orleans ON" data-fr-placeholder="Wheelsport, Orléans ON" placeholder="Wheelsport, Orleans ON" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cemail" data-en="Email or phone" data-fr="Courriel ou téléphone">Email or phone</label>
+        <input class="form-input" type="text" id="cemail" name="contact" required data-en-placeholder="patrick@dealer.com or 819-555-1234" data-fr-placeholder="patrick@dealer.com ou 819-555-1234" placeholder="patrick@dealer.com or 819-555-1234" />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="cmessage" data-en="What do you need help with?" data-fr="Avec quoi as-tu besoin d'aide ?">What do you need help with?</label>
+        <textarea class="form-textarea" id="cmessage" name="message" required data-en-placeholder="My website is outdated, leads are slow..." data-fr-placeholder="Mon site est outdated, les leads sont lents..." placeholder="My website is outdated, leads are slow..."></textarea>
+      </div>
+
+      <button class="form-submit-btn" type="submit" id="submitBtn">
+        <span data-en="Send message" data-fr="Envoyer le message">Send message</span>
+        <span>→</span>
+      </button>
+
+      <div class="form-success" id="formSuccess">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span data-en="Message sent! I'll get back to you within 24 hours." data-fr="Message envoyé ! Je te réponds dans les 24h.">Message sent! I'll get back to you within 24 hours.</span>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- Footer -->
@@ -1849,7 +2088,7 @@
     <div class="footer-links">
       <a href="#" data-en="Home" data-fr="Accueil">Home</a>
       <a href="#work" data-en="Work" data-fr="Projets">Work</a>
-      <a href="mailto:patricklaperriere819@gmail.com" data-en="Contact" data-fr="Contact">Contact</a>
+      <a href="#contact" class="open-modal" data-en="Contact" data-fr="Contact">Contact</a>
     </div>
   </div>
 </footer>
@@ -1937,6 +2176,100 @@
     btn.addEventListener('mouseleave', () => {
       btn.style.transform = '';
     });
+  });
+
+  // ── Contact Modal ──
+  const modal = document.getElementById('contactModal');
+  const modalClose = document.getElementById('modalClose');
+  const openModalBtns = document.querySelectorAll('.open-modal');
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    modal.classList.add('visible');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    modal.classList.remove('visible');
+    document.body.style.overflow = '';
+  }
+
+  openModalBtns.forEach(btn => btn.addEventListener('click', openModal));
+  modalClose.addEventListener('click', closeModal);
+  modal.addEventListener('click', e => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('visible')) closeModal();
+  });
+
+  // ── Update placeholders when language changes ──
+  function updatePlaceholders(lang) {
+    document.querySelectorAll('[data-' + lang + '-placeholder]').forEach(el => {
+      el.placeholder = el.getAttribute('data-' + lang + '-placeholder');
+    });
+  }
+
+  // Hook into existing setLang to also update placeholders
+  const originalSetLang = setLang;
+  window.setLang = function(lang) {
+    originalSetLang(lang);
+    updatePlaceholders(lang);
+  };
+  // Apply current language placeholders on load
+  updatePlaceholders(localStorage.getItem('site-lang') || 'en');
+
+  // ── Contact Form Submission (FormSubmit - free) ──
+  const contactForm = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const formSuccess = document.getElementById('formSuccess');
+
+  contactForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const currentLang = localStorage.getItem('site-lang') || 'en';
+    const sendingText = currentLang === 'fr' ? 'Envoi en cours...' : 'Sending...';
+    submitBtn.innerHTML = `<span>${sendingText}</span>`;
+    submitBtn.disabled = true;
+
+    try {
+      const formData = new FormData(this);
+      const data = Object.fromEntries(formData);
+      data._subject = `New dealer inquiry: ${data.dealership || data.name}`;
+      data._captcha = 'false';
+
+      await fetch('https://formsubmit.co/ajax/patricklaperriere819@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      this.reset();
+      submitBtn.style.display = 'none';
+      formSuccess.classList.add('visible');
+
+      // Auto-close after 4 seconds
+      setTimeout(() => {
+        closeModal();
+        // Reset form state for next time
+        setTimeout(() => {
+          submitBtn.style.display = 'flex';
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<span data-en="Send message" data-fr="Envoyer le message">' +
+            (currentLang === 'fr' ? 'Envoyer le message' : 'Send message') + '</span><span>→</span>';
+          formSuccess.classList.remove('visible');
+        }, 500);
+      }, 4000);
+    } catch (err) {
+      const errorText = currentLang === 'fr' ? 'Erreur. Réessaie ou écris-moi directement à patricklaperriere819@gmail.com' : 'Error. Try again or email me directly at patricklaperriere819@gmail.com';
+      alert(errorText);
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<span data-en="Send message" data-fr="Envoyer le message">' +
+        (currentLang === 'fr' ? 'Envoyer le message' : 'Send message') + '</span><span>→</span>';
+    }
   });
 </script>
 
