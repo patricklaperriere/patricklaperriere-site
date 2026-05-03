@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Patrick Laperrière — Dealer Web Partner</title>
+  <meta name="description" content="Modern websites and lead management for powersport dealers. Built by a former dealer owner turned digital partner." />
+  <meta name="theme-color" content="#0b1121" />
+
+  <link rel="icon" type="image/png" href="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/pl.com.png" />
+  <link rel="apple-touch-icon" href="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/pl.com.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ═══════════════════════════════════════════════════
+       Patrick Laperrière — Dealer Web Partner
+       Design system : dark premium + powersport energy
+       ═══════════════════════════════════════════════════ */
+
+    :root {
+      --bg: #0a0e1a;
+      --bg-2: #0f1424;
+      --bg-3: #131a2e;
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.16);
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --text-dim: rgba(255, 255, 255, 0.4);
+
+      /* Accent : rouge moto vif (Honda/Kawasaki/Yamaha red) */
+      --accent: #e30613;
+      --accent-2: #ff2a3a;
+      --accent-glow: rgba(227, 6, 19, 0.4);
+
+      /* Secondary : bleu cyan tech (pour balancer le orange) */
+      --tech: #00d4ff;
+      --tech-glow: rgba(0, 212, 255, 0.3);
+
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body: 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius: 16px;
+      --radius-lg: 24px;
+      --radius-sm: 8px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+    }
+
+    /* ── Site-wide background image (snowmobile in mountains) ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background-image: url('https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/1.jpg');
+      background-size: cover;
+      background-position: center top;
+      background-attachment: fixed;
+      filter: brightness(0.55) saturate(1.1) contrast(1.05);
+      opacity: 0.85;
+    }
+    /* Overlay foncé par-dessus l'image globale pour la lisibilité */
+    body > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── Background grain texture ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.04;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* ── Cursor glow effect ── */
+    .cursor-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      opacity: 0.5;
+      transition: opacity 0.3s ease;
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+
+    /* ── Scroll progress bar ── */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      z-index: 1000;
+      width: 0%;
+      transition: width 0.1s ease;
+      box-shadow: 0 0 12px var(--accent);
+    }
+
+    /* ═══ NAV ═══ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 18px 0;
+      transition: transform 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+    .nav.scrolled {
+      background: rgba(10, 14, 26, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav.hidden { transform: translateY(-100%); }
+
+    .nav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    @media (max-width: 1024px) {
+      .nav-inner { padding: 0 40px; }
+    }
+    @media (max-width: 640px) {
+      .nav-inner { padding: 0 24px; }
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1.5px solid var(--accent);
+      box-shadow: 0 0 16px var(--accent-glow);
+    }
+    .nav-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .nav-name { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+    .nav-tagline {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: block;
+      margin-top: 1px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+
+    .lang-switcher {
+      display: flex;
+      gap: 4px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px;
+      background: rgba(255,255,255,0.02);
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .lang-btn.active {
+      background: var(--accent);
+      color: white;
+    }
+    .lang-btn:not(.active):hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent);
+      color: white !important;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-weight: 600 !important;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 20px var(--accent-glow);
+    }
+    .nav-cta:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px var(--accent-glow);
+    }
+
+    /* ═══ PAGE WRAPPER ═══ */
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      position: relative;
+      z-index: 10;
+    }
+    @media (max-width: 1024px) {
+      .page { padding: 0 40px; }
+    }
+    @media (max-width: 640px) {
+      .page { padding: 0 24px; }
+    }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 120px 0 80px;
+      position: relative;
+    }
+
+    /* ── Hero local effects (l'image principale est sur le body) ── */
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(10,14,26,0.4) 100%);
+    }
+
+    .hero-bg-orbit {
+      position: absolute;
+      top: 50%; right: -200px;
+      width: 800px; height: 800px;
+      transform: translateY(-50%);
+      pointer-events: none;
+      opacity: 0.25;
+      z-index: 1;
+    }
+    .hero-bg-orbit::before, .hero-bg-orbit::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+    }
+    .hero-bg-orbit::after {
+      inset: 80px;
+      border-color: rgba(227, 6, 19, 0.2);
+    }
+    .hero-bg-glow {
+      position: absolute;
+      top: 30%; right: 5%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+      filter: blur(80px);
+      pointer-events: none;
+      animation: pulseGlow 8s ease-in-out infinite;
+      z-index: 1;
+      opacity: 0.6;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 0.4; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.1); }
+    }
+
+    .hero-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(10, 14, 26, 0.6);
+      backdrop-filter: blur(10px);
+      width: fit-content;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 2;
+    }
+    .status-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 12px #4ade80;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .hero-tag {
+      font-family: var(--font-mono);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7.5vw, 110px);
+      line-height: 0.95;
+      letter-spacing: 0.005em;
+      margin-bottom: 32px;
+      max-width: 1000px;
+      word-spacing: 0.02em;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.4);
+    }
+    .hero-title > span {
+      display: inline;
+    }
+    .hero-title .accent {
+      color: var(--accent);
+      position: relative;
+      display: inline;
+    }
+    .hero-title .underline-mark {
+      position: relative;
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+    .hero-title .underline-mark::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 4px;
+      background: var(--accent);
+      transform: skew(-12deg);
+    }
+
+    .hero-sub {
+      font-size: clamp(17px, 2vw, 22px);
+      color: var(--text-muted);
+      max-width: 640px;
+      margin-bottom: 48px;
+      line-height: 1.5;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+    }
+    .hero-sub strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .hero-cta-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: white;
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 32px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px var(--accent-glow);
+    }
+    .btn-primary .arrow {
+      transition: transform 0.2s ease;
+    }
+    .btn-primary:hover .arrow {
+      transform: translateX(4px);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      padding: 16px 28px;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 15px;
+      text-decoration: none;
+      border: 1px solid var(--line-strong);
+      background: rgba(255,255,255,0.02);
+      transition: all 0.2s ease;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .hero-meta {
+      margin-top: 80px;
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+      position: relative;
+      z-index: 2;
+    }
+    .hero-meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .hero-meta-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .hero-meta-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ═══ SECTION HEADER ═══ */
+    .section {
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .section-label::before {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 72px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+    .section-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 640px;
+      line-height: 1.6;
+    }
+
+    /* ═══ STORY SECTION ═══ */
+    .story {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .story { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    .story-img {
+      position: relative;
+      aspect-ratio: 4/5;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--bg-2), var(--bg-3));
+      border: 1px solid var(--line);
+    }
+    .story-img::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(227, 6, 19, 0.15) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .story-img-real {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      position: absolute;
+      inset: 0;
+    }
+    .story-img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 16px;
+      color: var(--text-dim);
+      text-align: center;
+      padding: 32px;
+    }
+    .story-img-placeholder svg {
+      width: 80px; height: 80px;
+      opacity: 0.5;
+    }
+    .story-img-placeholder p {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .story-meta-stamp {
+      position: absolute;
+      bottom: 24px; left: 24px;
+      z-index: 2;
+      background: var(--bg);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--line);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .story-content h3 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: 1;
+      margin-bottom: 24px;
+      letter-spacing: -0.01em;
+    }
+    .story-content p {
+      font-size: 17px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.7;
+    }
+    .story-content p strong {
+      color: var(--text);
+    }
+    .story-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+    .story-stat-num {
+      font-family: var(--font-display);
+      font-size: 36px;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .story-stat-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ═══ SERVICES — 3 PILIERS ═══ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+    @media (max-width: 900px) {
+      .services-grid { grid-template-columns: 1fr; }
+    }
+
+    .service-card {
+      background: rgba(15, 20, 36, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .service-card:hover::before { opacity: 1; }
+
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      margin-bottom: 24px;
+    }
+    .service-icon {
+      width: 56px; height: 56px;
+      border-radius: var(--radius);
+      background: linear-gradient(135deg, var(--bg-3), var(--bg-2));
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .service-icon svg {
+      width: 28px; height: 28px;
+      stroke: var(--accent);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    .service-card h3 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      line-height: 1;
+      margin-bottom: 16px;
+      letter-spacing: -0.01em;
+    }
+    .service-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .service-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .service-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .service-features li::before {
+      content: '→';
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* ═══ COMPARE SECTION ═══ */
+    .compare-section {
+      background: rgba(15, 20, 36, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      padding: 64px;
+      margin: 80px 0;
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      .compare-section { padding: 32px 24px; }
+    }
+    .compare-section::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 48px;
+      position: relative;
+    }
+    @media (max-width: 768px) {
+      .compare-grid { grid-template-columns: 1fr; }
+    }
+
+    .compare-col {
+      padding: 32px;
+      border-radius: var(--radius);
+      background: var(--bg);
+      border: 1px solid var(--line);
+    }
+    .compare-col.bad {
+      opacity: 0.7;
+    }
+    .compare-col.good {
+      border-color: var(--accent);
+      box-shadow: 0 0 40px rgba(227, 6, 19, 0.1);
+    }
+
+    .compare-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .compare-badge {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+    .compare-col.bad .compare-badge {
+      background: rgba(255, 100, 100, 0.1);
+      color: #ff6464;
+    }
+    .compare-col.good .compare-badge {
+      background: rgba(227, 6, 19, 0.15);
+      color: var(--accent);
+    }
+    .compare-col h4 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: -0.01em;
+    }
+    .compare-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .compare-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .compare-list li::before {
+      flex-shrink: 0;
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 12px;
+      margin-top: 1px;
+    }
+    .compare-col.bad .compare-list li::before {
+      content: '✕';
+      background: rgba(255, 100, 100, 0.15);
+      color: #ff6464;
+    }
+    .compare-col.good .compare-list li::before {
+      content: '✓';
+      background: rgba(74, 222, 128, 0.15);
+      color: #4ade80;
+    }
+
+    /* ═══ HABITA SHOWCASE ═══ */
+    .showcase-section {
+      background: linear-gradient(180deg, rgba(10, 14, 26, 0.7) 0%, rgba(15, 20, 36, 0.8) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 80px 48px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      .showcase-section { padding: 48px 24px; }
+    }
+
+    .showcase-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--tech);
+      padding: 8px 16px;
+      border: 1px solid rgba(0, 212, 255, 0.3);
+      border-radius: 999px;
+      background: rgba(0, 212, 255, 0.05);
+      margin-bottom: 32px;
+    }
+    .showcase-badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--tech);
+      box-shadow: 0 0 12px var(--tech);
+    }
+
+    .showcase-title {
+      font-family: var(--font-display);
+      font-size: clamp(40px, 5vw, 64px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+    .showcase-title span {
+      color: var(--tech);
+    }
+
+    .showcase-desc {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+
+    .showcase-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--tech);
+      font-weight: 600;
+      text-decoration: none;
+      font-size: 15px;
+      transition: gap 0.2s ease;
+    }
+    .showcase-link:hover { gap: 12px; }
+
+    .showcase-devices {
+      margin-top: 64px;
+      display: flex;
+      gap: 32px;
+      align-items: flex-end;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .device-desktop {
+      width: 100%;
+      max-width: 720px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--bg-3);
+      box-shadow: 0 30px 80px rgba(0, 212, 255, 0.1);
+    }
+    .device-desktop-bar {
+      background: var(--bg-2);
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-bottom: 1px solid var(--line);
+    }
+    .device-desktop-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .device-desktop-url {
+      margin-left: 16px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .device-desktop img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ═══ PROJECTS GRID ═══ */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: 1fr; }
+    }
+
+    .project-card {
+      background: rgba(15, 20, 36, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .project-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-4px);
+    }
+    .project-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .project-card-logo {
+      width: 56px; height: 56px;
+      border-radius: var(--radius);
+      background: var(--bg-3);
+      border: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+    }
+    .project-card-logo.light-bg {
+      background: white;
+    }
+    .project-card-logo img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain;
+    }
+    .arrow-icon {
+      color: var(--text-muted);
+      font-size: 18px;
+      transition: all 0.2s ease;
+    }
+    .project-card:hover .arrow-icon {
+      color: var(--accent);
+      transform: translate(2px, -2px);
+    }
+    .project-card-name {
+      font-family: var(--font-display);
+      font-size: 24px;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+    .project-card-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      flex: 1;
+      margin-bottom: 20px;
+    }
+    .project-card-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .project-card-tag {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      border: 1px solid var(--line);
+    }
+
+    /* ═══ TESTIMONIAL ═══ */
+    .testimonial-section {
+      padding: 80px 0;
+    }
+    .testimonial-card {
+      background: rgba(15, 20, 36, 0.7);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 64px;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+    @media (max-width: 768px) {
+      .testimonial-card { padding: 40px 24px; }
+    }
+
+    .quote-mark {
+      font-family: var(--font-display);
+      font-size: 120px;
+      line-height: 0.5;
+      color: var(--accent);
+      opacity: 0.3;
+      position: absolute;
+      top: 32px; left: 32px;
+    }
+    .testimonial-text {
+      font-size: 22px;
+      line-height: 1.5;
+      margin-bottom: 32px;
+      position: relative;
+      z-index: 1;
+      font-weight: 500;
+    }
+    @media (max-width: 768px) {
+      .testimonial-text { font-size: 18px; }
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-top: 24px;
+      border-top: 1px solid var(--line);
+    }
+    .author-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .author-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 22px;
+      color: white;
+    }
+    .author-name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .author-role {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .testimonial-stars {
+      color: #fbbf24;
+      letter-spacing: 2px;
+    }
+
+    /* ═══ LIMITED PARTNERSHIPS SECTION ═══ */
+    .limited-section {
+      padding: 100px 0;
+      position: relative;
+    }
+    .limited-card {
+      background: linear-gradient(135deg, rgba(15, 20, 36, 0.75) 0%, rgba(19, 26, 46, 0.8) 100%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      padding: 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) {
+      .limited-card { padding: 40px 24px; }
+    }
+    .limited-card::before {
+      content: '';
+      position: absolute;
+      top: -150px; left: -150px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+      filter: blur(80px);
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .limited-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 64px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 900px) {
+      .limited-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    .limited-content h2 {
+      font-family: var(--font-display);
+      font-size: clamp(36px, 4.5vw, 64px);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      margin-bottom: 24px;
+    }
+    .limited-content h2 .accent-text {
+      color: var(--accent);
+    }
+    .limited-content p {
+      font-size: 17px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .limited-content p strong {
+      color: var(--text);
+    }
+
+    /* Spots visualization */
+    .spots-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+    }
+    .spots-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+    }
+    @media (max-width: 768px) {
+      .spots-grid { max-width: 100%; }
+    }
+    .spot {
+      aspect-ratio: 1;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 28px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .spot.taken {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+    .spot.taken::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 100%);
+    }
+    .spot.open {
+      background: rgba(255,255,255,0.03);
+      border: 1.5px dashed var(--line-strong);
+      color: var(--text-dim);
+    }
+    .spot.open:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(227, 6, 19, 0.05);
+    }
+
+    .spots-counter {
+      text-align: center;
+    }
+    .spots-counter-num {
+      font-family: var(--font-display);
+      font-size: 64px;
+      line-height: 1;
+      color: var(--accent);
+      letter-spacing: -0.02em;
+    }
+    .spots-counter-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    .non-compete-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      border: 1px solid var(--accent);
+      background: rgba(227, 6, 19, 0.08);
+      border-radius: 999px;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    .non-compete-badge svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ═══ FINAL CTA ═══ */
+    .cta-final {
+      padding: 120px 0;
+      text-align: center;
+      position: relative;
+    }
+    .cta-final::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px; height: 800px;
+      background: radial-gradient(circle, var(--accent-glow) 0%, transparent 60%);
+      filter: blur(80px);
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.6;
+    }
+    .cta-final h2 {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      margin-bottom: 24px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-final p {
+      font-size: 20px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+    }
+
+    /* ═══ FOOTER ═══ */
+    .footer {
+      padding: 48px 0;
+      border-top: 1px solid var(--line);
+      margin-top: 80px;
+    }
+    .footer-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+    @media (max-width: 1024px) {
+      .footer-inner { padding: 0 40px; }
+    }
+    @media (max-width: 640px) {
+      .footer-inner { padding: 0 24px; }
+    }
+    .footer-copy {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s ease;
+    }
+    .footer-links a:hover { color: var(--text); }
+
+    /* ═══ REVEAL ANIMATIONS ═══ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ═══ MOBILE NAV ═══ */
+    @media (max-width: 768px) {
+      .nav-links { gap: 16px; }
+      .nav-links a:not(.nav-cta):not(.lang-btn) { display: none; }
+      .nav-tagline { display: none; }
+      .hero-meta { gap: 24px; }
+      .compare-section { padding: 32px 20px; }
+      .testimonial-card { padding: 32px 20px; }
+      .quote-mark { font-size: 80px; top: 16px; left: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="index.html">
+      <div class="nav-avatar">
+        <img src="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/pl.com.png" alt="Patrick Laperrière" />
+      </div>
+      <div>
+        <span class="nav-name">Patrick Laperrière</span>
+        <span class="nav-tagline" data-en="Dealer Web Partner" data-fr="Partenaire web concessionnaire">Dealer Web Partner</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#story" data-en="About" data-fr="À propos">About</a>
+      <a href="#services" data-en="Services" data-fr="Services">Services</a>
+      <a href="projects.html" data-en="Work" data-fr="Projets">Work</a>
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+      </div>
+      <a href="contact.html" class="nav-cta" data-en="Let's talk" data-fr="Parlons-en">Let's talk</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero">
+    <div class="hero-vignette"></div>
+    <div class="hero-bg-orbit"></div>
+    <div class="hero-bg-glow"></div>
+
+    <div class="reveal">
+      <div class="hero-status">
+        <span class="status-dot"></span>
+        <span data-en="Currently accepting partners — 1 of 5 spots filled" data-fr="Partenariats ouverts — 1 place sur 5 occupée">Currently accepting partners — 1 of 5 spots filled</span>
+      </div>
+    </div>
+
+    <p class="hero-tag reveal reveal-delay-1" data-en="// Dealer Web Partner" data-fr="// Partenaire web pour concessionnaires">// Dealer Web Partner</p>
+
+    <h1 class="hero-title reveal reveal-delay-2">
+      <span data-en="I help " data-fr="J'aide les ">I help </span><span class="accent" data-en="powersport dealers" data-fr="concessionnaires powersport">powersport dealers</span> <span class="underline-mark" data-en="sell more online." data-fr="à vendre plus en ligne.">sell more online.</span>
+    </h1>
+
+    <p class="hero-sub reveal reveal-delay-3">
+      <strong data-en="Former dealer owner. Now your digital partner." data-fr="Ancien propriétaire de concessionnaire. Votre partenaire numérique aujourd'hui.">Former dealer owner. Now your digital partner.</strong>
+      <span data-en=" Built for showrooms — not shopping carts." data-fr=" Conçu pour les salles de montre — pas les paniers d'achat."> Built for showrooms — not shopping carts.</span>
+    </p>
+
+    <div class="hero-cta-row reveal reveal-delay-4">
+      <a class="btn-primary" href="contact.html">
+        <span data-en="Book a discovery call" data-fr="Réserver un appel découverte">Book a discovery call</span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="btn-secondary" href="#services">
+        <span data-en="See what I do" data-fr="Voir ce que je fais">See what I do</span>
+      </a>
+    </div>
+
+    <div class="hero-meta reveal reveal-delay-4">
+      <div class="hero-meta-item">
+        <span class="hero-meta-num">10+</span>
+        <span class="hero-meta-label" data-en="Years in powersport" data-fr="Ans en powersport">Years in powersport</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-num">FR/EN</span>
+        <span class="hero-meta-label" data-en="Bilingual service" data-fr="Service bilingue">Bilingual service</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-num">1:1</span>
+        <span class="hero-meta-label" data-en="Direct partner — no agency" data-fr="Partenaire direct — pas d'agence">Direct partner — no agency</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ STORY ═══ -->
+  <section class="section" id="story">
+    <div class="reveal">
+      <p class="section-label" data-en="My Story" data-fr="Mon parcours">My Story</p>
+    </div>
+
+    <div class="story">
+      <div class="story-img reveal">
+        <img class="story-img-real" src="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/pl.png" alt="Patrick Laperrière" />
+        <div class="story-meta-stamp" data-en="Est. — Powersport, since day one" data-fr="Depuis — Powersport, depuis toujours">Est. — Powersport, since day one</div>
+      </div>
+
+      <div class="story-content reveal">
+        <h3 data-en="From the showroom floor to the back-end." data-fr="De la salle de montre au back-end.">From the showroom floor to the back-end.</h3>
+
+        <p data-en="I spent <strong>10+ years at Laperrière Motosport</strong>, and I worked every position in the place — from the parts counter and sales floor to F&I, then commercial director. ATVs, motorcycles, snowmobiles, side-by-sides — I sold them, financed them, marketed them, ordered them."
+           data-fr="J'ai passé <strong>10+ ans chez Laperrière Motosport</strong>, et j'ai occupé tous les postes — du comptoir de pièces au plancher de vente, F&I, jusqu'à directeur commercial. VTT, motos, motoneiges, côte-à-côte — je les ai vendus, financés, marketés, commandés.">
+          I spent <strong>10+ years at Laperrière Motosport</strong>, and I worked every position in the place — from the parts counter and sales floor to F&I, then commercial director. ATVs, motorcycles, snowmobiles, side-by-sides — I sold them, financed them, marketed them, ordered them.
+        </p>
+
+        <p data-en="Then I pivoted to web development and digital marketing. Today, I'm a developer at Bell — and I'm coming back to the industry I love, this time with a new toolkit."
+           data-fr="Ensuite j'ai pivoté vers le développement web et le marketing numérique. Aujourd'hui je suis développeur chez Bell — et je reviens dans l'industrie que j'aime, cette fois avec une nouvelle boîte à outils.">
+          Then I pivoted to web development and digital marketing. Today, I'm a developer at Bell — and I'm coming back to the industry I love, this time with a new toolkit.
+        </p>
+
+        <p data-en="I know your business from the inside. I know what a Friday in May looks like when 40 leads come in. I know how snowcheck season works, how floor plan eats your nights, how F&I deals close. <strong>I speak your language.</strong>"
+           data-fr="Je connais ton business de l'intérieur. Je sais à quoi ressemble un vendredi de mai quand 40 leads rentrent. Je sais comment fonctionne la saison snowcheck, comment le floor plan te bouffe tes nuits, comment les deals F&I ferment. <strong>Je parle ton langage.</strong>">
+          I know your business from the inside. I know what a Friday in May looks like when 40 leads come in. I know how snowcheck season works, how floor plan eats your nights, how F&I deals close. <strong>I speak your language.</strong>
+        </p>
+
+        <div class="story-stats">
+          <div>
+            <div class="story-stat-num">10+</div>
+            <div class="story-stat-label" data-en="Years in powersport" data-fr="Ans en powersport">Years in powersport</div>
+          </div>
+          <div>
+            <div class="story-stat-num">All</div>
+            <div class="story-stat-label" data-en="Roles — sales, F&I, commercial" data-fr="Postes — ventes, F&I, commercial">Roles — sales, F&I, commercial</div>
+          </div>
+          <div>
+            <div class="story-stat-num">5+</div>
+            <div class="story-stat-label" data-en="Years dev/marketing" data-fr="Ans dev/marketing">Years dev/marketing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ SERVICES ═══ -->
+  <section class="section" id="services">
+    <div class="reveal">
+      <p class="section-label" data-en="What I Do" data-fr="Ce que je fais">What I Do</p>
+      <h2 class="section-title" data-en="Three pillars. One partner." data-fr="Trois piliers. Un partenaire.">Three pillars. One partner.</h2>
+      <p class="section-desc" data-en="Everything your dealership needs online — managed by someone who's actually been on the showroom floor."
+         data-fr="Tout ce dont ton concessionnaire a besoin en ligne — géré par quelqu'un qui a vraiment été sur le plancher de vente.">
+        Everything your dealership needs online — managed by someone who's actually been on the showroom floor.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <!-- Service 1 -->
+      <div class="service-card reveal">
+        <div class="service-num">— 01</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </div>
+        <h3 data-en="Modern Website" data-fr="Site web moderne">Modern Website</h3>
+        <p data-en="A complete dealership website rebuilt on a modern stack. Fast, mobile-first, bilingual."
+           data-fr="Un site complet refait sur une stack moderne. Rapide, mobile-first, bilingue.">
+          A complete dealership website rebuilt on a modern stack. Fast, mobile-first, bilingual.
+        </p>
+        <ul class="service-features">
+          <li data-en="Inventory with smart filters" data-fr="Inventaire avec filtres intelligents">Inventory with smart filters</li>
+          <li data-en="Vehicle detail pages + financing forms" data-fr="Fiches véhicule + formulaires financement">Vehicle detail pages + financing forms</li>
+          <li data-en="Bilingual FR/EN built in" data-fr="Bilingue FR/EN intégré">Bilingual FR/EN built in</li>
+          <li data-en="SEO optimized for local search" data-fr="SEO optimisé recherche locale">SEO optimized for local search</li>
+        </ul>
+      </div>
+
+      <!-- Service 2 -->
+      <div class="service-card reveal reveal-delay-1">
+        <div class="service-num">— 02</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3 data-en="Lead Management" data-fr="Gestion des leads">Lead Management</h3>
+        <p data-en="Every lead from your site, your social, your forms — qualified and routed to your sales team."
+           data-fr="Chaque lead de ton site, tes réseaux, tes formulaires — qualifié et acheminé à ton équipe.">
+          Every lead from your site, your social, your forms — qualified and routed to your sales team.
+        </p>
+        <ul class="service-features">
+          <li data-en="Response under 2 hours during business hours" data-fr="Réponse en moins de 2h en heures d'affaires">Response under 2 hours during business hours</li>
+          <li data-en="Pre-qualification by phone & email" data-fr="Pré-qualification téléphone et courriel">Pre-qualification by phone & email</li>
+          <li data-en="Follow-up on dormant leads" data-fr="Suivi des leads dormants">Follow-up on dormant leads</li>
+          <li data-en="Monthly performance reports" data-fr="Rapports de performance mensuels">Monthly performance reports</li>
+        </ul>
+      </div>
+
+      <!-- Service 3 -->
+      <div class="service-card reveal reveal-delay-2">
+        <div class="service-num">— 03</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </div>
+        <h3 data-en="Social Presence" data-fr="Présence sociale">Social Presence</h3>
+        <p data-en="Facebook, Instagram, and Marketplace handled — synced with your inventory in real time."
+           data-fr="Facebook, Instagram, et Marketplace gérés — synchronisés avec ton inventaire en temps réel.">
+          Facebook, Instagram, and Marketplace handled — synced with your inventory in real time.
+        </p>
+        <ul class="service-features">
+          <li data-en="Inventory auto-synced to Marketplace" data-fr="Inventaire auto-synchronisé au Marketplace">Inventory auto-synced to Marketplace</li>
+          <li data-en="Scheduled posts & promotions" data-fr="Publications et promotions planifiées">Scheduled posts & promotions</li>
+          <li data-en="Inbox & DM management" data-fr="Gestion boîte de réception & DM">Inbox & DM management</li>
+          <li data-en="Content guidance for your team" data-fr="Guidance contenu pour ton équipe">Content guidance for your team</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ COMPARE ═══ -->
+  <section class="section">
+    <div class="reveal">
+      <p class="section-label" data-en="The Difference" data-fr="La différence">The Difference</p>
+      <h2 class="section-title" data-en="The old way vs. my way" data-fr="L'ancienne façon vs. ma façon">The old way vs. my way</h2>
+    </div>
+
+    <div class="compare-section reveal">
+      <div class="compare-grid">
+        <!-- Bad column -->
+        <div class="compare-col bad">
+          <div class="compare-header">
+            <span class="compare-badge" data-en="Old Way" data-fr="Ancienne façon">Old Way</span>
+            <h4 data-en="Big platforms" data-fr="Grosses plateformes">Big platforms</h4>
+          </div>
+          <ul class="compare-list">
+            <li data-en="$400-700/month for outdated 2012-style sites" data-fr="400-700 $/mois pour des sites style 2012">$400-700/month for outdated 2012-style sites</li>
+            <li data-en="Generic templates — every dealer looks the same" data-fr="Modèles génériques — tous les concessionnaires se ressemblent">Generic templates — every dealer looks the same</li>
+            <li data-en="English only or poorly translated French" data-fr="Anglais seulement ou français mal traduit">English only or poorly translated French</li>
+            <li data-en="Support tickets that take 5 days to resolve" data-fr="Tickets de support qui prennent 5 jours à régler">Support tickets that take 5 days to resolve</li>
+            <li data-en="No one who actually understands your business" data-fr="Personne qui comprend vraiment ton business">No one who actually understands your business</li>
+            <li data-en="Locked into a yearly contract" data-fr="Contrat annuel obligatoire">Locked into a yearly contract</li>
+          </ul>
+        </div>
+
+        <!-- Good column -->
+        <div class="compare-col good">
+          <div class="compare-header">
+            <span class="compare-badge" data-en="My Way" data-fr="Ma façon">My Way</span>
+            <h4 data-en="Patrick Laperrière" data-fr="Patrick Laperrière">Patrick Laperrière</h4>
+          </div>
+          <ul class="compare-list">
+            <li data-en="Transparent monthly pricing — no surprises" data-fr="Prix mensuel transparent — aucune surprise">Transparent monthly pricing — no surprises</li>
+            <li data-en="Custom-built site that reflects YOUR brand" data-fr="Site sur mesure qui reflète TA marque">Custom-built site that reflects YOUR brand</li>
+            <li data-en="True FR/EN bilingual — built for Quebec/Ontario" data-fr="Vrai bilingue FR/EN — pensé pour Québec/Ontario">True FR/EN bilingual — built for Quebec/Ontario</li>
+            <li data-en="Direct line to me — same-day responses" data-fr="Ligne directe avec moi — réponse le jour même">Direct line to me — same-day responses</li>
+            <li data-en="Built by a former dealer who gets it" data-fr="Construit par un ancien concessionnaire qui comprend">Built by a former dealer who gets it</li>
+            <li data-en="Month-to-month — earn your trust every month" data-fr="Mois par mois — gagner ta confiance chaque mois">Month-to-month — earn your trust every month</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ HABITA SHOWCASE ═══ -->
+  <section class="section">
+    <div class="showcase-section reveal">
+      <div class="showcase-badge">
+        <span class="showcase-badge-dot"></span>
+        <span data-en="Side Project — In Development" data-fr="Projet parallèle — En développement">Side Project — In Development</span>
+      </div>
+      <h2 class="showcase-title">
+        <span data-en="I also build " data-fr="Je construis aussi du ">I also build </span><span data-en="serious SaaS." data-fr="SaaS sérieux.">serious SaaS.</span>
+      </h2>
+      <p class="showcase-desc" data-en="Habita is a modern inspection workspace I'm co-building for Canadian building professionals. Photos, findings, reports — all in one place. Same engineering quality goes into every dealer site I ship."
+         data-fr="Habita est un environnement d'inspection moderne que je co-construis pour les professionnels du bâtiment canadiens. Photos, observations, rapports — tout en un seul endroit. La même qualité d'ingénierie va dans chaque site de concessionnaire que je livre.">
+        Habita is a modern inspection workspace I'm co-building for Canadian building professionals. Photos, findings, reports — all in one place. Same engineering quality goes into every dealer site I ship.
+      </p>
+      <a class="showcase-link" href="https://habita-eight.vercel.app/" target="_blank" rel="noopener noreferrer">
+        <span data-en="View the project" data-fr="Voir le projet">View the project</span>
+        <span>→</span>
+      </a>
+
+      <div class="showcase-devices">
+        <div class="device-desktop">
+          <div class="device-desktop-bar">
+            <span class="device-desktop-dot"></span>
+            <span class="device-desktop-dot"></span>
+            <span class="device-desktop-dot"></span>
+            <span class="device-desktop-url">habita-eight.vercel.app</span>
+          </div>
+          <img src="https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/desktop.png" alt="Habita Desktop" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ RECENT WORK ═══ -->
+  <section class="section">
+    <div class="reveal">
+      <p class="section-label" data-en="Recent Work" data-fr="Travaux récents">Recent Work</p>
+      <h2 class="section-title" data-en="Selected projects." data-fr="Projets sélectionnés.">Selected projects.</h2>
+      <p class="section-desc" data-en="A snapshot of what I've shipped — across ecommerce, SaaS, and service businesses."
+         data-fr="Un aperçu de ce que j'ai livré — à travers l'e-commerce, le SaaS, et les services.">
+        A snapshot of what I've shipped — across ecommerce, SaaS, and service businesses.
+      </p>
+    </div>
+
+    <div class="projects-grid">
+      <a class="project-card reveal" href="https://www.hpaddik.com/" target="_blank" rel="noopener noreferrer">
+        <div class="project-card-header">
+          <div class="project-card-logo">
+            <img src="https://www.hpaddik.com/cdn/shop/files/hptrp.png?v=1739810622&width=250" alt="HP Addik" />
+          </div>
+          <span class="arrow-icon">↗</span>
+        </div>
+        <div class="project-card-name">HP Addik</div>
+        <p class="project-card-desc" data-en="Full ecommerce brand on Shopify — identity, store, product pages."
+           data-fr="Marque e-commerce complète sur Shopify — identité, boutique, fiches produits.">
+          Full ecommerce brand on Shopify — identity, store, product pages.
+        </p>
+        <div class="project-card-tags">
+          <span class="project-card-tag">Shopify</span>
+          <span class="project-card-tag">Ecommerce</span>
+          <span class="project-card-tag">Branding</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal reveal-delay-1" href="https://inspectionhab.ca/" target="_blank" rel="noopener noreferrer">
+        <div class="project-card-header">
+          <div class="project-card-logo">
+            <img src="https://inspectionhab.ca/cdn/shop/files/iho_5931e709-b4f0-42d6-ab9e-e16daede7bf0.png?v=1757600634&width=190" alt="Inspection Habitation Outaouais" />
+          </div>
+          <span class="arrow-icon">↗</span>
+        </div>
+        <div class="project-card-name">Inspection Habitation</div>
+        <p class="project-card-desc" data-en="Service site for a home inspector — built for trust and local SEO."
+           data-fr="Site de services pour inspecteur — pensé pour la confiance et le SEO local.">
+          Service site for a home inspector — built for trust and local SEO.
+        </p>
+        <div class="project-card-tags">
+          <span class="project-card-tag">Service</span>
+          <span class="project-card-tag">SEO</span>
+          <span class="project-card-tag">Local</span>
+        </div>
+      </a>
+
+      <a class="project-card reveal reveal-delay-2" href="https://www.envita-wellness.com/" target="_blank" rel="noopener noreferrer">
+        <div class="project-card-header">
+          <div class="project-card-logo light-bg">
+            <img src="https://cdn.shopify.com/s/files/1/0717/8315/3799/files/Asset_3.png?v=1769885472" alt="Envita Wellness" />
+          </div>
+          <span class="arrow-icon">↗</span>
+        </div>
+        <div class="project-card-name">Envita Wellness</div>
+        <p class="project-card-desc" data-en="Premium wellness brand — design and digital experience."
+           data-fr="Marque wellness premium — design et expérience numérique.">
+          Premium wellness brand — design and digital experience.
+        </p>
+        <div class="project-card-tags">
+          <span class="project-card-tag">Wellness</span>
+          <span class="project-card-tag">Design</span>
+          <span class="project-card-tag">Brand</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ═══ TESTIMONIAL ═══ -->
+  <section class="testimonial-section reveal">
+    <div class="testimonial-card">
+      <span class="quote-mark">"</span>
+      <p class="testimonial-text" data-en="Patrick is awesome! He's quick, efficient, detail-oriented, and seems to know what you need before you do. Working with him has been seamless. From website creation to content strategy — he knows his stuff."
+         data-fr="Patrick est génial ! Il est rapide, efficace, soucieux du détail, et semble savoir ce dont tu as besoin avant toi. Travailler avec lui a été tellement fluide. De la création de site à la stratégie de contenu — il maîtrise son sujet.">
+        Patrick is awesome! He's quick, efficient, detail-oriented, and seems to know what you need before you do. Working with him has been seamless. From website creation to content strategy — he knows his stuff.
+      </p>
+      <div class="testimonial-author">
+        <div class="author-info">
+          <div class="author-avatar">C</div>
+          <div>
+            <div class="author-name">Chrissy</div>
+            <div class="author-role">Envita Wellness — Co-founder</div>
+          </div>
+        </div>
+        <div class="testimonial-stars">★★★★★</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ LIMITED PARTNERSHIPS ═══ -->
+  <section class="limited-section reveal">
+    <div class="limited-card">
+      <div class="limited-grid">
+        <div class="limited-content">
+          <p class="section-label" data-en="By Design" data-fr="Par choix">By Design</p>
+          <h2>
+            <span data-en="Five dealers max." data-fr="Cinq concessionnaires max.">Five dealers max.</span>
+            <span class="accent-text" data-en=" Zero conflicts." data-fr=" Zéro conflit.">Zero conflicts.</span>
+          </h2>
+
+          <p data-en="Big platforms onboard hundreds of dealers a year. I don't. <strong>I take five — and I choose them carefully.</strong>"
+             data-fr="Les grosses plateformes embarquent des centaines de concessionnaires par année. Pas moi. <strong>J'en prends cinq — et je les choisis soigneusement.</strong>">
+            Big platforms onboard hundreds of dealers a year. I don't. <strong>I take five — and I choose them carefully.</strong>
+          </p>
+
+          <p data-en="<strong>The non-compete promise:</strong> I won't sign two competing dealers. If you carry KTM and Polaris in Ottawa, I won't take another KTM or Polaris dealer in your region. Your investment in working with me protects your territory."
+             data-fr="<strong>L'engagement de non-concurrence :</strong> je ne signe pas deux concessionnaires en compétition. Si tu vends du KTM et du Polaris à Ottawa, je ne prendrai pas un autre concessionnaire KTM ou Polaris dans ta région. Ton investissement avec moi protège ton territoire.">
+            <strong>The non-compete promise:</strong> I won't sign two competing dealers. If you carry KTM and Polaris in Ottawa, I won't take another KTM or Polaris dealer in your region. Your investment in working with me protects your territory.
+          </p>
+
+          <p data-en="Five means I know your business by name. I answer your texts the same day. I'm available when a snowcheck campaign goes wrong on a Saturday night. <strong>You're not a ticket — you're a partner.</strong>"
+             data-fr="Cinq, ça veut dire que je connais ton business par cœur. Je réponds à tes textos la même journée. Je suis disponible quand une campagne snowcheck déraille un samedi soir. <strong>Tu n'es pas un ticket — tu es un partenaire.</strong>">
+            Five means I know your business by name. I answer your texts the same day. I'm available when a snowcheck campaign goes wrong on a Saturday night. <strong>You're not a ticket — you're a partner.</strong>
+          </p>
+
+          <p data-en="When I hit five, I close the door. No exceptions."
+             data-fr="Quand j'atteins cinq, je ferme la porte. Aucune exception.">
+            When I hit five, I close the door. No exceptions.
+          </p>
+        </div>
+
+        <div class="spots-visual">
+          <div class="spots-grid">
+            <div class="spot taken">1</div>
+            <div class="spot open">2</div>
+            <div class="spot open">3</div>
+            <div class="spot open">4</div>
+            <div class="spot open">5</div>
+          </div>
+          <div class="spots-counter">
+            <div class="spots-counter-num">4</div>
+            <div class="spots-counter-label" data-en="spots remaining" data-fr="places restantes">spots remaining</div>
+          </div>
+
+          <div class="non-compete-badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <polyline points="9 12 11 14 15 10"/>
+            </svg>
+            <span data-en="Non-compete guaranteed" data-fr="Non-concurrence garantie">Non-compete guaranteed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FINAL CTA ═══ -->
+  <section class="cta-final reveal">
+    <h2 data-en="Ready to claim a spot?" data-fr="Prêt à prendre une place ?">Ready to claim a spot?</h2>
+    <p data-en="30-minute discovery call. No pressure, no sales pitch. Just two powersport people figuring out if we're a good fit. <strong>4 of 5 spots still open.</strong>"
+       data-fr="Appel découverte de 30 minutes. Aucune pression, aucun pitch de vente. Juste deux gars de powersport qui regardent si on fit ensemble. <strong>4 places sur 5 encore disponibles.</strong>">
+      30-minute discovery call. No pressure, no sales pitch. Just two powersport people figuring out if we're a good fit. <strong>4 of 5 spots still open.</strong>
+    </p>
+    <a class="btn-primary" href="contact.html">
+      <span data-en="Let's talk" data-fr="Parlons-en">Let's talk</span>
+      <span class="arrow">→</span>
+    </a>
+  </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <span class="footer-copy">© 2025 Patrick Laperrière. <span data-en="All rights reserved." data-fr="Tous droits réservés.">All rights reserved.</span></span>
+    <div class="footer-links">
+      <a href="index.html" data-en="Home" data-fr="Accueil">Home</a>
+      <a href="projects.html" data-en="Work" data-fr="Projets">Work</a>
+      <a href="contact.html" data-en="Contact" data-fr="Contact">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ═══════════════════════════════════════════════════
+     Patrick Laperrière — Scripts
+     ═══════════════════════════════════════════════════ */
+
+  // ── Cursor glow ──
+  const glow = document.getElementById('cursorGlow');
+  document.addEventListener('mousemove', e => {
+    glow.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%, -50%)`;
+  });
+
+  // ── Scroll progress ──
+  const progressBar = document.getElementById('scrollProgress');
+  const nav = document.getElementById('nav');
+  let lastScroll = 0;
+
+  window.addEventListener('scroll', () => {
+    const scrollTop = document.documentElement.scrollTop;
+    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    if (scrollHeight > 0) {
+      progressBar.style.width = (scrollTop / scrollHeight) * 100 + '%';
+    }
+
+    // Nav background
+    if (scrollTop > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+
+    // Hide on scroll down
+    if (scrollTop > lastScroll && scrollTop > 80) nav.classList.add('hidden');
+    else nav.classList.remove('hidden');
+    lastScroll = scrollTop;
+  }, { passive: true });
+
+  // ── Reveal on scroll ──
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // ── Language switcher ──
+  const langButtons = document.querySelectorAll('.lang-btn');
+  const allTextEls = document.querySelectorAll('[data-en], [data-fr]');
+
+  function setLang(lang) {
+    allTextEls.forEach(el => {
+      const text = el.getAttribute('data-' + lang);
+      if (text) {
+        // Use innerHTML because some text contains <strong>
+        el.innerHTML = text;
+      }
+    });
+    langButtons.forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+    document.documentElement.lang = lang;
+    localStorage.setItem('site-lang', lang);
+  }
+
+  langButtons.forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang')));
+  });
+
+  // Restore saved language
+  const savedLang = localStorage.getItem('site-lang') || 'en';
+  setLang(savedLang);
+
+  // ── Magnetic buttons ──
+  document.querySelectorAll('.btn-primary, .nav-cta').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const rect = btn.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      btn.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+</script>
+
+</body>
+</html>
