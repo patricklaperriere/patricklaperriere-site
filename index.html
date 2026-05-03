@@ -80,7 +80,7 @@
       pointer-events: none;
       background-image: url('https://hnlllkcpabddvxgznfft.supabase.co/storage/v1/object/public/assets/perso/1.jpg');
       background-size: cover;
-      background-position: center 35%;
+      background-position: center 80%;
       background-repeat: no-repeat;
       filter: brightness(0.6) saturate(1.1) contrast(1.05);
       opacity: 0.95;
@@ -138,8 +138,17 @@
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
-      padding: 18px 0;
+      padding: 18px 48px;
       transition: transform 0.3s ease, background 0.3s ease, backdrop-filter 0.3s ease;
+    }
+    @media (max-width: 1024px) {
+      .nav { padding: 16px 32px; }
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 14px 24px; }
+    }
+    @media (max-width: 480px) {
+      .nav { padding: 14px 16px; }
     }
     .nav.scrolled {
       background: rgba(10, 14, 26, 0.7);
@@ -152,19 +161,9 @@
     .nav-inner {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 64px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-    @media (max-width: 1024px) {
-      .nav-inner { padding: 0 48px; }
-    }
-    @media (max-width: 768px) {
-      .nav-inner { padding: 0 32px; }
-    }
-    @media (max-width: 480px) {
-      .nav-inner { padding: 0 24px; }
     }
 
     .nav-logo {
@@ -1342,28 +1341,27 @@
 
     /* ═══ FOOTER ═══ */
     .footer {
-      padding: 48px 0;
+      padding: 48px;
       border-top: 1px solid var(--line);
       margin-top: 80px;
+    }
+    @media (max-width: 1024px) {
+      .footer { padding: 40px 32px; }
+    }
+    @media (max-width: 768px) {
+      .footer { padding: 32px 24px; }
+    }
+    @media (max-width: 480px) {
+      .footer { padding: 32px 16px; }
     }
     .footer-inner {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 64px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 24px;
-    }
-    @media (max-width: 1024px) {
-      .footer-inner { padding: 0 48px; }
-    }
-    @media (max-width: 768px) {
-      .footer-inner { padding: 0 32px; }
-    }
-    @media (max-width: 480px) {
-      .footer-inner { padding: 0 24px; }
     }
     .footer-copy {
       font-family: var(--font-mono);
