@@ -73,4 +73,20 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/powersport-lead-response-time-2-hour-rule.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/powersport-lead-response-time-2-hour-rule.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/powersport-lead-response-time-2-hour-rule.html"/>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/vrai-site-bilingue-concessionnaire-quebec.html</loc>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/vrai-site-bilingue-concessionnaire-quebec.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/vrai-site-bilingue-concessionnaire-quebec.html"/>
+    <lastmod>2026-04-29</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
