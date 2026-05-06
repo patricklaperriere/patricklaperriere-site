@@ -10,4 +10,67 @@
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/"/>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/powersport-dealer-websites-stuck-2012.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/powersport-dealer-websites-stuck-2012.html"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/sites-web-concessionnaires-sports-motorises-2012.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/powersport-dealer-websites-stuck-2012.html"/>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/sites-web-concessionnaires-sports-motorises-2012.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/powersport-dealer-websites-stuck-2012.html"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/sites-web-concessionnaires-sports-motorises-2012.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/powersport-dealer-websites-stuck-2012.html"/>
+    <lastmod>2026-05-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/local-seo-powersport-dealers.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/local-seo-powersport-dealers.html"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/seo-local-concessionnaire-sports-motorises.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/local-seo-powersport-dealers.html"/>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/seo-local-concessionnaire-sports-motorises.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/local-seo-powersport-dealers.html"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/seo-local-concessionnaire-sports-motorises.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/local-seo-powersport-dealers.html"/>
+    <lastmod>2026-05-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/snowcheck-season-survival-guide-dealers.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/snowcheck-season-survival-guide-dealers.html"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/guide-survie-saison-snowcheck-concessionnaire.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/snowcheck-season-survival-guide-dealers.html"/>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://patricklaperriere.com/blog/guide-survie-saison-snowcheck-concessionnaire.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://patricklaperriere.com/blog/snowcheck-season-survival-guide-dealers.html"/>
+    <xhtml:link rel="alternate" hreflang="fr-CA" href="https://patricklaperriere.com/blog/guide-survie-saison-snowcheck-concessionnaire.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/snowcheck-season-survival-guide-dealers.html"/>
+    <lastmod>2026-05-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

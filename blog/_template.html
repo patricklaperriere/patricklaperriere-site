@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  ARTICLE TEMPLATE — copy this file, then replace every {{PLACEHOLDER}}.
+
+  Filename convention: /blog/[slug].html  (kebab-case, no accents,
+  no leading article words, no language suffix needed since each
+  HTML file is a single language).
+
+  Required placeholders to replace:
+    {{ARTICLE_TITLE}}        Plain-text title (≤ 65 chars for SEO)
+    {{ARTICLE_DESCRIPTION}}  Meta description (≤ 160 chars)
+    {{ARTICLE_SLUG}}         e.g. "facebook-marketplace-sync-for-powersport-dealers"
+    {{ARTICLE_LANG}}          en  |  fr-CA
+    {{ARTICLE_LOCALE_OG}}     en_US  |  fr_CA
+    {{ARTICLE_LOCALE_ALT}}    fr_CA  |  en_US (the OTHER one)
+    {{ARTICLE_LANG_SHORT}}    en  |  fr
+    {{ARTICLE_OTHER_LANG_SHORT}}  fr  |  en
+    {{ARTICLE_HREFLANG_OTHER}}  Full URL of the version in the OTHER language
+                                 (e.g. https://patricklaperriere.com/blog/[slug-fr].html)
+                                 Used in the <link rel="alternate" hreflang> in the
+                                 <head> — MUST be absolute (Google requires it).
+                                 If no translation exists yet, leave empty and
+                                 add the `disabled` class on the alt lang-btn.
+    {{ARTICLE_OTHER_LANG_PATH}}  Root-relative path of the OTHER language version
+                                 (e.g. /blog/[slug-fr].html). Used in the visible
+                                 lang-switcher <a> in the nav — must be relative
+                                 so it works on localhost AND production.
+    {{ARTICLE_OTHER_LANG_LABEL}}  "Read in French" / "Lire en anglais"
+    {{ARTICLE_DATE_ISO}}      YYYY-MM-DD (date published)
+    {{ARTICLE_DATE_DISPLAY}}  Pretty date for humans (e.g. "May 6, 2026")
+    {{ARTICLE_DATE_MODIFIED}} YYYY-MM-DD (date last modified, == published if new)
+    {{ARTICLE_READING_TIME}}  e.g. "6 min read" / "6 min de lecture"
+    {{ARTICLE_IMAGE}}         Absolute URL of the OG/social image (1200×630)
+    {{ARTICLE_IMAGE_ALT}}     Alt text for the article image
+    {{ARTICLE_KEYWORDS}}      Comma-separated keywords
+    {{BREADCRUMB_BLOG_LABEL}} "Blog" / "Blog"
+    {{BREADCRUMB_ARTICLE_LABEL}}  Short article title for breadcrumb
+    {{ARTICLE_CONTENT}}       The article body as HTML (h2/h3/p/ul/blockquote/img/etc.)
+                              Wrapped in <article class="prose">...</article>
+    {{ARTICLE_CTA_TITLE}}     Localized CTA title
+    {{ARTICLE_CTA_DESC}}      Localized CTA description
+    {{ARTICLE_CTA_BTN}}       Localized CTA button text
+    {{RELATED_ARTICLES}}      Two .related-card blocks linking to other articles
+                              (same language). Use the example below as base.
+
+  Static text to localize manually (the strings already contain "REPLACE":
+  "Home / Accueil", "Blog", footer copy, modal copy, etc.) — pick the
+  matching language version of each before publishing.
+
+  ═══════════════════════════════════════════════════════════════════
+-->
+<html lang="{{ARTICLE_LANG}}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <title>{{ARTICLE_TITLE}}</title>
+  <meta name="description" content="{{ARTICLE_DESCRIPTION}}" />
+  <meta name="keywords" content="{{ARTICLE_KEYWORDS}}" />
+  <meta name="author" content="Patrick Laperrière" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1121" />
+
+  <link rel="canonical" href="https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html" />
+  <link rel="alternate" hreflang="{{ARTICLE_LANG}}" href="https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html" />
+  <!-- If no translation yet, REMOVE the next line. -->
+  <link rel="alternate" hreflang="{{ARTICLE_OTHER_LANG_SHORT}}" href="{{ARTICLE_HREFLANG_OTHER}}" />
+  <link rel="alternate" hreflang="x-default" href="https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html" />
+  <meta property="og:site_name" content="Dealer Web Partner" />
+  <meta property="og:title" content="{{ARTICLE_TITLE}}" />
+  <meta property="og:description" content="{{ARTICLE_DESCRIPTION}}" />
+  <meta property="og:locale" content="{{ARTICLE_LOCALE_OG}}" />
+  <meta property="og:locale:alternate" content="{{ARTICLE_LOCALE_ALT}}" />
+  <meta property="og:image" content="{{ARTICLE_IMAGE}}" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="{{ARTICLE_IMAGE_ALT}}" />
+  <meta property="article:published_time" content="{{ARTICLE_DATE_ISO}}" />
+  <meta property="article:modified_time" content="{{ARTICLE_DATE_MODIFIED}}" />
+  <meta property="article:author" content="Patrick Laperrière" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ARTICLE_TITLE}}" />
+  <meta name="twitter:description" content="{{ARTICLE_DESCRIPTION}}" />
+  <meta name="twitter:image" content="{{ARTICLE_IMAGE}}" />
+  <meta name="twitter:image:alt" content="{{ARTICLE_IMAGE_ALT}}" />
+
+  <link rel="dns-prefetch" href="https://hnlllkcpabddvxgznfft.supabase.co" />
+  <link rel="dns-prefetch" href="https://formsubmit.co" />
+  <link rel="preconnect" href="https://hnlllkcpabddvxgznfft.supabase.co" crossorigin />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23e30613'/><stop offset='100%25' stop-color='%23ff2a3a'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><circle cx='32' cy='32' r='30' fill='none' stroke='%23ffffff' stroke-opacity='0.15' stroke-width='1.5'/><text x='32' y='42' text-anchor='middle' font-family='system-ui,-apple-system,Segoe UI,sans-serif' font-size='28' font-weight='800' fill='%23ffffff' letter-spacing='-1'>PL</text></svg>" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0%25' stop-color='%23e30613'/><stop offset='100%25' stop-color='%23ff2a3a'/></linearGradient></defs><circle cx='32' cy='32' r='30' fill='url(%23g)'/><text x='32' y='42' text-anchor='middle' font-family='system-ui,-apple-system,Segoe UI,sans-serif' font-size='28' font-weight='800' fill='%23ffffff' letter-spacing='-1'>PL</text></svg>" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/assets/blog.css" />
+
+  <!-- ═══ STRUCTURED DATA — Article ═══ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "@id": "https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html#article",
+    "headline": "{{ARTICLE_TITLE}}",
+    "description": "{{ARTICLE_DESCRIPTION}}",
+    "image": "{{ARTICLE_IMAGE}}",
+    "datePublished": "{{ARTICLE_DATE_ISO}}",
+    "dateModified": "{{ARTICLE_DATE_MODIFIED}}",
+    "inLanguage": "{{ARTICLE_LANG}}",
+    "author": {
+      "@type": "Person",
+      "name": "Patrick Laperrière",
+      "url": "https://patricklaperriere.com/"
+    },
+    "publisher": {
+      "@id": "https://patricklaperriere.com/#organization"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html"
+    },
+    "isPartOf": {
+      "@id": "https://patricklaperriere.com/blog/#blog"
+    }
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://patricklaperriere.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://patricklaperriere.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "{{BREADCRUMB_ARTICLE_LABEL}}", "item": "https://patricklaperriere.com/blog/{{ARTICLE_SLUG}}.html" }
+    ]
+  }
+  </script>
+</head>
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a class="nav-logo" href="/">
+      <div class="nav-avatar" aria-label="Patrick Laperrière">PL</div>
+      <div>
+        <span class="nav-name">Patrick Laperrière</span>
+        <!-- REPLACE tagline per language: "Dealer Web Partner" (en) / "Partenaire web concessionnaire" (fr) -->
+        <span class="nav-tagline">Dealer Web Partner</span>
+      </div>
+    </a>
+    <div class="nav-links">
+      <!-- REPLACE labels per language. EN: About / Services / Work / Blog. FR: À propos / Services / Projets / Blog -->
+      <a href="/#story">About</a>
+      <a href="/#services">Services</a>
+      <a href="/#work">Work</a>
+      <a href="/blog/" class="active">Blog</a>
+      <div class="lang-switcher" aria-label="Language switcher">
+        <!-- The active language is the current article's language. The other points to the translated URL.
+             Use root-relative paths here (NOT absolute) so the switcher works on localhost AND production.
+             The absolute hreflang URL belongs in <link rel="alternate" hreflang> in the <head>. -->
+        <a class="lang-btn active" href="/blog/{{ARTICLE_SLUG}}.html" aria-current="page">{{ARTICLE_LANG_SHORT}}</a>
+        <a class="lang-btn" href="{{ARTICLE_OTHER_LANG_PATH}}" title="{{ARTICLE_OTHER_LANG_LABEL}}">{{ARTICLE_OTHER_LANG_SHORT}}</a>
+      </div>
+      <!-- REPLACE: "Let's talk" / "Parlons-en" -->
+      <a href="#contact" class="nav-cta open-modal">Let's talk</a>
+    </div>
+  </div>
+</nav>
+
+<main class="article-page" id="main">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb reveal" aria-label="Breadcrumb">
+    <!-- REPLACE: "Home" / "Accueil" -->
+    <a href="/">Home</a>
+    <span class="breadcrumb-sep">/</span>
+    <a href="/blog/">{{BREADCRUMB_BLOG_LABEL}}</a>
+    <span class="breadcrumb-sep">/</span>
+    <span>{{BREADCRUMB_ARTICLE_LABEL}}</span>
+  </nav>
+
+  <!-- Header -->
+  <header class="article-header reveal">
+    <h1 class="article-title">{{ARTICLE_TITLE}}</h1>
+    <div class="article-meta">
+      <span class="article-meta-item">
+        <strong>·</strong>
+        <time datetime="{{ARTICLE_DATE_ISO}}">{{ARTICLE_DATE_DISPLAY}}</time>
+      </span>
+      <span class="article-meta-item">
+        <strong>·</strong>
+        <span>{{ARTICLE_READING_TIME}}</span>
+      </span>
+      <span class="article-meta-item">
+        <strong>·</strong>
+        <span>Patrick Laperrière</span>
+      </span>
+    </div>
+  </header>
+
+  <!-- ═══ ARTICLE CONTENT ═══
+       Replace the inner HTML of <article class="prose"> with the
+       converted markdown body. Use h2 / h3 for sections, p / ul / ol /
+       blockquote / img / pre>code as needed. The .prose styles handle
+       typography, lists, code, blockquotes, etc. -->
+  <article class="prose reveal">
+    {{ARTICLE_CONTENT}}
+  </article>
+
+  <!-- CTA -->
+  <section class="article-cta reveal">
+    <div class="article-cta-inner">
+      <h3>{{ARTICLE_CTA_TITLE}}</h3>
+      <p>{{ARTICLE_CTA_DESC}}</p>
+      <a class="btn-primary open-modal" href="#contact">
+        <span>{{ARTICLE_CTA_BTN}}</span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Related articles (2 cards, same language) -->
+  <section class="related reveal">
+    <!-- REPLACE: "Keep reading" / "Continuer la lecture" -->
+    <p class="related-label">Keep reading</p>
+    <div class="related-grid">
+      {{RELATED_ARTICLES}}
+      <!-- Example card structure (uncomment + duplicate):
+      <a class="related-card" href="/blog/another-article.html">
+        <div class="related-card-title">Another article title</div>
+        <div class="related-card-meta">May 6, 2026 · 5 min read</div>
+      </a>
+      -->
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══ CONTACT MODAL (same as index.html) ═══ -->
+<div class="modal-overlay" id="contactModal">
+  <div class="modal-content">
+    <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+    <div class="modal-header">
+      <!-- REPLACE per language. EN: "Discovery Call" / "Let's talk." / "Tell me about your dealership..."
+                                FR: "Appel découverte" / "Parlons-en." / "Parle-moi de ton concessionnaire..." -->
+      <p class="label">Discovery Call</p>
+      <h3>Let's talk.</h3>
+      <p>Tell me about your dealership. I'll get back to you within 24 hours.</p>
+    </div>
+    <form id="contactForm">
+      <div class="form-group">
+        <label class="form-label" for="cname">Your name</label>
+        <input class="form-input" type="text" id="cname" name="name" required placeholder="Patrick Smith" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cdealer">Your dealership</label>
+        <input class="form-input" type="text" id="cdealer" name="dealership" placeholder="Wheelz, Ottawa ON" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cemail">Email or phone</label>
+        <input class="form-input" type="text" id="cemail" name="contact" required placeholder="patrick@dealer.com or 819-555-1234" />
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="cmessage">What do you need help with?</label>
+        <textarea class="form-textarea" id="cmessage" name="message" required placeholder="My website is outdated, leads are slow..."></textarea>
+      </div>
+      <button class="form-submit-btn" type="submit" id="submitBtn">
+        <span>Send message</span>
+        <span>→</span>
+      </button>
+      <div class="form-success" id="formSuccess">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        <span>Message sent! I'll get back to you within 24 hours.</span>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-inner">
+    <!-- REPLACE: "All rights reserved." / "Tous droits réservés." -->
+    <span class="footer-copy">© 2025 Patrick Laperrière. All rights reserved.</span>
+    <div class="footer-links">
+      <!-- REPLACE labels per language. -->
+      <a href="/">Home</a>
+      <a href="/#work">Work</a>
+      <a href="/blog/">Blog</a>
+      <a href="#contact" class="open-modal">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/blog.js" defer></script>
+
+</body>
+</html>
