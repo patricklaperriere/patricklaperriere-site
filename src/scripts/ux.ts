@@ -98,13 +98,22 @@ function initMagnetic() {
 function initTilt() {
   if (reduceMotion || isTouch) return;
   document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((el) => {
+    // On enter: snappy transition with NO delay. This overrides the inline
+    // transition-delay the scroll-reveal left behind (per-card stagger),
+    // which otherwise makes later cards lag and feel unresponsive.
+    el.addEventListener('pointerenter', () => {
+      el.style.transition = 'transform 0.12s ease-out';
+      el.style.transitionDelay = '0ms';
+    });
     el.addEventListener('pointermove', (e) => {
       const r = el.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5;
       const py = (e.clientY - r.top) / r.height - 0.5;
-      el.style.transform = `perspective(800px) rotateY(${px * 6}deg) rotateX(${-py * 6}deg)`;
+      el.style.transform = `perspective(900px) rotateY(${px * 9}deg) rotateX(${-py * 9}deg) translateY(-6px)`;
     });
     el.addEventListener('pointerleave', () => {
+      // Smooth ease back to flat.
+      el.style.transition = 'transform 0.5s cubic-bezier(.2,.8,.2,1)';
       el.style.transform = '';
     });
   });
