@@ -1,0 +1,173 @@
+---
+import { SITE } from '../config';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const track = SITE.lofiTrack;
+const label = locale === 'fr' ? 'Lo-fi' : 'Lo-fi';
+const aria = locale === 'fr' ? 'Activer ou couper la musique lo-fi' : 'Toggle lo-fi music';
+---
+
+{track && (
+  <div class="lofi" role="group" aria-label={aria}>
+    <span class="lofi__eq" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+    </span>
+    <span class="lofi__label">{label}</span>
+    <button
+      id="lofi-toggle"
+      class="lofi__switch"
+      type="button"
+      role="switch"
+      aria-checked="false"
+      aria-label={aria}
+    >
+      <span class="lofi__knob"></span>
+    </button>
+    <audio id="lofi-audio" src={track} loop preload="none"></audio>
+  </div>
+)}
+
+<style>
+  .lofi {
+    position: fixed;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 60;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.5rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: color-mix(in srgb, var(--color-ink) 70%, transparent);
+    backdrop-filter: blur(12px);
+    color: var(--color-fog);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.25s, border-color 0.25s;
+  }
+  .lofi.is-playing {
+    color: var(--color-gold-bright);
+    border-color: color-mix(in srgb, var(--color-gold) 55%, transparent);
+  }
+
+  /* Equalizer */
+  .lofi__eq {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 14px;
+  }
+  .lofi__eq span {
+    width: 3px;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-fog);
+    transition: background 0.25s;
+  }
+  .lofi.is-playing .lofi__eq span {
+    background: var(--color-gold);
+    animation: eq 0.9s ease-in-out infinite;
+  }
+  .lofi.is-playing .lofi__eq span:nth-child(2) { animation-delay: 0.2s; }
+  .lofi.is-playing .lofi__eq span:nth-child(3) { animation-delay: 0.4s; }
+  .lofi.is-playing .lofi__eq span:nth-child(4) { animation-delay: 0.1s; }
+  @keyframes eq {
+    0%, 100% { height: 4px; }
+    50% { height: 14px; }
+  }
+
+  /* Toggle switch */
+  .lofi__switch {
+    position: relative;
+    width: 42px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    background: rgba(238, 241, 246, 0.06);
+    cursor: pointer;
+    padding: 0;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+  .lofi__knob {
+    position: absolute;
+    top: 50%;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-fog);
+    transform: translateY(-50%);
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), background 0.3s ease;
+  }
+  .lofi__switch[aria-checked='true'] {
+    background: linear-gradient(135deg, var(--color-gold-bright), var(--color-gold));
+    border-color: var(--color-gold);
+  }
+  .lofi__switch[aria-checked='true'] .lofi__knob {
+    transform: translateY(-50%) translateX(18px);
+    background: var(--color-ink);
+  }
+
+  @media (max-width: 600px) {
+    .lofi__label { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lofi.is-playing .lofi__eq span { animation: none; height: 10px; }
+    .lofi__knob { transition: none; }
+  }
+</style>
+
+<script>
+  const wrap = document.querySelector('.lofi');
+  const btn = document.getElementById('lofi-toggle');
+  const audio = document.getElementById('lofi-audio') as HTMLAudioElement | null;
+  if (wrap && btn && audio) {
+    audio.volume = 0.22;
+    const KEY = 'pl-lofi';
+
+    const setState = (playing: boolean) => {
+      wrap.classList.toggle('is-playing', playing);
+      btn.setAttribute('aria-checked', String(playing));
+    };
+
+    const play = async () => {
+      try {
+        await audio.play();
+        setState(true);
+        localStorage.setItem(KEY, 'on');
+      } catch {
+        setState(false); // autoplay blocked or file missing
+      }
+    };
+    const pause = () => {
+      audio.pause();
+      setState(false);
+      localStorage.setItem(KEY, 'off');
+    };
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) play();
+      else pause();
+    });
+
+    // Resume if the visitor previously had it on.
+    if (localStorage.getItem(KEY) === 'on') {
+      play();
+      window.addEventListener(
+        'pointerdown',
+        function resume() {
+          if (audio.paused) play();
+        },
+        { once: true },
+      );
+    }
+  }
+</script>

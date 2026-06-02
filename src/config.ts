@@ -29,6 +29,9 @@ export const SITE = {
   gscVerification: 'UiVkelv495WDclhAQzL8v8Jv3RhTd4HcNOHdte8VxmU',
   // Contact form endpoint — Web3Forms (see README)
   web3formsKey: 'ed595b2a-4a5f-40f8-9d23-6feff0755812',
+  // Optional lo-fi background track. Set to a royalty-free file in /public/audio
+  // to show the floating player (off by default). null = no player.
+  lofiTrack: '/audio/lofi.mp3' as string | null,
 } as const;
 
 export const SOCIAL_LIST = [

@@ -4,6 +4,7 @@ import SEO from '../components/SEO.astro';
 import Atmosphere from '../components/Atmosphere.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import LofiPlayer from '../components/LofiPlayer.astro';
 import { useTranslations, otherLocale } from '../i18n';
 import type { Locale } from '../i18n/routes';
 
@@ -77,6 +78,7 @@ const favicon =
       <slot />
     </main>
     <Footer locale={locale} />
+    <LofiPlayer locale={locale} />
 
     <script>
       import '../scripts/ux.ts';
