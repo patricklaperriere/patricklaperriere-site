@@ -6,6 +6,7 @@ import Hero from '../Hero.astro';
 import Marquee from '../Marquee.astro';
 import ServiceCard from '../ServiceCard.astro';
 import ProjectCard from '../ProjectCard.astro';
+import FaqList from '../FaqList.astro';
 import CtaBand from '../CtaBand.astro';
 
 interface Props {
@@ -78,6 +79,8 @@ const featured = featuredProjects();
     </div>
   </div>
 </section>
+
+<FaqList title={tr.homeFaq.title} faq={tr.homeFaq.items} />
 
 <CtaBand locale={locale} />
 

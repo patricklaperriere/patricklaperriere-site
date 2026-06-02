@@ -24,6 +24,7 @@ export const en = {
     secondary: 'See my work',
     contactPrimary: "Let's build your project",
     viewProject: 'View project',
+    readArticle: 'Read the article',
     visitSite: 'Visit site',
     allWork: 'All work',
     backToWork: '← Back to work',
@@ -189,6 +190,17 @@ export const en = {
       { icon: '↗', t: 'SEO built in', d: 'Every page is designed to be found on Google from day one.' },
       { icon: '⇄', t: 'Bilingual', d: 'Native FR/EN, well-ranked in both languages.' },
       { icon: '◇', t: 'Custom', d: 'No generic template. A unique site, true to your brand.' },
+    ],
+  },
+
+  homeFaq: {
+    title: 'Frequently asked questions',
+    items: [
+      { q: 'How much does a website cost?', a: 'Every project is unique. After a short call to understand your needs, I send you a free, detailed quote with no surprises and no hidden fees.' },
+      { q: 'How long does a website take?', a: 'Most marketing sites go live in 2 to 4 weeks, depending on page count and content. I give you a clear timeline from the start.' },
+      { q: 'Do you work with clients outside Quebec?', a: 'Yes. I’m based in Laval, but I work remotely with clients across Canada and the United States, in both French and English.' },
+      { q: 'Do you build bilingual websites?', a: 'Absolutely. I build truly bilingual sites (FR/EN), with content optimized separately in each language and clean search ranking in both.' },
+      { q: 'Is SEO included?', a: 'Yes. Every site is built with search ranking in mind from the first line: speed, structure, structured data and optimized tags. A beautiful site nobody can find is useless.' },
     ],
   },
 

@@ -76,6 +76,24 @@ copy. Edit those two files and both languages stay in sync structurally.
 
 Add an entry to `src/data/projets.ts` (each field has `fr` + `en`). A case-study
 page is generated automatically at `/realisations/<slug>` and `/en/work/<slug>`.
+Drop a screenshot at `public/work/<slug>.webp` (1280×800) — it appears on the
+card and the case-study hero.
+
+### Adding a blog article
+
+Blog posts are a content collection in `src/content/blog/*.md`. Each post needs
+frontmatter: `title`, `description`, `lang` (`fr`|`en`), `slug`, `translationKey`
+(shared between a FR post and its EN counterpart so hreflang can pair them),
+`pubDate`, `tags`, optional `draft`. FR posts route to `/blogue/<slug>`, EN to
+`/en/blog/<slug>`. Index pages and `BlogPosting` schema are generated automatically.
+
+### Generating images
+
+- **OG images:** `npm run og` regenerates `public/og/*` (default + per service +
+  per project) from `scripts/og.mjs`.
+- **Project screenshots:** captured from the live sites with headless Chrome and
+  optimized to WebP. Re-capture by screenshotting at 1366×854 and resizing to a
+  1280×800 WebP into `public/work/<slug>.webp`.
 
 ---
 

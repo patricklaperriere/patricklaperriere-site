@@ -7,9 +7,11 @@ Lighthouse desktop preset, headless Chrome.
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 | --- | :---: | :---: | :---: | :---: |
-| Home (`/`) | **100** | **100** | **100** | **100** |
+| Home (`/`) — incl. FAQ + project images | **100** | **100** | **100** | **100** |
 | Service (`/services/creation-site-web`) | **100** | **100** | **100** | **100** |
 | Contact (`/contact`) | **100** | **100** | **100** | **100** |
+| Case study (`/realisations/hp-addik`) — with screenshot | **100** | **100** | **100** | **100** |
+| Blog article (`/blogue/vitesse-site-web-pme`) | **100** | **100** | **100** | **100** |
 
 ## Core Web Vitals (home, desktop)
 

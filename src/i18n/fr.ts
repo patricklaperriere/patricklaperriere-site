@@ -25,6 +25,7 @@ export const fr = {
     secondary: 'Voir mes réalisations',
     contactPrimary: 'Démarrons votre projet',
     viewProject: 'Voir le projet',
+    readArticle: 'Lire l’article',
     visitSite: 'Visiter le site',
     allWork: 'Toutes les réalisations',
     backToWork: '← Retour aux réalisations',
@@ -192,6 +193,17 @@ export const fr = {
       { icon: '↗', t: 'SEO intégré', d: 'Chaque page est pensée pour être trouvée sur Google dès le lancement.' },
       { icon: '⇄', t: 'Bilingue', d: 'FR/EN natif et bien référencé dans les deux langues.' },
       { icon: '◇', t: 'Sur mesure', d: 'Pas de template générique. Un site unique, fidèle à votre marque.' },
+    ],
+  },
+
+  homeFaq: {
+    title: 'Questions fréquentes',
+    items: [
+      { q: 'Combien coûte un site web ?', a: 'Chaque projet est unique. Après un court appel pour comprendre vos besoins, je vous envoie une soumission gratuite et détaillée, sans surprise ni frais cachés.' },
+      { q: 'Combien de temps pour livrer un site ?', a: 'La plupart des sites vitrines sont en ligne en 2 à 4 semaines, selon le nombre de pages et le contenu. Je vous donne un échéancier clair dès le départ.' },
+      { q: 'Travaillez-vous avec des clients hors Québec ?', a: 'Oui. Je suis basé à Laval, mais je travaille à distance avec des clients partout au Canada et aux États-Unis, en français comme en anglais.' },
+      { q: 'Faites-vous des sites bilingues ?', a: 'Absolument. Je conçois des sites vraiment bilingues (FR/EN), avec un contenu optimisé séparément dans chaque langue et un référencement propre dans les deux.' },
+      { q: 'Le SEO est-il inclus ?', a: 'Oui. Chaque site est construit avec le référencement en tête dès la première ligne : vitesse, structure, données structurées et balises optimisées. Un beau site que personne ne trouve ne sert à rien.' },
     ],
   },
 

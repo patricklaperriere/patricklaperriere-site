@@ -153,6 +153,31 @@ export function creativeWorkSchema(opts: {
   };
 }
 
+/** BlogPosting — for a blog article. */
+export function articleSchema(opts: {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  locale: Locale;
+  datePublished: string;
+  dateModified?: string;
+}) {
+  return {
+    '@type': 'BlogPosting',
+    headline: opts.title,
+    description: opts.description,
+    url: abs(opts.url),
+    mainEntityOfPage: abs(opts.url),
+    ...(opts.image ? { image: abs(opts.image) } : {}),
+    inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
+    datePublished: opts.datePublished,
+    dateModified: opts.dateModified ?? opts.datePublished,
+    author: { '@id': `${SITE.domain}/#person` },
+    publisher: { '@id': `${SITE.domain}/#person` },
+  };
+}
+
 /** Wrap one or more schema nodes into a single @graph document. */
 export function graph(nodes: object[]) {
   return {

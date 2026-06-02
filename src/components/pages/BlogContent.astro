@@ -1,15 +1,23 @@
 ---
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
+import { blogPostPath, type Post } from '../../lib/blog';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 
 interface Props {
   locale: Locale;
+  posts: Post[];
 }
-const { locale } = Astro.props;
+const { locale, posts } = Astro.props;
 const tr = useTranslations(locale);
 const b = tr.blog;
+
+const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -26,26 +34,62 @@ const crumbs = [
 </section>
 
 <section class="section-tight container-pl">
-  <div class="blog-soon reveal">
-    <span class="blog-soon__icon" aria-hidden="true">✦</span>
-    <p>{b.soon}</p>
-  </div>
+  {posts.length === 0 ? (
+    <div class="blog-soon reveal">
+      <span class="blog-soon__icon" aria-hidden="true">✦</span>
+      <p>{b.soon}</p>
+    </div>
+  ) : (
+    <ul class="post-list">
+      {posts.map((post, i) => (
+        <li class="reveal" data-delay={`${i * 70}ms`}>
+          <a href={blogPostPath(locale, post.data.slug)} class="post-card card">
+            <div class="post-card__meta">
+              <time datetime={post.data.pubDate.toISOString()}>{dateFmt.format(post.data.pubDate)}</time>
+              {post.data.tags[0] && <span class="post-card__tag">{post.data.tags[0]}</span>}
+            </div>
+            <h2 class="post-card__title">{post.data.title}</h2>
+            <p class="post-card__desc">{post.data.description}</p>
+            <span class="post-card__more">{tr.cta.readArticle} <span aria-hidden="true">→</span></span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )}
 </section>
 
 <CtaBand locale={locale} />
 
 <style>
   .blog-soon {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    gap: 1rem;
-    padding: clamp(3rem, 8vw, 6rem) 2rem;
-    border: 1px dashed var(--line-strong);
-    border-radius: 20px;
-    color: var(--color-fog);
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 1rem; padding: clamp(3rem, 8vw, 6rem) 2rem;
+    border: 1px dashed var(--line-strong); border-radius: 20px; color: var(--color-fog);
   }
   .blog-soon__icon { font-size: 1.8rem; color: var(--color-gold); }
   .blog-soon p { margin: 0; font-size: 1.1rem; }
+
+  .post-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.25rem; }
+  .post-card {
+    display: block;
+    padding: 1.8rem;
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s, background 0.3s;
+  }
+  .post-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
+    background: linear-gradient(180deg, rgba(232,199,154,0.05), rgba(238,241,246,0.01));
+  }
+  .post-card__meta {
+    display: flex; gap: 1rem; align-items: center;
+    font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-fog);
+    margin-bottom: 0.8rem;
+  }
+  .post-card__tag {
+    padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 999px;
+    color: var(--color-gold);
+  }
+  .post-card__title { font-size: 1.5rem; margin: 0 0 0.6rem; max-width: 30ch; }
+  .post-card__desc { color: var(--color-fog); line-height: 1.55; margin: 0 0 1rem; max-width: 60ch; }
+  .post-card__more { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-gold-bright); }
 </style>
