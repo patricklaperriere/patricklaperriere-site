@@ -1,0 +1,82 @@
+---
+import { SITE } from '../config';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  /** Equivalent page path in each language — drives hreflang. */
+  alternates: { fr: string; en: string };
+  /** Canonical path (defaults to the current pathname). */
+  path?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'profile';
+  schema?: object | null;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale,
+  alternates,
+  path,
+  ogImage = SITE.ogImage,
+  ogType = 'website',
+  schema = null,
+  noindex = false,
+} = Astro.props;
+
+const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
+
+// Normalize: strip trailing slash except root.
+const norm = (p: string) => (p !== '/' && p.endsWith('/') ? p.slice(0, -1) : p);
+
+const canonicalPath = norm(path ?? Astro.url.pathname);
+const canonical = abs(canonicalPath);
+const ogImageAbs = abs(ogImage);
+
+const frUrl = abs(norm(alternates.fr));
+const enUrl = abs(norm(alternates.en));
+const ogLocale = locale === 'fr' ? 'fr_CA' : 'en_CA';
+const altLocale = locale === 'fr' ? 'en_CA' : 'fr_CA';
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+{noindex
+  ? <meta name="robots" content="noindex,nofollow" />
+  : <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />}
+
+<meta name="author" content={SITE.name} />
+{SITE.gscVerification && <meta name="google-site-verification" content={SITE.gscVerification} />}
+
+{/* hreflang — every page links its FR/EN equivalents + x-default */}
+<link rel="alternate" hreflang="fr-CA" href={frUrl} />
+<link rel="alternate" hreflang="en-CA" href={enUrl} />
+<link rel="alternate" hreflang="x-default" href={frUrl} />
+
+{/* Open Graph */}
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:locale" content={ogLocale} />
+<meta property="og:locale:alternate" content={altLocale} />
+<meta property="og:image" content={ogImageAbs} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={title} />
+
+{/* Twitter */}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageAbs} />
+<meta name="twitter:image:alt" content={title} />
+
+{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

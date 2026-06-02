@@ -1,0 +1,68 @@
+---
+interface Props {
+  title: string;
+  faq: readonly { q: string; a: string }[];
+}
+const { title, faq } = Astro.props;
+---
+
+<section class="faq section-tight">
+  <div class="container-pl">
+    <h2 class="faq__title reveal">{title}</h2>
+    <div class="faq__list">
+      {faq.map((item, i) => (
+        <details class="faq__item reveal" data-delay={`${i * 60}ms`}>
+          <summary>
+            <span>{item.q}</span>
+            <span class="faq__icon" aria-hidden="true">+</span>
+          </summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <style>
+    .faq__title {
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      margin: 0 0 2rem;
+    }
+    .faq__list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 780px;
+    }
+    .faq__item {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(238, 241, 246, 0.02);
+      overflow: hidden;
+    }
+    .faq__item summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1.15rem 1.4rem;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 1.02rem;
+      list-style: none;
+    }
+    .faq__item summary::-webkit-details-marker { display: none; }
+    .faq__icon {
+      flex-shrink: 0;
+      color: var(--color-gold);
+      font-size: 1.3rem;
+      transition: transform 0.25s ease;
+    }
+    .faq__item[open] .faq__icon { transform: rotate(45deg); }
+    .faq__item p {
+      margin: 0;
+      padding: 0 1.4rem 1.3rem;
+      color: var(--color-fog);
+      line-height: 1.6;
+    }
+  </style>
+</section>

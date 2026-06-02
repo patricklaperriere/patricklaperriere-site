@@ -1,0 +1,100 @@
+---
+import type { Project } from '../data/projets';
+import { loc } from '../data/projets';
+import type { Locale } from '../i18n/routes';
+import { workBase } from '../i18n/routes';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+  cta: string;
+  index?: number;
+}
+const { project, locale, cta, index = 0 } = Astro.props;
+const href = `${workBase[locale]}/${project.slug}`;
+---
+
+<a
+  href={href}
+  class="card project-card reveal"
+  data-tilt
+  data-delay={`${index * 90}ms`}
+  style={`--accent:${project.accent}`}
+>
+  <div class="project-card__top">
+    <span class="project-card__index">0{index + 1}</span>
+    <span class="project-card__year">{project.year}</span>
+  </div>
+  <h3 class="project-card__title">{loc(project.title, locale)}</h3>
+  <p class="project-card__tagline">{loc(project.tagline, locale)}</p>
+  <ul class="project-card__stack" aria-hidden="true">
+    {project.stack.slice(0, 3).map((s) => <li>{s}</li>)}
+  </ul>
+  <span class="project-card__cta">{cta} <span aria-hidden="true">→</span></span>
+
+  <style>
+    .project-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.9rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.2s ease-out;
+      transform-style: preserve-3d;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(120% 80% at 100% 0, color-mix(in srgb, var(--accent) 14%, transparent), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .project-card:hover {
+      border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    }
+    .project-card:hover::before { opacity: 1; }
+    .project-card__top {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-fog);
+      margin-bottom: 2.5rem;
+    }
+    .project-card__index { color: var(--accent); }
+    .project-card__title {
+      font-size: 1.5rem;
+      margin: 0 0 0.6rem;
+    }
+    .project-card__tagline {
+      color: var(--color-fog);
+      font-size: 0.96rem;
+      line-height: 1.5;
+      margin: 0 0 1.4rem;
+      flex: 1;
+    }
+    .project-card__stack {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0;
+      margin: 0 0 1.4rem;
+    }
+    .project-card__stack li {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-fog);
+      padding: 0.3rem 0.6rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+    }
+    .project-card__cta {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--color-gold-bright);
+    }
+  </style>
+</a>

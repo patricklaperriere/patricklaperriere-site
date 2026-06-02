@@ -1,0 +1,45 @@
+---
+import { useTranslations, path } from '../i18n';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+---
+
+<section class="cta-band section">
+  <div class="container-pl cta-band__inner reveal">
+    <p class="kicker">{tr.finalCta.kicker}</p>
+    <h2 class="cta-band__title">{tr.finalCta.title}</h2>
+    <p class="cta-band__lead">{tr.finalCta.lead}</p>
+    <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.25">
+      {tr.cta.primary} <span aria-hidden="true">→</span>
+    </a>
+  </div>
+
+  <style>
+    .cta-band__inner {
+      text-align: center;
+      max-width: 720px;
+      margin-inline: auto;
+      padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background:
+        radial-gradient(120% 120% at 50% 0%, rgba(232, 199, 154, 0.08), transparent 60%),
+        rgba(238, 241, 246, 0.02);
+    }
+    .cta-band__title {
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      margin: 1rem 0 1rem;
+    }
+    .cta-band__lead {
+      color: var(--color-fog);
+      font-size: 1.1rem;
+      max-width: 46ch;
+      margin: 0 auto 2rem;
+    }
+  </style>
+</section>

@@ -1,0 +1,27 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import HomeContent from '../../components/pages/HomeContent.astro';
+import { routes } from '../../i18n/routes';
+import { graph, personSchema, webSiteSchema, professionalServiceSchema } from '../../lib/schema';
+
+const locale = 'en' as const;
+const title = 'Patrick Laperrière · Bilingual Web Developer in Laval';
+const description =
+  'Bilingual freelance web developer in Laval. I build fast, beautiful, SEO-optimized websites. Quebec, Canada and the United States. Free quote.';
+
+const schema = graph([
+  personSchema(locale),
+  webSiteSchema(locale),
+  professionalServiceSchema(locale),
+]);
+---
+
+<Layout
+  title={title}
+  description={description}
+  locale={locale}
+  alternates={routes.home}
+  schema={schema}
+>
+  <HomeContent locale={locale} />
+</Layout>

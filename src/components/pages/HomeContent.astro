@@ -1,0 +1,97 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import { featuredProjects } from '../../data/projets';
+import Hero from '../Hero.astro';
+import Marquee from '../Marquee.astro';
+import ServiceCard from '../ServiceCard.astro';
+import ProjectCard from '../ProjectCard.astro';
+import CtaBand from '../CtaBand.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+
+const services = [tr.services.web, tr.services.seo, tr.services.shopify];
+const featured = featuredProjects();
+---
+
+<Hero locale={locale} />
+
+<Marquee locale={locale} />
+
+{/* Services */}
+<section class="section" id="services">
+  <div class="container-pl">
+    <header class="section-head reveal">
+      <p class="kicker">{tr.servicesSection.kicker}</p>
+      <h2 class="section-head__title">{tr.servicesSection.title}</h2>
+      <p class="section-head__lead">{tr.servicesSection.lead}</p>
+    </header>
+    <div class="grid-3">
+      {services.map((s, i) => (
+        <ServiceCard
+          icon={s.icon}
+          title={s.title}
+          blurb={s.blurb}
+          href={path(s.key, locale)}
+          cta={tr.cta.seeServices}
+          index={i}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Featured work */}
+<section class="section" id="work">
+  <div class="container-pl">
+    <header class="section-head section-head--row reveal">
+      <div>
+        <p class="kicker">{tr.workSection.kicker}</p>
+        <h2 class="section-head__title">{tr.workSection.featuredTitle}</h2>
+      </div>
+      <a href={path('work', locale)} class="btn btn-ghost">{tr.cta.allWork}</a>
+    </header>
+    <div class="grid-3">
+      {featured.map((p, i) => (
+        <ProjectCard project={p} locale={locale} cta={tr.cta.viewProject} index={i} />
+      ))}
+    </div>
+  </div>
+</section>
+
+{/* Reassurance */}
+<section class="section-tight">
+  <div class="container-pl">
+    <h2 class="section-head__title reveal" style="margin-bottom:2.5rem">{tr.reassurance.title}</h2>
+    <div class="grid-4">
+      {tr.reassurance.items.map((item, i) => (
+        <div class="reassure reveal" data-delay={`${i * 80}ms`}>
+          <span class="reassure__icon" aria-hidden="true">{item.icon}</span>
+          <h3 class="reassure__title">{item.t}</h3>
+          <p class="reassure__text">{item.d}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<CtaBand locale={locale} />
+
+<style>
+  .reassure {
+    padding: 1.5rem;
+    border-left: 1px solid var(--line);
+  }
+  .reassure__icon {
+    display: block;
+    font-size: 1.5rem;
+    color: var(--color-gold);
+    margin-bottom: 0.9rem;
+  }
+  .reassure__title { font-size: 1.15rem; margin: 0 0 0.5rem; }
+  .reassure__text { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0; }
+</style>

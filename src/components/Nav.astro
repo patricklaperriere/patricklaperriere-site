@@ -1,0 +1,221 @@
+---
+import { useTranslations, path } from '../i18n';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+  /** Equivalent path in the other language (for the language switcher). */
+  alt: string;
+}
+
+const { locale, alt } = Astro.props;
+const tr = useTranslations(locale);
+
+const links = [
+  { href: path('services', locale), label: tr.nav.services },
+  { href: path('work', locale), label: tr.nav.work },
+  { href: path('about', locale), label: tr.nav.about },
+  { href: path('blog', locale), label: tr.nav.blog },
+];
+
+const home = path('home', locale);
+const contact = path('contact', locale);
+const current = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
+---
+
+<header class="nav">
+  <div class="container-pl nav__inner">
+    <a href={home} class="nav__logo magnetic" data-magnetic="0.25" aria-label={tr.brand}>
+      <span class="nav__mono">PL</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      {links.map((l) => (
+        <a href={l.href} class:list={['nav__link', isActive(l.href) && 'is-active']}>
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="nav__actions">
+      <a href={alt} class="nav__lang" hreflang={locale === 'fr' ? 'en-CA' : 'fr-CA'} aria-label={tr.switchToLabel}>
+        {tr.switchTo}
+      </a>
+      <a href={contact} class="btn btn-primary nav__cta magnetic" data-magnetic="0.2">
+        {tr.cta.primary}
+      </a>
+      <button class="nav__burger" id="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-mobile">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav__mobile" id="nav-mobile" hidden>
+    {links.map((l) => <a href={l.href} class="nav__mobile-link">{l.label}</a>)}
+    <a href={contact} class="btn btn-primary nav__mobile-cta">{tr.cta.primary}</a>
+    <a href={alt} class="nav__mobile-lang" hreflang={locale === 'fr' ? 'en-CA' : 'fr-CA'}>{tr.langName === 'Français' ? 'English' : 'Français'}</a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background: color-mix(in srgb, var(--color-ink) 72%, transparent);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    gap: 1.5rem;
+  }
+  .nav__logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: linear-gradient(135deg, rgba(232, 199, 154, 0.16), transparent);
+  }
+  .nav__mono {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.1rem;
+    letter-spacing: -0.04em;
+    color: var(--color-gold-bright);
+  }
+  .nav__links {
+    display: flex;
+    gap: 1.75rem;
+    margin-inline: auto;
+  }
+  .nav__link {
+    font-size: 0.92rem;
+    color: var(--color-fog);
+    position: relative;
+    transition: color 0.2s ease;
+  }
+  .nav__link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0;
+    height: 1px;
+    background: var(--color-gold);
+    transition: width 0.25s ease;
+  }
+  .nav__link:hover,
+  .nav__link.is-active {
+    color: var(--color-bone);
+  }
+  .nav__link:hover::after,
+  .nav__link.is-active::after {
+    width: 100%;
+  }
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+  }
+  .nav__lang {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    color: var(--color-fog);
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .nav__lang:hover {
+    color: var(--color-gold-bright);
+    border-color: var(--color-gold);
+  }
+  .nav__cta {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+  .nav__burger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    width: 40px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .nav__burger span {
+    width: 18px;
+    height: 2px;
+    background: var(--color-bone);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav__burger[aria-expanded='true'] span:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+  .nav__burger[aria-expanded='true'] span:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+  .nav__mobile {
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1rem clamp(1.25rem, 4vw, 2.5rem) 1.5rem;
+    border-top: 1px solid var(--line);
+    background: var(--color-ink2);
+  }
+  .nav__mobile-link {
+    padding: 0.85rem 0;
+    font-size: 1.05rem;
+    border-bottom: 1px solid var(--line);
+    color: var(--color-bone);
+  }
+  .nav__mobile-cta {
+    margin-top: 1rem;
+    justify-content: center;
+  }
+  .nav__mobile-lang {
+    margin-top: 0.75rem;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-fog);
+  }
+
+  @media (max-width: 860px) {
+    .nav__links { display: none; }
+    .nav__cta { display: none; }
+    .nav__burger { display: flex; }
+    .nav__mobile[data-open='true'] { display: flex; }
+  }
+</style>
+
+<script>
+  const burger = document.getElementById('nav-burger');
+  const menu = document.getElementById('nav-mobile');
+  if (burger && menu) {
+    burger.addEventListener('click', () => {
+      const open = burger.getAttribute('aria-expanded') === 'true';
+      burger.setAttribute('aria-expanded', String(!open));
+      if (open) {
+        menu.removeAttribute('data-open');
+        menu.hidden = true;
+      } else {
+        menu.hidden = false;
+        menu.setAttribute('data-open', 'true');
+      }
+    });
+  }
+</script>

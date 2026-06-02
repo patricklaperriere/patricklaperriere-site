@@ -1,0 +1,27 @@
+{
+  "name": "patricklaperriere-com",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "patricklaperriere.com — bilingual FR/EN freelance web developer site (Astro, SEO-first)",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.5.1",
+    "@fontsource-variable/bricolage-grotesque": "^5.2.10",
+    "@fontsource-variable/jetbrains-mono": "^5.2.8",
+    "@fontsource/instrument-serif": "^5.2.8",
+    "@tailwindcss/postcss": "^4.3.0",
+    "astro": "^6.4.3",
+    "tailwindcss": "^4.1.11"
+  },
+  "devDependencies": {
+    "gsap": "^3.13.0",
+    "lenis": "^1.3.1"
+  }
+}

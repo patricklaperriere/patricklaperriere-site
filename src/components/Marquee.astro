@@ -1,0 +1,28 @@
+---
+import { useTranslations } from '../i18n';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const items = tr.marquee.items;
+---
+
+<section class="marquee-section" aria-label={tr.marquee.label}>
+  <div class="marquee">
+    <div class="marquee__track">
+      {items.map((it) => <span class="marquee__item">{it}</span>)}
+      {items.map((it) => <span class="marquee__item" aria-hidden="true">{it}</span>)}
+    </div>
+  </div>
+
+  <style>
+    .marquee-section {
+      padding-block: 1.75rem;
+      border-block: 1px solid var(--line);
+      background: rgba(238, 241, 246, 0.015);
+    }
+  </style>
+</section>

@@ -1,0 +1,62 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  blurb: string;
+  href: string;
+  cta: string;
+  index?: number;
+}
+const { icon, title, blurb, href, cta, index = 0 } = Astro.props;
+---
+
+<a href={href} class="card service-card reveal" data-delay={`${index * 90}ms`}>
+  <span class="service-card__icon" aria-hidden="true">{icon}</span>
+  <h3 class="service-card__title">{title}</h3>
+  <p class="service-card__blurb">{blurb}</p>
+  <span class="service-card__cta">{cta} <span aria-hidden="true">→</span></span>
+
+  <style>
+    .service-card {
+      display: flex;
+      flex-direction: column;
+      padding: 1.9rem;
+      transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s, background 0.3s;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
+      background: linear-gradient(180deg, rgba(232, 199, 154, 0.06), rgba(238, 241, 246, 0.01));
+    }
+    .service-card__icon {
+      font-size: 1.5rem;
+      color: var(--color-gold);
+      width: 52px;
+      height: 52px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      margin-bottom: 1.4rem;
+    }
+    .service-card__title {
+      font-size: 1.4rem;
+      margin: 0 0 0.7rem;
+    }
+    .service-card__blurb {
+      color: var(--color-fog);
+      font-size: 0.98rem;
+      line-height: 1.55;
+      margin: 0 0 1.4rem;
+      flex: 1;
+    }
+    .service-card__cta {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.04em;
+      color: var(--color-gold-bright);
+      transition: gap 0.2s;
+    }
+  </style>
+</a>

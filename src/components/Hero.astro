@@ -1,0 +1,132 @@
+---
+import { useTranslations, path } from '../i18n';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+
+// Split the name so each word animates in independently (LCP-safe: it's
+// real static text, the animation is a CSS keyframe over visible content).
+const nameWords = tr.hero.name.split(' ');
+---
+
+<section class="hero">
+  <div class="container-pl hero__inner">
+    <p class="kicker hero__kicker reveal">{tr.hero.kicker}</p>
+
+    <h1 class="hero__name" data-scramble>
+      {nameWords.map((w, i) => (
+        <span class="hero__word" style={`--i:${i}`}>{w}</span>
+      ))}
+    </h1>
+
+    <p class="hero__punch reveal" data-delay="120ms">
+      <span class="text-gold-grad">{tr.hero.punch}</span>
+    </p>
+    <p class="hero__sub reveal" data-delay="200ms">{tr.hero.sub}</p>
+
+    <div class="hero__cta reveal" data-delay="280ms">
+      <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.25">
+        {tr.cta.primary}
+        <span aria-hidden="true">→</span>
+      </a>
+      <a href={path('work', locale)} class="btn btn-ghost magnetic" data-magnetic="0.2">
+        {tr.cta.secondary}
+      </a>
+    </div>
+
+    <p class="hero__status reveal" data-delay="360ms">
+      <span class="hero__dot"></span>{tr.status.replace('●', '').trim()}
+    </p>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    padding-block: clamp(4rem, 11vh, 8rem) clamp(3rem, 7vh, 5rem);
+  }
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .hero__kicker {
+    margin-bottom: 1.5rem;
+  }
+  .hero__name {
+    font-size: clamp(2.8rem, 11vw, 8.5rem);
+    line-height: 0.92;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.35em;
+  }
+  .hero__word {
+    display: inline-block;
+    background: linear-gradient(180deg, var(--color-bone), #b9c3d6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: heroWord 0.9s cubic-bezier(.2, .8, .2, 1) both;
+    animation-delay: calc(var(--i) * 110ms);
+  }
+  .hero__word:last-child {
+    background: linear-gradient(135deg, var(--color-gold-bright), var(--color-gold) 60%, #c9a878);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  @keyframes heroWord {
+    from { opacity: 0; transform: translateY(0.35em) rotate(2deg); }
+    to { opacity: 1; transform: none; }
+  }
+  .hero__punch {
+    font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+    font-weight: 500;
+    line-height: 1.25;
+    max-width: 22ch;
+    margin: 0 0 1rem;
+  }
+  .hero__sub {
+    color: var(--color-fog);
+    font-size: 1.05rem;
+    max-width: 52ch;
+    margin: 0 0 2.25rem;
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .hero__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: var(--color-bone);
+    opacity: 0.85;
+  }
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #46d28a;
+    box-shadow: 0 0 0 0 rgba(70, 210, 138, 0.6);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(70, 210, 138, 0.5); }
+    50% { box-shadow: 0 0 0 7px rgba(70, 210, 138, 0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__word { animation: none; }
+    .hero__dot { animation: none; }
+  }
+</style>

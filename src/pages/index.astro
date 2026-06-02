@@ -1,0 +1,27 @@
+---
+import Layout from '../layouts/Layout.astro';
+import HomeContent from '../components/pages/HomeContent.astro';
+import { routes } from '../i18n/routes';
+import { graph, personSchema, webSiteSchema, professionalServiceSchema } from '../lib/schema';
+
+const locale = 'fr' as const;
+const title = 'Patrick Laperrière · Développeur web bilingue à Laval';
+const description =
+  'Développeur web freelance bilingue à Laval. Je conçois des sites rapides, élégants et optimisés pour Google. Québec, Canada et États-Unis. Soumission gratuite.';
+
+const schema = graph([
+  personSchema(locale),
+  webSiteSchema(locale),
+  professionalServiceSchema(locale),
+]);
+---
+
+<Layout
+  title={title}
+  description={description}
+  locale={locale}
+  alternates={routes.home}
+  schema={schema}
+>
+  <HomeContent locale={locale} />
+</Layout>

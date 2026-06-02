@@ -1,0 +1,70 @@
+---
+// "Design by Patrick Laperrière" signature wordmark.
+// Dropped in the footer of client sites → dofollow backlink to patricklaperriere.com.
+// Also used in this site's own footer.
+//
+// The text is a fixed wordmark — identical in every language, never translated.
+import { SITE } from '../config';
+
+interface Props {
+  /** "muted" for subtle footer use, "card" for a bordered pill. */
+  variant?: 'muted' | 'card';
+}
+
+const { variant = 'muted' } = Astro.props;
+---
+
+<a
+  class:list={['pl-signature', variant === 'card' && 'pl-signature--card']}
+  href={SITE.domain}
+  rel="dofollow"
+  target="_blank"
+  aria-label="Design by Patrick Laperrière"
+>
+  <span class="pl-signature__label">Design by</span>
+  <span class="pl-signature__name">Patrick Laperrière</span>
+</a>
+
+<style>
+  .pl-signature {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--color-fog);
+    transition: color 0.25s ease;
+  }
+  .pl-signature--card {
+    padding: 0.5rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(238, 241, 246, 0.02);
+  }
+  .pl-signature__label {
+    opacity: 0.8;
+  }
+  .pl-signature__name {
+    position: relative;
+    font-weight: 600;
+    background: linear-gradient(110deg, var(--color-gold) 0%, var(--color-gold) 40%, var(--color-gold-bright) 50%, var(--color-gold) 60%, var(--color-gold) 100%);
+    background-size: 220% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    transition: background-position 0.6s ease;
+  }
+  .pl-signature:hover .pl-signature__name {
+    background-position: 0 0;
+  }
+  .pl-signature:hover {
+    color: var(--color-bone);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pl-signature__name {
+      transition: none;
+    }
+  }
+</style>
