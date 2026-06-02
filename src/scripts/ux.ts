@@ -111,41 +111,50 @@ function initTilt() {
 }
 
 /* ---- Text scramble on hover ------------------------------- */
+// Scrambles the text of each [data-scramble-word] inside a [data-scramble]
+// trigger WITHOUT destroying the elements — so per-word styling (the gold last
+// word) and the spacing between words are preserved across the animation.
 function initScramble() {
   if (reduceMotion) return;
-  const chars = '!<>-_\\/[]{}—=+*^?#________';
-  document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((el) => {
-    const original = el.textContent ?? '';
-    let frame = 0;
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ0123456789#%&/<>*';
+  document.querySelectorAll<HTMLElement>('[data-scramble]').forEach((root) => {
+    const found = root.querySelectorAll<HTMLElement>('[data-scramble-word]');
+    const items = found.length ? Array.from(found) : [root];
     let running = false;
+
     const run = () => {
       if (running) return;
       running = true;
-      frame = 0;
-      const total = 22;
+      const states = items.map((el) => ({ el, text: el.textContent ?? '' }));
+      const total = 18;
+      let frame = 0;
+
       const tick = () => {
-        let out = '';
-        for (let i = 0; i < original.length; i++) {
-          const c = original[i];
-          if (c === ' ') {
-            out += ' ';
-            continue;
+        for (const { el, text } of states) {
+          let out = '';
+          for (let i = 0; i < text.length; i++) {
+            const c = text[i];
+            if (c === ' ') {
+              out += ' ';
+              continue;
+            }
+            const reveal = (i / text.length) * total;
+            out += frame > reveal ? c : chars[(frame * 7 + i * 13) % chars.length];
           }
-          const reveal = (i / original.length) * total;
-          out += frame > reveal ? c : chars[Math.floor((frame * 7 + i * 13) % chars.length)];
+          el.textContent = out;
         }
-        el.textContent = out;
         frame++;
-        if (frame <= total + 4) {
+        if (frame <= total + 3) {
           requestAnimationFrame(tick);
         } else {
-          el.textContent = original;
+          for (const { el, text } of states) el.textContent = text;
           running = false;
         }
       };
       requestAnimationFrame(tick);
     };
-    el.addEventListener('pointerenter', run);
+
+    root.addEventListener('pointerenter', run);
   });
 }
 

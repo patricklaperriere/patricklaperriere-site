@@ -19,7 +19,7 @@ const nameWords = tr.hero.name.split(' ');
 
     <h1 class="hero__name" data-scramble>
       {nameWords.map((w, i) => (
-        <span class="hero__word" style={`--i:${i}`}>{w}</span>
+        <span class="hero__word" style={`--i:${i}`} data-scramble-word>{w}</span>
       ))}
     </h1>
 
@@ -63,7 +63,7 @@ const nameWords = tr.hero.name.split(' ');
     margin: 0 0 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    gap: 0 0.35em;
+    gap: 0 0.4em;
   }
   .hero__word {
     display: inline-block;
