@@ -1,0 +1,224 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import { SITE, SOCIAL_LIST } from '../../config';
+import Breadcrumb from '../Breadcrumb.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const c = tr.contact;
+const f = c.form;
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.nav.contact, url: path('contact', locale) },
+];
+
+const subject =
+  locale === 'fr'
+    ? 'Nouveau projet — patricklaperriere.com'
+    : 'New project — patricklaperriere.com';
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{c.kicker}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{c.h1}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{c.lead}</p>
+</section>
+
+<section class="section-tight container-pl contact__grid">
+  <form
+    id="contact-form"
+    class="contact__form reveal"
+    action="https://api.web3forms.com/submit"
+    method="POST"
+  >
+    <input type="hidden" name="access_key" value={SITE.web3formsKey} />
+    <input type="hidden" name="subject" value={subject} />
+    <input type="hidden" name="from_name" value="patricklaperriere.com" />
+    <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+    <div class="field">
+      <label for="name">{f.name}</label>
+      <input id="name" name="name" type="text" required placeholder={f.namePlaceholder} autocomplete="name" />
+    </div>
+
+    <div class="field">
+      <label for="email">{f.email}</label>
+      <input id="email" name="email" type="email" required placeholder={f.emailPlaceholder} autocomplete="email" />
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="projectType">{f.projectType}</label>
+        <select id="projectType" name="project_type">
+          {f.projectTypeOptions.map((o) => <option value={o}>{o}</option>)}
+        </select>
+      </div>
+      <div class="field">
+        <label for="budget">{f.budget}</label>
+        <select id="budget" name="budget">
+          {f.budgetOptions.map((o) => <option value={o}>{o}</option>)}
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="message">{f.message}</label>
+      <textarea id="message" name="message" rows="5" required placeholder={f.messagePlaceholder}></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary contact__submit magnetic" data-magnetic="0.15">
+      <span class="contact__submit-label" data-sending={f.sending}>{f.submit}</span>
+      <span aria-hidden="true">→</span>
+    </button>
+
+    <p class="contact__error" id="contact-error" hidden>{f.error}</p>
+  </form>
+
+  <div class="contact__success" id="contact-success" hidden>
+    <div class="contact__check" aria-hidden="true">
+      <svg viewBox="0 0 52 52" width="56" height="56"><circle cx="26" cy="26" r="24" fill="none" stroke="currentColor" stroke-width="2" opacity="0.3"/><path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M14 27l8 8 16-18" class="contact__check-path"/></svg>
+    </div>
+    <h2>{f.successTitle}</h2>
+    <p>{f.success}</p>
+  </div>
+
+  <aside class="contact__aside reveal" data-delay="120ms">
+    <p class="contact__or">{f.orEmail}</p>
+    <a href={`mailto:${SITE.email}`} class="contact__email">{SITE.email}</a>
+    <div class="contact__socials">
+      {SOCIAL_LIST.map((s) => (
+        <a href={s.url} target="_blank" rel="me noopener">{s.label}</a>
+      ))}
+    </div>
+  </aside>
+</section>
+
+<style>
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .contact__form { display: grid; gap: 1.25rem; }
+  .field { display: grid; gap: 0.5rem; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  label {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-fog);
+  }
+  input, select, textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: rgba(238, 241, 246, 0.03);
+    border: 1px solid var(--line-strong);
+    border-radius: 12px;
+    color: var(--color-bone);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  input::placeholder, textarea::placeholder { color: color-mix(in srgb, var(--color-fog) 75%, transparent); }
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--color-gold);
+    background: rgba(232, 199, 154, 0.05);
+  }
+  textarea { resize: vertical; }
+  select { appearance: none; cursor: pointer; }
+  .contact__submit { justify-content: center; margin-top: 0.5rem; }
+  .contact__error { color: #ff8a8a; font-size: 0.9rem; margin: 0; }
+
+  .contact__success {
+    grid-column: 1;
+    text-align: center;
+    padding: 3rem 2rem;
+    border: 1px solid color-mix(in srgb, var(--color-gold) 35%, transparent);
+    border-radius: 20px;
+    background: linear-gradient(180deg, rgba(232,199,154,0.07), rgba(238,241,246,0.01));
+    color: var(--color-gold-bright);
+  }
+  .contact__success h2 { color: var(--color-bone); margin: 1rem 0 0.5rem; }
+  .contact__success p { color: var(--color-fog); margin: 0; }
+  .contact__check-path {
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: draw 0.6s 0.1s ease forwards;
+  }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  .contact__aside {
+    padding: 1.9rem;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: rgba(238, 241, 246, 0.02);
+  }
+  .contact__or { font-size: 0.9rem; color: var(--color-fog); margin: 0 0 0.6rem; }
+  .contact__email {
+    font-family: var(--font-mono);
+    font-size: 1.05rem;
+    color: var(--color-gold-bright);
+    word-break: break-all;
+  }
+  .contact__socials { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 1.6rem; }
+  .contact__socials a { color: var(--color-bone); opacity: 0.8; font-size: 0.95rem; }
+  .contact__socials a:hover { opacity: 1; color: var(--color-gold-bright); }
+
+  @media (max-width: 860px) {
+    .contact__grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .contact__check-path { animation: none; stroke-dashoffset: 0; }
+  }
+</style>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const success = document.getElementById('contact-success');
+  const errorMsg = document.getElementById('contact-error');
+
+  if (form && success) {
+    form.addEventListener('submit', async (e) => {
+      const accessKey = (form.querySelector('[name="access_key"]') as HTMLInputElement)?.value;
+      // If no access key is configured yet, fall back to the native POST.
+      if (!accessKey || accessKey.startsWith('YOUR_')) return;
+
+      e.preventDefault();
+      errorMsg?.setAttribute('hidden', '');
+      const btn = form.querySelector('button[type="submit"] .contact__submit-label');
+      const original = btn?.textContent;
+      if (btn) btn.textContent = btn.getAttribute('data-sending') || '…';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        if (res.ok) {
+          form.setAttribute('hidden', '');
+          success.removeAttribute('hidden');
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error('bad status');
+        }
+      } catch {
+        errorMsg?.removeAttribute('hidden');
+        if (btn && original) btn.textContent = original;
+      }
+    });
+  }
+</script>

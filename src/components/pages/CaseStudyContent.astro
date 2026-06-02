@@ -1,0 +1,119 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import { workBase } from '../../i18n/routes';
+import type { Project } from '../../data/projets';
+import { loc } from '../../data/projets';
+import Breadcrumb from '../Breadcrumb.astro';
+import CtaBand from '../CtaBand.astro';
+
+interface Props {
+  locale: Locale;
+  project: Project;
+}
+const { locale, project } = Astro.props;
+const tr = useTranslations(locale);
+const ws = tr.workSection;
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.nav.work, url: path('work', locale) },
+  { name: loc(project.title, locale), url: `${workBase[locale]}/${project.slug}` },
+];
+
+const blocks = [
+  { label: ws.challenge, body: loc(project.challenge, locale) },
+  { label: ws.built, body: loc(project.built, locale) },
+  { label: ws.result, body: loc(project.result, locale) },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<article class="case" style={`--accent:${project.accent}`}>
+  <header class="page-head container-pl">
+    <p class="kicker reveal">{project.client} · {project.year}</p>
+    <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{loc(project.title, locale)}</span></h1>
+    <p class="lead reveal" data-delay="160ms">{loc(project.tagline, locale)}</p>
+
+    <div class="case__meta reveal" data-delay="240ms">
+      <div>
+        <span class="case__meta-label">{ws.role}</span>
+        <span class="case__meta-value">{loc(project.role, locale)}</span>
+      </div>
+      <div>
+        <span class="case__meta-label">{ws.stack}</span>
+        <span class="case__meta-value">{project.stack.join(' · ')}</span>
+      </div>
+      <div>
+        <a href={project.url} class="btn btn-primary magnetic" data-magnetic="0.2" target="_blank" rel="noopener">
+          {tr.cta.visitSite} <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container-pl case__body">
+    {blocks.map((b, i) => (
+      <section class="case__block reveal" data-delay={`${i * 80}ms`}>
+        <h2 class="case__block-label">{b.label}</h2>
+        <p>{b.body}</p>
+      </section>
+    ))}
+
+    <a href={path('work', locale)} class="case__back">{tr.cta.backToWork}</a>
+  </div>
+</article>
+
+<CtaBand locale={locale} />
+
+<style>
+  .case__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+  }
+  .case__meta-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-fog);
+    margin-bottom: 0.4rem;
+  }
+  .case__meta-value {
+    font-size: 0.98rem;
+    color: var(--color-bone);
+  }
+  .case__body {
+    display: grid;
+    gap: 2.5rem;
+    max-width: 760px;
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+  }
+  .case__block-label {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin: 0 0 0.8rem;
+  }
+  .case__block p {
+    color: var(--color-fog);
+    line-height: 1.75;
+    font-size: 1.08rem;
+    margin: 0;
+  }
+  .case__back {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-fog);
+    transition: color 0.2s;
+  }
+  .case__back:hover { color: var(--color-gold-bright); }
+</style>

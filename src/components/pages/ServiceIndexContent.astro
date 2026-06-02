@@ -1,0 +1,44 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import Breadcrumb from '../Breadcrumb.astro';
+import ServiceCard from '../ServiceCard.astro';
+import CtaBand from '../CtaBand.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const services = [tr.services.web, tr.services.seo, tr.services.shopify];
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.nav.services, url: path('services', locale) },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{tr.servicesSection.kicker}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{tr.servicesSection.title}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{tr.servicesSection.lead}</p>
+</section>
+
+<section class="section-tight container-pl">
+  <div class="grid-3">
+    {services.map((s, i) => (
+      <ServiceCard
+        icon={s.icon}
+        title={s.title}
+        blurb={s.blurb}
+        href={path(s.key, locale)}
+        cta={tr.cta.seeServices}
+        index={i}
+      />
+    ))}
+  </div>
+</section>
+
+<CtaBand locale={locale} />

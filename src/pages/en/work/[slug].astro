@@ -1,0 +1,44 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import CaseStudyContent from '../../../components/pages/CaseStudyContent.astro';
+import { useTranslations, path } from '../../../i18n';
+import { workBase } from '../../../i18n/routes';
+import { projects, loc } from '../../../data/projets';
+import { graph, breadcrumbSchema, creativeWorkSchema } from '../../../lib/schema';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const locale = 'en' as const;
+const { project } = Astro.props;
+const tr = useTranslations(locale);
+
+const frPath = `${workBase.fr}/${project.slug}`;
+const enPath = `${workBase.en}/${project.slug}`;
+const alternates = { fr: frPath, en: enPath };
+
+const title = `${loc(project.title, locale)} · ${tr.workSection.kicker} | Patrick Laperrière`;
+const description = loc(project.tagline, locale) + ' ' + loc(project.challenge, locale).slice(0, 110);
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.work, url: path('work', locale) },
+    { name: loc(project.title, locale), url: enPath },
+  ]),
+  creativeWorkSchema({
+    name: loc(project.title, locale),
+    description: loc(project.tagline, locale),
+    url: enPath,
+    locale,
+  }),
+]);
+---
+
+<Layout title={title} description={description.slice(0, 160)} locale={locale} alternates={alternates} schema={schema} ogType="article">
+  <CaseStudyContent locale={locale} project={project} />
+</Layout>

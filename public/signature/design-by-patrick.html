@@ -1,0 +1,58 @@
+<!--
+  ════════════════════════════════════════════════════════════════
+  « Design by Patrick Laperrière » — signature wordmark snippet
+  ════════════════════════════════════════════════════════════════
+  Copy-paste this whole block into the footer of any client site
+  (Shopify Liquid, WordPress, Webflow, plain HTML — anything).
+
+  • Self-contained: scoped .pl-sig-* classes + system fonts, no
+    external CSS or font files, won't clash with the host site.
+  • The link is DOFOLLOW on purpose (do NOT add rel="nofollow").
+  • The text is a fixed wordmark: "Design by Patrick Laperrière",
+    identical in every language — never translate it.
+
+  Live version & source: https://patricklaperriere.com
+  ════════════════════════════════════════════════════════════════
+-->
+<a
+  class="pl-sig"
+  href="https://patricklaperriere.com"
+  rel="dofollow"
+  target="_blank"
+  aria-label="Design by Patrick Laperrière"
+>
+  <span class="pl-sig__label">Design by</span>
+  <span class="pl-sig__name">Patrick Laperrière</span>
+</a>
+
+<style>
+  .pl-sig {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    font-family: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    text-decoration: none;
+    color: #8a97ad;
+    transition: color 0.25s ease;
+  }
+  .pl-sig__label { opacity: 0.8; }
+  .pl-sig__name {
+    font-weight: 600;
+    background: linear-gradient(110deg, #e8c79a 0%, #e8c79a 40%, #f4d9b0 50%, #e8c79a 60%, #e8c79a 100%);
+    background-size: 220% 100%;
+    background-position: 100% 0;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    transition: background-position 0.6s ease;
+  }
+  .pl-sig:hover { color: #c9d2e0; }
+  .pl-sig:hover .pl-sig__name { background-position: 0 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .pl-sig__name { transition: none; }
+  }
+</style>

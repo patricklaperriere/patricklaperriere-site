@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ServiceDetailContent from '../../../components/pages/ServiceDetailContent.astro';
+import { useTranslations, routes, path } from '../../../i18n';
+import { graph, breadcrumbSchema, faqSchema, professionalServiceSchema } from '../../../lib/schema';
+
+const locale = 'en' as const;
+const tr = useTranslations(locale);
+const s = tr.services.seo;
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.services, url: path('services', locale) },
+    { name: s.title, url: path('svcSeo', locale) },
+  ]),
+  faqSchema(s.faq),
+  professionalServiceSchema(locale),
+]);
+---
+
+<Layout title={s.seoTitle} description={s.seoDesc} locale={locale} alternates={routes.svcSeo} schema={schema}>
+  <ServiceDetailContent locale={locale} service="seo" />
+</Layout>

@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WorkIndexContent from '../../components/pages/WorkIndexContent.astro';
+import { useTranslations, routes, path } from '../../i18n';
+import { graph, breadcrumbSchema } from '../../lib/schema';
+
+const locale = 'fr' as const;
+const tr = useTranslations(locale);
+const title = 'Réalisations · projets web et e-commerce | Patrick Laperrière';
+const description =
+  'Études de cas de sites web et boutiques Shopify construits sur mesure : Inspection Habitation Outaouais, HP Addik, Envita Wellness. La preuve par les projets.';
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.work, url: path('work', locale) },
+  ]),
+]);
+---
+
+<Layout title={title} description={description} locale={locale} alternates={routes.work} schema={schema}>
+  <WorkIndexContent locale={locale} />
+</Layout>

@@ -1,0 +1,51 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import Breadcrumb from '../Breadcrumb.astro';
+import CtaBand from '../CtaBand.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const b = tr.blog;
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.nav.blog, url: path('blog', locale) },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{b.kicker}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{b.h1}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{b.lead}</p>
+</section>
+
+<section class="section-tight container-pl">
+  <div class="blog-soon reveal">
+    <span class="blog-soon__icon" aria-hidden="true">✦</span>
+    <p>{b.soon}</p>
+  </div>
+</section>
+
+<CtaBand locale={locale} />
+
+<style>
+  .blog-soon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    padding: clamp(3rem, 8vw, 6rem) 2rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: 20px;
+    color: var(--color-fog);
+  }
+  .blog-soon__icon { font-size: 1.8rem; color: var(--color-gold); }
+  .blog-soon p { margin: 0; font-size: 1.1rem; }
+</style>

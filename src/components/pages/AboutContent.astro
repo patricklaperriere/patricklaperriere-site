@@ -1,0 +1,93 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import Breadcrumb from '../Breadcrumb.astro';
+import CtaBand from '../CtaBand.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const a = tr.about;
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.nav.about, url: path('about', locale) },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{a.kicker}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{a.h1}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{a.lead}</p>
+</section>
+
+<section class="section-tight container-pl about__grid">
+  <div class="prose about__body reveal">
+    {a.body.map((p) => <p>{p}</p>)}
+    <p class="about__status"><span class="about__dot"></span>{tr.status.replace('●', '').trim()}</p>
+  </div>
+
+  <aside class="about__why reveal" data-delay="120ms">
+    <h2 class="about__why-title">{a.whyTitle}</h2>
+    <ul>
+      {a.why.map((w) => (
+        <li>
+          <h3>{w.t}</h3>
+          <p>{w.d}</p>
+        </li>
+      ))}
+    </ul>
+  </aside>
+</section>
+
+<CtaBand locale={locale} />
+
+<style>
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .about__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-bone) !important;
+    margin-top: 1.5rem;
+  }
+  .about__dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #46d28a; box-shadow: 0 0 10px rgba(70,210,138,0.6);
+  }
+  .about__why {
+    padding: 1.9rem;
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(232,199,154,0.05), rgba(238,241,246,0.01));
+    position: sticky;
+    top: 90px;
+  }
+  .about__why-title {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-fog);
+    margin: 0 0 1.4rem;
+  }
+  .about__why ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.3rem; }
+  .about__why h3 { font-size: 1.08rem; margin: 0 0 0.3rem; color: var(--color-gold-bright); }
+  .about__why p { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0; }
+
+  @media (max-width: 860px) {
+    .about__grid { grid-template-columns: 1fr; }
+    .about__why { position: static; }
+  }
+</style>

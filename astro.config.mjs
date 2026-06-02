@@ -9,7 +9,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://patricklaperriere.com',
   output: 'static',
-  trailingSlash: 'ignore',
+  // Canonical URLs have no trailing slash; keep sitemap + hreflang + <link
+  // rel=canonical> all in agreement (Cloudflare Pages serves /foo/index.html
+  // at /foo either way).
+  trailingSlash: 'never',
 
   // Bilingual routing: French at the root (/), English under /en/.
   i18n: {

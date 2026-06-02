@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactContent from '../components/pages/ContactContent.astro';
+import { useTranslations, routes, path } from '../i18n';
+import { graph, breadcrumbSchema, professionalServiceSchema } from '../lib/schema';
+
+const locale = 'fr' as const;
+const tr = useTranslations(locale);
+const c = tr.contact;
+
+const schema = graph([
+  professionalServiceSchema(locale),
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.contact, url: path('contact', locale) },
+  ]),
+]);
+---
+
+<Layout title={c.seoTitle} description={c.seoDesc} locale={locale} alternates={routes.contact} schema={schema}>
+  <ContactContent locale={locale} />
+</Layout>

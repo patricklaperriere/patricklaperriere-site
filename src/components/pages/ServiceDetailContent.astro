@@ -1,0 +1,140 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale, RouteKey } from '../../i18n/routes';
+import Breadcrumb from '../Breadcrumb.astro';
+import FaqList from '../FaqList.astro';
+import CtaBand from '../CtaBand.astro';
+
+type ServiceKey = 'web' | 'seo' | 'shopify';
+
+interface Props {
+  locale: Locale;
+  service: ServiceKey;
+}
+const { locale, service } = Astro.props;
+const tr = useTranslations(locale);
+const s = tr.services[service];
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.nav.services, url: path('services', locale) },
+  { name: s.title, url: path(s.key as RouteKey, locale) },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{s.title}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{s.h1}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{s.lead}</p>
+  <div class="reveal" data-delay="240ms" style="margin-top:2rem">
+    <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.2">
+      {tr.cta.primary} <span aria-hidden="true">→</span>
+    </a>
+  </div>
+</section>
+
+{/* Problem / Solution */}
+<section class="section-tight container-pl">
+  <div class="grid-2">
+    <div class="card ps-card reveal">
+      <h2>{s.problemTitle}</h2>
+      <p>{s.problem}</p>
+    </div>
+    <div class="card ps-card ps-card--gold reveal" data-delay="100ms">
+      <h2>{s.solutionTitle}</h2>
+      <p>{s.solution}</p>
+    </div>
+  </div>
+</section>
+
+{/* What's included */}
+<section class="section-tight container-pl">
+  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{s.includedTitle}</h2>
+  <ul class="included">
+    {s.included.map((item, i) => (
+      <li class="reveal" data-delay={`${i * 50}ms`}>
+        <span class="included__check" aria-hidden="true">✦</span>{item}
+      </li>
+    ))}
+  </ul>
+</section>
+
+{/* Process */}
+<section class="section-tight container-pl">
+  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{s.processTitle}</h2>
+  <ol class="process">
+    {s.process.map((step, i) => (
+      <li class="process__step reveal" data-delay={`${i * 70}ms`}>
+        <span class="process__num">0{i + 1}</span>
+        <h3>{step.t}</h3>
+        <p>{step.d}</p>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<FaqList title={s.faqTitle} faq={s.faq} />
+
+<CtaBand locale={locale} />
+
+<style>
+  .ps-card { padding: 2rem; }
+  .ps-card h2 { font-size: 1.5rem; margin: 0 0 1rem; }
+  .ps-card p { color: var(--color-fog); line-height: 1.65; margin: 0; }
+  .ps-card--gold {
+    border-color: color-mix(in srgb, var(--color-gold) 35%, transparent);
+    background: linear-gradient(180deg, rgba(232, 199, 154, 0.06), rgba(238, 241, 246, 0.01));
+  }
+  .ps-card--gold h2 { color: var(--color-gold-bright); }
+
+  .included {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 2rem;
+    max-width: 900px;
+  }
+  .included li {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    color: var(--color-bone);
+    line-height: 1.5;
+  }
+  .included__check { color: var(--color-gold); flex-shrink: 0; }
+
+  .process {
+    list-style: none;
+    counter-reset: step;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+  }
+  .process__step {
+    padding: 1.6rem;
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: rgba(238, 241, 246, 0.02);
+  }
+  .process__num {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-gold);
+  }
+  .process__step h3 { font-size: 1.15rem; margin: 0.8rem 0 0.5rem; }
+  .process__step p { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0; }
+
+  @media (max-width: 900px) {
+    .included { grid-template-columns: 1fr; }
+    .process { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .process { grid-template-columns: 1fr; }
+  }
+</style>

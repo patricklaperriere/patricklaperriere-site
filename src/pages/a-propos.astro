@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AboutContent from '../components/pages/AboutContent.astro';
+import { useTranslations, routes, path } from '../i18n';
+import { graph, personSchema, breadcrumbSchema } from '../lib/schema';
+
+const locale = 'fr' as const;
+const tr = useTranslations(locale);
+const a = tr.about;
+
+const schema = graph([
+  personSchema(locale),
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.about, url: path('about', locale) },
+  ]),
+]);
+---
+
+<Layout title={a.seoTitle} description={a.seoDesc} locale={locale} alternates={routes.about} schema={schema} ogType="profile">
+  <AboutContent locale={locale} />
+</Layout>

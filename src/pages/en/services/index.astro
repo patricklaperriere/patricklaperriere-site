@@ -1,0 +1,24 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import ServiceIndexContent from '../../../components/pages/ServiceIndexContent.astro';
+import { useTranslations, routes, path } from '../../../i18n';
+import { graph, breadcrumbSchema, professionalServiceSchema } from '../../../lib/schema';
+
+const locale = 'en' as const;
+const tr = useTranslations(locale);
+const title = 'Services · web design, SEO and Shopify | Patrick Laperrière';
+const description =
+  'Custom web design and development, redesign and SEO, Shopify stores. Services built for performance and conversion. Quebec, Canada and the United States.';
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.services, url: path('services', locale) },
+  ]),
+  professionalServiceSchema(locale),
+]);
+---
+
+<Layout title={title} description={description} locale={locale} alternates={routes.services} schema={schema}>
+  <ServiceIndexContent locale={locale} />
+</Layout>

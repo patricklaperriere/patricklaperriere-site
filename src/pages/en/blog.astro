@@ -1,0 +1,21 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import BlogContent from '../../components/pages/BlogContent.astro';
+import { useTranslations, routes, path } from '../../i18n';
+import { graph, breadcrumbSchema } from '../../lib/schema';
+
+const locale = 'en' as const;
+const tr = useTranslations(locale);
+const b = tr.blog;
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.nav.blog, url: path('blog', locale) },
+  ]),
+]);
+---
+
+<Layout title={b.seoTitle} description={b.seoDesc} locale={locale} alternates={routes.blog} schema={schema}>
+  <BlogContent locale={locale} />
+</Layout>
