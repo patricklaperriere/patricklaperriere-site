@@ -1,0 +1,53 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import Breadcrumb from '../Breadcrumb.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const p = tr.privacy;
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: p.kicker, url: path('privacy', locale) },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{p.kicker}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{p.h1}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{p.lead}</p>
+  <p class="privacy__updated reveal" data-delay="220ms">{p.updated}</p>
+</section>
+
+<section class="section-tight container-pl">
+  <div class="privacy__body prose">
+    {p.sections.map((s, i) => (
+      <div class="privacy__section reveal" data-delay={`${i * 50}ms`}>
+        <h2>{s.title}</h2>
+        {s.body.map((para) => <p>{para}</p>)}
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .privacy__updated {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-fog);
+    margin-top: 1.25rem;
+  }
+  .privacy__body { max-width: 760px; display: grid; gap: 2rem; }
+  .privacy__section h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 3vw, 1.7rem);
+    margin: 0 0 0.7rem;
+    letter-spacing: -0.02em;
+  }
+</style>

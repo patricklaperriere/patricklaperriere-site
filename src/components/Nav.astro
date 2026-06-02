@@ -30,7 +30,7 @@ const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
       <span class="nav__mono">PL</span>
     </a>
 
-    <nav class="nav__links" aria-label="Primary">
+    <nav class="nav__links" aria-label={tr.ariaPrimaryNav}>
       {links.map((l) => (
         <a href={l.href} class:list={['nav__link', isActive(l.href) && 'is-active']}>
           {l.label}

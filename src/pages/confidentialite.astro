@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PrivacyContent from '../components/pages/PrivacyContent.astro';
+import { useTranslations, routes, path } from '../i18n';
+import { graph, breadcrumbSchema } from '../lib/schema';
+
+const locale = 'fr' as const;
+const tr = useTranslations(locale);
+const p = tr.privacy;
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: p.kicker, url: path('privacy', locale) },
+  ]),
+]);
+---
+
+<Layout title={p.seoTitle} description={p.seoDesc} locale={locale} alternates={routes.privacy} schema={schema}>
+  <PrivacyContent locale={locale} />
+</Layout>

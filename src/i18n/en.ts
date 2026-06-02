@@ -10,6 +10,7 @@ export const en = {
   switchTo: 'FR',
   switchToLabel: 'View this page in French',
   skipToContent: 'Skip to content',
+  ariaPrimaryNav: 'Primary navigation',
 
   nav: {
     services: 'Services',
@@ -265,6 +266,60 @@ export const en = {
     soon: 'The first articles are coming soon.',
   },
 
+  privacy: {
+    seoTitle: 'Privacy Policy | Patrick Laperrière',
+    seoDesc: 'How your personal information is collected, used and protected on patricklaperriere.com. Compliant with Quebec’s Law 25.',
+    kicker: 'Privacy',
+    h1: 'Privacy Policy',
+    lead: 'Your privacy matters. Here, in plain language, is what data I collect, why, and how it’s protected.',
+    updated: 'Last updated: June 2026',
+    sections: [
+      {
+        title: 'Information I collect',
+        body: [
+          'I only collect information you voluntarily provide, mainly through the contact form: your name, email address, project type, approximate budget and the content of your message.',
+          'The site does not track your browsing and uses no advertising cookies.',
+        ],
+      },
+      {
+        title: 'How I use your information',
+        body: [
+          'Your information is used only to respond to your inquiry, prepare a quote and communicate with you about your project. I do not sell or rent your data to anyone.',
+        ],
+      },
+      {
+        title: 'Sharing with third parties',
+        body: [
+          'The contact form is processed by Web3Forms, a service that delivers your messages to me by email. The site is hosted on Cloudflare Pages. These providers process the data necessary for their function, in accordance with their own privacy policies.',
+        ],
+      },
+      {
+        title: 'Data retention',
+        body: [
+          'I keep emails and information related to your inquiry only as long as needed to respond and follow up on the project. You can request deletion at any time.',
+        ],
+      },
+      {
+        title: 'Your rights',
+        body: [
+          'Under Quebec’s Law 25, you have the right to access your personal information, and to have it corrected or deleted. Just email me and I’ll act on your request as soon as possible.',
+        ],
+      },
+      {
+        title: 'Cookies and local storage',
+        body: [
+          'The site only uses your browser’s local storage to remember small display preferences. No tracking cookies or third-party analytics tools are used.',
+        ],
+      },
+      {
+        title: 'Get in touch',
+        body: [
+          'For any question about this policy or your information, email me at patricklaperriere819@gmail.com.',
+        ],
+      },
+    ],
+  },
+
   footer: {
     tagline: 'Bilingual web developer in Laval. Fast, beautiful, SEO-optimized websites.',
     navTitle: 'Navigation',
@@ -272,6 +327,7 @@ export const en = {
     connectTitle: 'Get in touch',
     rights: 'All rights reserved.',
     madeIn: 'Designed and coded in Laval, QC.',
+    privacy: 'Privacy',
   },
 
   signature: {

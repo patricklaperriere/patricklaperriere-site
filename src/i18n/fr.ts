@@ -11,6 +11,7 @@ export const fr = {
   switchTo: 'EN',
   switchToLabel: 'Voir cette page en anglais',
   skipToContent: 'Aller au contenu',
+  ariaPrimaryNav: 'Navigation principale',
 
   nav: {
     services: 'Services',
@@ -268,6 +269,60 @@ export const fr = {
     soon: 'Les premiers articles arrivent bientôt.',
   },
 
+  privacy: {
+    seoTitle: 'Politique de confidentialité | Patrick Laperrière',
+    seoDesc: 'Comment vos renseignements personnels sont recueillis, utilisés et protégés sur patricklaperriere.com. Conforme à la Loi 25 du Québec.',
+    kicker: 'Confidentialité',
+    h1: 'Politique de confidentialité',
+    lead: 'Votre vie privée compte. Voici, en clair, quelles données je recueille, pourquoi, et comment elles sont protégées.',
+    updated: 'Dernière mise à jour : juin 2026',
+    sections: [
+      {
+        title: 'Les renseignements que je recueille',
+        body: [
+          'Je recueille uniquement les renseignements que vous me transmettez volontairement, principalement par le formulaire de contact : votre nom, votre adresse courriel, le type de projet, le budget approximatif et le contenu de votre message.',
+          'Le site ne suit pas votre navigation et n’utilise pas de témoins publicitaires.',
+        ],
+      },
+      {
+        title: 'Comment j’utilise vos renseignements',
+        body: [
+          'Vos renseignements servent uniquement à répondre à votre demande, à préparer une soumission et à communiquer avec vous au sujet de votre projet. Je ne vends ni ne loue vos données à qui que ce soit.',
+        ],
+      },
+      {
+        title: 'Partage avec des tiers',
+        body: [
+          'Le formulaire de contact est traité par Web3Forms, un service qui me transmet vos messages par courriel. Le site est hébergé sur Cloudflare Pages. Ces fournisseurs traitent les données nécessaires à leur fonction, conformément à leurs propres politiques de confidentialité.',
+        ],
+      },
+      {
+        title: 'Conservation des données',
+        body: [
+          'Je conserve les courriels et les renseignements liés à votre demande aussi longtemps que nécessaire pour vous répondre et assurer le suivi du projet. Vous pouvez demander leur suppression en tout temps.',
+        ],
+      },
+      {
+        title: 'Vos droits',
+        body: [
+          'Conformément à la Loi 25 du Québec, vous avez le droit d’accéder à vos renseignements personnels, de les faire corriger ou supprimer. Écrivez-moi simplement et je donne suite à votre demande dans les meilleurs délais.',
+        ],
+      },
+      {
+        title: 'Témoins et stockage local',
+        body: [
+          'Le site utilise uniquement le stockage local de votre navigateur pour mémoriser de petites préférences d’affichage. Aucun témoin de pistage ni outil d’analyse tiers n’est utilisé.',
+        ],
+      },
+      {
+        title: 'Me joindre',
+        body: [
+          'Pour toute question sur cette politique ou sur vos renseignements, écrivez-moi à patricklaperriere819@gmail.com.',
+        ],
+      },
+    ],
+  },
+
   footer: {
     tagline: 'Développeur web bilingue à Laval. Sites rapides, élégants et optimisés pour Google.',
     navTitle: 'Navigation',
@@ -275,6 +330,7 @@ export const fr = {
     connectTitle: 'Me joindre',
     rights: 'Tous droits réservés.',
     madeIn: 'Conçu et codé à Laval, QC.',
+    privacy: 'Confidentialité',
   },
 
   signature: {

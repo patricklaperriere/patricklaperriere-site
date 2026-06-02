@@ -15,7 +15,8 @@ export type RouteKey =
   | 'work'
   | 'about'
   | 'contact'
-  | 'blog';
+  | 'blog'
+  | 'privacy';
 
 export const routes: Record<RouteKey, Record<Locale, string>> = {
   home:       { fr: '/',                                en: '/en/' },
@@ -27,6 +28,7 @@ export const routes: Record<RouteKey, Record<Locale, string>> = {
   about:      { fr: '/a-propos',                         en: '/en/about' },
   contact:    { fr: '/contact',                          en: '/en/contact' },
   blog:       { fr: '/blogue',                           en: '/en/blog' },
+  privacy:    { fr: '/confidentialite',                  en: '/en/privacy' },
 };
 
 /** Case-study base paths (the [slug] is shared across languages). */

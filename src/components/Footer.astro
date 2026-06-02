@@ -53,7 +53,12 @@ const serviceLinks = [
   </div>
 
   <div class="container-pl footer__bottom">
-    <p class="footer__legal">© {year} Patrick Laperrière. {tr.footer.rights} <span class="footer__sep">·</span> {tr.footer.madeIn}</p>
+    <p class="footer__legal">
+      © {year} Patrick Laperrière. {tr.footer.rights}
+      <span class="footer__sep">·</span> {tr.footer.madeIn}
+      <span class="footer__sep">·</span>
+      <a href={path('privacy', locale)} class="footer__legal-link">{tr.footer.privacy}</a>
+    </p>
     <SignaturePL variant="card" />
   </div>
 </footer>
@@ -121,6 +126,8 @@ const serviceLinks = [
     font-size: 0.82rem;
   }
   .footer__sep { opacity: 0.5; margin-inline: 0.4rem; }
+  .footer__legal-link { color: var(--color-fog); text-decoration: underline; text-underline-offset: 2px; }
+  .footer__legal-link:hover { color: var(--color-gold-bright); }
 
   @media (max-width: 860px) {
     .footer__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
