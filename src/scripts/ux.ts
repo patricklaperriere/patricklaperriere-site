@@ -126,7 +126,8 @@ function initScramble() {
       if (running) return;
       running = true;
       const states = items.map((el) => ({ el, text: el.textContent ?? '' }));
-      const total = 18;
+      const total = 26; // higher = letters lock in more gradually
+      const speed = 0.45; // frames advanced per tick (lower = slower decode)
       let frame = 0;
 
       const tick = () => {
@@ -139,11 +140,11 @@ function initScramble() {
               continue;
             }
             const reveal = (i / text.length) * total;
-            out += frame > reveal ? c : chars[(frame * 7 + i * 13) % chars.length];
+            out += frame > reveal ? c : chars[Math.floor(frame * 7 + i * 13) % chars.length];
           }
           el.textContent = out;
         }
-        frame++;
+        frame += speed;
         if (frame <= total + 3) {
           requestAnimationFrame(tick);
         } else {

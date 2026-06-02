@@ -44,26 +44,26 @@ export const projects: Project[] = [
       en: 'Inspection Habitation Outaouais',
     },
     tagline: {
-      fr: 'Refonte SEO local pour un inspecteur en bâtiment de Gatineau.',
-      en: 'Local SEO redesign for a Gatineau building inspector.',
+      fr: 'Site Astro bilingue et SEO local pour un inspecteur en bâtiment de l’Outaouais.',
+      en: 'Bilingual Astro site with local SEO for an Outaouais building inspector.',
     },
     role: {
-      fr: 'Conception, développement, SEO local',
-      en: 'Design, development, local SEO',
+      fr: 'Conception, développement Astro, SEO local',
+      en: 'Design, Astro development, local SEO',
     },
     challenge: {
-      fr: 'Jean-Michel avait une boutique Shopify mince qui ne reflétait ni son expertise ni la profondeur de ses services. Aucune page dédiée par type d’inspection, peu de contenu, et une visibilité quasi nulle sur Google dans la région de Gatineau et de l’Outaouais.',
-      en: 'Jean-Michel had a thin Shopify storefront that reflected neither his expertise nor the depth of his services. No dedicated page per inspection type, little content, and almost no Google visibility in the Gatineau / Outaouais region.',
+      fr: 'Jean-Michel Barbier, inspecteur en bâtiment certifié (APCHQ, CEI, Snell Group), avait besoin d’une présence en ligne à la hauteur de sa rigueur. Il fallait un site crédible, rapide et bien référencé localement, capable de présenter clairement ses six types d’inspection et de convertir les visiteurs de Gatineau et de tout l’Outaouais en demandes d’inspection.',
+      en: 'Jean-Michel Barbier, a certified building inspector (APCHQ, CEI, Snell Group), needed an online presence worthy of his rigour. The site had to be credible, fast and well ranked locally, able to clearly present his six inspection types and turn visitors across Gatineau and the wider Outaouais into inspection requests.',
     },
     built: {
-      fr: 'J’ai transformé le Shopify 2.0 de base en un véritable site SEO local en Liquid sur mesure : des pages services dédiées (préachat, prévente, préréception, commercial et multilogements, balayage thermique, drone), une page À propos axée E-E-A-T mettant en valeur ses accréditations (CEI, APCHQ, OACIQ, RBQ, The Snell Group), un formulaire intelligent et un référencement local complet pour Gatineau et l’Outaouais (métas, Open Graph, Twitter cards, données structurées).',
-      en: 'I turned the basic Shopify 2.0 into a real local-SEO site in custom Liquid: dedicated service pages (pre-purchase, pre-sale, pre-delivery, commercial & multi-unit, thermal scan, drone), an E-E-A-T-focused About page showcasing his accreditations (CEI, APCHQ, OACIQ, RBQ, The Snell Group), a smart contact form and full local SEO for Gatineau and the Outaouais (meta, Open Graph, Twitter cards, structured data).',
+      fr: 'Un site sur mesure en Astro, entièrement bilingue (FR et EN) et optimisé pour le SEO local. Une page dédiée par service (préachat, prévente, préréception, commerciale et multilogements, thermographie, inspection par drone), une page Secteurs couvrant tout l’Outaouais, une page Tarifs, une FAQ et une page À propos qui met en valeur son expertise et ses accréditations réelles (APCHQ, CEI, Snell Group, normes RBQ). Le tout avec un formulaire de demande qui promet une réponse le jour ouvrable même, des rapports livrés en 24 à 48 heures et un référencement local complet (métadonnées, données structurées, Open Graph).',
+      en: 'A custom Astro site, fully bilingual (FR and EN) and built for local SEO. A dedicated page per service (pre-purchase, pre-sale, pre-delivery, commercial & multi-unit, thermography, drone inspection), a Service Areas page covering the whole Outaouais, a Pricing page, an FAQ, and an About page that showcases his expertise and real accreditations (APCHQ, CEI, Snell Group, RBQ standards). Plus a request form promising a same-business-day reply, reports delivered in 24 to 48 hours, and full local SEO (meta, structured data, Open Graph).',
     },
     result: {
-      fr: 'Un site crédible, structuré et optimisé qui positionne Jean-Michel comme l’expert en inspection de sa région, avec une page par service prête à ranker sur les bonnes recherches locales.',
-      en: 'A credible, structured and optimized site that positions Jean-Michel as his region’s inspection expert, with one page per service ready to rank on the right local searches.',
+      fr: 'Un site professionnel, structuré et rapide qui positionne Jean-Michel comme l’inspecteur de référence de l’Outaouais, avec une page par service prête à ranker sur les recherches locales.',
+      en: 'A professional, structured and fast site that positions Jean-Michel as the go-to inspector in the Outaouais, with one page per service ready to rank on local searches.',
     },
-    stack: ['Shopify', 'Liquid', 'SEO local', 'Schema.org'],
+    stack: ['Astro', 'SEO local', 'Bilingue FR/EN', 'Schema.org'],
   },
   {
     slug: 'hp-addik',
