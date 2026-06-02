@@ -19,6 +19,12 @@ const ws = tr.workSection;
 // Other case studies, for cross-linking.
 const others = sortedProjects().filter((p) => p.slug !== project.slug);
 
+const shot = `/work/${project.slug}.webp`;
+const shotAlt =
+  locale === 'fr'
+    ? `Capture d’écran du site ${loc(project.title, locale)}`
+    : `Screenshot of the ${loc(project.title, locale)} website`;
+
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
   { name: tr.nav.work, url: path('work', locale) },
@@ -56,6 +62,12 @@ const blocks = [
       </div>
     </div>
   </header>
+
+  <figure class="case__shot container-pl reveal">
+    <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+      <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+    </a>
+  </figure>
 
   <div class="container-pl case__body">
     {blocks.map((b, i) => (
@@ -103,6 +115,28 @@ const blocks = [
   .case__meta-value {
     font-size: 0.98rem;
     color: var(--color-bone);
+  }
+  .case__shot {
+    margin: clamp(2rem, 5vw, 3rem) auto 0;
+    padding: 0;
+  }
+  .case__shot a {
+    display: block;
+    border: 1px solid var(--line-strong);
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--color-ink2);
+    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
+    transition: border-color 0.3s ease;
+  }
+  .case__shot a:hover { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+  .case__shot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top center;
   }
   .case__body {
     display: grid;

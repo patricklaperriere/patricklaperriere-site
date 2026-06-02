@@ -79,32 +79,32 @@ export const projects: Project[] = [
       en: 'HP Addik',
     },
     tagline: {
-      fr: 'Boutique Shopify sur mesure pour un fabricant de kits turbo.',
-      en: 'Custom Shopify store for a turbo-kit fabricator.',
+      fr: 'Boutique Shopify sur mesure pour un spécialiste de pièces de performance.',
+      en: 'Custom Shopify store for a performance-parts specialist.',
     },
     role: {
       fr: 'Conception, thème Shopify sur mesure',
       en: 'Design, custom Shopify theme',
     },
     challenge: {
-      fr: 'HP Addik conçoit et fabrique des kits turbo et des pièces de performance haut de gamme pour Honda Talon, VTT et motos. Il fallait une boutique à la hauteur de cette précision : rapide, robuste et capable de présenter des produits techniques sans se perdre dans un thème générique.',
-      en: 'HP Addik designs and builds high-end turbo kits and performance parts for Honda Talons, ATVs and motorcycles. The store had to match that precision: fast, sturdy and able to present technical products without getting lost in a generic theme.',
+      fr: 'HP Addik conçoit et fabrique des kits turbo et des pièces de performance haut de gamme pour Honda Talon, côte-à-côte, VTT et motos. Il fallait une boutique à la hauteur de cette précision : rapide, robuste et capable de présenter des produits techniques sans se perdre dans un thème générique.',
+      en: 'HP Addik designs and builds high-end turbo kits and performance parts for Honda Talons, side-by-sides, ATVs and motorcycles. The store had to match that precision: fast, sturdy and able to present technical products without getting lost in a generic theme.',
     },
     built: {
-      fr: 'Une boutique Shopify en Liquid sur mesure, pensée pour la performance : fiches produits techniques claires, navigation par véhicule, expérience d’achat rapide et identité de marque affirmée. « Ride harder. Upgrade smarter. »',
-      en: 'A custom Liquid Shopify store built for performance: clear technical product pages, browse-by-vehicle navigation, a fast checkout experience and a strong brand identity. “Ride harder. Upgrade smarter.”',
+      fr: 'Une boutique Shopify en Liquid sur mesure, pensée pour la performance : magasinage par marque (Can-Am, Polaris, Yamaha, Honda, CF Moto) en plus de la gamme maison HP Addik, fiches produits techniques claires, sélecteur de pays et de langue pour vendre au Canada comme aux États-Unis, et une identité de marque affirmée. « Ride harder. Upgrade smarter. »',
+      en: 'A custom Liquid Shopify store built for performance: shop-by-brand navigation (Can-Am, Polaris, Yamaha, Honda, CF Moto) alongside the in-house HP Addik line, clear technical product pages, a country and language selector to sell in Canada and the United States, and a strong brand identity. “Ride harder. Upgrade smarter.”',
     },
     result: {
       fr: 'Une vitrine e-commerce qui inspire confiance aux passionnés de performance et qui vend des produits techniques aussi bien au Canada qu’aux États-Unis.',
       en: 'An e-commerce storefront that earns the trust of performance enthusiasts and sells technical products across Canada and the United States.',
     },
-    stack: ['Shopify', 'Liquid', 'E-commerce', 'Performance'],
+    stack: ['Shopify', 'Liquid', 'E-commerce', 'Multirégion'],
   },
   {
     slug: 'envita-wellness',
     featured: true,
     order: 3,
-    url: 'https://evita-wellness.com',
+    url: 'https://envita-wellness.com',
     year: '2026',
     category: 'shopify',
     client: 'Envita Wellness',
@@ -114,20 +114,20 @@ export const projects: Project[] = [
       en: 'Envita Wellness',
     },
     tagline: {
-      fr: 'Plateforme custom pour des programmes de respiration en direct.',
-      en: 'Custom platform for live breathwork programs.',
+      fr: 'Plateforme Shopify sur mesure pour des expériences de bien-être en direct.',
+      en: 'Custom Shopify platform for live wellness experiences.',
     },
     role: {
       fr: 'Conception, développement Shopify sur mesure',
       en: 'Design, custom Shopify development',
     },
     challenge: {
-      fr: 'Envita Wellness offre des programmes de respiration (breathwork) en direct, comme le « 21-Day Breath Camp », pensés pour la vraie vie et non pour les athlètes ou les puristes du bien-être. Il fallait un site calme, clair et rassurant pour convertir des inscriptions à des cohortes en direct et gérer une liste d’attente.',
-      en: 'Envita Wellness offers live breathwork programs, like the “21-Day Breath Camp,” designed for everyday life rather than athletes or wellness purists. It needed a calm, clear, reassuring site to convert sign-ups to live cohorts and manage a waitlist.',
+      fr: 'Envita Wellness, mené par la facilitatrice Chrissy Papageorgopoulos, offre des expériences de respiration (breathwork), de mouvement et de bien-être corporatif, en ligne comme en personne. Son programme phare, le « 21-Day Breath Camp », est pensé pour la vraie vie, pas pour les athlètes ou les puristes du bien-être. Il fallait un site calme, clair et rassurant pour convertir les inscriptions aux cohortes en direct et gérer une liste d’attente.',
+      en: 'Envita Wellness, led by facilitator Chrissy Papageorgopoulos, offers breathwork, movement and corporate wellness experiences, online and in person. Its flagship program, the “21-Day Breath Camp,” is built for real life, not for athletes or wellness purists. It needed a calm, clear, reassuring site to convert sign-ups to live cohorts and manage a waitlist.',
     },
     built: {
-      fr: 'Une plateforme Shopify entièrement personnalisée en Liquid : présentation du programme phare, gestion des cohortes et des inscriptions, sections programmes à venir (sessions privées, classes à la carte), liste d’attente et une direction visuelle apaisante, fidèle à l’esprit de la marque.',
-      en: 'A fully custom Shopify platform in Liquid: flagship program presentation, cohort and registration handling, upcoming-offering sections (private sessions, drop-in classes), waitlist capture and a calming visual direction true to the brand’s spirit.',
+      fr: 'Une plateforme Shopify entièrement personnalisée en Liquid : présentation du programme phare, gestion des cohortes et des inscriptions, sections pour les offres à venir (sessions privées, classes à la carte), capture de liste d’attente et une direction visuelle apaisante et premium, fidèle à l’esprit de la marque.',
+      en: 'A fully custom Shopify platform in Liquid: flagship program presentation, cohort and registration handling, sections for upcoming offerings (private sessions, drop-in classes), waitlist capture, and a calm, premium visual direction true to the brand’s spirit.',
     },
     result: {
       fr: 'Une expérience sereine et professionnelle qui donne envie de s’inscrire et qui soutient la croissance des offres de l’entreprise dans le temps.',

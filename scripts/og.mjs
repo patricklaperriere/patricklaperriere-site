@@ -106,7 +106,7 @@ const images = [
     file: 'project-envita-wellness.png',
     kicker: 'RÉALISATION · CASE STUDY',
     title: 'Envita Wellness',
-    subtitle: 'Plateforme Shopify custom · breathwork',
+    subtitle: 'Plateforme Shopify custom · bien-être en direct',
   },
 ];
 

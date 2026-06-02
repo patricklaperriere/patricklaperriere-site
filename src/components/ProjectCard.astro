@@ -12,6 +12,11 @@ interface Props {
 }
 const { project, locale, cta, index = 0 } = Astro.props;
 const href = `${workBase[locale]}/${project.slug}`;
+const shot = `/work/${project.slug}.webp`;
+const shotAlt =
+  locale === 'fr'
+    ? `Aperçu du site ${loc(project.title, locale)}`
+    : `Preview of the ${loc(project.title, locale)} website`;
 ---
 
 <a
@@ -21,6 +26,9 @@ const href = `${workBase[locale]}/${project.slug}`;
   data-delay={`${index * 90}ms`}
   style={`--accent:${project.accent}`}
 >
+  <div class="project-card__shot">
+    <img src={shot} alt={shotAlt} width="600" height="375" loading="lazy" decoding="async" />
+  </div>
   <div class="project-card__top">
     <span class="project-card__index">0{index + 1}</span>
     <span class="project-card__year">{project.year}</span>
@@ -54,13 +62,30 @@ const href = `${workBase[locale]}/${project.slug}`;
       border-color: color-mix(in srgb, var(--accent) 50%, transparent);
     }
     .project-card:hover::before { opacity: 1; }
+    .project-card__shot {
+      margin: -1.9rem -1.9rem 1.5rem;
+      border-radius: var(--radius-card) var(--radius-card) 0 0;
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      aspect-ratio: 16 / 10;
+      background: var(--color-ink2);
+    }
+    .project-card__shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
+    }
+    .project-card:hover .project-card__shot img { transform: scale(1.04); }
     .project-card__top {
       display: flex;
       justify-content: space-between;
       font-family: var(--font-mono);
       font-size: 0.78rem;
       color: var(--color-fog);
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.1rem;
     }
     .project-card__index { color: var(--accent); }
     .project-card__title {
