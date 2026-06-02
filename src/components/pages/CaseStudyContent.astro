@@ -3,8 +3,9 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { workBase } from '../../i18n/routes';
 import type { Project } from '../../data/projets';
-import { loc } from '../../data/projets';
+import { loc, sortedProjects } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
+import ProjectCard from '../ProjectCard.astro';
 import CtaBand from '../CtaBand.astro';
 
 interface Props {
@@ -14,6 +15,9 @@ interface Props {
 const { locale, project } = Astro.props;
 const tr = useTranslations(locale);
 const ws = tr.workSection;
+
+// Other case studies, for cross-linking.
+const others = sortedProjects().filter((p) => p.slug !== project.slug);
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -64,6 +68,16 @@ const blocks = [
     <a href={path('work', locale)} class="case__back">{tr.cta.backToWork}</a>
   </div>
 </article>
+
+{/* More work — internal linking */}
+<section class="section-tight container-pl">
+  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{ws.featuredTitle}</h2>
+  <div class="grid-2">
+    {others.map((p, i) => (
+      <ProjectCard project={p} locale={locale} cta={tr.cta.viewProject} index={i} />
+    ))}
+  </div>
+</section>
 
 <CtaBand locale={locale} />
 

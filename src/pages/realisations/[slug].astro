@@ -20,6 +20,7 @@ const tr = useTranslations(locale);
 const frPath = `${workBase.fr}/${project.slug}`;
 const enPath = `${workBase.en}/${project.slug}`;
 const alternates = { fr: frPath, en: enPath };
+const ogImage = `/og/project-${project.slug}.png`;
 
 const title = `${loc(project.title, locale)} · ${tr.workSection.kicker} | Patrick Laperrière`;
 const description = loc(project.tagline, locale) + ' ' + loc(project.challenge, locale).slice(0, 110);
@@ -34,11 +35,12 @@ const schema = graph([
     name: loc(project.title, locale),
     description: loc(project.tagline, locale),
     url: frPath,
+    image: ogImage,
     locale,
   }),
 ]);
 ---
 
-<Layout title={title} description={description.slice(0, 160)} locale={locale} alternates={alternates} schema={schema} ogType="article">
+<Layout title={title} description={description.slice(0, 160)} locale={locale} alternates={alternates} ogImage={ogImage} schema={schema} ogType="article">
   <CaseStudyContent locale={locale} project={project} />
 </Layout>

@@ -3,6 +3,7 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale, RouteKey } from '../../i18n/routes';
 import Breadcrumb from '../Breadcrumb.astro';
 import FaqList from '../FaqList.astro';
+import ServiceCard from '../ServiceCard.astro';
 import CtaBand from '../CtaBand.astro';
 
 type ServiceKey = 'web' | 'seo' | 'shopify';
@@ -14,6 +15,10 @@ interface Props {
 const { locale, service } = Astro.props;
 const tr = useTranslations(locale);
 const s = tr.services[service];
+
+// The other two services, for cross-linking at the bottom of the page.
+const allKeys: ServiceKey[] = ['web', 'seo', 'shopify'];
+const related = allKeys.filter((k) => k !== service).map((k) => tr.services[k]);
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -76,6 +81,23 @@ const crumbs = [
 </section>
 
 <FaqList title={s.faqTitle} faq={s.faq} />
+
+{/* Related services — internal linking */}
+<section class="section-tight container-pl">
+  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{tr.servicesSection.kicker}</h2>
+  <div class="grid-2">
+    {related.map((r, i) => (
+      <ServiceCard
+        icon={r.icon}
+        title={r.title}
+        blurb={r.blurb}
+        href={path(r.key, locale)}
+        cta={tr.cta.seeServices}
+        index={i}
+      />
+    ))}
+  </div>
+</section>
 
 <CtaBand locale={locale} />
 

@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ServiceDetailContent from '../../components/pages/ServiceDetailContent.astro';
 import { useTranslations, routes, path } from '../../i18n';
-import { graph, breadcrumbSchema, faqSchema, professionalServiceSchema } from '../../lib/schema';
+import { graph, breadcrumbSchema, faqSchema, professionalServiceSchema, serviceSchema } from '../../lib/schema';
 
 const locale = 'fr' as const;
 const tr = useTranslations(locale);
@@ -15,10 +15,11 @@ const schema = graph([
     { name: s.title, url: path('svcSeo', locale) },
   ]),
   faqSchema(s.faq),
+  serviceSchema({ name: s.title, description: s.blurb, url: path('svcSeo', locale), serviceType: s.title, locale }),
   professionalServiceSchema(locale),
 ]);
 ---
 
-<Layout title={s.seoTitle} description={s.seoDesc} locale={locale} alternates={routes.svcSeo} schema={schema}>
+<Layout title={s.seoTitle} description={s.seoDesc} locale={locale} alternates={routes.svcSeo} ogImage="/og/service-seo.png" schema={schema}>
   <ServiceDetailContent locale={locale} service="seo" />
 </Layout>

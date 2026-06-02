@@ -3,8 +3,33 @@
 
 import { SITE } from '../config';
 import type { Locale } from '../i18n/routes';
+import { path } from '../i18n/routes';
+import { useTranslations } from '../i18n';
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
+
+/** OfferCatalog of the three services, language-aware. */
+function offerCatalog(locale: Locale) {
+  const tr = useTranslations(locale);
+  const services = [
+    { svc: tr.services.web, key: 'svcWeb' as const },
+    { svc: tr.services.seo, key: 'svcSeo' as const },
+    { svc: tr.services.shopify, key: 'svcShopify' as const },
+  ];
+  return {
+    '@type': 'OfferCatalog',
+    name: tr.nav.services,
+    itemListElement: services.map(({ svc, key }) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: svc.title,
+        description: svc.blurb,
+        url: abs(path(key, locale)),
+      },
+    })),
+  };
+}
 
 /** Person — Patrick Laperrière. Used site-wide. */
 export function personSchema(locale: Locale) {
@@ -57,7 +82,28 @@ export function professionalServiceSchema(locale: Locale) {
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
+    hasOfferCatalog: offerCatalog(locale),
     sameAs: Object.values(SITE.socials),
+  };
+}
+
+/** Service node — for an individual service page. */
+export function serviceSchema(opts: {
+  name: string;
+  description: string;
+  url: string;
+  serviceType: string;
+  locale: Locale;
+}) {
+  return {
+    '@type': 'Service',
+    name: opts.name,
+    description: opts.description,
+    serviceType: opts.serviceType,
+    url: abs(opts.url),
+    provider: { '@id': `${SITE.domain}/#person` },
+    areaServed: SITE.areaServed[opts.locale].map((name) => ({ '@type': 'AdministrativeArea', name })),
+    availableLanguage: ['fr-CA', 'en-CA'],
   };
 }
 
