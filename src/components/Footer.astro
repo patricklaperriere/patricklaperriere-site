@@ -49,6 +49,7 @@ const serviceLinks = [
       {SOCIAL_LIST.map((s) => (
         <a href={s.url} class="footer__link" target="_blank" rel="me noopener">{s.label}</a>
       ))}
+      <a href={locale === 'fr' ? '/rss.xml' : '/en/rss.xml'} class="footer__link">RSS</a>
     </div>
   </div>
 

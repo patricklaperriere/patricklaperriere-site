@@ -22,3 +22,6 @@ Thumbs.db
 
 # cloudflare
 .wrangler/
+
+# Claude local settings (personal)
+.claude/settings.local.json

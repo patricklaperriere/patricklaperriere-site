@@ -79,4 +79,12 @@ const altLocale = locale === 'fr' ? 'en_CA' : 'fr_CA';
 <meta name="twitter:image" content={ogImageAbs} />
 <meta name="twitter:image:alt" content={title} />
 
+{/* RSS feed for this locale */}
+<link
+  rel="alternate"
+  type="application/rss+xml"
+  title={`Patrick Laperrière — ${locale === 'fr' ? 'Blogue' : 'Blog'}`}
+  href={locale === 'fr' ? '/rss.xml' : '/en/rss.xml'}
+/>
+
 {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

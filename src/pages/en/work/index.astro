@@ -2,7 +2,9 @@
 import Layout from '../../../layouts/Layout.astro';
 import WorkIndexContent from '../../../components/pages/WorkIndexContent.astro';
 import { useTranslations, routes, path } from '../../../i18n';
-import { graph, breadcrumbSchema } from '../../../lib/schema';
+import { workBase } from '../../../i18n/routes';
+import { sortedProjects, loc } from '../../../data/projets';
+import { graph, breadcrumbSchema, itemListSchema } from '../../../lib/schema';
 
 const locale = 'en' as const;
 const tr = useTranslations(locale);
@@ -15,6 +17,12 @@ const schema = graph([
     { name: tr.breadcrumb.home, url: path('home', locale) },
     { name: tr.nav.work, url: path('work', locale) },
   ]),
+  itemListSchema(
+    sortedProjects().map((p) => ({
+      name: loc(p.title, locale),
+      url: `${workBase[locale]}/${p.slug}`,
+    })),
+  ),
 ]);
 ---
 

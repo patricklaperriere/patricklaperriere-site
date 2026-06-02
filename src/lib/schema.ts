@@ -82,8 +82,47 @@ export function professionalServiceSchema(locale: Locale) {
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
+    geo: {
+      '@type': 'GeoCoordinates',
+      latitude: 45.6066,
+      longitude: -73.7124,
+    },
     hasOfferCatalog: offerCatalog(locale),
     sameAs: Object.values(SITE.socials),
+  };
+}
+
+/** ItemList from an ordered list of { name, url }. */
+export function itemListSchema(items: { name: string; url: string }[]) {
+  return {
+    '@type': 'ItemList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      url: abs(it.url),
+    })),
+  };
+}
+
+/** Blog node listing its posts (lightweight BlogPosting refs). */
+export function blogListSchema(
+  locale: Locale,
+  posts: { title: string; description: string; url: string; datePublished: string }[],
+) {
+  return {
+    '@type': 'Blog',
+    '@id': `${SITE.domain}${locale === 'fr' ? '/blogue' : '/en/blog'}#blog`,
+    inLanguage: locale === 'fr' ? 'fr-CA' : 'en-CA',
+    publisher: { '@id': `${SITE.domain}/#person` },
+    blogPost: posts.map((p) => ({
+      '@type': 'BlogPosting',
+      headline: p.title,
+      description: p.description,
+      url: abs(p.url),
+      datePublished: p.datePublished,
+      author: { '@id': `${SITE.domain}/#person` },
+    })),
   };
 }
 

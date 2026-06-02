@@ -5,9 +5,34 @@
 // system font with full accent coverage (Segoe UI / Arial) so accents render.
 
 import sharp from 'sharp';
-import { mkdirSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync } from 'node:fs';
 
 mkdirSync('public/og', { recursive: true });
+
+// Read blog frontmatter so each article gets its own OG image automatically.
+function blogOgImages() {
+  const dir = 'src/content/blog';
+  let files = [];
+  try {
+    files = readdirSync(dir).filter((f) => f.endsWith('.md'));
+  } catch {
+    return [];
+  }
+  return files.map((f) => {
+    const src = readFileSync(`${dir}/${f}`, 'utf8');
+    const fm = src.split('---')[1] ?? '';
+    const get = (key) => (fm.match(new RegExp(`${key}:\\s*"?([^"\\n]+)"?`)) || [])[1]?.trim();
+    const slug = get('slug');
+    const title = get('title');
+    const lang = get('lang');
+    return {
+      file: `post-${slug}.png`,
+      kicker: lang === 'en' ? 'ARTICLE · BLOG' : 'ARTICLE · BLOGUE',
+      title,
+      subtitle: 'patricklaperriere.com',
+    };
+  });
+}
 
 const esc = (s) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -110,9 +135,10 @@ const images = [
   },
 ];
 
-for (const img of images) {
+const allImages = [...images, ...blogOgImages()];
+for (const img of allImages) {
   const svg = template(img);
   await sharp(Buffer.from(svg)).png().toFile(`public/og/${img.file}`);
   console.log('✓', img.file);
 }
-console.log(`\n${images.length} OG images written to public/og/`);
+console.log(`\n${allImages.length} OG images written to public/og/`);

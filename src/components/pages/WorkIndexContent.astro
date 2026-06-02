@@ -27,7 +27,8 @@ const crumbs = [
   <p class="lead reveal" data-delay="160ms">{tr.workSection.lead}</p>
 </section>
 
-<section class="section-tight container-pl">
+<section class="section-tight container-pl" aria-label={tr.workSection.title}>
+  <h2 class="sr-only">{tr.workSection.title}</h2>
   <div class="grid-3">
     {projects.map((p, i) => (
       <ProjectCard project={p} locale={locale} cta={tr.cta.viewProject} index={i} />

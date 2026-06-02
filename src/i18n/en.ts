@@ -264,6 +264,12 @@ export const en = {
     h1: 'Notes on web, SEO and performance',
     lead: 'Concrete articles on building sites, search ranking and conversion.',
     soon: 'The first articles are coming soon.',
+    byline: 'By',
+    authorRole: 'Bilingual web developer, Laval',
+    authorBio: 'I build fast, beautiful, SEO-optimized websites for businesses across Quebec, Canada and the United States.',
+    aboutLink: 'More about me',
+    related: 'Related articles',
+    readMore: 'Read',
   },
 
   privacy: {

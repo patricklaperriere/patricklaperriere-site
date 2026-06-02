@@ -267,6 +267,12 @@ export const fr = {
     h1: 'Notes sur le web, le SEO et la performance',
     lead: 'Des articles concrets sur la création de sites, le référencement et la conversion.',
     soon: 'Les premiers articles arrivent bientôt.',
+    byline: 'Par',
+    authorRole: 'Développeur web bilingue, Laval',
+    authorBio: 'Je conçois des sites web rapides, élégants et optimisés pour Google pour les entreprises du Québec, du Canada et des États-Unis.',
+    aboutLink: 'En savoir plus sur moi',
+    related: 'Articles connexes',
+    readMore: 'Lire',
   },
 
   privacy: {

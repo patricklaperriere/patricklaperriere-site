@@ -26,7 +26,8 @@ const crumbs = [
   <p class="lead reveal" data-delay="160ms">{tr.servicesSection.lead}</p>
 </section>
 
-<section class="section-tight container-pl">
+<section class="section-tight container-pl" aria-label={tr.servicesSection.title}>
+  <h2 class="sr-only">{tr.servicesSection.title}</h2>
   <div class="grid-3">
     {services.map((s, i) => (
       <ServiceCard

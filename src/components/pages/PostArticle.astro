@@ -1,15 +1,16 @@
 ---
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
-import type { Post } from '../../lib/blog';
+import { type Post, blogPostPath } from '../../lib/blog';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 
 interface Props {
   locale: Locale;
   post: Post;
+  related?: Post[];
 }
-const { locale, post } = Astro.props;
+const { locale, post, related = [] } = Astro.props;
 const tr = useTranslations(locale);
 
 const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
@@ -30,6 +31,8 @@ const crumbs = [
 <article class="post">
   <header class="page-head container-pl post__head">
     <div class="post__meta reveal">
+      <span class="post__byline">{tr.blog.byline} <strong>Patrick Laperrière</strong></span>
+      <span class="post__sep" aria-hidden="true">·</span>
       <time datetime={post.data.pubDate.toISOString()}>{dateFmt.format(post.data.pubDate)}</time>
       {post.data.tags.map((t) => <span class="post__tag">{t}</span>)}
     </div>
@@ -39,9 +42,36 @@ const crumbs = [
 
   <div class="container-pl post__body prose reveal">
     <slot />
+
+    <aside class="post__author" aria-label={tr.about.kicker}>
+      <span class="post__author-mono">PL</span>
+      <div>
+        <p class="post__author-name">Patrick Laperrière</p>
+        <p class="post__author-role">{tr.blog.authorRole}</p>
+        <p class="post__author-bio">{tr.blog.authorBio}</p>
+        <a href={path('about', locale)} class="post__author-link">{tr.blog.aboutLink} →</a>
+      </div>
+    </aside>
+
     <p class="post__back"><a href={path('blog', locale)}>← {tr.nav.blog}</a></p>
   </div>
 </article>
+
+{related.length > 0 && (
+  <section class="section-tight container-pl">
+    <h2 class="section-head__title reveal" style="margin-bottom:1.6rem">{tr.blog.related}</h2>
+    <div class="grid-2">
+      {related.map((r, i) => (
+        <a href={blogPostPath(locale, r.data.slug)} class="card related-card reveal" data-delay={`${i * 70}ms`}>
+          {r.data.tags[0] && <span class="related-card__tag">{r.data.tags[0]}</span>}
+          <h3>{r.data.title}</h3>
+          <p>{r.data.description}</p>
+          <span class="related-card__more">{tr.blog.readMore} →</span>
+        </a>
+      ))}
+    </div>
+  </section>
+)}
 
 <CtaBand locale={locale} />
 
@@ -78,7 +108,62 @@ const crumbs = [
     border-left: 2px solid var(--color-gold);
     padding-left: 1.2rem; margin: 1.5rem 0; color: var(--color-bone); font-style: italic;
   }
+  .post__byline strong { color: var(--color-bone); font-weight: 600; }
+  .post__sep { opacity: 0.4; }
+
+  /* E-E-A-T author box */
+  .post__author {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    margin-top: 3rem;
+    padding: 1.6rem;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: linear-gradient(180deg, rgba(232, 199, 154, 0.05), rgba(238, 241, 246, 0.01));
+  }
+  .post__author-mono {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-gold-bright);
+    background: rgba(232, 199, 154, 0.1);
+  }
+  .post__author-name { margin: 0; font-weight: 600; color: var(--color-bone); }
+  .post__author-role {
+    margin: 0.1rem 0 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+  .post__author-bio { margin: 0 0 0.7rem; color: var(--color-fog); font-size: 0.95rem; line-height: 1.55; }
+  .post__author-link { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-gold-bright); }
+
   .post__back { margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.85rem; }
   .post__back a { color: var(--color-fog); }
   .post__back a:hover { color: var(--color-gold-bright); }
+
+  /* Related articles */
+  .related-card { display: block; padding: 1.6rem; transition: transform 0.3s, border-color 0.3s, background 0.3s; }
+  .related-card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
+    background: linear-gradient(180deg, rgba(232,199,154,0.05), rgba(238,241,246,0.01));
+  }
+  .related-card__tag {
+    font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-gold);
+    padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 999px;
+  }
+  .related-card h3 { font-size: 1.2rem; margin: 0.9rem 0 0.5rem; }
+  .related-card p { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0 0 0.9rem; }
+  .related-card__more { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-gold-bright); }
 </style>

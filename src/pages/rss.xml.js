@@ -1,0 +1,23 @@
+import rss from '@astrojs/rss';
+import { getCollection } from 'astro:content';
+import { useTranslations } from '../i18n';
+import { postsFor, blogPostPath } from '../lib/blog';
+
+export async function GET(context) {
+  const tr = useTranslations('fr');
+  const all = await getCollection('blog');
+  const posts = postsFor(all, 'fr');
+  return rss({
+    title: `${tr.brand} · ${tr.blog.kicker}`,
+    description: tr.blog.lead,
+    site: context.site,
+    items: posts.map((p) => ({
+      title: p.data.title,
+      description: p.data.description,
+      pubDate: p.data.pubDate,
+      link: blogPostPath('fr', p.data.slug),
+      categories: p.data.tags,
+    })),
+    customData: `<language>fr-ca</language>`,
+  });
+}

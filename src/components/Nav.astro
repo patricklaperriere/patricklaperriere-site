@@ -26,8 +26,9 @@ const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
 
 <header class="nav">
   <div class="container-pl nav__inner">
-    <a href={home} class="nav__logo magnetic" data-magnetic="0.25" aria-label={tr.brand}>
+    <a href={home} class="nav__logo magnetic" data-magnetic="0.25">
       <span class="nav__mono">PL</span>
+      <span class="sr-only">{tr.brand}</span>
     </a>
 
     <nav class="nav__links" aria-label={tr.ariaPrimaryNav}>

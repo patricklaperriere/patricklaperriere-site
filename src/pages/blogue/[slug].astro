@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import PostArticle from '../../components/pages/PostArticle.astro';
 import { useTranslations, path } from '../../i18n';
-import { postAlternates, blogPostPath } from '../../lib/blog';
+import { postAlternates, blogPostPath, postsFor } from '../../lib/blog';
 import { graph, breadcrumbSchema, articleSchema } from '../../lib/schema';
 
 export async function getStaticPaths() {
@@ -20,9 +20,11 @@ const locale = 'fr' as const;
 const { post, all } = Astro.props;
 const tr = useTranslations(locale);
 const { Content } = await render(post);
+const related = postsFor(all, locale).filter((p) => p.id !== post.id).slice(0, 2);
 
 const selfPath = blogPostPath(locale, post.data.slug);
 const alternates = postAlternates(post, all);
+const ogImage = `/og/post-${post.data.slug}.png`;
 const title = `${post.data.title} | Patrick Laperrière`;
 
 const schema = graph([
@@ -35,6 +37,7 @@ const schema = graph([
     title: post.data.title,
     description: post.data.description,
     url: selfPath,
+    image: ogImage,
     locale,
     datePublished: post.data.pubDate.toISOString(),
     dateModified: post.data.updatedDate?.toISOString(),
@@ -42,8 +45,8 @@ const schema = graph([
 ]);
 ---
 
-<Layout title={title} description={post.data.description} locale={locale} alternates={alternates} schema={schema} ogType="article">
-  <PostArticle locale={locale} post={post}>
+<Layout title={title} description={post.data.description} locale={locale} alternates={alternates} ogImage={ogImage} schema={schema} ogType="article">
+  <PostArticle locale={locale} post={post} related={related}>
     <Content />
   </PostArticle>
 </Layout>
