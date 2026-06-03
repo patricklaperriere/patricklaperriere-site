@@ -264,9 +264,21 @@ const crumbs = [
                 <div class="dash dash--pipe">
                   <header class="dash__bar"><b>Pipe</b><span class="dash__pill">{fr ? 'Pipeline · 142 k$' : 'Pipeline · $142k'}</span></header>
                   <div class="board">
-                    <div class="col"><span class="col__h">{fr ? 'Prospects' : 'Leads'} · 3</span><div class="deal"><b>Boréal Construction</b><span>18 k$</span></div><div class="deal"><b>Café Mortier</b><span>6 k$</span></div></div>
-                    <div class="col"><span class="col__h">{fr ? 'Qualifiés' : 'Qualified'} · 2</span><div class="deal deal--warm"><b>Clinique Vista</b><span>24 k$</span></div><div class="deal deal--warm"><b>Studio Lume</b><span>9 k$</span></div></div>
-                    <div class="col"><span class="col__h">{fr ? 'Gagnés' : 'Won'} · 5</span><div class="deal deal--won"><b>HP Addik</b><span>32 k$ ✓</span></div><div class="deal deal--won"><b>Envita Wellness</b><span>14 k$ ✓</span></div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Prospects' : 'Leads'} · 4</span><div class="col__cards">
+                      <div class="deal"><b>Boréal Construction</b><span>18 k$</span></div>
+                      <div class="deal"><b>Café Mortier</b><span>6 k$</span></div>
+                      <div class="deal"><b>Garage Néo</b><span>11 k$</span></div>
+                    </div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Qualifiés' : 'Qualified'} · 3</span><div class="col__cards">
+                      <div class="deal deal--warm"><b>Clinique Vista</b><span>24 k$</span></div>
+                      <div class="deal deal--warm"><b>Studio Lume</b><span>9 k$</span></div>
+                      <div class="deal deal--warm"><b>Au Levain</b><span>7 k$</span></div>
+                    </div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Gagnés' : 'Won'} · 5</span><div class="col__cards">
+                      <div class="deal deal--won"><b>HP Addik</b><span>32 k$ ✓</span></div>
+                      <div class="deal deal--won"><b>Envita Wellness</b><span>14 k$ ✓</span></div>
+                      <div class="deal deal--won"><b>Inspection Outaouais</b><span>8 k$ ✓</span></div>
+                    </div></div>
                   </div>
                 </div>
               )}
@@ -275,9 +287,21 @@ const crumbs = [
                 <div class="dash dash--trame">
                   <header class="dash__bar"><b>Trame</b><span class="dash__nav">{fr ? 'Sprint 14' : 'Sprint 14'}</span></header>
                   <div class="board">
-                    <div class="col"><span class="col__h">{fr ? 'À faire' : 'To do'}</span><div class="task"><span class="task__lbl" style="--t:#7c83ff"></span>{fr ? 'Maquettes accueil' : 'Home mockups'}<i class="task__av">A</i></div><div class="task"><span class="task__lbl" style="--t:#34d399"></span>{fr ? 'Schéma BD' : 'DB schema'}<i class="task__av">M</i></div></div>
-                    <div class="col"><span class="col__h">{fr ? 'En cours' : 'In progress'}</span><div class="task"><span class="task__lbl" style="--t:#f5a524"></span>{fr ? 'API paiements' : 'Payments API'}<i class="task__av">P</i></div><div class="task"><span class="task__lbl" style="--t:#ff4d5e"></span>{fr ? 'Tests E2E' : 'E2E tests'}<i class="task__av">S</i></div></div>
-                    <div class="col"><span class="col__h">{fr ? 'Fait' : 'Done'}</span><div class="task task--done"><span class="task__lbl" style="--t:#2dd4bf"></span>{fr ? 'Auth SSO' : 'SSO auth'}<i class="task__av">L</i></div><div class="task task--done"><span class="task__lbl" style="--t:#7c83ff"></span>{fr ? 'Page d’accueil' : 'Landing page'}<i class="task__av">A</i></div></div>
+                    <div class="col"><span class="col__h">{fr ? 'À faire' : 'To do'}</span><div class="col__cards">
+                      <div class="task"><span class="task__lbl" style="--t:#7c83ff"></span>{fr ? 'Maquettes accueil' : 'Home mockups'}<i class="task__av">A</i></div>
+                      <div class="task"><span class="task__lbl" style="--t:#34d399"></span>{fr ? 'Schéma BD' : 'DB schema'}<i class="task__av">M</i></div>
+                      <div class="task"><span class="task__lbl" style="--t:#cf8aa0"></span>{fr ? 'Page tarifs' : 'Pricing page'}<i class="task__av">J</i></div>
+                    </div></div>
+                    <div class="col"><span class="col__h">{fr ? 'En cours' : 'In progress'}</span><div class="col__cards">
+                      <div class="task"><span class="task__lbl" style="--t:#f5a524"></span>{fr ? 'API paiements' : 'Payments API'}<i class="task__av">P</i></div>
+                      <div class="task"><span class="task__lbl" style="--t:#ff4d5e"></span>{fr ? 'Tests E2E' : 'E2E tests'}<i class="task__av">S</i></div>
+                      <div class="task"><span class="task__lbl" style="--t:#2bc4b4"></span>{fr ? 'Onboarding' : 'Onboarding'}<i class="task__av">D</i></div>
+                    </div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Fait' : 'Done'}</span><div class="col__cards">
+                      <div class="task task--done"><span class="task__lbl" style="--t:#2dd4bf"></span>{fr ? 'Auth SSO' : 'SSO auth'}<i class="task__av">L</i></div>
+                      <div class="task task--done"><span class="task__lbl" style="--t:#7c83ff"></span>{fr ? 'Page d’accueil' : 'Landing page'}<i class="task__av">A</i></div>
+                      <div class="task task--done"><span class="task__lbl" style="--t:#34d399"></span>{fr ? 'Migration BD' : 'DB migration'}<i class="task__av">M</i></div>
+                    </div></div>
                   </div>
                 </div>
               )}
@@ -329,16 +353,21 @@ const crumbs = [
   .cpt-row--desktop { grid-template-columns: repeat(2, 1fr); margin-top: 4rem; }
   /* Every desktop + SaaS box matches: shared stage height, the window fills
      it, and the inner content distributes top to bottom. */
-  .cpt-row--desktop .cpt-stage { min-height: clamp(440px, 35vw, 500px); }
+  .cpt-row--desktop .cpt-stage { min-height: clamp(420px, 30vw, 460px); }
   .cpt-row--desktop .browser { display: flex; flex-direction: column; }
   .cpt-row--desktop .browser__screen { flex: 1; display: flex; flex-direction: column; }
-  .cpt-row--desktop .site { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .cpt-row--desktop .site { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .dash { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .dash__body { flex: 1; }
   .cpt-row--desktop .board { flex: 1; }
+  .cpt-row--desktop .col__cards { flex: 1; justify-content: space-between; }
   .cpt-row--desktop .chart { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .chart svg { flex: 1; height: auto; min-height: 70px; }
   .cpt-row--desktop .inv { flex: 1; justify-content: space-between; }
+  /* Sites: the main section grows to fill so there's no mid-page gap. */
+  .cpt-row--desktop .resto__hero, .cpt-row--desktop .clinic__hero, .cpt-row--desktop .ecom__hero { flex: 1; }
+  .cpt-row--desktop .immo__card { flex: 1; display: flex; flex-direction: column; }
+  .cpt-row--desktop .immo__img { flex: 1; height: auto; min-height: 150px; }
 
   .cpt { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .cpt-stage {
@@ -543,6 +572,7 @@ const crumbs = [
 
   .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem; padding: 1rem; }
   .col { background: var(--surf); border-radius: 11px; padding: 0.55rem 0.5rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .col__cards { display: flex; flex-direction: column; gap: 0.45rem; }
   .col__h { font-size: 0.6rem; color: var(--txt2); text-transform: uppercase; letter-spacing: 0.06em; }
   .deal { background: color-mix(in srgb, var(--txt) 6%, transparent); border-radius: 8px; padding: 0.45rem 0.5rem; display: flex; flex-direction: column; gap: 0.1rem; border-left: 2px solid var(--c); }
   .deal b { font-size: 0.7rem; } .deal span { font-size: 0.66rem; color: var(--txt2); }
