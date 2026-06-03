@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://patricklaperriere.com',
+  site: 'https://www.patricklaperriere.com',
   output: 'static',
   // Canonical URLs have no trailing slash; keep sitemap + hreflang + <link
   // rel=canonical> all in agreement (Cloudflare Pages serves /foo/index.html

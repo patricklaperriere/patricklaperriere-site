@@ -1,7 +1,7 @@
 // Site-wide constants. Single place to change identity & contact info.
 
 export const SITE = {
-  domain: 'https://patricklaperriere.com',
+  domain: 'https://www.patricklaperriere.com',
   name: 'Patrick Laperrière',
   jobTitle: {
     fr: 'Développeur web',
