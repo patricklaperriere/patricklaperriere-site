@@ -16,6 +16,7 @@ export type RouteKey =
   | 'about'
   | 'contact'
   | 'blog'
+  | 'concepts'
   | 'privacy';
 
 export const routes: Record<RouteKey, Record<Locale, string>> = {
@@ -28,6 +29,7 @@ export const routes: Record<RouteKey, Record<Locale, string>> = {
   about:      { fr: '/a-propos',                         en: '/en/about' },
   contact:    { fr: '/contact',                          en: '/en/contact' },
   blog:       { fr: '/blogue',                           en: '/en/blog' },
+  concepts:   { fr: '/concepts',                         en: '/en/concepts' },
   privacy:    { fr: '/confidentialite',                  en: '/en/privacy' },
 };
 

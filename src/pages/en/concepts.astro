@@ -1,0 +1,30 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ConceptsContent from '../../components/pages/ConceptsContent.astro';
+import { useTranslations, routes, path } from '../../i18n';
+import { concepts, loc } from '../../data/concepts';
+import { graph, breadcrumbSchema, itemListSchema, personSchema } from '../../lib/schema';
+
+const locale = 'en' as const;
+const tr = useTranslations(locale);
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.concepts.crumb, url: path('concepts', locale) },
+  ]),
+  itemListSchema(concepts.map((c) => ({ name: `${c.brand} · ${loc(c.industry, locale)}`, url: path('concepts', locale) }))),
+  personSchema(locale),
+]);
+---
+
+<Layout
+  title={tr.concepts.seoTitle}
+  description={tr.concepts.seoDesc}
+  locale={locale}
+  alternates={routes.concepts}
+  ogImage="/og/concepts.png"
+  schema={schema}
+>
+  <ConceptsContent locale={locale} />
+</Layout>

@@ -17,6 +17,7 @@ export const en = {
     work: 'Work',
     about: 'About',
     blog: 'Blog',
+    concepts: 'Concepts',
     contact: 'Contact',
   },
 
@@ -352,6 +353,20 @@ export const en = {
 
   breadcrumb: {
     home: 'Home',
+  },
+
+  concepts: {
+    crumb: 'Concepts',
+    seoTitle: 'Concepts · interface demos by industry | Patrick Laperrière',
+    seoDesc: 'A look-and-feel showcase: custom interface concepts for the barber, restaurant, gym, real estate, clinic and café. Here’s what I can create for you.',
+    kicker: 'Studio · Concepts',
+    h1: 'Imagine it. I build it.',
+    lead: 'A look-and-feel showcase. Custom interface concepts, one industry at a time. Every screen is designed, coded and animated, not a picture.',
+    note: 'These are concepts, not real products. But this is exactly the level of finish I ship.',
+    ctaTitle: 'Got an idea?',
+    ctaLead: 'Tell me your industry and your vision. I make it real, polished and fast.',
+    live: 'Interactive demo',
+    industryLabel: 'Industry',
   },
 
   regions: {

@@ -139,6 +139,13 @@ const images = [
     title: 'Envita Wellness',
     subtitle: 'Plateforme Shopify custom · bien-être en direct',
   },
+  // Concepts showcase
+  {
+    file: 'concepts.png',
+    kicker: 'STUDIO · CONCEPTS',
+    title: 'Imaginez-le. Je le construis.',
+    subtitle: 'Des concepts d’interfaces sur mesure, par industrie',
+  },
   // Local SEO city pages
   {
     file: 'ville-laval.png',

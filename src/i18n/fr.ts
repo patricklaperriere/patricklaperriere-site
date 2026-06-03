@@ -18,6 +18,7 @@ export const fr = {
     work: 'Réalisations',
     about: 'À propos',
     blog: 'Blogue',
+    concepts: 'Concepts',
     contact: 'Contact',
   },
 
@@ -355,6 +356,20 @@ export const fr = {
 
   breadcrumb: {
     home: 'Accueil',
+  },
+
+  concepts: {
+    crumb: 'Concepts',
+    seoTitle: 'Concepts · démos d’interfaces par industrie | Patrick Laperrière',
+    seoDesc: 'Un aperçu de look and feel : des concepts d’interfaces sur mesure pour le barbier, le resto, le gym, l’immobilier, la clinique et le café. Voici ce que je peux créer.',
+    kicker: 'Studio · Concepts',
+    h1: 'Imaginez-le. Je le construis.',
+    lead: 'Une démonstration de look and feel. Des concepts d’interfaces sur mesure, une industrie à la fois. Chaque écran est pensé, codé et animé, pas une image.',
+    note: 'Ce sont des concepts, pas des produits réels. Mais c’est exactement ce niveau de fini que je livre.',
+    ctaTitle: 'Une idée en tête ?',
+    ctaLead: 'Dites-moi votre industrie et votre vision. On la rend réelle, soignée et rapide.',
+    live: 'Démo interactive',
+    industryLabel: 'Industrie',
   },
 
   regions: {
