@@ -20,6 +20,9 @@ export interface Project {
   client: string;
   /** Short accent color for the card (hex). */
   accent: string;
+  /** Image fit: 'cover' (default, screenshots) or 'contain' (device mockups,
+   *  shown whole on a dark backdrop instead of cropped). */
+  fit?: 'cover' | 'contain';
   title: LocalizedField;
   tagline: LocalizedField;
   role: LocalizedField;
@@ -39,6 +42,7 @@ export const projects: Project[] = [
     category: 'web',
     client: 'Habita (produit interne)',
     accent: '#7aa2ff',
+    fit: 'contain',
     title: {
       fr: 'Habita',
       en: 'Habita',

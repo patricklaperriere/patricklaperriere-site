@@ -13,6 +13,7 @@ interface Props {
 const { project, locale, cta, index = 0 } = Astro.props;
 const href = `${workBase[locale]}/${project.slug}`;
 const shot = `/work/${project.slug}.webp`;
+const contain = project.fit === 'contain';
 const shotAlt =
   locale === 'fr'
     ? `Aperçu du site ${loc(project.title, locale)}`
@@ -26,7 +27,7 @@ const shotAlt =
   data-delay={`${index * 90}ms`}
   style={`--accent:${project.accent}`}
 >
-  <div class="project-card__shot">
+  <div class:list={['project-card__shot', contain && 'project-card__shot--contain']}>
     <img src={shot} alt={shotAlt} width="600" height="375" loading="lazy" decoding="async" />
   </div>
   <div class="project-card__top">
@@ -79,6 +80,13 @@ const shotAlt =
       transition: transform 0.5s cubic-bezier(.2,.8,.2,1);
     }
     .project-card:hover .project-card__shot img { transform: scale(1.04); }
+    /* Device mockups: show the whole image, smaller, on a dark backdrop. */
+    .project-card__shot--contain {
+      background: #0a1521;
+      padding: 0.6rem 0.9rem 0;
+    }
+    .project-card__shot--contain img { object-fit: contain; object-position: center bottom; }
+    .project-card:hover .project-card__shot--contain img { transform: scale(1.02); }
     .project-card__top {
       display: flex;
       justify-content: space-between;

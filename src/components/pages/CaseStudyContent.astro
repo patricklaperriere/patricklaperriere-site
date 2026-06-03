@@ -20,6 +20,7 @@ const ws = tr.workSection;
 const others = sortedProjects().filter((p) => p.slug !== project.slug);
 
 const shot = `/work/${project.slug}.webp`;
+const contain = project.fit === 'contain';
 const shotAlt =
   locale === 'fr'
     ? `Capture d’écran du site ${loc(project.title, locale)}`
@@ -63,7 +64,7 @@ const blocks = [
     </div>
   </header>
 
-  <figure class="case__shot container-pl reveal">
+  <figure class:list={['case__shot container-pl reveal', contain && 'case__shot--contain']}>
     <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
       <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
     </a>
@@ -137,6 +138,14 @@ const blocks = [
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top center;
+  }
+  /* Device mockups: show the whole image on a dark backdrop, not cropped. */
+  .case__shot--contain a { background: #0a1521; }
+  .case__shot--contain img {
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+    object-position: center;
+    padding: clamp(1rem, 3vw, 2rem);
   }
   .case__body {
     display: grid;
