@@ -327,8 +327,18 @@ const crumbs = [
   .cpt-row { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
   .cpt-row--phones { grid-template-columns: repeat(4, 1fr); }
   .cpt-row--desktop { grid-template-columns: repeat(2, 1fr); margin-top: 4rem; }
-  /* All desktop + SaaS mockups share one stage height so every box matches. */
-  .cpt-row--desktop .cpt-stage { align-items: center; min-height: clamp(440px, 35vw, 500px); }
+  /* Every desktop + SaaS box matches: shared stage height, the window fills
+     it, and the inner content distributes top to bottom. */
+  .cpt-row--desktop .cpt-stage { min-height: clamp(440px, 35vw, 500px); }
+  .cpt-row--desktop .browser { display: flex; flex-direction: column; }
+  .cpt-row--desktop .browser__screen { flex: 1; display: flex; flex-direction: column; }
+  .cpt-row--desktop .site { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .cpt-row--desktop .dash { flex: 1; display: flex; flex-direction: column; }
+  .cpt-row--desktop .dash__body { flex: 1; }
+  .cpt-row--desktop .board { flex: 1; }
+  .cpt-row--desktop .chart { flex: 1; display: flex; flex-direction: column; }
+  .cpt-row--desktop .chart svg { flex: 1; height: auto; min-height: 70px; }
+  .cpt-row--desktop .inv { flex: 1; justify-content: space-between; }
 
   .cpt { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .cpt-stage {
