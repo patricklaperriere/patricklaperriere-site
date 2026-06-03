@@ -139,13 +139,16 @@ const blocks = [
     object-fit: cover;
     object-position: top center;
   }
-  /* Device mockups: the frame hugs the image at its natural ratio, no
-     empty letterbox bars around it. */
-  .case__shot--contain a { background: #0a1521; }
+  /* Transparent device mockup: trimmed tight, then given uniform breathing
+     room via frame padding (seamless, since the image has no background). */
+  .case__shot--contain a {
+    background: #0a1521;
+    padding: clamp(1.5rem, 5vw, 4rem);
+  }
   .case__shot--contain img {
     aspect-ratio: auto;
     height: auto;
-    object-fit: fill;
+    object-fit: contain;
   }
   .case__body {
     display: grid;
