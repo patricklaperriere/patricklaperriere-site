@@ -31,9 +31,44 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: 'inspection-habitation-outaouais',
+    slug: 'habita',
     featured: true,
     order: 1,
+    url: 'https://habita.expert',
+    year: '2026',
+    category: 'web',
+    client: 'Habita (produit interne)',
+    accent: '#7aa2ff',
+    title: {
+      fr: 'Habita',
+      en: 'Habita',
+    },
+    tagline: {
+      fr: 'Mon logiciel SaaS d’inspection en bâtiment pour les inspecteurs du Québec.',
+      en: 'My SaaS building-inspection software for Quebec home inspectors.',
+    },
+    role: {
+      fr: 'Produit, design et développement de A à Z',
+      en: 'Product, design and development, end to end',
+    },
+    challenge: {
+      fr: 'Au Québec, beaucoup d’inspecteurs en bâtiment travaillent encore avec des logiciels de bureau lourds, locaux et datés. Je voulais bâtir l’outil que j’aurais voulu avoir : moderne, infonuagique, bilingue, utilisable hors ligne sur le terrain, conforme à la norme BNQ 3009-500 et assez intelligent pour aider à rédiger les constats. Tout ça, conçu et développé seul, de l’idée jusqu’à la mise en marché, face à des joueurs établis comme Vesta, Lumos, UData et Enzo Solution.',
+      en: 'In Quebec, many building inspectors still work with heavy, local, dated desktop software. I wanted to build the tool I wish I had: modern, cloud-based, bilingual, usable offline in the field, compliant with the BNQ 3009-500 standard and smart enough to help write findings. All designed and developed solo, from idea to market, against established players like Vesta, Lumos, UData and Enzo Solution.',
+    },
+    built: {
+      fr: 'Habita est une plateforme SaaS complète : données sur infonuagique canadienne avec sauvegardes gérées, IA de rédaction de constats incluse sans plafond, rapports web interactifs partageables par lien sécurisé en plus du PDF, mode hors ligne pour inspecter sans réseau, organisation des photos, espace de travail multivolets et interface pensée mobile d’abord, le tout vraiment bilingue FR et EN. J’ai aussi bâti tout le site marketing : pages de fonctionnalités, tarif, un hub de ressources pour les inspecteurs (BNQ 3009-500, certificat RBQ catégorie 1, devenir inspecteur, assurances) et des pages de comparaison face à chaque concurrent.',
+      en: 'Habita is a full SaaS platform: data on Canadian cloud with managed backups, AI finding-writing included with no cap, interactive web reports shareable via secure link on top of PDF, an offline mode to inspect without a connection, photo organization, a multi-panel workspace and a mobile-first interface, all genuinely bilingual FR and EN. I also built the entire marketing site: feature pages, pricing, a resource hub for inspectors (BNQ 3009-500, RBQ category 1 certificate, becoming an inspector, insurance) and comparison pages against each competitor.',
+    },
+    result: {
+      fr: 'Un produit que je conçois et fais évoluer en continu, positionné comme l’alternative moderne et bilingue aux logiciels d’inspection traditionnels du Québec, soutenu par une vraie stratégie de contenu et de comparaison pour attirer les inspecteurs en recherche d’un meilleur outil. C’est ma plus grande fierté.',
+      en: 'A product I design and keep evolving, positioned as the modern, bilingual alternative to Quebec’s traditional inspection software, backed by a real content and comparison strategy to attract inspectors looking for a better tool. It’s what I’m proudest of.',
+    },
+    stack: ['SaaS', 'Infonuagique (Canada)', 'IA', 'Hors ligne', 'Bilingue FR/EN'],
+  },
+  {
+    slug: 'inspection-habitation-outaouais',
+    featured: true,
+    order: 2,
     url: 'https://inspectionhab.ca',
     year: '2025',
     category: 'seo',
@@ -68,7 +103,7 @@ export const projects: Project[] = [
   {
     slug: 'hp-addik',
     featured: true,
-    order: 2,
+    order: 3,
     url: 'https://hpaddik.com',
     year: '2025',
     category: 'shopify',
@@ -103,7 +138,7 @@ export const projects: Project[] = [
   {
     slug: 'envita-wellness',
     featured: true,
-    order: 3,
+    order: 4,
     url: 'https://envita-wellness.com',
     year: '2026',
     category: 'shopify',

@@ -116,6 +116,12 @@ const images = [
   },
   // Projects
   {
+    file: 'project-habita.png',
+    kicker: 'RÉALISATION · CASE STUDY',
+    title: 'Habita',
+    subtitle: 'Logiciel SaaS d’inspection en bâtiment · Québec',
+  },
+  {
     file: 'project-inspection-habitation-outaouais.png',
     kicker: 'RÉALISATION · CASE STUDY',
     title: 'Inspection Habitation Outaouais',
