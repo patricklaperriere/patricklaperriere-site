@@ -43,7 +43,7 @@ export const villes: Ville[] = [
     order: 1,
     fr: {
       metaTitle: 'Création de site web à Laval | Patrick Laperrière',
-      metaDesc: 'Développeur web à Laval. Sites rapides, bilingues et optimisés pour Google, conçus pour les PME lavalloises qui veulent générer des clients. Soumission gratuite.',
+      metaDesc: 'Développeur web à Laval. Sites rapides, bilingues et optimisés pour Google pour les PME lavalloises qui veulent générer des clients. Soumission gratuite.',
       h1: 'Création de site web à Laval',
       lead: 'Un développeur web établi à Laval, qui conçoit des sites rapides et bien référencés pour les entreprises de la région.',
       intro:

@@ -63,7 +63,7 @@ export const fr = {
       blurb: 'Des sites sur mesure, rapides et modernes, pensés pour convertir vos visiteurs en clients.',
       // Detail page
       seoTitle: 'Création de site web sur mesure | Patrick Laperrière',
-      seoDesc: 'Conception et développement de sites web sur mesure, rapides et optimisés pour Google. Pour PME du Québec et clients à distance partout au Canada et aux États-Unis.',
+      seoDesc: 'Conception et développement de sites web sur mesure, rapides et optimisés pour Google. Pour PME du Québec, du Canada et des États-Unis.',
       h1: 'Création de site web sur mesure',
       lead: 'Un site rapide, élégant et conçu pour transformer vos visiteurs en clients, pas juste une jolie carte de visite en ligne.',
       problemTitle: 'Le problème',
@@ -138,8 +138,8 @@ export const fr = {
       title: 'Boutique e-commerce (Shopify)',
       tagline: 'Boutiques Shopify sur mesure en Liquid.',
       blurb: 'Boutiques Shopify sur mesure en Liquid, rapides et optimisées pour vendre.',
-      seoTitle: 'Développeur Shopify · boutique e-commerce sur mesure | Patrick Laperrière',
-      seoDesc: 'Création de boutiques Shopify sur mesure en Liquid : rapides, optimisées pour la conversion et le SEO. Thèmes personnalisés et intégrations. Canada et États-Unis.',
+      seoTitle: 'Développeur Shopify · boutique sur mesure | Patrick Laperrière',
+      seoDesc: 'Création de boutiques Shopify sur mesure en Liquid : rapides, optimisées pour la conversion et le SEO. Thèmes personnalisés. Canada et États-Unis.',
       h1: 'Boutique e-commerce sur mesure avec Shopify',
       lead: 'Une boutique Shopify rapide, sur mesure et optimisée pour vendre, pas un thème générique que tout le monde utilise.',
       problemTitle: 'Le problème',
@@ -224,7 +224,7 @@ export const fr = {
 
   about: {
     seoTitle: 'À propos · développeur web bilingue à Laval | Patrick Laperrière',
-    seoDesc: 'Patrick Laperrière, développeur web bilingue basé à Laval. Je construis des sites rapides et bien référencés pour les PME du Québec et des clients à distance au Canada et aux États-Unis.',
+    seoDesc: 'Patrick Laperrière, développeur web bilingue à Laval. Je construis des sites rapides et bien référencés pour les PME du Québec, du Canada et des États-Unis.',
     kicker: 'À propos',
     h1: 'Développeur web bilingue, basé à Laval',
     lead: 'Je construis des sites rapides et bien référencés pour les entreprises qui veulent être trouvées, au Québec, au Canada et aux États-Unis.',

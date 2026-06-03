@@ -38,4 +38,4 @@ Petit détail qui fait une grande différence : quand quelqu'un change de langue
 
 Un site vraiment bilingue, c'est deux arbres de pages complets, liés proprement, optimisés chacun pour sa langue. C'est plus de travail qu'un simple bouton, mais c'est la différence entre paraître bilingue et l'être réellement aux yeux de Google.
 
-Vous visez les marchés francophone et anglophone ? [Parlons de votre projet](/contact).
+Vous visez les marchés francophone et anglophone ? [Parlons de votre projet](/contact). Et si vous cherchez un site bien référencé dans votre coin, voyez la [création de site web par région](/creation-site-web).

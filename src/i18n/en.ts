@@ -221,7 +221,7 @@ export const en = {
 
   about: {
     seoTitle: 'About · bilingual web developer in Laval | Patrick Laperrière',
-    seoDesc: 'Patrick Laperrière, bilingual web developer based in Laval. I build fast, well-ranked websites for Quebec small businesses and remote clients across Canada and the US.',
+    seoDesc: 'Patrick Laperrière, bilingual web developer in Laval. I build fast, well-ranked websites for small businesses across Quebec, Canada and the US.',
     kicker: 'About',
     h1: 'Bilingual web developer, based in Laval',
     lead: 'I build fast, well-ranked websites for businesses that want to get found — across Quebec, Canada and the United States.',

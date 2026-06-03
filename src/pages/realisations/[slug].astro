@@ -22,7 +22,7 @@ const enPath = `${workBase.en}/${project.slug}`;
 const alternates = { fr: frPath, en: enPath };
 const ogImage = `/og/project-${project.slug}.png`;
 
-const title = `${loc(project.title, locale)} · ${tr.workSection.kicker} | Patrick Laperrière`;
+const title = `${loc(project.title, locale)} | Patrick Laperrière`;
 const description = loc(project.tagline, locale) + ' ' + loc(project.challenge, locale).slice(0, 110);
 
 const schema = graph([

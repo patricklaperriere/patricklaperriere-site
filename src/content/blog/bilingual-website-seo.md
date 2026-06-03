@@ -38,4 +38,4 @@ A small detail that makes a big difference: when someone switches language, they
 
 A truly bilingual site means two complete page trees, cleanly linked, each optimized for its language. It's more work than a simple button, but it's the difference between looking bilingual and actually being bilingual in Google's eyes.
 
-Targeting both French and English markets? [Let's talk about your project](/en/contact).
+Targeting both French and English markets? [Let's talk about your project](/en/contact). And if you want a well-ranked site in your area, see [web design by region](/en/web-design).

@@ -25,7 +25,9 @@ const related = postsFor(all, locale).filter((p) => p.id !== post.id).slice(0, 2
 const selfPath = blogPostPath(locale, post.data.slug);
 const alternates = postAlternates(post, all);
 const ogImage = `/og/post-${post.data.slug}.png`;
-const title = `${post.data.title} | Patrick Laperrière`;
+// Article titles are long and descriptive on their own; skip the brand
+// suffix so the SERP title isn't truncated (Google appends the site name).
+const title = post.data.title;
 
 const schema = graph([
   breadcrumbSchema([
