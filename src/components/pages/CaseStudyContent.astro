@@ -139,15 +139,18 @@ const blocks = [
     object-fit: cover;
     object-position: top center;
   }
-  /* Transparent device mockup: no frame, floats on a blue Habita glow. */
-  .case__shot--contain { position: relative; }
+  /* Transparent device mockup, habita.expert style: floats on a smooth
+     navy backdrop with a soft blue glow rising from the bottom. No frame. */
+  .case__shot--contain { position: relative; isolation: isolate; }
   .case__shot--contain::before {
     content: '';
     position: absolute;
-    inset: -8% -4% -4%;
-    background: radial-gradient(48% 52% at 50% 42%, rgba(122, 162, 255, 0.42), rgba(122, 162, 255, 0.12) 45%, transparent 72%);
+    inset: -14% -18% -12%;
     z-index: 0;
     pointer-events: none;
+    background:
+      radial-gradient(52% 46% at 50% 74%, rgba(122, 162, 255, 0.34), rgba(122, 162, 255, 0.10) 46%, transparent 72%),
+      radial-gradient(72% 72% at 50% 42%, rgba(9, 16, 28, 0.96), rgba(8, 13, 23, 0.66) 55%, transparent 82%);
   }
   .case__shot--contain a {
     position: relative;
@@ -164,7 +167,7 @@ const blocks = [
     aspect-ratio: auto;
     height: auto;
     object-fit: contain;
-    filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
   }
   .case__body {
     display: grid;
