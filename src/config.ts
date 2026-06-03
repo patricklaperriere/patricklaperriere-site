@@ -8,6 +8,9 @@ export const SITE = {
     en: 'Web Developer',
   },
   email: 'patricklaperriere819@gmail.com',
+  // Phone — E.164 for tel: links + schema; display for the UI.
+  phone: '+18193283101',
+  phoneDisplay: '819 328-3101',
   city: 'Laval',
   region: 'QC',
   regionName: 'Québec',

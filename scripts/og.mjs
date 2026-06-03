@@ -133,6 +133,43 @@ const images = [
     title: 'Envita Wellness',
     subtitle: 'Plateforme Shopify custom · bien-être en direct',
   },
+  // Local SEO city pages
+  {
+    file: 'ville-laval.png',
+    kicker: 'SEO LOCAL · CRÉATION DE SITE WEB',
+    title: 'Site web à Laval',
+    subtitle: 'Rapide, bilingue et optimisé pour Google',
+  },
+  {
+    file: 'ville-montreal.png',
+    kicker: 'SEO LOCAL · CRÉATION DE SITE WEB',
+    title: 'Site web à Montréal',
+    subtitle: 'Sur mesure, bilingue et pensé pour convertir',
+  },
+  {
+    file: 'ville-longueuil.png',
+    kicker: 'SEO LOCAL · RIVE-SUD',
+    title: 'Site web à Longueuil',
+    subtitle: 'Référencement local pour la Rive-Sud',
+  },
+  {
+    file: 'ville-gatineau.png',
+    kicker: 'SEO LOCAL · OUTAOUAIS',
+    title: 'Site web à Gatineau',
+    subtitle: 'Bilingue FR/EN · marché Gatineau-Ottawa',
+  },
+  {
+    file: 'ville-quebec.png',
+    kicker: 'SEO LOCAL · CAPITALE-NATIONALE',
+    title: 'Site web à Québec',
+    subtitle: 'Rapide, soigné et bien référencé',
+  },
+  {
+    file: 'ville-terrebonne.png',
+    kicker: 'SEO LOCAL · COURONNE NORD',
+    title: 'Site web à Terrebonne',
+    subtitle: 'Référencement local pour la Couronne Nord',
+  },
 ];
 
 const allImages = [...images, ...blogOgImages()];

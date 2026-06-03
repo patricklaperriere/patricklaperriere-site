@@ -1,0 +1,47 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import LocalSeoContent from '../../../components/pages/LocalSeoContent.astro';
+import { useTranslations, path } from '../../../i18n';
+import { villes, villeContent, villePath, villesHubPath, villeAlternates } from '../../../data/villes';
+import { graph, breadcrumbSchema, faqSchema, localServiceSchema, professionalServiceSchema } from '../../../lib/schema';
+
+export function getStaticPaths() {
+  return villes.map((ville) => ({ params: { ville: ville.slug }, props: { ville } }));
+}
+
+const locale = 'en' as const;
+const { ville } = Astro.props;
+const tr = useTranslations(locale);
+const c = villeContent(ville, locale);
+const selfPath = villePath(locale, ville.slug);
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.regions.crumb, url: villesHubPath(locale) },
+    { name: ville.name, url: selfPath },
+  ]),
+  localServiceSchema({
+    cityName: ville.name,
+    region: ville.region[locale],
+    url: selfPath,
+    description: c.metaDesc,
+    geo: ville.geo,
+    nearby: ville.nearby,
+    locale,
+  }),
+  faqSchema(c.faq),
+  professionalServiceSchema(locale),
+]);
+---
+
+<Layout
+  title={c.metaTitle}
+  description={c.metaDesc}
+  locale={locale}
+  alternates={villeAlternates(ville.slug)}
+  ogImage={`/og/ville-${ville.slug}.png`}
+  schema={schema}
+>
+  <LocalSeoContent locale={locale} ville={ville} />
+</Layout>

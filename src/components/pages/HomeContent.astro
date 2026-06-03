@@ -6,6 +6,7 @@ import Hero from '../Hero.astro';
 import Marquee from '../Marquee.astro';
 import ServiceCard from '../ServiceCard.astro';
 import ProjectCard from '../ProjectCard.astro';
+import Testimonials from '../Testimonials.astro';
 import FaqList from '../FaqList.astro';
 import CtaBand from '../CtaBand.astro';
 
@@ -63,6 +64,9 @@ const featured = featuredProjects();
     </div>
   </div>
 </section>
+
+{/* Testimonials — real Google reviews */}
+<Testimonials locale={locale} />
 
 {/* Reassurance */}
 <section class="section-tight">

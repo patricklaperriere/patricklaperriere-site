@@ -194,6 +194,14 @@ export const en = {
     ],
   },
 
+  testimonials: {
+    kicker: 'Testimonials',
+    title: 'What my clients say',
+    lead: 'Real projects, happy clients.',
+    rating: '5.0 out of 5 on Google',
+    source: 'Google review',
+  },
+
   homeFaq: {
     title: 'Frequently asked questions',
     items: [
@@ -254,6 +262,7 @@ export const en = {
       success: 'Thank you. I’ll get back to you very shortly.',
       error: 'Oops, something went wrong. Email me directly instead.',
       orEmail: 'Or email me directly:',
+      orCall: 'Or call:',
     },
   },
 
@@ -343,6 +352,21 @@ export const en = {
 
   breadcrumb: {
     home: 'Home',
+  },
+
+  regions: {
+    crumb: 'Web Design',
+    seoTitle: 'Web Design by City in Quebec | Patrick Laperrière',
+    seoDesc: 'Bilingual web developer serving Laval, Montreal, Longueuil, Gatineau, Quebec City and the North Shore. Fast websites optimized for local SEO.',
+    kicker: 'Local SEO',
+    h1: 'Web design across Quebec',
+    lead: 'I build fast, well-ranked websites for businesses in Greater Montreal, the South Shore, the Outaouais and the Capitale-Nationale.',
+    intro: 'Based in Laval, I work with small businesses and shops across Quebec. Pick your region to see how I can help you get found locally on Google.',
+    citiesTitle: 'Areas served',
+    viewCity: 'View',
+    servicesHeading: 'How I can help',
+    allCities: 'All areas served',
+    nearbyNote: 'Somewhere else in Quebec? I also work remotely, anywhere in the province.',
   },
 
   notFound: {

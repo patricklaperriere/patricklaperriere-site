@@ -1,6 +1,7 @@
 ---
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
+import { villes, villePath, villesHubPath } from '../../data/villes';
 import Breadcrumb from '../Breadcrumb.astro';
 import ServiceCard from '../ServiceCard.astro';
 import CtaBand from '../CtaBand.astro';
@@ -11,6 +12,7 @@ interface Props {
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
 const services = [tr.services.web, tr.services.seo, tr.services.shopify];
+const cities = [...villes].sort((a, b) => a.order - b.order);
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -42,4 +44,37 @@ const crumbs = [
   </div>
 </section>
 
+<section class="section-tight container-pl">
+  <h2 class="section-head__title reveal" style="margin-bottom:1.2rem">{tr.regions.citiesTitle}</h2>
+  <ul class="region-links reveal" data-delay="60ms">
+    {cities.map((v) => (
+      <li><a href={villePath(locale, v.slug)}>{v.name}</a></li>
+    ))}
+    <li><a href={villesHubPath(locale)} class="region-links__all">{tr.regions.allCities} →</a></li>
+  </ul>
+</section>
+
 <CtaBand locale={locale} />
+
+<style>
+  .region-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 0.8rem;
+  }
+  .region-links a {
+    display: inline-block;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.45rem 1rem;
+    font-size: 0.9rem;
+    color: var(--color-bone);
+    background: rgba(238, 241, 246, 0.02);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .region-links a:hover { border-color: color-mix(in srgb, var(--color-gold) 50%, transparent); color: var(--color-gold-bright); }
+  .region-links__all { color: var(--color-gold-bright); }
+</style>

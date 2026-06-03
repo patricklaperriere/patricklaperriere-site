@@ -5,6 +5,7 @@ import { SITE } from '../config';
 import type { Locale } from '../i18n/routes';
 import { path } from '../i18n/routes';
 import { useTranslations } from '../i18n';
+import { temoignages, reviewAggregate } from '../data/temoignages';
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
 
@@ -40,6 +41,7 @@ export function personSchema(locale: Locale) {
     jobTitle: SITE.jobTitle[locale],
     url: SITE.domain,
     email: `mailto:${SITE.email}`,
+    telephone: SITE.phone,
     knowsLanguage: ['fr-CA', 'en-CA'],
     address: {
       '@type': 'PostalAddress',
@@ -72,8 +74,23 @@ export function professionalServiceSchema(locale: Locale) {
     image: abs(SITE.ogImage),
     url: SITE.domain,
     email: `mailto:${SITE.email}`,
+    telephone: SITE.phone,
     priceRange: '$$',
     founder: { '@id': `${SITE.domain}/#person` },
+    aggregateRating: {
+      '@type': 'AggregateRating',
+      ratingValue: reviewAggregate.ratingValue,
+      reviewCount: reviewAggregate.reviewCount,
+      bestRating: reviewAggregate.bestRating,
+      worstRating: reviewAggregate.worstRating,
+    },
+    review: temoignages.map((t) => ({
+      '@type': 'Review',
+      reviewRating: { '@type': 'Rating', ratingValue: t.rating, bestRating: 5, worstRating: 1 },
+      author: { '@type': 'Person', name: t.author },
+      reviewBody: t.text,
+      inLanguage: t.lang === 'fr' ? 'fr-CA' : 'en-CA',
+    })),
     knowsLanguage: ['fr-CA', 'en-CA'],
     areaServed: SITE.areaServed[locale].map((name) => ({ '@type': 'AdministrativeArea', name })),
     address: {
@@ -143,6 +160,37 @@ export function serviceSchema(opts: {
     provider: { '@id': `${SITE.domain}/#person` },
     areaServed: SITE.areaServed[opts.locale].map((name) => ({ '@type': 'AdministrativeArea', name })),
     availableLanguage: ['fr-CA', 'en-CA'],
+  };
+}
+
+/** Geo-targeted Service node for a city landing page (local SEO). */
+export function localServiceSchema(opts: {
+  cityName: string;
+  region: string;
+  url: string;
+  description: string;
+  geo: { lat: number; lng: number };
+  nearby: string[];
+  locale: Locale;
+}) {
+  const tr = useTranslations(opts.locale);
+  return {
+    '@type': 'Service',
+    name: `${tr.services.web.title} · ${opts.cityName}`,
+    serviceType: tr.services.web.title,
+    description: opts.description,
+    url: abs(opts.url),
+    provider: { '@id': `${SITE.domain}/#person` },
+    availableLanguage: ['fr-CA', 'en-CA'],
+    areaServed: [
+      {
+        '@type': 'City',
+        name: opts.cityName,
+        ...(opts.region ? { containedInPlace: { '@type': 'AdministrativeArea', name: opts.region } } : {}),
+        geo: { '@type': 'GeoCoordinates', latitude: opts.geo.lat, longitude: opts.geo.lng },
+      },
+      ...opts.nearby.map((name) => ({ '@type': 'Place', name })),
+    ],
   };
 }
 

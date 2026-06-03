@@ -92,6 +92,8 @@ const subject =
   <aside class="contact__aside reveal" data-delay="120ms">
     <p class="contact__or">{f.orEmail}</p>
     <a href={`mailto:${SITE.email}`} class="contact__email">{SITE.email}</a>
+    <p class="contact__or contact__or--call">{f.orCall}</p>
+    <a href={`tel:${SITE.phone}`} class="contact__email">{SITE.phoneDisplay}</a>
     <div class="contact__socials">
       {SOCIAL_LIST.map((s) => (
         <a href={s.url} target="_blank" rel="me noopener">{s.label}</a>
@@ -164,6 +166,7 @@ const subject =
     background: rgba(238, 241, 246, 0.02);
   }
   .contact__or { font-size: 0.9rem; color: var(--color-fog); margin: 0 0 0.6rem; }
+  .contact__or--call { margin-top: 1.3rem; }
   .contact__email {
     font-family: var(--font-mono);
     font-size: 1.05rem;

@@ -1,0 +1,109 @@
+---
+import { useTranslations, path } from '../../i18n';
+import type { Locale } from '../../i18n/routes';
+import { villes, villeContent, villePath } from '../../data/villes';
+import Breadcrumb from '../Breadcrumb.astro';
+import CtaBand from '../CtaBand.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+
+const cities = [...villes].sort((a, b) => a.order - b.order);
+
+const crumbs = [
+  { name: tr.breadcrumb.home, url: path('home', locale) },
+  { name: tr.regions.crumb, url: '' },
+];
+---
+
+<Breadcrumb items={crumbs} />
+
+<section class="page-head container-pl">
+  <p class="kicker reveal">{tr.regions.kicker}</p>
+  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{tr.regions.h1}</span></h1>
+  <p class="lead reveal" data-delay="160ms">{tr.regions.lead}</p>
+</section>
+
+<section class="section-tight container-pl">
+  <p class="hub-intro reveal">{tr.regions.intro}</p>
+</section>
+
+<section class="section-tight container-pl">
+  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{tr.regions.citiesTitle}</h2>
+  <div class="city-grid">
+    {cities.map((v, i) => {
+      const c = villeContent(v, locale);
+      return (
+        <a href={villePath(locale, v.slug)} class="card city-card reveal" data-delay={`${i * 60}ms`}>
+          <span class="city-card__region">{v.region[locale]}</span>
+          <h3 class="city-card__name">{v.name}</h3>
+          <p class="city-card__lead">{c.lead}</p>
+          <span class="city-card__cta">{tr.regions.viewCity} <span aria-hidden="true">→</span></span>
+        </a>
+      );
+    })}
+  </div>
+  <p class="nearby-note reveal" data-delay="120ms">{tr.regions.nearbyNote}</p>
+</section>
+
+<CtaBand locale={locale} />
+
+<style>
+  .hub-intro {
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--color-bone);
+    max-width: 720px;
+    margin: 0;
+  }
+  .city-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .city-card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.9rem;
+    text-decoration: none;
+    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s, background 0.3s;
+  }
+  .city-card:hover {
+    transform: translateY(-5px);
+    border-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
+    background: linear-gradient(180deg, rgba(232, 199, 154, 0.06), rgba(238, 241, 246, 0.01));
+  }
+  .city-card__region {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-gold);
+  }
+  .city-card__name { font-size: 1.5rem; margin: 0.6rem 0 0.6rem; }
+  .city-card__lead {
+    color: var(--color-fog);
+    font-size: 0.96rem;
+    line-height: 1.55;
+    margin: 0 0 1.3rem;
+    flex: 1;
+  }
+  .city-card__cta {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+    color: var(--color-gold-bright);
+  }
+  .nearby-note {
+    margin: 1.6rem 0 0;
+    color: var(--color-fog);
+    font-size: 0.95rem;
+    max-width: 60ch;
+  }
+  @media (max-width: 900px) {
+    .city-grid { grid-template-columns: 1fr; }
+  }
+</style>

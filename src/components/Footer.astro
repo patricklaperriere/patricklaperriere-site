@@ -2,6 +2,7 @@
 import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { SITE, SOCIAL_LIST } from '../config';
+import { villesHubPath } from '../data/villes';
 import SignaturePL from './SignaturePL.astro';
 
 interface Props {
@@ -23,6 +24,7 @@ const serviceLinks = [
   { href: path('svcWeb', locale), label: tr.services.web.title },
   { href: path('svcSeo', locale), label: tr.services.seo.title },
   { href: path('svcShopify', locale), label: tr.services.shopify.title },
+  { href: villesHubPath(locale), label: tr.regions.citiesTitle },
 ];
 ---
 
@@ -32,6 +34,7 @@ const serviceLinks = [
       <a href={path('home', locale)} class="footer__logo">Patrick Laperrière</a>
       <p class="footer__tagline">{tr.footer.tagline}</p>
       <a href={`mailto:${SITE.email}`} class="footer__email">{SITE.email}</a>
+      <a href={`tel:${SITE.phone}`} class="footer__email footer__phone">{SITE.phoneDisplay}</a>
     </div>
 
     <nav class="footer__col" aria-label={tr.footer.navTitle}>
@@ -95,6 +98,7 @@ const serviceLinks = [
     color: var(--color-gold);
   }
   .footer__email:hover { color: var(--color-gold-bright); }
+  .footer__phone { display: block; margin-top: 0.5rem; }
   .footer__title {
     font-family: var(--font-mono);
     font-size: 0.72rem;

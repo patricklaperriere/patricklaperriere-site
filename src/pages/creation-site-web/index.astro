@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import RegionsHubContent from '../../components/pages/RegionsHubContent.astro';
+import { useTranslations, path } from '../../i18n';
+import { villes, villePath, villesHubPath } from '../../data/villes';
+import { graph, breadcrumbSchema, itemListSchema, professionalServiceSchema } from '../../lib/schema';
+
+const locale = 'fr' as const;
+const tr = useTranslations(locale);
+
+const schema = graph([
+  breadcrumbSchema([
+    { name: tr.breadcrumb.home, url: path('home', locale) },
+    { name: tr.regions.crumb, url: villesHubPath(locale) },
+  ]),
+  itemListSchema(villes.map((v) => ({ name: `${tr.regions.crumb} · ${v.name}`, url: villePath(locale, v.slug) }))),
+  professionalServiceSchema(locale),
+]);
+---
+
+<Layout
+  title={tr.regions.seoTitle}
+  description={tr.regions.seoDesc}
+  locale={locale}
+  alternates={{ fr: villesHubPath('fr'), en: villesHubPath('en') }}
+  schema={schema}
+>
+  <RegionsHubContent locale={locale} />
+</Layout>

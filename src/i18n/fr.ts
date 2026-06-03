@@ -197,6 +197,14 @@ export const fr = {
     ],
   },
 
+  testimonials: {
+    kicker: 'Témoignages',
+    title: 'Ce que disent mes clients',
+    lead: 'Des projets réels, des clients satisfaits.',
+    rating: '5,0 sur 5 sur Google',
+    source: 'Avis Google',
+  },
+
   homeFaq: {
     title: 'Questions fréquentes',
     items: [
@@ -257,6 +265,7 @@ export const fr = {
       success: 'Merci. Je vous reviens très rapidement.',
       error: 'Oups, une erreur est survenue. Écrivez-moi directement par courriel.',
       orEmail: 'Ou écrivez-moi directement :',
+      orCall: 'Ou appelez :',
     },
   },
 
@@ -346,6 +355,21 @@ export const fr = {
 
   breadcrumb: {
     home: 'Accueil',
+  },
+
+  regions: {
+    crumb: 'Création de site web',
+    seoTitle: 'Création de site web par ville au Québec | Patrick Laperrière',
+    seoDesc: 'Développeur web bilingue desservant Laval, Montréal, Longueuil, Gatineau, Québec et la Couronne Nord. Sites rapides, optimisés pour le référencement local.',
+    kicker: 'SEO local',
+    h1: 'Création de site web partout au Québec',
+    lead: 'Je conçois des sites rapides et bien référencés pour les entreprises du Grand Montréal, de la Rive-Sud, de l’Outaouais et de la Capitale-Nationale.',
+    intro: 'Basé à Laval, je travaille avec des PME et des commerces partout au Québec. Choisissez votre région pour voir comment je peux vous aider à être trouvé localement sur Google.',
+    citiesTitle: 'Régions desservies',
+    viewCity: 'Voir',
+    servicesHeading: 'Comment je peux vous aider',
+    allCities: 'Toutes les régions desservies',
+    nearbyNote: 'Vous êtes ailleurs au Québec ? Je travaille aussi à distance, partout dans la province.',
   },
 
   notFound: {
