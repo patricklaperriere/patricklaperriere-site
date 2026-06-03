@@ -139,13 +139,13 @@ const blocks = [
     object-fit: cover;
     object-position: top center;
   }
-  /* Device mockups: show the whole image on a dark backdrop, not cropped. */
+  /* Device mockups: the frame hugs the image at its natural ratio, no
+     empty letterbox bars around it. */
   .case__shot--contain a { background: #0a1521; }
   .case__shot--contain img {
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-    object-position: center;
-    padding: clamp(1rem, 3vw, 2rem);
+    aspect-ratio: auto;
+    height: auto;
+    object-fit: fill;
   }
   .case__body {
     display: grid;
