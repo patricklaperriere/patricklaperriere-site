@@ -1,6 +1,7 @@
 // "Concepts" showcase — fictional brand concepts across industries, each
 // rendered as a fully CSS-built device mockup in ConceptsContent.astro.
-// These are demos of look & feel, not real products.
+// 4 mobile apps + 4 desktop sites. These are demos of look & feel, not
+// real products. Photos are from Unsplash (free commercial license).
 
 import type { Locale } from '../i18n/routes';
 
@@ -8,16 +9,17 @@ export type Device = 'phone' | 'browser';
 
 export interface Concept {
   id: string;
-  /** Fictional brand name shown on the mockup. */
   brand: string;
   device: Device;
-  /** Accent hex driving the mockup palette. */
   accent: string;
   industry: { fr: string; en: string };
   tagline: { fr: string; en: string };
+  /** Short feature tags shown under the mockup. */
+  tags: { fr: string[]; en: string[] };
 }
 
 export const concepts: Concept[] = [
+  // ---------- Mobile apps ----------
   {
     id: 'barber',
     brand: 'FADE',
@@ -25,9 +27,10 @@ export const concepts: Concept[] = [
     accent: '#e8b04a',
     industry: { fr: 'Barbier', en: 'Barbershop' },
     tagline: {
-      fr: 'Réservation en trois taps. Choisis ton barbier, ton heure, c’est réglé.',
-      en: 'Booking in three taps. Pick your barber, your time, done.',
+      fr: 'Réservation en trois taps, choix du barbier et rappels automatiques. La file d’attente, c’est fini.',
+      en: 'Booking in three taps, barber selection and automatic reminders. No more waiting line.',
     },
+    tags: { fr: ['Réservation', 'Rappels SMS', 'Fidélité'], en: ['Booking', 'SMS reminders', 'Loyalty'] },
   },
   {
     id: 'fitness',
@@ -36,42 +39,10 @@ export const concepts: Concept[] = [
     accent: '#b8ff3c',
     industry: { fr: 'Gym et coaching', en: 'Gym & coaching' },
     tagline: {
-      fr: 'Suivi des entraînements, séries de progrès et réservation de cours.',
-      en: 'Workout tracking, progress streaks and class booking.',
+      fr: 'Suivi des entraînements, séries de progrès et réservation de cours en direct, pour garder les membres motivés.',
+      en: 'Workout tracking, progress streaks and live class booking that keeps members coming back.',
     },
-  },
-  {
-    id: 'resto',
-    brand: 'Brassé',
-    device: 'browser',
-    accent: '#e07a5f',
-    industry: { fr: 'Restaurant', en: 'Restaurant' },
-    tagline: {
-      fr: 'Menu qui donne faim et réservation de table sans friction.',
-      en: 'A menu that makes you hungry and frictionless table booking.',
-    },
-  },
-  {
-    id: 'immobilier',
-    brand: 'Domaine',
-    device: 'browser',
-    accent: '#5b8def',
-    industry: { fr: 'Immobilier', en: 'Real estate' },
-    tagline: {
-      fr: 'Fiches de propriété élégantes, recherche rapide et visites guidées.',
-      en: 'Elegant property listings, fast search and guided tours.',
-    },
-  },
-  {
-    id: 'clinique',
-    brand: 'Émail',
-    device: 'browser',
-    accent: '#2bc4b4',
-    industry: { fr: 'Clinique dentaire', en: 'Dental clinic' },
-    tagline: {
-      fr: 'Rassurant, clair et prise de rendez-vous en ligne en quelques secondes.',
-      en: 'Reassuring, clear, with online booking in seconds.',
-    },
+    tags: { fr: ['Suivi', 'Cours en direct', 'Objectifs'], en: ['Tracking', 'Live classes', 'Goals'] },
   },
   {
     id: 'cafe',
@@ -80,11 +51,77 @@ export const concepts: Concept[] = [
     accent: '#c98a4b',
     industry: { fr: 'Café', en: 'Coffee shop' },
     tagline: {
-      fr: 'Carte de fidélité numérique et commande à l’avance pour sauter la file.',
-      en: 'Digital loyalty card and order-ahead to skip the line.',
+      fr: 'Carte de fidélité numérique et commande à l’avance pour sauter la file du matin.',
+      en: 'Digital loyalty card and order-ahead to skip the morning line.',
     },
+    tags: { fr: ['Fidélité', 'Commande', 'Paiement'], en: ['Loyalty', 'Order-ahead', 'Payments'] },
+  },
+  {
+    id: 'tattoo',
+    brand: 'Encre',
+    device: 'phone',
+    accent: '#ff4d5e',
+    industry: { fr: 'Studio de tatouage', en: 'Tattoo studio' },
+    tagline: {
+      fr: 'Portfolio par artiste, dépôt de référence et prise de rendez-vous, du premier flash au cover-up.',
+      en: 'Portfolio by artist, reference upload and booking, from first flash to cover-up.',
+    },
+    tags: { fr: ['Portfolio', 'Devis', 'Rendez-vous'], en: ['Portfolio', 'Quotes', 'Booking'] },
+  },
+
+  // ---------- Desktop sites ----------
+  {
+    id: 'resto',
+    brand: 'Brassé',
+    device: 'browser',
+    accent: '#e07a5f',
+    industry: { fr: 'Restaurant', en: 'Restaurant' },
+    tagline: {
+      fr: 'Un menu qui donne faim, des photos appétissantes et la réservation de table sans friction.',
+      en: 'A menu that makes you hungry, mouthwatering photos and frictionless table booking.',
+    },
+    tags: { fr: ['Menu', 'Réservation', 'Local SEO'], en: ['Menu', 'Reservations', 'Local SEO'] },
+  },
+  {
+    id: 'immobilier',
+    brand: 'Domaine',
+    device: 'browser',
+    accent: '#5b8def',
+    industry: { fr: 'Immobilier', en: 'Real estate' },
+    tagline: {
+      fr: 'Fiches de propriété élégantes, recherche rapide, galerie photo et visites guidées en ligne.',
+      en: 'Elegant property listings, fast search, photo galleries and guided online tours.',
+    },
+    tags: { fr: ['Fiches', 'Recherche', 'Galerie'], en: ['Listings', 'Search', 'Gallery'] },
+  },
+  {
+    id: 'clinique',
+    brand: 'Émail',
+    device: 'browser',
+    accent: '#2bc4b4',
+    industry: { fr: 'Clinique dentaire', en: 'Dental clinic' },
+    tagline: {
+      fr: 'Rassurant, clair et professionnel, avec prise de rendez-vous en ligne en quelques secondes.',
+      en: 'Reassuring, clear and professional, with online booking done in seconds.',
+    },
+    tags: { fr: ['Rendez-vous', 'Équipe', 'Confiance'], en: ['Booking', 'Team', 'Trust'] },
+  },
+  {
+    id: 'ecom',
+    brand: 'Maille',
+    device: 'browser',
+    accent: '#cf8aa0',
+    industry: { fr: 'Boutique en ligne', en: 'Online store' },
+    tagline: {
+      fr: 'Boutique Shopify sur mesure : fiches produits soignées, panier rapide et tunnel d’achat optimisé.',
+      en: 'Custom Shopify store: polished product pages, a fast cart and an optimized checkout.',
+    },
+    tags: { fr: ['Shopify', 'Panier', 'Conversion'], en: ['Shopify', 'Cart', 'Conversion'] },
   },
 ];
+
+export const phoneConcepts = concepts.filter((c) => c.device === 'phone');
+export const browserConcepts = concepts.filter((c) => c.device === 'browser');
 
 export function loc(field: { fr: string; en: string }, locale: Locale): string {
   return field[locale];

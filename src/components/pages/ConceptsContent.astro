@@ -1,7 +1,7 @@
 ---
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
-import { concepts, loc } from '../../data/concepts';
+import { phoneConcepts, browserConcepts, loc, type Concept } from '../../data/concepts';
 import Breadcrumb from '../Breadcrumb.astro';
 
 interface Props {
@@ -27,148 +27,193 @@ const crumbs = [
   <p class="cpt-note reveal" data-delay="220ms">{c.note}</p>
 </section>
 
+{/* ---------- Mobile apps ---------- */}
 <section class="section-tight container-pl">
-  <div class="cpt-grid">
-    {concepts.map((cc, i) => (
-      <article class="cpt reveal" data-id={cc.id} style={`--c:${cc.accent}`} data-delay={`${(i % 2) * 90}ms`}>
+  <header class="cpt-secthead reveal">
+    <span class="cpt-secnum">01</span>
+    <div>
+      <h2 class="section-head__title">{c.mobileTitle}</h2>
+      <p class="cpt-seclead">{c.mobileLead}</p>
+    </div>
+  </header>
+
+  <div class="cpt-row cpt-row--phones">
+    {phoneConcepts.map((cc, i) => (
+      <article class="cpt reveal" data-id={cc.id} style={`--c:${cc.accent}`} data-delay={`${i * 70}ms`}>
         <div class="cpt-stage" data-tilt>
-          {cc.device === 'phone' ? (
-            <div class="phone">
-              <span class="phone__notch"></span>
-              <div class="phone__screen">
-                <div class="statusbar"><span>9:41</span><span class="statusbar__dots"><i></i><i></i><i></i></span></div>
+          <div class="phone">
+            <span class="phone__notch"></span>
+            <div class="phone__screen">
+              <div class="statusbar"><span>9:41</span><span class="statusbar__dots"><i></i><i></i><i></i></span></div>
 
-                {cc.id === 'barber' && (
-                  <div class="ui ui--barber">
-                    <header class="ui__top"><span class="ui__brand">FADE</span><span class="ui__hi">{fr ? 'Salut, Marco' : 'Hey, Marco'}</span></header>
-                    <div class="card next">
-                      <span class="next__label">{fr ? 'Prochain rendez-vous' : 'Next appointment'}</span>
-                      <span class="next__time">{fr ? 'Sam. 14 juin · 11 h 30' : 'Sat Jun 14 · 11:30'}</span>
-                      <span class="next__who">{fr ? 'avec Dom · Coupe + barbe' : 'with Dom · Cut + beard'}</span>
-                    </div>
-                    <p class="ui__sec">{fr ? 'Choisis ton barbier' : 'Pick your barber'}</p>
-                    <div class="avatars">
-                      <span class="av av--on">D</span><span class="av">K</span><span class="av">M</span><span class="av">J</span>
-                    </div>
-                    <p class="ui__sec">{fr ? 'Disponibilités' : 'Availability'}</p>
-                    <div class="slots">
-                      <span class="slot">10:00</span><span class="slot slot--on">11:30</span><span class="slot">13:00</span><span class="slot">14:30</span>
-                    </div>
-                    <button class="cta">{fr ? 'Réserver' : 'Book now'}</button>
-                  </div>
-                )}
+              {cc.id === 'barber' && (
+                <div class="ui ui--barber">
+                  <header class="ui__top"><span class="ui__brand">FADE</span><span class="ui__hi">{fr ? 'Salut, Marco' : 'Hey, Marco'}</span></header>
+                  <div class="photo photo--barber"><img src="/concepts/barber.webp" alt="" loading="lazy" decoding="async" width="620" height="360" /><span class="photo__cap">{fr ? 'FADE · Chomedey, Laval' : 'FADE · Chomedey, Laval'}</span></div>
+                  <p class="ui__sec">{fr ? 'Choisis ton barbier' : 'Pick your barber'}</p>
+                  <div class="avatars"><span class="av av--on">D</span><span class="av">K</span><span class="av">M</span><span class="av">J</span></div>
+                  <div class="slots"><span class="slot">10:00</span><span class="slot slot--on">11:30</span><span class="slot">13:00</span><span class="slot">14:30</span></div>
+                  <button class="cta">{fr ? 'Réserver' : 'Book now'}</button>
+                </div>
+              )}
 
-                {cc.id === 'fitness' && (
-                  <div class="ui ui--fitness">
-                    <header class="ui__top"><span class="ui__brand">PULSE</span><span class="ui__hi">{fr ? 'Aujourd’hui' : 'Today'}</span></header>
-                    <div class="ring">
-                      <div class="ring__center"><b>780</b><span>kcal</span></div>
-                    </div>
-                    <div class="stats">
-                      <div class="stat"><b>🔥 12</b><span>{fr ? 'jours' : 'day streak'}</span></div>
-                      <div class="stat"><b>4/5</b><span>{fr ? 'cours' : 'classes'}</span></div>
-                      <div class="stat"><b>68 %</b><span>{fr ? 'objectif' : 'goal'}</span></div>
-                    </div>
-                    <div class="card classcard">
-                      <span class="classcard__t">HIIT · 18:30</span>
-                      <span class="classcard__s">{fr ? 'Studio A · 6 places restantes' : 'Studio A · 6 spots left'}</span>
-                    </div>
-                    <button class="cta">{fr ? 'S’inscrire' : 'Reserve spot'}</button>
+              {cc.id === 'fitness' && (
+                <div class="ui ui--fitness">
+                  <header class="ui__top"><span class="ui__brand">PULSE</span><span class="ui__hi">{fr ? 'Aujourd’hui' : 'Today'}</span></header>
+                  <div class="ring"><div class="ring__center"><b>780</b><span>kcal</span></div></div>
+                  <div class="stats">
+                    <div class="stat"><b>🔥 12</b><span>{fr ? 'jours' : 'streak'}</span></div>
+                    <div class="stat"><b>4/5</b><span>{fr ? 'cours' : 'classes'}</span></div>
+                    <div class="stat"><b>68 %</b><span>{fr ? 'objectif' : 'goal'}</span></div>
                   </div>
-                )}
+                  <div class="card classcard"><span class="classcard__t">HIIT · 18:30</span><span class="classcard__s">{fr ? 'Studio A · 6 places' : 'Studio A · 6 spots'}</span></div>
+                  <button class="cta">{fr ? 'S’inscrire' : 'Reserve spot'}</button>
+                </div>
+              )}
 
-                {cc.id === 'cafe' && (
-                  <div class="ui ui--cafe">
-                    <header class="ui__top"><span class="ui__brand">Grain</span><span class="ui__hi">☕</span></header>
-                    <div class="card loyalty">
-                      <span class="loyalty__t">{fr ? 'Carte de fidélité' : 'Loyalty card'}</span>
-                      <div class="stamps">
-                        {Array.from({ length: 10 }).map((_, s) => (
-                          <span class={`stamp ${s < 8 ? 'stamp--on' : ''}`}>{s < 8 ? '★' : ''}</span>
-                        ))}
-                      </div>
-                      <span class="loyalty__s">{fr ? 'Plus que 2 cafés pour un gratuit' : '2 more coffees for a free one'}</span>
-                    </div>
-                    <div class="card usual">
-                      <span class="usual__t">{fr ? 'Ta commande habituelle' : 'Your usual'}</span>
-                      <span class="usual__s">{fr ? 'Latte avoine · grand' : 'Oat latte · large'}</span>
-                    </div>
-                    <button class="cta">{fr ? 'Commander · 5,25 $' : 'Order · $5.25'}</button>
+              {cc.id === 'cafe' && (
+                <div class="ui ui--cafe">
+                  <header class="ui__top"><span class="ui__brand">Grain</span><span class="ui__hi">☕</span></header>
+                  <div class="photo photo--cafe"><img src="/concepts/latte.webp" alt="" loading="lazy" decoding="async" width="320" height="320" /></div>
+                  <div class="card loyalty">
+                    <span class="loyalty__t">{fr ? 'Carte de fidélité' : 'Loyalty card'}</span>
+                    <div class="stamps">{Array.from({ length: 10 }).map((_, s) => (<span class={`stamp ${s < 8 ? 'stamp--on' : ''}`}>{s < 8 ? '★' : ''}</span>))}</div>
+                    <span class="loyalty__s">{fr ? 'Plus que 2 cafés pour un gratuit' : '2 more for a free one'}</span>
                   </div>
-                )}
-              </div>
+                  <button class="cta">{fr ? 'Commander · 5,25 $' : 'Order · $5.25'}</button>
+                </div>
+              )}
+
+              {cc.id === 'tattoo' && (
+                <div class="ui ui--tattoo">
+                  <header class="ui__top"><span class="ui__brand">Encre</span><span class="ui__hi">{fr ? 'Studio' : 'Studio'}</span></header>
+                  <p class="ui__sec">{fr ? 'Portfolio · Léa' : 'Portfolio · Léa'}</p>
+                  <div class="gallery">
+                    <img src="/concepts/tattoo1.webp" alt="" loading="lazy" decoding="async" width="300" height="300" />
+                    <img src="/concepts/tattoo2.webp" alt="" loading="lazy" decoding="async" width="300" height="300" />
+                    <img src="/concepts/tattoo3.webp" alt="" loading="lazy" decoding="async" width="300" height="300" />
+                    <img src="/concepts/tattoo4.webp" alt="" loading="lazy" decoding="async" width="300" height="300" />
+                  </div>
+                  <div class="card tat-book"><span class="tat-book__t">{fr ? 'Consultation gratuite' : 'Free consultation'}</span><span class="tat-book__s">{fr ? '30 min · en studio ou en ligne' : '30 min · in studio or online'}</span></div>
+                  <button class="cta">{fr ? 'Demander un devis' : 'Request a quote'}</button>
+                </div>
+              )}
             </div>
-          ) : (
-            <div class="browser">
-              <div class="browser__bar">
-                <span class="dots"><i></i><i></i><i></i></span>
-                <span class="url">{cc.brand.toLowerCase()}.{fr ? 'ca' : 'co'}</span>
-              </div>
-              <div class="browser__screen">
-                {cc.id === 'resto' && (
-                  <div class="site site--resto">
-                    <header class="site__nav"><b>Brassé</b><span>Menu · {fr ? 'Réserver' : 'Reserve'} · {fr ? 'Contact' : 'Contact'}</span></header>
-                    <div class="resto__hero">
-                      <div class="resto__plate"><img src="/concepts/resto.webp" alt="" loading="lazy" decoding="async" width="380" height="380" /></div>
-                      <div class="resto__copy">
-                        <span class="resto__kick">{fr ? 'Cuisine du marché' : 'Market kitchen'}</span>
-                        <h3>{fr ? 'Le goût, sans flafla.' : 'Real food, no fuss.'}</h3>
-                        <button class="cta">{fr ? 'Réserver une table' : 'Book a table'}</button>
-                      </div>
-                    </div>
-                    <div class="resto__menu">
-                      <div class="mrow"><span>{fr ? 'Tartare de cerf' : 'Venison tartare'}</span><b>21</b></div>
-                      <div class="mrow"><span>{fr ? 'Pâtes fraîches, beurre noisette' : 'Fresh pasta, brown butter'}</span><b>26</b></div>
-                      <div class="mrow"><span>{fr ? 'Tarte au sucre' : 'Sugar pie'}</span><b>11</b></div>
-                    </div>
-                  </div>
-                )}
-
-                {cc.id === 'immobilier' && (
-                  <div class="site site--immo">
-                    <header class="site__nav"><b>Domaine</b><span class="immo__search">{fr ? 'Rechercher une ville…' : 'Search a city…'}</span></header>
-                    <div class="immo__card">
-                      <div class="immo__img">
-                        <img src="/concepts/immobilier.webp" alt="" loading="lazy" decoding="async" width="640" height="420" />
-                        <span class="immo__tag">{fr ? 'À vendre' : 'For sale'}</span>
-                      </div>
-                      <div class="immo__body">
-                        <b class="immo__price">749 000 $</b>
-                        <span class="immo__addr">{fr ? '12 rue des Érables, Laval' : '12 Maple St, Laval'}</span>
-                        <span class="immo__specs">4 {fr ? 'ch' : 'bd'} · 2 {fr ? 'sdb' : 'ba'} · 2 100 pi²</span>
-                      </div>
-                    </div>
-                    <div class="immo__thumbs"><span></span><span></span><span></span></div>
-                  </div>
-                )}
-
-                {cc.id === 'clinique' && (
-                  <div class="site site--clinic">
-                    <header class="site__nav"><b>Émail</b><span>{fr ? 'Services · Équipe · Rendez-vous' : 'Services · Team · Booking'}</span></header>
-                    <div class="clinic__hero">
-                      <div class="clinic__copy">
-                        <span class="clinic__kick">{fr ? 'Clinique dentaire' : 'Dental clinic'}</span>
-                        <h3>{fr ? 'Des sourires en santé.' : 'Healthy, happy smiles.'}</h3>
-                        <div class="clinic__badges"><span>✓ {fr ? 'Sans douleur' : 'Pain-free'}</span><span>✓ {fr ? 'Urgences' : 'Emergencies'}</span></div>
-                      </div>
-                      <div class="card clinic__book">
-                        <span class="clinic__bt">{fr ? 'Prendre rendez-vous' : 'Book a visit'}</span>
-                        <div class="clinic__days"><span>L 9</span><span class="on">M 10</span><span>M 11</span><span>J 12</span></div>
-                        <div class="clinic__times"><span class="on">9:30</span><span>11:00</span><span>14:15</span></div>
-                        <button class="cta">{fr ? 'Confirmer' : 'Confirm'}</button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-          )}
+          </div>
+          <span class="cpt-toast">{cc.id === 'barber' ? (fr ? 'Rendez-vous confirmé' : 'Appointment booked') : cc.id === 'fitness' ? (fr ? 'Place réservée' : 'Spot reserved') : cc.id === 'cafe' ? (fr ? 'Café ajouté' : 'Coffee added') : (fr ? 'Devis envoyé' : 'Quote sent')} ✓</span>
         </div>
-
         <div class="cpt-meta">
           <span class="cpt-industry">{loc(cc.industry, locale)}</span>
-          <h2 class="cpt-brand">{cc.brand}</h2>
+          <h3 class="cpt-brand">{cc.brand}</h3>
           <p class="cpt-tagline">{loc(cc.tagline, locale)}</p>
+          <ul class="cpt-tags">{(fr ? cc.tags.fr : cc.tags.en).map((t) => <li>{t}</li>)}</ul>
+          <span class="cpt-live"><span class="cpt-live__dot"></span>{c.live}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
+{/* ---------- Desktop sites ---------- */}
+<section class="section-tight container-pl">
+  <header class="cpt-secthead reveal">
+    <span class="cpt-secnum">02</span>
+    <div>
+      <h2 class="section-head__title">{c.desktopTitle}</h2>
+      <p class="cpt-seclead">{c.desktopLead}</p>
+    </div>
+  </header>
+
+  <div class="cpt-row cpt-row--desktop">
+    {browserConcepts.map((cc, i) => (
+      <article class="cpt reveal" data-id={cc.id} style={`--c:${cc.accent}`} data-delay={`${(i % 2) * 90}ms`}>
+        <div class="cpt-stage" data-tilt>
+          <div class="browser">
+            <div class="browser__bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">{cc.brand.toLowerCase()}.{fr ? 'ca' : 'co'}</span></div>
+            <div class="browser__screen">
+
+              {cc.id === 'resto' && (
+                <div class="site site--resto">
+                  <header class="site__nav"><b>Brassé</b><span>Menu · {fr ? 'Réserver' : 'Reserve'} · {fr ? 'Contact' : 'Contact'}</span></header>
+                  <div class="resto__hero">
+                    <div class="resto__plate"><img src="/concepts/resto.webp" alt="" loading="lazy" decoding="async" width="380" height="380" /></div>
+                    <div class="resto__copy">
+                      <span class="resto__kick">{fr ? 'Cuisine du marché · Laval' : 'Market kitchen · Laval'}</span>
+                      <h4>{fr ? 'Le goût, sans flafla.' : 'Real food, no fuss.'}</h4>
+                      <p class="resto__sub">{fr ? 'Menu qui change chaque semaine selon les arrivages.' : 'A menu that changes weekly with the market.'}</p>
+                      <button class="cta">{fr ? 'Réserver une table' : 'Book a table'}</button>
+                    </div>
+                  </div>
+                  <div class="resto__menu">
+                    <div class="mrow"><span>{fr ? 'Tartare de cerf, vinaigrette à l’érable' : 'Venison tartare, maple vinaigrette'}</span><b>21</b></div>
+                    <div class="mrow"><span>{fr ? 'Pâtes fraîches, beurre noisette et sauge' : 'Fresh pasta, brown butter and sage'}</span><b>26</b></div>
+                    <div class="mrow"><span>{fr ? 'Tarte au sucre, crème glacée maison' : 'Sugar pie, house ice cream'}</span><b>11</b></div>
+                  </div>
+                </div>
+              )}
+
+              {cc.id === 'immobilier' && (
+                <div class="site site--immo">
+                  <header class="site__nav"><b>Domaine</b><span class="immo__search">🔍 {fr ? 'Laval, 3+ chambres…' : 'Laval, 3+ beds…'}</span></header>
+                  <div class="immo__card">
+                    <div class="immo__img"><img src="/concepts/house.webp" alt="" loading="lazy" decoding="async" width="680" height="420" /><span class="immo__tag">{fr ? 'Nouveau' : 'New'}</span></div>
+                    <div class="immo__body">
+                      <b class="immo__price">749 000 $</b>
+                      <span class="immo__addr">{fr ? '12 rue des Érables, Laval' : '12 Maple St, Laval'}</span>
+                      <span class="immo__specs">4 {fr ? 'ch' : 'bd'} · 2 {fr ? 'sdb' : 'ba'} · 2 100 pi² · {fr ? 'garage double' : 'double garage'}</span>
+                    </div>
+                  </div>
+                  <div class="immo__thumbs">
+                    <img src="/concepts/room1.webp" alt="" loading="lazy" decoding="async" width="240" height="170" />
+                    <img src="/concepts/room3.webp" alt="" loading="lazy" decoding="async" width="240" height="170" />
+                    <img src="/concepts/house.webp" alt="" loading="lazy" decoding="async" width="680" height="420" />
+                  </div>
+                </div>
+              )}
+
+              {cc.id === 'clinique' && (
+                <div class="site site--clinic">
+                  <header class="site__nav"><b>Émail</b><span>{fr ? 'Services · Équipe · Rendez-vous' : 'Services · Team · Booking'}</span></header>
+                  <div class="clinic__hero">
+                    <div class="clinic__photo"><img src="/concepts/smile.webp" alt="" loading="lazy" decoding="async" width="360" height="300" /></div>
+                    <div class="card clinic__book">
+                      <span class="clinic__kick">{fr ? 'Clinique dentaire · Laval' : 'Dental clinic · Laval'}</span>
+                      <span class="clinic__bt">{fr ? 'Prendre rendez-vous' : 'Book a visit'}</span>
+                      <div class="clinic__days"><span>L 9</span><span class="on">M 10</span><span>M 11</span><span>J 12</span></div>
+                      <div class="clinic__times"><span class="on">9:30</span><span>11:00</span><span>14:15</span></div>
+                      <button class="cta">{fr ? 'Confirmer' : 'Confirm'}</button>
+                    </div>
+                  </div>
+                  <div class="clinic__badges"><span>✓ {fr ? 'Sans douleur' : 'Pain-free'}</span><span>✓ {fr ? 'Urgences le jour même' : 'Same-day emergencies'}</span><span>✓ {fr ? 'Financement' : 'Financing'}</span></div>
+                </div>
+              )}
+
+              {cc.id === 'ecom' && (
+                <div class="site site--ecom">
+                  <header class="site__nav"><b>Maille</b><span class="ecom__cart">{fr ? 'Panier' : 'Cart'} · 2</span></header>
+                  <div class="ecom__hero">
+                    <div class="ecom__photo"><img src="/concepts/fashion.webp" alt="" loading="lazy" decoding="async" width="360" height="420" /></div>
+                    <div class="ecom__copy">
+                      <span class="ecom__kick">{fr ? 'Tricot fait main' : 'Hand-knit'}</span>
+                      <h4>{fr ? 'Pull en laine mérinos' : 'Merino wool sweater'}</h4>
+                      <div class="ecom__price"><b>148 $</b><span class="ecom__old">185 $</span></div>
+                      <div class="ecom__sizes"><span>S</span><span class="on">M</span><span>L</span><span>XL</span></div>
+                      <button class="cta">{fr ? 'Ajouter au panier' : 'Add to cart'}</button>
+                    </div>
+                  </div>
+                  <div class="ecom__strip"><span>★★★★★ 4,9</span><span>{fr ? 'Livraison 2 jours' : '2-day shipping'}</span><span>{fr ? 'Retours gratuits' : 'Free returns'}</span></div>
+                </div>
+              )}
+
+            </div>
+          </div>
+          <span class="cpt-toast">{cc.id === 'resto' ? (fr ? 'Table réservée' : 'Table booked') : cc.id === 'immobilier' ? (fr ? 'Visite demandée' : 'Tour requested') : cc.id === 'clinique' ? (fr ? 'Rendez-vous confirmé' : 'Appointment booked') : (fr ? 'Ajouté au panier' : 'Added to cart')} ✓</span>
+        </div>
+        <div class="cpt-meta">
+          <span class="cpt-industry">{loc(cc.industry, locale)}</span>
+          <h3 class="cpt-brand">{cc.brand}</h3>
+          <p class="cpt-tagline">{loc(cc.tagline, locale)}</p>
+          <ul class="cpt-tags">{(fr ? cc.tags.fr : cc.tags.en).map((t) => <li>{t}</li>)}</ul>
           <span class="cpt-live"><span class="cpt-live__dot"></span>{c.live}</span>
         </div>
       </article>
@@ -181,319 +226,209 @@ const crumbs = [
   <div class="container-pl cpt-cta reveal">
     <p class="kicker">{c.ctaTitle}</p>
     <h2 class="cpt-cta__title">{c.ctaLead}</h2>
-    <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.25">
-      {tr.cta.primary} <span aria-hidden="true">→</span>
-    </a>
+    <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.25">{tr.cta.primary} <span aria-hidden="true">→</span></a>
   </div>
 </section>
 
 <style>
-  .cpt-note {
-    margin: 1rem 0 0;
-    color: var(--color-fog);
-    font-size: 0.92rem;
-    max-width: 60ch;
-    font-style: italic;
-  }
+  .cpt-note { margin: 1rem 0 0; color: var(--color-fog); font-size: 0.92rem; max-width: 62ch; font-style: italic; }
 
-  .cpt-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
-  }
-  .cpt {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+  .cpt-secthead { display: flex; align-items: flex-start; gap: 1.1rem; margin-bottom: 2.2rem; }
+  .cpt-secnum { font-family: var(--font-mono); font-size: 0.85rem; color: var(--color-gold); padding-top: 0.35rem; }
+  .cpt-seclead { color: var(--color-fog); font-size: 0.98rem; margin: 0.4rem 0 0; max-width: 60ch; }
+
+  .cpt-row { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
+  .cpt-row--phones { grid-template-columns: repeat(4, 1fr); }
+  .cpt-row--desktop { grid-template-columns: repeat(2, 1fr); margin-top: 4rem; }
+
+  .cpt { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .cpt-stage {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    padding: clamp(1.5rem, 4vw, 3rem) 1rem;
-    border-radius: 24px;
-    background:
-      radial-gradient(80% 70% at 50% 30%, color-mix(in srgb, var(--c) 16%, transparent), transparent 70%),
-      rgba(238, 241, 246, 0.02);
+    position: relative; width: 100%;
+    display: flex; justify-content: center;
+    padding: clamp(1.2rem, 3vw, 2.4rem) 1rem;
+    border-radius: 22px;
+    background: radial-gradient(80% 70% at 50% 26%, color-mix(in srgb, var(--c) 18%, transparent), transparent 70%), rgba(238, 241, 246, 0.02);
     border: 1px solid var(--line);
-    transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s;
-    transform-style: preserve-3d;
-    perspective: 1000px;
+    transition: transform 0.35s cubic-bezier(.2,.8,.2,1), border-color 0.3s, box-shadow 0.35s;
+    transform-style: preserve-3d; perspective: 1200px;
+    overflow: hidden;
   }
-  .cpt:hover .cpt-stage { border-color: color-mix(in srgb, var(--c) 45%, transparent); }
+  .cpt-stage:hover {
+    border-color: color-mix(in srgb, var(--c) 50%, transparent);
+    box-shadow: 0 30px 70px -40px color-mix(in srgb, var(--c) 60%, transparent);
+  }
+  .cpt-stage > .phone, .cpt-stage > .browser { transition: transform 0.35s cubic-bezier(.2,.8,.2,1); }
+  .cpt-stage:hover > .phone, .cpt-stage:hover > .browser { transform: translateY(-6px); }
 
-  .cpt-meta { margin-top: 1.5rem; }
-  .cpt-industry {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--c);
+  /* Hover toast */
+  .cpt-toast {
+    position: absolute; left: 50%; bottom: 14px; transform: translate(-50%, 140%);
+    background: var(--c); color: #0a0a0a; font-weight: 700; font-size: 0.78rem;
+    padding: 0.5rem 0.95rem; border-radius: 999px; white-space: nowrap;
+    box-shadow: 0 10px 24px -8px color-mix(in srgb, var(--c) 70%, transparent);
+    opacity: 0; transition: transform 0.4s cubic-bezier(.2,.9,.2,1) 0.05s, opacity 0.3s; pointer-events: none;
   }
-  .cpt-brand { font-size: 1.6rem; margin: 0.5rem 0 0.5rem; }
-  .cpt-tagline { color: var(--color-fog); font-size: 0.96rem; line-height: 1.55; margin: 0 auto; max-width: 36ch; }
-  .cpt-live {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    margin-top: 1rem;
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    color: var(--color-fog);
-  }
-  .cpt-live__dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--c);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 70%, transparent);
-    animation: cptpulse 2s infinite;
-  }
-  @keyframes cptpulse {
-    0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 55%, transparent); }
-    70% { box-shadow: 0 0 0 7px transparent; }
-    100% { box-shadow: 0 0 0 0 transparent; }
-  }
+  .cpt-stage:hover .cpt-toast { transform: translate(-50%, 0); opacity: 1; }
+
+  .cpt-meta { margin-top: 1.4rem; }
+  .cpt-industry { font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.16em; color: var(--c); }
+  .cpt-brand { font-size: 1.5rem; margin: 0.45rem 0 0.5rem; }
+  .cpt-tagline { color: var(--color-fog); font-size: 0.92rem; line-height: 1.55; margin: 0 auto; max-width: 38ch; }
+  .cpt-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0.9rem auto 0; justify-content: center; }
+  .cpt-tags li { font-family: var(--font-mono); font-size: 0.66rem; color: var(--color-fog); border: 1px solid var(--line); border-radius: 999px; padding: 0.22rem 0.6rem; }
+  .cpt-live { display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.9rem; font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-fog); }
+  .cpt-live__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--c); animation: cptpulse 2s infinite; }
+  @keyframes cptpulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--c) 55%, transparent); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
 
   /* ---- Phone frame ---- */
-  .phone {
-    position: relative;
-    width: 248px;
-    height: 510px;
-    border-radius: 40px;
-    background: #05080d;
-    border: 1px solid rgba(255,255,255,0.12);
-    padding: 9px;
-    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8), inset 0 0 0 2px rgba(255,255,255,0.03);
-  }
-  .phone__notch {
-    position: absolute;
-    top: 12px; left: 50%; transform: translateX(-50%);
-    width: 90px; height: 22px; border-radius: 0 0 14px 14px;
-    background: #05080d; z-index: 3;
-  }
-  .phone__screen {
-    width: 100%; height: 100%;
-    border-radius: 32px;
-    overflow: hidden;
-    background: var(--bg);
-    color: var(--txt);
-    display: flex;
-    flex-direction: column;
-  }
+  .phone { position: relative; width: 100%; max-width: 226px; aspect-ratio: 226 / 466; border-radius: 36px; background: #05080d; border: 1px solid rgba(255,255,255,0.12); padding: 8px; box-shadow: 0 40px 80px -34px rgba(0,0,0,0.85); }
+  .phone__notch { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 80px; height: 20px; border-radius: 0 0 13px 13px; background: #05080d; z-index: 3; }
+  .phone__screen { width: 100%; height: 100%; border-radius: 29px; overflow: hidden; background: var(--bg); color: var(--txt); display: flex; flex-direction: column; }
 
   /* ---- Browser frame ---- */
-  .browser {
-    width: 380px;
-    max-width: 100%;
-    border-radius: 14px;
-    overflow: hidden;
-    background: var(--bg);
-    border: 1px solid rgba(255,255,255,0.10);
-    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8);
-  }
-  .browser__bar {
-    display: flex; align-items: center; gap: 0.8rem;
-    padding: 0.6rem 0.9rem;
-    background: color-mix(in srgb, var(--bg) 80%, #000);
-    border-bottom: 1px solid rgba(0,0,0,0.08);
-  }
+  .browser { width: 100%; border-radius: 13px; overflow: hidden; background: var(--bg); border: 1px solid rgba(255,255,255,0.10); box-shadow: 0 40px 80px -34px rgba(0,0,0,0.8); }
+  .browser__bar { display: flex; align-items: center; gap: 0.8rem; padding: 0.55rem 0.85rem; background: color-mix(in srgb, var(--bg) 80%, #000); border-bottom: 1px solid rgba(0,0,0,0.08); }
   .dots { display: inline-flex; gap: 5px; }
   .dots i { width: 9px; height: 9px; border-radius: 50%; background: rgba(150,150,150,0.45); }
-  .dots i:first-child { background: #ff5f57; }
-  .dots i:nth-child(2) { background: #febc2e; }
-  .dots i:last-child { background: #28c840; }
-  .url {
-    flex: 1;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    color: var(--txt2);
-    background: color-mix(in srgb, var(--bg) 60%, #fff 0%);
-    background: rgba(0,0,0,0.06);
-    border-radius: 7px;
-    padding: 0.25rem 0.6rem;
-    text-align: center;
-  }
-  .browser__screen { padding: 0; }
+  .dots i:first-child { background: #ff5f57; } .dots i:nth-child(2) { background: #febc2e; } .dots i:last-child { background: #28c840; }
+  .url { flex: 1; font-family: var(--font-mono); font-size: 0.7rem; color: var(--txt2); background: rgba(0,0,0,0.06); border-radius: 7px; padding: 0.25rem 0.6rem; text-align: center; }
 
-  /* ---- Status bar (phone) ---- */
-  .statusbar {
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0.7rem 1.1rem 0.2rem;
-    font-size: 0.7rem; font-weight: 600;
-    color: var(--txt);
-  }
+  .statusbar { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 1rem 0.15rem; font-size: 0.66rem; font-weight: 600; color: var(--txt); }
   .statusbar__dots { display: inline-flex; gap: 3px; }
   .statusbar__dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--txt); opacity: 0.55; }
 
-  /* ---- Generic UI bits ---- */
-  .ui { padding: 0.6rem 1.1rem 1.1rem; display: flex; flex-direction: column; gap: 0.7rem; height: 100%; }
+  .ui { padding: 0.5rem 0.85rem 0.85rem; display: flex; flex-direction: column; gap: 0.55rem; height: 100%; }
   .ui__top { display: flex; align-items: baseline; justify-content: space-between; }
-  .ui__brand { font-weight: 800; letter-spacing: 0.04em; font-size: 1.05rem; color: var(--c); }
-  .ui__hi { font-size: 0.78rem; color: var(--txt2); }
-  .ui__sec { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--txt2); margin: 0.2rem 0 0; }
-  .card {
-    background: var(--surf);
-    border: 1px solid color-mix(in srgb, var(--txt) 8%, transparent);
-    border-radius: 14px;
-    padding: 0.8rem 0.9rem;
-    display: flex; flex-direction: column; gap: 0.2rem;
-  }
-  .cta {
-    margin-top: auto;
-    border: none;
-    border-radius: 12px;
-    padding: 0.75rem;
-    font-weight: 700;
-    font-size: 0.85rem;
-    color: #0a0a0a;
-    background: var(--c);
-    cursor: pointer;
-    transition: transform 0.2s ease, filter 0.2s ease;
-  }
-  .cpt-stage:hover .cta { filter: brightness(1.08); transform: translateY(-1px); }
+  .ui__brand { font-weight: 800; letter-spacing: 0.04em; font-size: 0.98rem; color: var(--c); }
+  .ui__hi { font-size: 0.72rem; color: var(--txt2); }
+  .ui__sec { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--txt2); margin: 0.1rem 0 0; }
+  .card { background: var(--surf); border: 1px solid color-mix(in srgb, var(--txt) 8%, transparent); border-radius: 13px; padding: 0.7rem 0.8rem; display: flex; flex-direction: column; gap: 0.18rem; }
+  .cta { margin-top: auto; border: none; border-radius: 11px; padding: 0.68rem; font-weight: 700; font-size: 0.82rem; color: #0a0a0a; background: var(--c); cursor: pointer; transition: filter 0.2s ease, transform 0.2s ease; }
+  .cpt-stage:hover .cta { filter: brightness(1.08); }
 
-  /* Barber palette + bits */
+  /* In-app photos */
+  .photo { position: relative; border-radius: 12px; overflow: hidden; }
+  .photo img { width: 100%; display: block; object-fit: cover; }
+  .photo--barber img { aspect-ratio: 16/9; }
+  .photo--barber .photo__cap { position: absolute; left: 8px; bottom: 7px; font-size: 0.6rem; font-weight: 700; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.8); }
+  .photo--cafe img { aspect-ratio: 16/10; }
+
+  /* Barber */
   .cpt[data-id='barber'] { --bg: #14100a; --surf: #221a0e; --txt: #f3e9d6; --txt2: #9c8d70; }
-  .next__label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c); }
-  .next__time { font-weight: 700; font-size: 0.98rem; }
-  .next__who { font-size: 0.76rem; color: var(--txt2); }
-  .avatars { display: flex; gap: 0.5rem; }
-  .av {
-    width: 42px; height: 42px; border-radius: 50%;
-    display: grid; place-items: center;
-    font-weight: 700; font-size: 0.85rem;
-    background: var(--surf); color: var(--txt2);
-    border: 1px solid color-mix(in srgb, var(--txt) 10%, transparent);
-  }
+  .avatars { display: flex; gap: 0.45rem; }
+  .av { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: 0.78rem; background: var(--surf); color: var(--txt2); border: 1px solid color-mix(in srgb, var(--txt) 10%, transparent); }
   .av--on { color: #0a0a0a; background: var(--c); border-color: var(--c); box-shadow: 0 0 0 3px color-mix(in srgb, var(--c) 30%, transparent); }
-  .slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.4rem; }
-  .slot { font-size: 0.72rem; text-align: center; padding: 0.5rem 0; border-radius: 9px; background: var(--surf); color: var(--txt2); border: 1px solid color-mix(in srgb, var(--txt) 8%, transparent); }
+  .slots { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.35rem; }
+  .slot { font-size: 0.66rem; text-align: center; padding: 0.45rem 0; border-radius: 8px; background: var(--surf); color: var(--txt2); border: 1px solid color-mix(in srgb, var(--txt) 8%, transparent); }
   .slot--on { background: var(--c); color: #0a0a0a; font-weight: 700; border-color: var(--c); }
 
-  /* Fitness palette + bits */
+  /* Fitness */
   .cpt[data-id='fitness'] { --bg: #0b1007; --surf: #15200c; --txt: #eafbe0; --txt2: #8aa07a; }
-  .ring {
-    width: 140px; height: 140px; border-radius: 50%;
-    margin: 0.3rem auto;
-    background:
-      radial-gradient(closest-side, var(--bg) 70%, transparent 72% 100%),
-      conic-gradient(var(--c) 68%, color-mix(in srgb, var(--c) 16%, transparent) 0);
-    display: grid; place-items: center;
-  }
+  .ring { width: 120px; height: 120px; border-radius: 50%; margin: 0.2rem auto; background: radial-gradient(closest-side, var(--bg) 70%, transparent 72% 100%), conic-gradient(var(--c) 68%, color-mix(in srgb, var(--c) 16%, transparent) 0); display: grid; place-items: center; transition: transform 0.4s ease; }
+  .cpt-stage:hover .ring { transform: rotate(8deg) scale(1.03); }
   .ring__center { text-align: center; line-height: 1; }
-  .ring__center b { font-size: 1.7rem; font-weight: 800; }
-  .ring__center span { font-size: 0.7rem; color: var(--txt2); }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.4rem; }
-  .stat { background: var(--surf); border-radius: 11px; padding: 0.55rem 0.3rem; text-align: center; }
-  .stat b { display: block; font-size: 0.86rem; }
-  .stat span { font-size: 0.62rem; color: var(--txt2); }
-  .classcard__t { font-weight: 700; font-size: 0.9rem; }
-  .classcard__s { font-size: 0.74rem; color: var(--txt2); }
+  .ring__center b { font-size: 1.5rem; font-weight: 800; } .ring__center span { font-size: 0.66rem; color: var(--txt2); }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem; }
+  .stat { background: var(--surf); border-radius: 10px; padding: 0.5rem 0.2rem; text-align: center; }
+  .stat b { display: block; font-size: 0.8rem; } .stat span { font-size: 0.58rem; color: var(--txt2); }
+  .classcard__t { font-weight: 700; font-size: 0.85rem; } .classcard__s { font-size: 0.7rem; color: var(--txt2); }
 
-  /* Cafe palette + bits */
+  /* Cafe */
   .cpt[data-id='cafe'] { --bg: #18120b; --surf: #271c12; --txt: #f3e6d6; --txt2: #b09372; }
-  .loyalty__t { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c); }
-  .stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.4rem; margin: 0.5rem 0; }
-  .stamp {
-    aspect-ratio: 1; border-radius: 50%;
-    display: grid; place-items: center;
-    font-size: 0.7rem;
-    border: 1.5px dashed color-mix(in srgb, var(--txt) 22%, transparent);
-    color: transparent;
-  }
+  .loyalty__t { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--c); }
+  .stamps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.35rem; margin: 0.45rem 0; }
+  .stamp { aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-size: 0.66rem; border: 1.5px dashed color-mix(in srgb, var(--txt) 22%, transparent); color: transparent; }
   .stamp--on { background: var(--c); color: #0a0a0a; border-style: solid; border-color: var(--c); }
-  .loyalty__s { font-size: 0.74rem; color: var(--txt2); }
-  .usual__t { font-size: 0.74rem; color: var(--txt2); }
-  .usual__s { font-weight: 700; font-size: 0.9rem; }
+  .loyalty__s { font-size: 0.7rem; color: var(--txt2); }
 
-  /* ---- Website sites (light) ---- */
+  /* Tattoo */
+  .cpt[data-id='tattoo'] { --bg: #0c0a0c; --surf: #1a1418; --txt: #f1e7ec; --txt2: #9c8a93; }
+  .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; }
+  .gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 9px; transition: transform 0.4s ease, filter 0.4s ease; filter: grayscale(0.15); }
+  .cpt-stage:hover .gallery img { transform: scale(1.03); filter: grayscale(0); }
+  .tat-book__t { font-weight: 700; font-size: 0.82rem; } .tat-book__s { font-size: 0.68rem; color: var(--txt2); }
+  .cpt[data-id='tattoo'] .cta { color: #fff; }
+
+  /* ---- Websites (light) ---- */
   .site { display: flex; flex-direction: column; }
-  .site__nav {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.7rem 1rem;
-    font-size: 0.74rem;
-    border-bottom: 1px solid rgba(0,0,0,0.06);
-  }
-  .site__nav b { font-size: 0.95rem; color: var(--c); letter-spacing: 0.01em; }
+  .site__nav { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 1.1rem; font-size: 0.76rem; border-bottom: 1px solid rgba(0,0,0,0.06); }
+  .site__nav b { font-size: 1rem; color: var(--c); }
   .site__nav span { color: var(--txt2); }
-  .site .cta { color: #fff; }
+  .site .cta { color: #fff; margin-top: 0.7rem; }
+  .site h4 { margin: 0.3rem 0 0.5rem; color: var(--txt); line-height: 1.12; font-size: 1.25rem; }
 
-  /* Resto (cream) */
+  /* Resto */
   .cpt[data-id='resto'] { --bg: #fbf4ec; --surf: #ffffff; --txt: #2a211c; --txt2: #8a7a6c; }
-  .resto__hero { display: grid; grid-template-columns: 1fr 1.1fr; gap: 0.8rem; padding: 1rem; align-items: center; }
-  .resto__plate {
-    aspect-ratio: 1; border-radius: 50%;
-    background:
-      radial-gradient(circle at 38% 34%, #f0c9a0, transparent 42%),
-      radial-gradient(circle at 65% 62%, color-mix(in srgb, var(--c) 70%, #000) , transparent 46%),
-      conic-gradient(from 200deg, #caa37a, #a9744f, #caa37a);
-    box-shadow: inset 0 0 0 8px #fff, inset 0 0 0 9px rgba(0,0,0,0.06);
-    position: relative;
-  }
-  .resto__plate img {
-    position: absolute;
-    inset: 8px;
-    width: calc(100% - 16px);
-    height: calc(100% - 16px);
-    object-fit: cover;
-    border-radius: 50%;
-  }
-  .resto__kick { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--c); font-weight: 700; }
-  .resto__copy h3 { font-size: 1.15rem; margin: 0.3rem 0 0.7rem; color: var(--txt); line-height: 1.15; }
-  .resto__menu { padding: 0 1rem 1rem; display: flex; flex-direction: column; gap: 0.45rem; }
-  .mrow { display: flex; justify-content: space-between; font-size: 0.78rem; color: var(--txt); padding-bottom: 0.4rem; border-bottom: 1px dotted rgba(0,0,0,0.12); }
+  .resto__hero { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 1.1rem; padding: 1.2rem; align-items: center; }
+  .resto__plate { position: relative; aspect-ratio: 1; border-radius: 50%; box-shadow: inset 0 0 0 7px #fff, 0 14px 30px -12px rgba(0,0,0,0.35); overflow: hidden; }
+  .resto__plate img { position: absolute; inset: 7px; width: calc(100% - 14px); height: calc(100% - 14px); object-fit: cover; border-radius: 50%; }
+  .resto__kick { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--c); font-weight: 700; }
+  .resto__sub { font-size: 0.78rem; color: var(--txt2); margin: 0 0 0.2rem; line-height: 1.4; }
+  .resto__menu { padding: 0 1.2rem 1.2rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .mrow { display: flex; justify-content: space-between; gap: 1rem; font-size: 0.8rem; color: var(--txt); padding-bottom: 0.45rem; border-bottom: 1px dotted rgba(0,0,0,0.12); }
   .mrow b { color: var(--c); }
 
-  /* Immobilier (cool white) */
+  /* Immobilier */
   .cpt[data-id='immobilier'] { --bg: #f5f7fb; --surf: #ffffff; --txt: #1a2230; --txt2: #6b7689; }
-  .immo__search { background: rgba(0,0,0,0.05); border-radius: 7px; padding: 0.25rem 0.7rem; font-size: 0.68rem; }
-  .immo__card { margin: 1rem; border-radius: 14px; overflow: hidden; background: var(--surf); box-shadow: 0 12px 30px -16px rgba(0,0,0,0.3); }
-  .immo__img {
-    height: 120px; position: relative; overflow: hidden;
-    background: linear-gradient(135deg, #b8c6dd, #8ca3c4 60%, #6f86a8);
-  }
-  .immo__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .immo__tag { position: absolute; z-index: 2; top: 10px; left: 10px; background: var(--c); color: #fff; font-size: 0.62rem; font-weight: 700; padding: 0.2rem 0.55rem; border-radius: 6px; }
-  .immo__body { padding: 0.8rem 0.9rem; display: flex; flex-direction: column; gap: 0.2rem; }
-  .immo__price { font-size: 1.2rem; color: var(--txt); }
-  .immo__addr { font-size: 0.78rem; color: var(--txt2); }
-  .immo__specs { font-size: 0.72rem; color: var(--c); font-weight: 600; margin-top: 0.15rem; }
-  .immo__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; padding: 0 1rem 1rem; }
-  .immo__thumbs span { height: 44px; border-radius: 9px; background: linear-gradient(135deg, #cdd7e6, #9fb1cc); }
+  .immo__search { background: rgba(0,0,0,0.05); border-radius: 7px; padding: 0.28rem 0.7rem; font-size: 0.7rem; }
+  .immo__card { margin: 1.1rem; border-radius: 14px; overflow: hidden; background: var(--surf); box-shadow: 0 14px 34px -18px rgba(0,0,0,0.35); }
+  .immo__img { height: 170px; position: relative; overflow: hidden; background: #b8c6dd; }
+  .immo__img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  .cpt-stage:hover .immo__img img { transform: scale(1.04); }
+  .immo__tag { position: absolute; z-index: 2; top: 11px; left: 11px; background: var(--c); color: #fff; font-size: 0.64rem; font-weight: 700; padding: 0.22rem 0.6rem; border-radius: 6px; }
+  .immo__body { padding: 0.85rem 1rem; display: flex; flex-direction: column; gap: 0.2rem; }
+  .immo__price { font-size: 1.35rem; color: var(--txt); }
+  .immo__addr { font-size: 0.82rem; color: var(--txt2); }
+  .immo__specs { font-size: 0.74rem; color: var(--c); font-weight: 600; margin-top: 0.12rem; }
+  .immo__thumbs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; padding: 0 1.1rem 1.2rem; }
+  .immo__thumbs img { width: 100%; height: 56px; object-fit: cover; border-radius: 9px; }
 
-  /* Clinique (mint) */
+  /* Clinique */
   .cpt[data-id='clinique'] { --bg: #f0fbfa; --surf: #ffffff; --txt: #14302c; --txt2: #5e8a83; }
-  .clinic__hero { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; padding: 1rem; }
-  .clinic__kick { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--c); font-weight: 700; }
-  .clinic__copy h3 { font-size: 1.1rem; margin: 0.3rem 0 0.7rem; color: var(--txt); line-height: 1.15; }
-  .clinic__badges { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.72rem; color: var(--txt2); }
-  .clinic__book { background: var(--surf); box-shadow: 0 12px 30px -16px rgba(0,0,0,0.25); }
-  .clinic__bt { font-size: 0.74rem; font-weight: 700; color: var(--txt); }
-  .clinic__days, .clinic__times { display: flex; gap: 0.3rem; margin-top: 0.45rem; flex-wrap: wrap; }
-  .clinic__days span, .clinic__times span {
-    font-size: 0.66rem; padding: 0.3rem 0.45rem; border-radius: 8px;
-    background: color-mix(in srgb, var(--c) 12%, #fff); color: var(--txt2);
-  }
+  .clinic__hero { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.2rem; align-items: stretch; }
+  .clinic__photo { border-radius: 14px; overflow: hidden; }
+  .clinic__photo img { width: 100%; height: 100%; min-height: 150px; object-fit: cover; }
+  .clinic__kick { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--c); font-weight: 700; }
+  .clinic__book { box-shadow: 0 14px 30px -18px rgba(0,0,0,0.3); gap: 0.35rem; }
+  .clinic__bt { font-size: 0.84rem; font-weight: 700; color: var(--txt); margin-top: 0.1rem; }
+  .clinic__days, .clinic__times { display: flex; gap: 0.3rem; margin-top: 0.4rem; flex-wrap: wrap; }
+  .clinic__days span, .clinic__times span { font-size: 0.64rem; padding: 0.3rem 0.45rem; border-radius: 8px; background: color-mix(in srgb, var(--c) 12%, #fff); color: var(--txt2); }
   .clinic__days .on, .clinic__times .on { background: var(--c); color: #fff; font-weight: 700; }
-  .clinic__book .cta { margin-top: 0.6rem; padding: 0.55rem; }
+  .clinic__badges { display: flex; gap: 0.5rem; flex-wrap: wrap; padding: 0 1.2rem 1.2rem; }
+  .clinic__badges span { font-size: 0.68rem; color: var(--txt2); }
+
+  /* E-commerce */
+  .cpt[data-id='ecom'] { --bg: #fbf6f8; --surf: #ffffff; --txt: #2a1f25; --txt2: #8a7780; }
+  .ecom__cart { background: var(--c); color: #fff; border-radius: 7px; padding: 0.25rem 0.7rem; font-size: 0.7rem; font-weight: 700; }
+  .ecom__hero { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 1.1rem; padding: 1.2rem; align-items: center; }
+  .ecom__photo { border-radius: 14px; overflow: hidden; box-shadow: 0 14px 30px -16px rgba(0,0,0,0.3); }
+  .ecom__photo img { width: 100%; height: 100%; min-height: 170px; object-fit: cover; transition: transform 0.5s ease; }
+  .cpt-stage:hover .ecom__photo img { transform: scale(1.04); }
+  .ecom__kick { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--c); font-weight: 700; }
+  .ecom__price { display: flex; align-items: baseline; gap: 0.5rem; margin: 0.2rem 0 0.5rem; }
+  .ecom__price b { font-size: 1.25rem; color: var(--txt); }
+  .ecom__old { font-size: 0.85rem; color: var(--txt2); text-decoration: line-through; }
+  .ecom__sizes { display: flex; gap: 0.35rem; margin-bottom: 0.2rem; }
+  .ecom__sizes span { font-size: 0.7rem; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 7px; border: 1px solid rgba(0,0,0,0.12); color: var(--txt2); }
+  .ecom__sizes .on { background: var(--c); color: #fff; border-color: var(--c); font-weight: 700; }
+  .ecom__strip { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.7rem 1.2rem 1.1rem; font-size: 0.68rem; color: var(--txt2); }
+  .ecom__strip span:first-child { color: var(--c); font-weight: 700; }
 
   /* ---- CTA band ---- */
-  .cpt-cta {
-    text-align: center;
-    max-width: 720px;
-    margin-inline: auto;
-    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    background: radial-gradient(120% 120% at 50% 0%, rgba(232, 199, 154, 0.08), transparent 60%), rgba(238, 241, 246, 0.02);
-  }
-  .cpt-cta__title { font-size: clamp(1.6rem, 4vw, 2.6rem); margin: 1rem auto 2rem; max-width: 22ch; }
+  .cpt-cta { text-align: center; max-width: 720px; margin-inline: auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem); border: 1px solid var(--line); border-radius: 28px; background: radial-gradient(120% 120% at 50% 0%, rgba(232, 199, 154, 0.08), transparent 60%), rgba(238, 241, 246, 0.02); }
+  .cpt-cta__title { font-size: clamp(1.6rem, 4vw, 2.6rem); margin: 1rem auto 2rem; max-width: 24ch; }
 
+  @media (max-width: 1040px) {
+    .cpt-row--phones { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 1.5rem; }
+  }
   @media (max-width: 820px) {
-    .cpt-grid { grid-template-columns: 1fr; }
+    .cpt-row--desktop { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .cpt-row--phones { grid-template-columns: 1fr; }
   }
   @media (prefers-reduced-motion: reduce) {
     .cpt-live__dot { animation: none; }
+    .cpt-stage:hover > .phone, .cpt-stage:hover > .browser, .cpt-stage:hover .ring, .cpt-stage:hover .gallery img, .cpt-stage:hover .immo__img img, .cpt-stage:hover .ecom__photo img { transform: none; }
   }
 </style>
