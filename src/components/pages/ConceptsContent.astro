@@ -353,8 +353,9 @@ const crumbs = [
   .cpt-row--desktop { grid-template-columns: repeat(2, 1fr); margin-top: 4rem; }
   /* Every desktop + SaaS box matches: shared stage height, the window fills
      it, and the inner content distributes top to bottom. */
-  .cpt-row--desktop .cpt-stage { min-height: clamp(420px, 30vw, 460px); }
-  .cpt-row--desktop .browser { display: flex; flex-direction: column; }
+  /* Fixed identical window height = every desktop + SaaS box matches,
+     inside and out. Content flex-fills within. */
+  .cpt-row--desktop .browser { display: flex; flex-direction: column; height: clamp(430px, 31vw, 470px); }
   .cpt-row--desktop .browser__screen { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .site { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .dash { flex: 1; display: flex; flex-direction: column; }
