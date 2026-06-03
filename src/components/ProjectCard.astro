@@ -82,10 +82,14 @@ const shotAlt =
     .project-card:hover .project-card__shot img { transform: scale(1.04); }
     /* Device mockups: show the whole image, smaller, on a dark backdrop. */
     .project-card__shot--contain {
-      background: #0a1521;
+      background: radial-gradient(70% 78% at 50% 48%, rgba(122, 162, 255, 0.30), transparent 72%), #070d16;
       padding: 1rem 1.1rem;
     }
-    .project-card__shot--contain img { object-fit: contain; object-position: center; }
+    .project-card__shot--contain img {
+      object-fit: contain;
+      object-position: center;
+      filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.4));
+    }
     .project-card:hover .project-card__shot--contain img { transform: scale(1.02); }
     .project-card__top {
       display: flex;

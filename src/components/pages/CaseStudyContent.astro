@@ -139,16 +139,32 @@ const blocks = [
     object-fit: cover;
     object-position: top center;
   }
-  /* Transparent device mockup: trimmed tight, then given uniform breathing
-     room via frame padding (seamless, since the image has no background). */
-  .case__shot--contain a {
-    background: #0a1521;
-    padding: clamp(1.5rem, 5vw, 4rem);
+  /* Transparent device mockup: no frame, floats on a blue Habita glow. */
+  .case__shot--contain { position: relative; }
+  .case__shot--contain::before {
+    content: '';
+    position: absolute;
+    inset: -8% -4% -4%;
+    background: radial-gradient(48% 52% at 50% 42%, rgba(122, 162, 255, 0.42), rgba(122, 162, 255, 0.12) 45%, transparent 72%);
+    z-index: 0;
+    pointer-events: none;
   }
+  .case__shot--contain a {
+    position: relative;
+    z-index: 1;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    overflow: visible;
+    padding: clamp(1rem, 4vw, 3rem);
+  }
+  .case__shot--contain a:hover { border-color: transparent; }
   .case__shot--contain img {
     aspect-ratio: auto;
     height: auto;
     object-fit: contain;
+    filter: drop-shadow(0 24px 60px rgba(0, 0, 0, 0.45));
   }
   .case__body {
     display: grid;
