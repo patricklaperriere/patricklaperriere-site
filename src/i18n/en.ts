@@ -367,6 +367,8 @@ export const en = {
     mobileLead: 'Four app concepts built for conversion: booking, loyalty, tracking and portfolio. Hover each screen.',
     desktopTitle: 'Websites',
     desktopLead: 'Four concepts of fast, well-ranked sites: restaurant, real estate, dental clinic and online store.',
+    saasTitle: 'Software & SaaS',
+    saasLead: 'Four dashboard concepts: analytics, CRM, project management and invoicing. My home turf, like Habita.',
     ctaTitle: 'Got an idea?',
     ctaLead: 'Tell me your industry and your vision. I make it real, polished and fast.',
     live: 'Interactive demo',

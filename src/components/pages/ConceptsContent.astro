@@ -1,7 +1,7 @@
 ---
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
-import { phoneConcepts, browserConcepts, loc, type Concept } from '../../data/concepts';
+import { phoneConcepts, browserConcepts, saasConcepts, loc } from '../../data/concepts';
 import Breadcrumb from '../Breadcrumb.astro';
 
 interface Props {
@@ -173,18 +173,18 @@ const crumbs = [
 
               {cc.id === 'clinique' && (
                 <div class="site site--clinic">
-                  <header class="site__nav"><b>Émail</b><span>{fr ? 'Services · Équipe · Rendez-vous' : 'Services · Team · Booking'}</span></header>
+                  <header class="site__nav"><b>Émail</b><span>{fr ? 'Blanchiment · Avant/après · Réserver' : 'Whitening · Before/after · Book'}</span></header>
                   <div class="clinic__hero">
-                    <div class="clinic__photo"><img src="/concepts/smile.webp" alt="" loading="lazy" decoding="async" width="360" height="300" /></div>
+                    <div class="clinic__photo"><img src="/concepts/smile.webp" alt="" loading="lazy" decoding="async" width="380" height="320" /><span class="clinic__shade">{fr ? 'Teinte A1' : 'Shade A1'}</span></div>
                     <div class="card clinic__book">
-                      <span class="clinic__kick">{fr ? 'Clinique dentaire · Laval' : 'Dental clinic · Laval'}</span>
-                      <span class="clinic__bt">{fr ? 'Prendre rendez-vous' : 'Book a visit'}</span>
+                      <span class="clinic__kick">{fr ? 'Blanchiment dentaire · Laval' : 'Teeth whitening · Laval'}</span>
+                      <span class="clinic__bt">{fr ? 'Réserver un blanchiment' : 'Book a whitening'}</span>
                       <div class="clinic__days"><span>L 9</span><span class="on">M 10</span><span>M 11</span><span>J 12</span></div>
                       <div class="clinic__times"><span class="on">9:30</span><span>11:00</span><span>14:15</span></div>
                       <button class="cta">{fr ? 'Confirmer' : 'Confirm'}</button>
                     </div>
                   </div>
-                  <div class="clinic__badges"><span>✓ {fr ? 'Sans douleur' : 'Pain-free'}</span><span>✓ {fr ? 'Urgences le jour même' : 'Same-day emergencies'}</span><span>✓ {fr ? 'Financement' : 'Financing'}</span></div>
+                  <div class="clinic__badges"><span>✓ {fr ? 'Sans douleur' : 'Pain-free'}</span><span>✓ {fr ? 'Résultats en 1 séance' : 'Results in 1 session'}</span><span>✓ {fr ? 'Émail protégé' : 'Enamel-safe'}</span></div>
                 </div>
               )}
 
@@ -221,6 +221,93 @@ const crumbs = [
   </div>
 </section>
 
+{/* ---------- SaaS dashboards ---------- */}
+<section class="section-tight container-pl">
+  <header class="cpt-secthead reveal">
+    <span class="cpt-secnum">03</span>
+    <div>
+      <h2 class="section-head__title">{c.saasTitle}</h2>
+      <p class="cpt-seclead">{c.saasLead}</p>
+    </div>
+  </header>
+
+  <div class="cpt-row cpt-row--desktop">
+    {saasConcepts.map((cc, i) => (
+      <article class="cpt reveal" data-id={cc.id} style={`--c:${cc.accent}`} data-delay={`${(i % 2) * 90}ms`}>
+        <div class="cpt-stage" data-tilt>
+          <div class="browser browser--dark">
+            <div class="browser__bar"><span class="dots"><i></i><i></i><i></i></span><span class="url">app.{cc.brand.toLowerCase()}.{fr ? 'ca' : 'co'}</span></div>
+            <div class="browser__screen">
+
+              {cc.id === 'analytics' && (
+                <div class="dash dash--flux">
+                  <header class="dash__bar"><b>Flux</b><span class="dash__nav">{fr ? 'Vue · Rapports · Équipe' : 'Overview · Reports · Team'}</span></header>
+                  <div class="dash__body">
+                    <div class="kpis">
+                      <div class="kpi"><span class="kpi__l">{fr ? 'Utilisateurs' : 'Users'}</span><b>12,4k</b><span class="kpi__d up">▲ 8,2%</span></div>
+                      <div class="kpi"><span class="kpi__l">{fr ? 'Revenu (MRR)' : 'Revenue (MRR)'}</span><b>48 200 $</b><span class="kpi__d up">▲ 12%</span></div>
+                      <div class="kpi"><span class="kpi__l">{fr ? 'Conversion' : 'Conversion'}</span><b>3,2 %</b><span class="kpi__d up">▲ 0,4</span></div>
+                    </div>
+                    <div class="chart">
+                      <svg viewBox="0 0 300 96" preserveAspectRatio="none" aria-hidden="true">
+                        <defs><linearGradient id="fluxg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="var(--c)" stop-opacity="0.35"/><stop offset="100%" stop-color="var(--c)" stop-opacity="0"/></linearGradient></defs>
+                        <path d="M0,78 L30,70 L60,74 L90,52 L120,58 L150,38 L180,44 L210,26 L240,30 L270,14 L300,20 L300,96 L0,96 Z" fill="url(#fluxg)"/>
+                        <polyline points="0,78 30,70 60,74 90,52 120,58 150,38 180,44 210,26 240,30 270,14 300,20" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      <div class="chart__bars"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {cc.id === 'crm' && (
+                <div class="dash dash--pipe">
+                  <header class="dash__bar"><b>Pipe</b><span class="dash__pill">{fr ? 'Pipeline · 142 k$' : 'Pipeline · $142k'}</span></header>
+                  <div class="board">
+                    <div class="col"><span class="col__h">{fr ? 'Prospects' : 'Leads'} · 3</span><div class="deal"><b>Boréal Construction</b><span>18 k$</span></div><div class="deal"><b>Café Mortier</b><span>6 k$</span></div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Qualifiés' : 'Qualified'} · 2</span><div class="deal deal--warm"><b>Clinique Vista</b><span>24 k$</span></div><div class="deal deal--warm"><b>Studio Lume</b><span>9 k$</span></div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Gagnés' : 'Won'} · 5</span><div class="deal deal--won"><b>HP Addik</b><span>32 k$ ✓</span></div><div class="deal deal--won"><b>Envita Wellness</b><span>14 k$ ✓</span></div></div>
+                  </div>
+                </div>
+              )}
+
+              {cc.id === 'kanban' && (
+                <div class="dash dash--trame">
+                  <header class="dash__bar"><b>Trame</b><span class="dash__nav">{fr ? 'Sprint 14' : 'Sprint 14'}</span></header>
+                  <div class="board">
+                    <div class="col"><span class="col__h">{fr ? 'À faire' : 'To do'}</span><div class="task"><span class="task__lbl" style="--t:#7c83ff"></span>{fr ? 'Maquettes accueil' : 'Home mockups'}<i class="task__av">A</i></div><div class="task"><span class="task__lbl" style="--t:#34d399"></span>{fr ? 'Schéma BD' : 'DB schema'}<i class="task__av">M</i></div></div>
+                    <div class="col"><span class="col__h">{fr ? 'En cours' : 'In progress'}</span><div class="task"><span class="task__lbl" style="--t:#f5a524"></span>{fr ? 'API paiements' : 'Payments API'}<i class="task__av">P</i></div><div class="task"><span class="task__lbl" style="--t:#ff4d5e"></span>{fr ? 'Tests E2E' : 'E2E tests'}<i class="task__av">S</i></div></div>
+                    <div class="col"><span class="col__h">{fr ? 'Fait' : 'Done'}</span><div class="task task--done"><span class="task__lbl" style="--t:#2dd4bf"></span>{fr ? 'Auth SSO' : 'SSO auth'}<i class="task__av">L</i></div><div class="task task--done"><span class="task__lbl" style="--t:#7c83ff"></span>{fr ? 'Page d’accueil' : 'Landing page'}<i class="task__av">A</i></div></div>
+                  </div>
+                </div>
+              )}
+
+              {cc.id === 'invoicing' && (
+                <div class="dash dash--releve">
+                  <header class="dash__bar"><b>Relevé</b><span class="dash__pill">{fr ? 'Ce mois · 18 400 $' : 'This month · $18,400'}</span></header>
+                  <div class="dash__body">
+                    <div class="rbars"><span style="height:42%"></span><span style="height:58%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:64%"></span><span style="height:88%"></span></div>
+                    <div class="inv"><div class="invrow"><b>Envita Wellness</b><span>2 400 $</span><em class="paid">{fr ? 'Payée' : 'Paid'}</em></div><div class="invrow"><b>Brassé</b><span>1 150 $</span><em class="wait">{fr ? 'En attente' : 'Pending'}</em></div><div class="invrow"><b>Domaine Immo</b><span>3 800 $</span><em class="late">{fr ? 'En retard' : 'Overdue'}</em></div></div>
+                  </div>
+                </div>
+              )}
+
+            </div>
+          </div>
+          <span class="cpt-toast">{cc.id === 'analytics' ? (fr ? 'Rapport exporté' : 'Report exported') : cc.id === 'crm' ? (fr ? 'Opportunité gagnée' : 'Deal won') : cc.id === 'kanban' ? (fr ? 'Tâche terminée' : 'Task done') : (fr ? 'Facture payée' : 'Invoice paid')} ✓</span>
+        </div>
+        <div class="cpt-meta">
+          <span class="cpt-industry">{loc(cc.industry, locale)}</span>
+          <h3 class="cpt-brand">{cc.brand}</h3>
+          <p class="cpt-tagline">{loc(cc.tagline, locale)}</p>
+          <ul class="cpt-tags">{(fr ? cc.tags.fr : cc.tags.en).map((t) => <li>{t}</li>)}</ul>
+          <span class="cpt-live"><span class="cpt-live__dot"></span>{c.live}</span>
+        </div>
+      </article>
+    ))}
+  </div>
+</section>
+
 {/* Closing CTA */}
 <section class="section">
   <div class="container-pl cpt-cta reveal">
@@ -240,6 +327,8 @@ const crumbs = [
   .cpt-row { display: grid; gap: clamp(1.5rem, 3vw, 2.5rem); }
   .cpt-row--phones { grid-template-columns: repeat(4, 1fr); }
   .cpt-row--desktop { grid-template-columns: repeat(2, 1fr); margin-top: 4rem; }
+  /* All desktop + SaaS mockups share one stage height so every box matches. */
+  .cpt-row--desktop .cpt-stage { align-items: center; min-height: clamp(440px, 35vw, 500px); }
 
   .cpt { display: flex; flex-direction: column; align-items: center; text-align: center; }
   .cpt-stage {
@@ -386,8 +475,9 @@ const crumbs = [
   /* Clinique */
   .cpt[data-id='clinique'] { --bg: #f0fbfa; --surf: #ffffff; --txt: #14302c; --txt2: #5e8a83; }
   .clinic__hero { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; padding: 1.2rem; align-items: stretch; }
-  .clinic__photo { border-radius: 14px; overflow: hidden; }
+  .clinic__photo { border-radius: 14px; overflow: hidden; position: relative; }
   .clinic__photo img { width: 100%; height: 100%; min-height: 150px; object-fit: cover; }
+  .clinic__shade { position: absolute; bottom: 8px; left: 8px; background: var(--c); color: #06302c; font-size: 0.6rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 6px; }
   .clinic__kick { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.13em; color: var(--c); font-weight: 700; }
   .clinic__book { box-shadow: 0 14px 30px -18px rgba(0,0,0,0.3); gap: 0.35rem; }
   .clinic__bt { font-size: 0.84rem; font-weight: 700; color: var(--txt); margin-top: 0.1rem; }
@@ -413,6 +503,56 @@ const crumbs = [
   .ecom__sizes .on { background: var(--c); color: #fff; border-color: var(--c); font-weight: 700; }
   .ecom__strip { display: flex; justify-content: space-between; gap: 0.5rem; padding: 0.7rem 1.2rem 1.1rem; font-size: 0.68rem; color: var(--txt2); }
   .ecom__strip span:first-child { color: var(--c); font-weight: 700; }
+
+  /* ---- SaaS dashboards (dark) ---- */
+  .cpt[data-id='analytics'] { --bg: #0e1018; --surf: #181b27; --txt: #e8ebf5; --txt2: #8a90a8; }
+  .cpt[data-id='crm'] { --bg: #0b1411; --surf: #13201a; --txt: #e6f5ee; --txt2: #7fa090; }
+  .cpt[data-id='kanban'] { --bg: #141019; --surf: #1e1a28; --txt: #ece8f5; --txt2: #968ca8; }
+  .cpt[data-id='invoicing'] { --bg: #0a1416; --surf: #122024; --txt: #e2f2f0; --txt2: #6f9a95; }
+  .browser--dark .url { background: rgba(255,255,255,0.06); }
+
+  .dash { color: var(--txt); }
+  .dash__bar { display: flex; align-items: center; justify-content: space-between; padding: 0.7rem 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .dash__bar b { color: var(--c); font-size: 1rem; }
+  .dash__nav { font-size: 0.72rem; color: var(--txt2); }
+  .dash__pill { font-size: 0.72rem; font-weight: 700; color: var(--c); background: color-mix(in srgb, var(--c) 16%, transparent); padding: 0.25rem 0.65rem; border-radius: 999px; }
+  .dash__body { padding: 1.1rem; display: flex; flex-direction: column; gap: 0.9rem; }
+
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .kpi { background: var(--surf); border: 1px solid rgba(255,255,255,0.05); border-radius: 11px; padding: 0.65rem 0.7rem; display: flex; flex-direction: column; gap: 0.15rem; }
+  .kpi__l { font-size: 0.62rem; color: var(--txt2); text-transform: uppercase; letter-spacing: 0.06em; }
+  .kpi b { font-size: 1.05rem; }
+  .kpi__d { font-size: 0.64rem; }
+  .kpi__d.up { color: #34d399; }
+
+  .chart { background: var(--surf); border: 1px solid rgba(255,255,255,0.05); border-radius: 11px; padding: 0.7rem; }
+  .chart svg { width: 100%; height: 80px; display: block; }
+  .chart__bars { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.35rem; margin-top: 0.6rem; align-items: end; height: 22px; }
+  .chart__bars span { background: color-mix(in srgb, var(--c) 45%, transparent); border-radius: 3px; }
+  .chart__bars span:nth-child(1){height:50%} .chart__bars span:nth-child(2){height:80%} .chart__bars span:nth-child(3){height:40%} .chart__bars span:nth-child(4){height:95%} .chart__bars span:nth-child(5){height:65%} .chart__bars span:nth-child(6){height:75%} .chart__bars span:nth-child(7){height:55%}
+
+  .board { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.55rem; padding: 1rem; }
+  .col { background: var(--surf); border-radius: 11px; padding: 0.55rem 0.5rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  .col__h { font-size: 0.6rem; color: var(--txt2); text-transform: uppercase; letter-spacing: 0.06em; }
+  .deal { background: color-mix(in srgb, var(--txt) 6%, transparent); border-radius: 8px; padding: 0.45rem 0.5rem; display: flex; flex-direction: column; gap: 0.1rem; border-left: 2px solid var(--c); }
+  .deal b { font-size: 0.7rem; } .deal span { font-size: 0.66rem; color: var(--txt2); }
+  .deal--warm { border-left-color: #f5a524; } .deal--won { border-left-color: #34d399; }
+  .deal--won span { color: #34d399; }
+
+  .task { background: color-mix(in srgb, var(--txt) 6%, transparent); border-radius: 8px; padding: 0.45rem 0.5rem; font-size: 0.68rem; display: flex; align-items: center; gap: 0.4rem; }
+  .task__lbl { width: 18px; height: 4px; border-radius: 2px; background: var(--t); flex-shrink: 0; }
+  .task__av { margin-left: auto; width: 18px; height: 18px; border-radius: 50%; background: var(--c); color: #0a0a0a; font-size: 0.56rem; font-weight: 700; display: grid; place-items: center; font-style: normal; }
+  .task--done { opacity: 0.65; text-decoration: line-through; }
+
+  .rbars { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem; align-items: end; height: 70px; }
+  .rbars span { background: linear-gradient(var(--c), color-mix(in srgb, var(--c) 30%, transparent)); border-radius: 4px 4px 0 0; }
+  .inv { display: flex; flex-direction: column; gap: 0.35rem; }
+  .invrow { display: grid; grid-template-columns: 1fr auto auto; gap: 0.6rem; align-items: center; background: var(--surf); border-radius: 8px; padding: 0.45rem 0.6rem; font-size: 0.7rem; }
+  .invrow b { font-weight: 600; } .invrow > span { color: var(--txt2); }
+  .invrow em { font-style: normal; font-size: 0.6rem; font-weight: 700; padding: 0.15rem 0.45rem; border-radius: 999px; }
+  .paid { color: #34d399; background: rgba(52,211,153,0.14); }
+  .wait { color: #f5a524; background: rgba(245,165,36,0.14); }
+  .late { color: #ff6b6b; background: rgba(255,107,107,0.14); }
 
   /* ---- CTA band ---- */
   .cpt-cta { text-align: center; max-width: 720px; margin-inline: auto; padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem); border: 1px solid var(--line); border-radius: 28px; background: radial-gradient(120% 120% at 50% 0%, rgba(232, 199, 154, 0.08), transparent 60%), rgba(238, 241, 246, 0.02); }

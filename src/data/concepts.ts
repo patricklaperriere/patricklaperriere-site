@@ -12,6 +12,8 @@ export interface Concept {
   brand: string;
   device: Device;
   accent: string;
+  /** SaaS dashboards share the browser frame but get their own section. */
+  saas?: boolean;
   industry: { fr: string; en: string };
   tagline: { fr: string; en: string };
   /** Short feature tags shown under the mockup. */
@@ -99,12 +101,12 @@ export const concepts: Concept[] = [
     brand: 'Émail',
     device: 'browser',
     accent: '#2bc4b4',
-    industry: { fr: 'Clinique dentaire', en: 'Dental clinic' },
+    industry: { fr: 'Blanchiment dentaire', en: 'Teeth whitening' },
     tagline: {
-      fr: 'Rassurant, clair et professionnel, avec prise de rendez-vous en ligne en quelques secondes.',
-      en: 'Reassuring, clear and professional, with online booking done in seconds.',
+      fr: 'Un sourire plus blanc dès la première séance. Réservation en ligne, résultats visibles et sans douleur.',
+      en: 'A whiter smile from the first session. Online booking, visible results and pain-free.',
     },
-    tags: { fr: ['Rendez-vous', 'Équipe', 'Confiance'], en: ['Booking', 'Team', 'Trust'] },
+    tags: { fr: ['Blanchiment', 'Réservation', 'Sans douleur'], en: ['Whitening', 'Booking', 'Pain-free'] },
   },
   {
     id: 'ecom',
@@ -118,10 +120,64 @@ export const concepts: Concept[] = [
     },
     tags: { fr: ['Shopify', 'Panier', 'Conversion'], en: ['Shopify', 'Cart', 'Conversion'] },
   },
+  // ---------- SaaS / software dashboards ----------
+  {
+    id: 'analytics',
+    brand: 'Flux',
+    device: 'browser',
+    saas: true,
+    accent: '#7c83ff',
+    industry: { fr: 'Analytique SaaS', en: 'SaaS analytics' },
+    tagline: {
+      fr: 'Tableau de bord clair : indicateurs clés, tendances et rapports, sans tableur ni casse-tête.',
+      en: 'A clear dashboard: key metrics, trends and reports, no spreadsheet headaches.',
+    },
+    tags: { fr: ['Indicateurs', 'Graphiques', 'Rapports'], en: ['Metrics', 'Charts', 'Reports'] },
+  },
+  {
+    id: 'crm',
+    brand: 'Pipe',
+    device: 'browser',
+    saas: true,
+    accent: '#34d399',
+    industry: { fr: 'CRM et ventes', en: 'CRM & sales' },
+    tagline: {
+      fr: 'Pipeline visuel des opportunités, suivi des contacts et relances, pour ne plus rien échapper.',
+      en: 'A visual deal pipeline, contact tracking and follow-ups so nothing slips through.',
+    },
+    tags: { fr: ['Pipeline', 'Contacts', 'Relances'], en: ['Pipeline', 'Contacts', 'Follow-ups'] },
+  },
+  {
+    id: 'kanban',
+    brand: 'Trame',
+    device: 'browser',
+    saas: true,
+    accent: '#f5a524',
+    industry: { fr: 'Gestion de projet', en: 'Project management' },
+    tagline: {
+      fr: 'Tableau kanban, tâches assignées et échéances, pour garder toute l’équipe alignée.',
+      en: 'A kanban board, assigned tasks and deadlines to keep the whole team aligned.',
+    },
+    tags: { fr: ['Kanban', 'Tâches', 'Équipe'], en: ['Kanban', 'Tasks', 'Team'] },
+  },
+  {
+    id: 'invoicing',
+    brand: 'Relevé',
+    device: 'browser',
+    saas: true,
+    accent: '#2dd4bf',
+    industry: { fr: 'Facturation', en: 'Invoicing' },
+    tagline: {
+      fr: 'Factures, revenus et paiements en un coup d’œil, avec relances automatiques des comptes en retard.',
+      en: 'Invoices, revenue and payments at a glance, with automatic reminders for overdue accounts.',
+    },
+    tags: { fr: ['Factures', 'Revenus', 'Paiements'], en: ['Invoices', 'Revenue', 'Payments'] },
+  },
 ];
 
 export const phoneConcepts = concepts.filter((c) => c.device === 'phone');
-export const browserConcepts = concepts.filter((c) => c.device === 'browser');
+export const browserConcepts = concepts.filter((c) => c.device === 'browser' && !c.saas);
+export const saasConcepts = concepts.filter((c) => c.saas);
 
 export function loc(field: { fr: string; en: string }, locale: Locale): string {
   return field[locale];

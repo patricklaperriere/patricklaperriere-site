@@ -370,6 +370,8 @@ export const fr = {
     mobileLead: 'Quatre concepts d’apps pensées pour la conversion : réservation, fidélité, suivi et portfolio. Survolez chaque écran.',
     desktopTitle: 'Sites web',
     desktopLead: 'Quatre concepts de sites rapides et bien référencés : restaurant, immobilier, clinique et boutique en ligne.',
+    saasTitle: 'Logiciels et SaaS',
+    saasLead: 'Quatre concepts de tableaux de bord : analytique, CRM, gestion de projet et facturation. C’est mon terrain, comme avec Habita.',
     ctaTitle: 'Une idée en tête ?',
     ctaLead: 'Dites-moi votre industrie et votre vision. On la rend réelle, soignée et rapide.',
     live: 'Démo interactive',
