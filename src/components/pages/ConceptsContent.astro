@@ -354,17 +354,18 @@ const crumbs = [
   /* Every desktop + SaaS box matches: shared stage height, the window fills
      it, and the inner content distributes top to bottom. */
   /* Fixed identical window height = every desktop + SaaS box matches,
-     inside and out. Content flex-fills within. */
-  .cpt-row--desktop .browser { display: flex; flex-direction: column; height: clamp(430px, 31vw, 470px); }
+     inside and out. Tall enough that nothing clips; content flex-fills. */
+  .cpt-row--desktop .browser { display: flex; flex-direction: column; height: clamp(450px, 32vw, 480px); }
   .cpt-row--desktop .browser__screen { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .site { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .dash { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .dash__body { flex: 1; }
   .cpt-row--desktop .board { flex: 1; }
-  .cpt-row--desktop .col__cards { flex: 1; justify-content: space-between; }
+  /* Cards stay clustered at the top (real kanban look), column bg fills below. */
+  .cpt-row--desktop .col__cards { flex: 1; gap: 0.5rem; }
   .cpt-row--desktop .chart { flex: 1; display: flex; flex-direction: column; }
   .cpt-row--desktop .chart svg { flex: 1; height: auto; min-height: 70px; }
-  .cpt-row--desktop .inv { flex: 1; justify-content: space-between; }
+  .cpt-row--desktop .inv { flex: 1; }
   /* Sites: the main section grows to fill so there's no mid-page gap. */
   .cpt-row--desktop .resto__hero, .cpt-row--desktop .clinic__hero, .cpt-row--desktop .ecom__hero { flex: 1; }
   .cpt-row--desktop .immo__card { flex: 1; display: flex; flex-direction: column; }
