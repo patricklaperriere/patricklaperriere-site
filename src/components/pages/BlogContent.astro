@@ -13,12 +13,6 @@ const { locale, posts } = Astro.props;
 const tr = useTranslations(locale);
 const b = tr.blog;
 
-const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
   { name: tr.nav.blog, url: path('blog', locale) },
@@ -44,8 +38,8 @@ const crumbs = [
       {posts.map((post, i) => (
         <li class="reveal" data-delay={`${i * 70}ms`}>
           <a href={blogPostPath(locale, post.data.slug)} class="post-card card">
+            {/* Dates deliberately not shown — see PostArticle.astro. */}
             <div class="post-card__meta">
-              <time datetime={post.data.pubDate.toISOString()}>{dateFmt.format(post.data.pubDate)}</time>
               {post.data.tags[0] && <span class="post-card__tag">{post.data.tags[0]}</span>}
             </div>
             <h2 class="post-card__title">{post.data.title}</h2>

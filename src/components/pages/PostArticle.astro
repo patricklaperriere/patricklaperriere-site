@@ -14,12 +14,6 @@ interface Props {
 const { locale, post, related = [] } = Astro.props;
 const tr = useTranslations(locale);
 
-const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
-
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
   { name: tr.nav.blog, url: path('blog', locale) },
@@ -33,8 +27,10 @@ const crumbs = [
   <header class="page-head container-pl post__head">
     <div class="post__meta reveal">
       <span class="post__byline">{tr.blog.byline} <strong>Patrick Laperrière</strong></span>
-      <span class="post__sep" aria-hidden="true">·</span>
-      <time datetime={post.data.pubDate.toISOString()}>{dateFmt.format(post.data.pubDate)}</time>
+      {/* No visible date. These are evergreen reference pages, and a stamped
+          date only tells a reader how long it has been since the last one.
+          datePublished / dateModified stay in the BlogPosting JSON-LD, so
+          search engines still get the real dates. */}
       {post.data.tags.map((t) => <span class="post__tag">{t}</span>)}
     </div>
     <h1 class="reveal" data-delay="80ms">{post.data.title}</h1>
