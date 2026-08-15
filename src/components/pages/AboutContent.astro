@@ -3,6 +3,7 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
+import { PHOTO, hasPhoto } from '../../lib/photo';
 
 interface Props {
   locale: Locale;
@@ -27,6 +28,18 @@ const crumbs = [
 
 <section class="section-tight container-pl about__grid">
   <div class="prose about__body reveal">
+    {hasPhoto && (
+      <figure class="about__portrait">
+        <img
+          src={PHOTO.portrait}
+          alt={a.portraitAlt}
+          width="720"
+          height="900"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    )}
     {a.body.map((p) => <p>{p}</p>)}
     <p class="about__status"><span class="about__dot"></span>{tr.status.replace('●', '').trim()}</p>
   </div>
@@ -52,6 +65,23 @@ const crumbs = [
     grid-template-columns: 1.4fr 1fr;
     gap: 3rem;
     align-items: start;
+  }
+  /* Portrait floats beside the bio on desktop, full width on mobile. */
+  .about__portrait {
+    float: right;
+    width: min(260px, 42%);
+    margin: 0 0 1.4rem 1.8rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background: var(--color-ink2);
+  }
+  .about__portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
   }
   .about__status {
     display: inline-flex;
@@ -89,5 +119,12 @@ const crumbs = [
   @media (max-width: 860px) {
     .about__grid { grid-template-columns: 1fr; }
     .about__why { position: static; }
+  }
+  @media (max-width: 560px) {
+    .about__portrait {
+      float: none;
+      width: 100%;
+      margin: 0 0 1.8rem;
+    }
   }
 </style>

@@ -10,6 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "og": "node scripts/og.mjs",
+    "photo": "node scripts/photo.mjs",
+    "check": "node scripts/check-prix.mjs",
+    "capture": "node scripts/capture-demo-video.mjs",
     "astro": "astro"
   },
   "dependencies": {

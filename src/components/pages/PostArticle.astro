@@ -4,6 +4,7 @@ import type { Locale } from '../../i18n/routes';
 import { type Post, blogPostPath } from '../../lib/blog';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
+import { PHOTO, hasPhoto } from '../../lib/photo';
 
 interface Props {
   locale: Locale;
@@ -44,7 +45,20 @@ const crumbs = [
     <slot />
 
     <aside class="post__author" aria-label={tr.about.kicker}>
-      <span class="post__author-mono">PL</span>
+      {hasPhoto ? (
+        <img
+          class="post__author-photo"
+          src={PHOTO.avatar}
+          srcset={`${PHOTO.avatar} 1x, ${PHOTO.avatar2x} 2x`}
+          alt={tr.about.portraitAlt}
+          width="48"
+          height="48"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <span class="post__author-mono">PL</span>
+      )}
       <div>
         <p class="post__author-name">Patrick Laperrière</p>
         <p class="post__author-role">{tr.blog.authorRole}</p>
@@ -135,6 +149,15 @@ const crumbs = [
     font-weight: 700;
     color: var(--color-gold-bright);
     background: rgba(232, 199, 154, 0.1);
+  }
+  .post__author-photo {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    object-fit: cover;
+    display: block;
   }
   .post__author-name { margin: 0; font-weight: 600; color: var(--color-bone); }
   .post__author-role {

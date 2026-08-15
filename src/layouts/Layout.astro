@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 import LofiPlayer from '../components/LofiPlayer.astro';
 import { useTranslations, otherLocale } from '../i18n';
 import type { Locale } from '../i18n/routes';
+import { PHOTO, hasPhoto } from '../lib/photo';
 
 interface Props {
   title: string;
@@ -47,7 +48,19 @@ const favicon =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#060b14" />
-    <link rel="icon" type="image/svg+xml" href={favicon} />
+    {hasPhoto ? (
+      <>
+        {/* Photo favicon. Deliberately NO svg <link> alongside it: browsers
+            prefer an SVG icon over a PNG whenever both are offered, so keeping
+            the monogram here would silently win and the photo would never
+            appear. icon-512 is generated but not linked — without a web app
+            manifest it has no consumer and would only risk a 130 kB fetch. */}
+        <link rel="icon" type="image/png" sizes="32x32" href={PHOTO.icon32} />
+        <link rel="apple-touch-icon" sizes="180x180" href={PHOTO.icon180} />
+      </>
+    ) : (
+      <link rel="icon" type="image/svg+xml" href={favicon} />
+    )}
 
     {/* Preload the display font used by the hero (LCP) */}
     <link

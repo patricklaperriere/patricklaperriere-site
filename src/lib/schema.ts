@@ -6,6 +6,7 @@ import type { Locale } from '../i18n/routes';
 import { path } from '../i18n/routes';
 import { useTranslations } from '../i18n';
 import { temoignages, reviewAggregate } from '../data/temoignages';
+import { PHOTO, hasPhoto } from './photo';
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
 
@@ -42,6 +43,10 @@ export function personSchema(locale: Locale) {
     url: SITE.domain,
     email: `mailto:${SITE.email}`,
     telephone: SITE.phone,
+    // A real photo on the Person node is what lets Google attach a face to the
+    // author entity (E-E-A-T). Omitted entirely rather than pointing at a file
+    // that does not exist yet.
+    ...(hasPhoto ? { image: abs(PHOTO.schema) } : {}),
     knowsLanguage: ['fr-CA', 'en-CA'],
     address: {
       '@type': 'PostalAddress',

@@ -25,3 +25,7 @@ Thumbs.db
 
 # Claude local settings (personal)
 .claude/settings.local.json
+
+# capture de démo (sortie locale, jamais committée)
+capture-out/
+photo-src/
