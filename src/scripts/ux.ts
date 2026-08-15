@@ -46,37 +46,6 @@ function initSpotlight() {
   });
 }
 
-/* ---- Custom gold cursor with lag -------------------------- */
-function initCursor() {
-  if (reduceMotion || isTouch) return;
-  const dot = document.createElement('div');
-  dot.className = 'pl-cursor';
-  document.body.appendChild(dot);
-  document.documentElement.classList.add('has-custom-cursor');
-
-  let x = window.innerWidth / 2,
-    y = window.innerHeight / 2,
-    cx = x,
-    cy = y;
-  window.addEventListener('pointermove', (e) => {
-    x = e.clientX;
-    y = e.clientY;
-  });
-  const loop = () => {
-    cx += (x - cx) * 0.18;
-    cy += (y - cy) * 0.18;
-    dot.style.transform = `translate3d(${cx}px, ${cy}px, 0) translate(-50%, -50%)`;
-    requestAnimationFrame(loop);
-  };
-  requestAnimationFrame(loop);
-
-  const grow = 'is-grown';
-  document.querySelectorAll('a, button, .magnetic, [data-cursor]').forEach((el) => {
-    el.addEventListener('pointerenter', () => dot.classList.add(grow));
-    el.addEventListener('pointerleave', () => dot.classList.remove(grow));
-  });
-}
-
 /* ---- Magnetic elements ------------------------------------ */
 function initMagnetic() {
   if (reduceMotion || isTouch) return;
@@ -197,6 +166,55 @@ function initCounters() {
   els.forEach((el) => io.observe(el));
 }
 
+/* ---- Habita loop video (below the fold) ------------------- */
+// The video never starts on load: it waits until the section is nearly in
+// view, so it can't compete with the hero for bandwidth or become the LCP.
+// Under prefers-reduced-motion nothing autoplays at all — the poster stays up
+// and the play button is the only way in. That is also why `autoplay` is not
+// in the markup: an attribute would start playing before this code could
+// decide otherwise.
+function initHabitaVideo() {
+  const wrap = document.querySelector<HTMLElement>('[data-habita-video]');
+  if (!wrap) return;
+  const video = wrap.querySelector('video');
+  if (!video) return;
+  const btn = wrap.querySelector<HTMLButtonElement>('[data-habita-play]');
+
+  const sync = () => {
+    wrap.classList.toggle('is-playing', !video.paused);
+    if (!btn) return;
+    const label = video.paused ? btn.dataset.labelPlay : btn.dataset.labelPause;
+    if (label) btn.setAttribute('aria-label', label);
+  };
+
+  // play() rejects when the browser blocks it (low power mode, data saver).
+  // Swallow it: the poster and the button are still there, so we degrade to
+  // click-to-play instead of throwing.
+  const play = () => video.play().then(sync).catch(() => sync());
+
+  video.addEventListener('play', sync);
+  video.addEventListener('pause', sync);
+
+  btn?.addEventListener('click', () => {
+    if (video.paused) play();
+    else video.pause();
+  });
+
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        play();
+        io.unobserve(e.target);
+      }
+    },
+    { rootMargin: '200px 0px', threshold: 0.25 },
+  );
+  io.observe(wrap);
+}
+
 /* ---- Lenis smooth scroll (lazy-loaded) -------------------- */
 async function initLenis() {
   if (reduceMotion || isTouch) return;
@@ -217,11 +235,11 @@ async function initLenis() {
 function boot() {
   initReveals();
   initSpotlight();
-  initCursor();
   initMagnetic();
   initTilt();
   initScramble();
   initCounters();
+  initHabitaVideo();
 }
 
 // Reveals/counters should run ASAP; defer the heavier cosmetic bits to idle.
