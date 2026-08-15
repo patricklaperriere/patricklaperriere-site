@@ -1,0 +1,119 @@
+---
+// Renders measured Lighthouse scores. Every value comes from src/data/lighthouse.ts,
+// which is filled from real runs — a null renders nothing rather than a zero or
+// a placeholder, so an unmeasured site can never look like a bad one.
+import { useTranslations } from '../i18n';
+import type { Locale } from '../i18n/routes';
+import type { LighthouseScore } from '../data/lighthouse';
+
+interface Props {
+  locale: Locale;
+  score: LighthouseScore;
+  /** `full` shows the 4th ring + vitals; `compact` is the case-study strip. */
+  variant?: 'full' | 'compact';
+}
+const { locale, score, variant = 'compact' } = Astro.props;
+const tr = useTranslations(locale);
+const l = tr.lighthouse;
+
+// Best Practices is intentionally excluded — see the note in data/lighthouse.ts.
+const rings = [
+  { key: 'performance', label: l.labels.performance, value: score.performance },
+  { key: 'accessibility', label: l.labels.accessibility, value: score.accessibility },
+  { key: 'seo', label: l.labels.seo, value: score.seo },
+].filter((r) => r.value !== null);
+
+const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(new Date(score.measured + 'T12:00:00'));
+
+const band = (v: number) => (v >= 90 ? 'good' : v >= 50 ? 'mid' : 'low');
+---
+
+{rings.length > 0 && (
+  <div class:list={['lh', `lh--${variant}`]}>
+    <ul class="lh__rings">
+      {rings.map((r, i) => (
+        <li class="lh__ring reveal" data-delay={`${i * 80}ms`} data-band={band(r.value!)}>
+          <span class="lh__value">{r.value}</span>
+          <span class="lh__label">{r.label}</span>
+        </li>
+      ))}
+    </ul>
+    <p class="lh__meta">
+      {score.lcp !== null && (
+        <span class="lh__vital">
+          LCP <b>{score.lcp.toFixed(1)} s</b>
+        </span>
+      )}
+      {score.cls !== null && (
+        <span class="lh__vital">
+          CLS <b>{score.cls.toFixed(3)}</b>
+        </span>
+      )}
+      <span class="lh__when">{`${l.measuredOn} ${dateFmt} · ${l.method}`}</span>
+    </p>
+  </div>
+)}
+
+<style>
+  .lh {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    padding: 1.6rem 1.8rem;
+    background: linear-gradient(180deg, rgba(238, 241, 246, 0.04), rgba(238, 241, 246, 0.01));
+  }
+  .lh__rings {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.2rem;
+  }
+  .lh__ring {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .lh__value {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 2.7rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .lh__ring[data-band='good'] .lh__value { color: #46d28a; }
+  .lh__ring[data-band='mid'] .lh__value { color: var(--color-gold); }
+  .lh__ring[data-band='low'] .lh__value { color: #e07a5f; }
+  .lh__label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-fog);
+  }
+  .lh__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.2rem;
+    margin: 1.4rem 0 0;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    color: var(--color-fog);
+  }
+  .lh__vital b { color: var(--color-bone); font-weight: 600; }
+  .lh__when { margin-left: auto; }
+
+  .lh--full .lh__rings { gap: clamp(2rem, 6vw, 4rem); }
+
+  @media (max-width: 620px) {
+    .lh__rings { gap: 1.5rem; }
+    .lh__when { margin-left: 0; }
+  }
+</style>

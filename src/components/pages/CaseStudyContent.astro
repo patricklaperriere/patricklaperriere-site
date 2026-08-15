@@ -7,6 +7,8 @@ import { loc, sortedProjects } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
 import ProjectCard from '../ProjectCard.astro';
 import CtaBand from '../CtaBand.astro';
+import LighthouseScores from '../LighthouseScores.astro';
+import { lighthouse } from '../../data/lighthouse';
 
 interface Props {
   locale: Locale;
@@ -15,6 +17,9 @@ interface Props {
 const { locale, project } = Astro.props;
 const tr = useTranslations(locale);
 const ws = tr.workSection;
+
+// Measured scores for this project's live site, if it has been measured.
+const score = lighthouse[project.slug] ?? null;
 
 // Other case studies, for cross-linking.
 const others = sortedProjects().filter((p) => p.slug !== project.slug);
@@ -69,6 +74,13 @@ const blocks = [
       <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
     </a>
   </figure>
+
+  {score && (
+    <section class="container-pl case__lh reveal">
+      <h2 class="case__block-label">{tr.lighthouse.caseTitle}</h2>
+      <LighthouseScores locale={locale} score={score} />
+    </section>
+  )}
 
   <div class="container-pl case__body">
     {blocks.map((b, i) => (
@@ -175,6 +187,11 @@ const blocks = [
     max-width: 760px;
     padding-block: clamp(2.5rem, 6vw, 4rem);
   }
+  .case__lh {
+    max-width: 760px;
+    padding-top: clamp(2.5rem, 6vw, 4rem);
+  }
+  .case__lh .case__block-label { margin-bottom: 1.1rem; }
   .case__block-label {
     font-family: var(--font-serif);
     font-style: italic;
