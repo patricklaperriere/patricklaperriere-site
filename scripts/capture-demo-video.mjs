@@ -79,15 +79,22 @@ const SCENARIOS = {
   },
   // Public marketing site. Useful for a look-and-feel loop, but be honest with
   // yourself: this is NOT "the software in action".
+  //
+  // Scrolls down and back up so the last frame lands where the first one
+  // started. A loop that ends somewhere else cuts visibly every time it
+  // restarts, and navigating to a second page mid-loop makes that worse.
   marketing: {
     needsAuth: false,
     start: 'https://habita.expert/features',
     steps: [
       { wait: 2000 },
-      { pause: 1000 },
-      { scroll: 600 }, { pause: 1000 },
-      { scroll: 600 }, { pause: 1000 },
-      { goto: 'https://habita.expert/pricing' }, { wait: 1800 }, { pause: 1200 },
+      { pause: 900 },
+      { scroll: 550 }, { pause: 850 },
+      { scroll: 550 }, { pause: 850 },
+      { scroll: 550 }, { pause: 850 },
+      { scroll: -550 }, { pause: 850 },
+      { scroll: -550 }, { pause: 850 },
+      { scroll: -550 }, { pause: 1100 },
     ],
   },
 };
