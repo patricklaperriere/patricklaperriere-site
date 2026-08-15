@@ -153,7 +153,36 @@ const subject =
     background: rgba(232, 199, 154, 0.05);
   }
   textarea { resize: vertical; }
-  select { appearance: none; cursor: pointer; }
+
+  /* The dropdown list is painted by the OS, not by the page. Without an
+     explicit colour pair the rows inherit the control's translucent
+     background and end up dark-on-dark, which is unreadable on Windows.
+     Both sides have to be opaque and stated. */
+  select option {
+    background-color: var(--color-ink2);
+    color: var(--color-bone);
+  }
+  select option:checked {
+    background-color: var(--color-gold);
+    color: var(--color-ink);
+  }
+
+  /* appearance: none strips the native arrow, so the field stops looking like
+     a dropdown at all. Draw one back in as a background image (inline SVG, no
+     extra request) and leave room for it. */
+  select {
+    appearance: none;
+    cursor: pointer;
+    padding-right: 2.6rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%238a97ad' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+  }
+  select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1.5 6 6.5 11 1.5' fill='none' stroke='%23e8c79a' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+  }
   .contact__submit { justify-content: center; margin-top: 0.5rem; }
   .contact__error { color: #ff8a8a; font-size: 0.9rem; margin: 0; }
 
