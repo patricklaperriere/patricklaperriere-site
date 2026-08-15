@@ -67,7 +67,9 @@ export const en = {
     ctaCase: 'Read the case study',
     ctaLive: 'See Habita live',
     shotAlt: 'Preview of Habita, my SaaS building-inspection software',
-    posterAlt: 'Habita in action: writing an inspection report',
+    // Describes what is actually on screen (the Habita site), not what we
+    // wish were there. Update if the capture switches to the `app` scenario.
+    posterAlt: 'Preview of Habita, my SaaS building-inspection software',
     videoPlay: 'Play video',
     videoPause: 'Pause video',
   },

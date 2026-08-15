@@ -68,7 +68,9 @@ export const fr = {
     ctaCase: 'Lire l’étude de cas',
     ctaLive: 'Voir Habita en ligne',
     shotAlt: 'Aperçu de Habita, mon logiciel SaaS d’inspection en bâtiment',
-    posterAlt: 'Habita en action : rédaction d’un rapport d’inspection',
+    // Décrit ce qui est réellement filmé (le site de Habita), pas ce qu’on
+    // aimerait montrer. À changer si la capture passe au scénario « app ».
+    posterAlt: 'Aperçu de Habita, mon logiciel SaaS d’inspection en bâtiment',
     videoPlay: 'Lire la vidéo',
     videoPause: 'Mettre la vidéo en pause',
   },

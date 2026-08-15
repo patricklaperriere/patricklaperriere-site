@@ -25,7 +25,8 @@
 
 import { spawn, spawnSync } from 'node:child_process';
 import { mkdirSync, writeFileSync, rmSync, existsSync, statSync, readdirSync, copyFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
+import { createServer } from 'node:net';
 import { setTimeout as sleep } from 'node:timers/promises';
 
 // ── Config ────────────────────────────────────────────────────────────────
@@ -35,7 +36,21 @@ const MAX_SECONDS = 18;      // spec: 10-20 s loop
 const BUDGET_MB = 3;         // spec: hard budget for webm + mp4
 const OUT = 'capture-out';
 const FRAMES = join(OUT, 'frames');
-const PORT = 9222;
+
+/** First free port from 9222 up — 9222 is often already taken by a live Chrome. */
+async function freePort(from = 9222) {
+  for (let p = from; p < from + 40; p++) {
+    const ok = await new Promise((res) => {
+      const s = createServer();
+      s.once('error', () => res(false));
+      s.once('listening', () => s.close(() => res(true)));
+      s.listen(p, '127.0.0.1');
+    });
+    if (ok) return p;
+  }
+  throw new Error('Aucun port libre pour le débogage Chrome.');
+}
+const PORT = await freePort();
 
 const argv = process.argv.slice(2);
 const arg = (name, fallback = null) => {
@@ -181,7 +196,8 @@ const proc = spawn(
     '--no-first-run',
     '--disable-extensions',
     `--window-size=${WIDTH},${HEIGHT}`,
-    `--user-data-dir=${join(OUT, 'profile')}`,
+    // Absolute: Chrome silently refuses to start on a relative user-data-dir.
+    `--user-data-dir=${resolve(OUT, 'profile')}`,
     'about:blank',
   ],
   { stdio: 'ignore' },
@@ -262,7 +278,30 @@ if (scenario.needsAuth) {
 }
 
 await goto(scenario.start);
-await sleep(1500);
+await sleep(2500);
+
+// Consent banners sit on top of everything and would be burned into every
+// frame. Dismiss before recording, not during, so no click is visible.
+const dismissed = await evaluate(`
+  (() => {
+    const LABELS = ['tout accepter','accepter','accept all','accept',
+                    'got it','ok','compris','refuser les non essentiels'];
+    const clickable = [...document.querySelectorAll('button, a[role=button], [role=button]')];
+    const hit = clickable.find((el) => {
+      const t = (el.textContent || '').trim().toLowerCase();
+      return t && LABELS.some((l) => t === l || t.startsWith(l));
+    });
+    if (hit) { hit.click(); return 'clicked:' + hit.textContent.trim(); }
+    return 'none';
+  })()
+`);
+console.log(`  · Bannière de témoins : ${dismissed.result?.value ?? 'n/a'}`);
+await sleep(1200);
+
+// Back to the top so the loop opens on the hero, not wherever the dismissal
+// left the scroll position.
+await evaluate(`window.scrollTo({ top: 0, behavior: 'instant' })`);
+await sleep(600);
 
 console.log('  · Enregistrement…');
 capturing = true;
@@ -290,6 +329,26 @@ await send(ws, 'Page.stopScreencast', {}, sessionId);
 capturing = false;
 ws.close();
 cleanup();
+
+// Navigation repaints leave blank frames at both ends — a black tail is the
+// last thing a looping video should show. A uniform frame compresses to a
+// fraction of a real screenshot, so JPEG payload size separates them cleanly
+// without decoding anything.
+{
+  const sizes = frames.map((f) => f.data.length).slice().sort((a, b) => a - b);
+  const median = sizes[Math.floor(sizes.length / 2)];
+  const blank = (f) => f.data.length < median * 0.25;
+  let start = 0;
+  let end = frames.length;
+  while (start < end && blank(frames[start])) start++;
+  while (end > start && blank(frames[end - 1])) end--;
+  const dropped = frames.length - (end - start);
+  if (dropped > 0) {
+    frames.splice(end);
+    frames.splice(0, start);
+    console.log(`  · ${dropped} image(s) vide(s) élaguée(s) aux extrémités`);
+  }
+}
 
 if (frames.length < 10) {
   console.error(`\n  ✗ Seulement ${frames.length} images capturées — la page n’a probablement rien rendu.`);

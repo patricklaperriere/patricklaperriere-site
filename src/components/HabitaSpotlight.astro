@@ -31,9 +31,9 @@ const caseHref = `${workBase[locale]}/${habita.slug}`;
 // Hard budget: 3 MB for the pair. 10-20 s loop, no burned-in text (the copy
 // beside it is the message, and it has to stay translatable).
 const HABITA_LOOP = {
-  webm: null as string | null,
-  mp4: null as string | null,
-  poster: null as string | null,
+  webm: '/work/habita-loop.webm' as string | null,
+  mp4: '/work/habita-loop.mp4' as string | null,
+  poster: '/work/habita-loop.webp' as string | null,
   // Intrinsic size — drives width/height so the box reserves space (CLS 0).
   width: 1280,
   height: 800,
