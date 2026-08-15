@@ -1,0 +1,281 @@
+---
+// Home-page spotlight for Habita — the SaaS I build and operate.
+// It sits between the hero and the services because it is the positioning
+// argument, not a portfolio entry. Habita also keeps its tile in the work
+// grid; this section is the "why I'm not just another freelancer" pitch.
+import { useTranslations } from '../i18n';
+import type { Locale } from '../i18n/routes';
+import { workBase } from '../i18n/routes';
+import { projects } from '../data/projets';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const s = tr.habitaSpotlight;
+
+// Pull the live URL / accent from the project data so there is one source of truth.
+const habita = projects.find((p) => p.slug === 'habita')!;
+const caseHref = `${workBase[locale]}/${habita.slug}`;
+
+// ─── TODO_VIDEO / TODO_POSTER ───────────────────────────────────────────────
+// Loop video of the real Habita UI. While any of these three is null the
+// section keeps rendering the static mockup below — nothing to remove, just
+// fill the paths in and the <video> takes over.
+//
+//   TODO_VIDEO   webm   → '/work/habita-loop.webm'   VP9 or AV1, no audio track
+//   TODO_VIDEO   mp4    → '/work/habita-loop.mp4'    H.264 High, yuv420p, faststart
+//   TODO_POSTER  poster → '/work/habita-loop.webp'   first frame, same dimensions
+//
+// Hard budget: 3 MB for the pair. 10-20 s loop, no burned-in text (the copy
+// beside it is the message, and it has to stay translatable).
+const HABITA_LOOP = {
+  webm: null as string | null,
+  mp4: null as string | null,
+  poster: null as string | null,
+  // Intrinsic size — drives width/height so the box reserves space (CLS 0).
+  width: 1280,
+  height: 800,
+};
+
+const hasLoop = Boolean(HABITA_LOOP.webm && HABITA_LOOP.mp4 && HABITA_LOOP.poster);
+---
+
+<section class="section habita" id="habita" style={`--accent:${habita.accent}`}>
+  <div class="container-pl">
+    <div class="habita__top">
+      <div class="habita__copy">
+        <p class="kicker reveal">{s.kicker}</p>
+        <h2 class="section-head__title reveal" data-delay="80ms">{s.title}</h2>
+        <p class="habita__lead reveal" data-delay="140ms">{s.lead}</p>
+        <div class="prose reveal" data-delay="200ms">
+          <p>{s.body}</p>
+        </div>
+        <div class="habita__ctas reveal" data-delay="260ms">
+          <a href={caseHref} class="btn btn-primary magnetic" data-magnetic="0.2">
+            {s.ctaCase} <span aria-hidden="true">→</span>
+          </a>
+          <a href={habita.url} class="btn btn-ghost" target="_blank" rel="noopener">
+            {s.ctaLive} <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="habita__visual reveal" data-delay="160ms">
+        {hasLoop ? (
+          /* The section sits below the fold, so nothing here is eager: the
+             poster is a lazy <img> (never an LCP candidate, never competes
+             with the hero) and the video only starts once it scrolls into
+             view. `autoplay` is set from JS rather than in the markup, so
+             prefers-reduced-motion can genuinely opt out instead of racing
+             a video that already started. */
+          <div class="habita__player" data-habita-video>
+            <video
+              class="habita__video"
+              width={HABITA_LOOP.width}
+              height={HABITA_LOOP.height}
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              aria-label={s.posterAlt}
+            >
+              <source src={HABITA_LOOP.webm} type="video/webm" />
+              <source src={HABITA_LOOP.mp4} type="video/mp4" />
+            </video>
+            <img
+              class="habita__poster"
+              src={HABITA_LOOP.poster}
+              alt={s.posterAlt}
+              width={HABITA_LOOP.width}
+              height={HABITA_LOOP.height}
+              loading="lazy"
+              decoding="async"
+            />
+            <button
+              type="button"
+              class="habita__play"
+              data-habita-play
+              data-label-play={s.videoPlay}
+              data-label-pause={s.videoPause}
+              aria-label={s.videoPlay}
+            >
+              <span class="habita__play-icon" aria-hidden="true"></span>
+            </button>
+          </div>
+        ) : (
+          <a href={caseHref} class="habita__shot" aria-label={s.ctaCase}>
+            <img
+              src={`/work/${habita.slug}.webp`}
+              alt={s.shotAlt}
+              width="640"
+              height="400"
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+        )}
+      </div>
+    </div>
+
+    <p class="habita__pointslabel reveal">{s.pointsLabel}</p>
+    <ul class="habita__points">
+      {s.points.map((p, i) => (
+        <li class="habita__point reveal" data-delay={`${i * 70}ms`}>
+          <h3 class="habita__point-title">{p.t}</h3>
+          <p class="habita__point-text">{p.d}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .habita__top {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .habita__lead {
+    color: var(--color-bone);
+    font-size: clamp(1.05rem, 2vw, 1.2rem);
+    line-height: 1.6;
+    margin: 1.1rem 0 1.4rem;
+  }
+  .habita__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+
+  /* Mockup on the same blue glow the Habita project card already uses. */
+  .habita__shot {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    padding: 1.2rem;
+    background:
+      radial-gradient(70% 78% at 50% 48%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 72%),
+      #070d16;
+    transition: border-color 0.3s;
+  }
+  .habita__shot:hover {
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  }
+  .habita__shot img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.4));
+    transition: transform 0.5s cubic-bezier(.2, .8, .2, 1);
+  }
+  .habita__shot:hover img {
+    transform: scale(1.02);
+  }
+
+  /* ---- Loop video (same frame as the mockup above) ---------- */
+  .habita__player {
+    position: relative;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    background:
+      radial-gradient(70% 78% at 50% 48%, color-mix(in srgb, var(--accent) 30%, transparent), transparent 72%),
+      #070d16;
+  }
+  .habita__video,
+  .habita__poster {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+  /* Poster sits on top until the video actually starts, so no blank frame. */
+  .habita__poster {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    transition: opacity 0.4s ease;
+  }
+  .habita__player.is-playing .habita__poster {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .habita__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    border: 1px solid var(--line-strong);
+    background: rgba(6, 11, 20, 0.6);
+    backdrop-filter: blur(6px);
+    display: grid;
+    place-items: center;
+    transition: opacity 0.3s, transform 0.25s cubic-bezier(.2, .8, .2, 1), border-color 0.25s;
+  }
+  .habita__play:hover {
+    border-color: var(--color-gold);
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+  .habita__play-icon {
+    width: 0;
+    height: 0;
+    margin-left: 4px;
+    border-left: 17px solid var(--color-gold-bright);
+    border-top: 11px solid transparent;
+    border-bottom: 11px solid transparent;
+  }
+  /* Once it is looping the button would only be visual noise. */
+  .habita__player.is-playing .habita__play {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .habita__pointslabel {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-fog);
+    margin: clamp(2.5rem, 5vw, 3.5rem) 0 1.5rem;
+  }
+  .habita__points {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  .habita__point {
+    padding: 1.4rem 1.5rem;
+    border-left: 1px solid var(--line);
+  }
+  .habita__point-title {
+    font-size: 1.05rem;
+    margin: 0 0 0.45rem;
+  }
+  .habita__point-text {
+    color: var(--color-fog);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    .habita__top { grid-template-columns: 1fr; }
+    .habita__points { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .habita__points { grid-template-columns: 1fr; }
+  }
+</style>
