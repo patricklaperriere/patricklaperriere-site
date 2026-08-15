@@ -6,14 +6,34 @@ interface Props {
   href: string;
   cta: string;
   index?: number;
+  /** Starting price, already formatted. Null renders no price line. */
+  price?: string | null;
+  priceFrom?: string;
+  currency?: string;
 }
-const { icon, title, blurb, href, cta, index = 0 } = Astro.props;
+const {
+  icon,
+  title,
+  blurb,
+  href,
+  cta,
+  index = 0,
+  price = null,
+  priceFrom = '',
+  currency = '',
+} = Astro.props;
 ---
 
 <a href={href} class="card service-card reveal" data-delay={`${index * 90}ms`}>
   <span class="service-card__icon" aria-hidden="true">{icon}</span>
   <h3 class="service-card__title">{title}</h3>
   <p class="service-card__blurb">{blurb}</p>
+  {price && (
+    <p class="service-card__price">
+      <span class="service-card__price-from">{priceFrom}</span>
+      <b>{`${price} ${currency}`}</b>
+    </p>
+  )}
   <span class="service-card__cta">{cta} <span aria-hidden="true">→</span></span>
 
   <style>
@@ -22,6 +42,27 @@ const { icon, title, blurb, href, cta, index = 0 } = Astro.props;
       flex-direction: column;
       padding: 1.9rem;
       transition: transform 0.3s cubic-bezier(.2,.8,.2,1), border-color 0.3s, background 0.3s;
+    }
+    .service-card__price {
+      margin: 0 0 1.2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .service-card__price-from {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-fog);
+    }
+    .service-card__price b {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-gold-bright);
     }
     .service-card:hover {
       transform: translateY(-5px);

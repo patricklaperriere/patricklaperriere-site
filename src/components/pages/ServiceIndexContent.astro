@@ -5,6 +5,7 @@ import { villes, villePath, villesHubPath } from '../../data/villes';
 import Breadcrumb from '../Breadcrumb.astro';
 import ServiceCard from '../ServiceCard.astro';
 import CtaBand from '../CtaBand.astro';
+import { startingPrice, type PricedService } from '../../data/prix';
 
 interface Props {
   locale: Locale;
@@ -39,6 +40,9 @@ const crumbs = [
         href={path(s.key, locale)}
         cta={tr.cta.seeServices}
         index={i}
+        price={startingPrice[s.key as PricedService] ?? null}
+        priceFrom={tr.pricing.from}
+        currency={tr.pricing.currency}
       />
     ))}
   </div>
