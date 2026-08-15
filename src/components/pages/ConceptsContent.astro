@@ -49,7 +49,7 @@ const crumbs = [
               {cc.id === 'barber' && (
                 <div class="ui ui--barber">
                   <header class="ui__top"><span class="ui__brand">FADE</span><span class="ui__hi">{fr ? 'Salut, Marco' : 'Hey, Marco'}</span></header>
-                  <div class="photo photo--barber"><img src="/concepts/barber.webp" alt="" loading="lazy" decoding="async" width="620" height="360" /><span class="photo__cap">{fr ? 'FADE · Chomedey, Laval' : 'FADE · Chomedey, Laval'}</span></div>
+                  <div class="photo photo--barber"><img src="/concepts/barber.webp" alt="" loading="lazy" decoding="async" width="620" height="360" /><span class="photo__cap">{fr ? 'FADE · Centre-ville' : 'FADE · Downtown'}</span></div>
                   <p class="ui__sec">{fr ? 'Choisis ton barbier' : 'Pick your barber'}</p>
                   <div class="avatars"><span class="av av--on">D</span><span class="av">K</span><span class="av">M</span><span class="av">J</span></div>
                   <div class="slots"><span class="slot">10:00</span><span class="slot slot--on">11:30</span><span class="slot">13:00</span><span class="slot">14:30</span></div>
@@ -138,7 +138,7 @@ const crumbs = [
                   <div class="resto__hero">
                     <div class="resto__plate"><img src="/concepts/resto.webp" alt="" loading="lazy" decoding="async" width="380" height="380" /></div>
                     <div class="resto__copy">
-                      <span class="resto__kick">{fr ? 'Cuisine du marché · Laval' : 'Market kitchen · Laval'}</span>
+                      <span class="resto__kick">{fr ? 'Cuisine du marché · Centre-ville' : 'Market kitchen · Downtown'}</span>
                       <h4>{fr ? 'Le goût, sans flafla.' : 'Real food, no fuss.'}</h4>
                       <p class="resto__sub">{fr ? 'Menu qui change chaque semaine selon les arrivages.' : 'A menu that changes weekly with the market.'}</p>
                       <button class="cta">{fr ? 'Réserver une table' : 'Book a table'}</button>
@@ -154,12 +154,12 @@ const crumbs = [
 
               {cc.id === 'immobilier' && (
                 <div class="site site--immo">
-                  <header class="site__nav"><b>Domaine</b><span class="immo__search">🔍 {fr ? 'Laval, 3+ chambres…' : 'Laval, 3+ beds…'}</span></header>
+                  <header class="site__nav"><b>Domaine</b><span class="immo__search">🔍 {fr ? 'Ville, quartier, 3+ chambres…' : 'City, area, 3+ beds…'}</span></header>
                   <div class="immo__card">
                     <div class="immo__img"><img src="/concepts/house.webp" alt="" loading="lazy" decoding="async" width="680" height="420" /><span class="immo__tag">{fr ? 'Nouveau' : 'New'}</span></div>
                     <div class="immo__body">
                       <b class="immo__price">749 000 $</b>
-                      <span class="immo__addr">{fr ? '12 rue des Érables, Laval' : '12 Maple St, Laval'}</span>
+                      <span class="immo__addr">{fr ? '12 rue des Érables, Centre-ville' : '12 Maple St, Downtown'}</span>
                       <span class="immo__specs">4 {fr ? 'ch' : 'bd'} · 2 {fr ? 'sdb' : 'ba'} · 2 100 pi² · {fr ? 'garage double' : 'double garage'}</span>
                     </div>
                   </div>
@@ -177,7 +177,7 @@ const crumbs = [
                   <div class="clinic__hero">
                     <div class="clinic__photo"><img src="/concepts/smile.webp" alt="" loading="lazy" decoding="async" width="380" height="320" /><span class="clinic__shade">{fr ? 'Teinte A1' : 'Shade A1'}</span></div>
                     <div class="card clinic__book">
-                      <span class="clinic__kick">{fr ? 'Blanchiment dentaire · Laval' : 'Teeth whitening · Laval'}</span>
+                      <span class="clinic__kick">{fr ? 'Blanchiment dentaire' : 'Teeth whitening'}</span>
                       <span class="clinic__bt">{fr ? 'Réserver un blanchiment' : 'Book a whitening'}</span>
                       <div class="clinic__days"><span>L 9</span><span class="on">M 10</span><span>M 11</span><span>J 12</span></div>
                       <div class="clinic__times"><span class="on">9:30</span><span>11:00</span><span>14:15</span></div>

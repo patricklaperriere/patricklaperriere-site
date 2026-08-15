@@ -107,7 +107,7 @@ export const villes: Ville[] = [
       h1: 'Création de site web à Montréal',
       lead: 'Des sites sur mesure, rapides et bilingues pour les entreprises montréalaises qui veulent se démarquer.',
       intro:
-        'Montréal est le marché le plus compétitif au Québec. Pour ressortir, votre site doit charger vite, parler aux deux langues et viser les bons mots-clés. C\'est exactement ce que je construis, à deux pas de l\'île depuis Laval.',
+        'Montréal est le marché le plus compétitif au Québec. Pour ressortir, votre site doit charger vite, parler aux deux langues et viser les bons mots-clés. C\'est exactement ce que je construis.',
       localTitle: 'Le web pour les entreprises de Montréal',
       local: [
         'De Griffintown au Plateau, en passant par Rosemont et Villeray, Montréal regorge de commerces, de restaurants, de boutiques et de startups qui se battent pour la même attention. Le bilinguisme y est essentiel : une part de votre clientèle cherche en français, l\'autre en anglais.',
@@ -124,7 +124,7 @@ export const villes: Ville[] = [
       faq: [
         { q: 'Mon site doit-il être bilingue à Montréal ?', a: 'Dans la plupart des cas, oui. Une partie importante du marché montréalais cherche en anglais. Un vrai site FR/EN, optimisé dans les deux langues, élargit nettement votre portée.' },
         { q: 'Travaillez-vous avec des restos et commerces de Montréal ?', a: 'Oui : commerces de détail, restaurants, services professionnels, boutiques en ligne. Je construis le site selon votre secteur et votre clientèle.' },
-        { q: 'Êtes-vous à Montréal ?', a: 'Je suis à Laval, juste au nord de l\'île, donc tout près. Je travaille avec des clients montréalais à distance comme en personne.' },
+        { q: 'Êtes-vous à Montréal ?', a: 'Je suis dans le Grand Montréal, donc tout près. Je travaille avec des clients montréalais à distance comme en personne.' },
       ],
     },
     en: {
@@ -133,7 +133,7 @@ export const villes: Ville[] = [
       h1: 'Web Design & Development in Montreal',
       lead: 'Custom, fast, bilingual websites for Montreal businesses that want to stand out.',
       intro:
-        'Montreal is Quebec\'s most competitive market. To stand out, your site has to load fast, speak both languages and target the right keywords. That\'s exactly what I build, just north of the island from Laval.',
+        'Montreal is Quebec\'s most competitive market. To stand out, your site has to load fast, speak both languages and target the right keywords. That\'s exactly what I build.',
       localTitle: 'The web for Montreal businesses',
       local: [
         'From Griffintown to the Plateau, through Rosemont and Villeray, Montreal is packed with shops, restaurants, boutiques and startups fighting for the same attention. Bilingualism is essential here: part of your audience searches in French, the other in English.',
@@ -150,7 +150,7 @@ export const villes: Ville[] = [
       faq: [
         { q: 'Does my Montreal site need to be bilingual?', a: 'In most cases, yes. A large share of the Montreal market searches in English. A real FR/EN site, optimized in both languages, meaningfully widens your reach.' },
         { q: 'Do you work with Montreal restaurants and shops?', a: 'Yes: retail, restaurants, professional services, online stores. I build the site around your industry and your audience.' },
-        { q: 'Are you in Montreal?', a: 'I\'m in Laval, just north of the island, so very close by. I work with Montreal clients both remotely and in person.' },
+        { q: 'Are you in Montreal?', a: 'I\'m in the Greater Montreal area, so very close by. I work with Montreal clients both remotely and in person.' },
       ],
     },
   },
@@ -177,14 +177,14 @@ export const villes: Ville[] = [
       why: [
         'Référencement local ciblé sur Longueuil et les villes voisines.',
         'Sites bilingues FR/EN, utiles pour une clientèle variée de la Rive-Sud.',
-        'Établi tout près, à Laval, je suis joignable rapidement et dans votre fuseau.',
+        'Établi tout près, je suis joignable rapidement et dans votre fuseau.',
       ],
       servedLabel: 'Je dessers aussi',
       faqTitle: 'Questions fréquentes · Longueuil',
       faq: [
         { q: 'Couvrez-vous toute la Rive-Sud ?', a: 'Oui : Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert et les environs. J\'optimise le référencement pour la ville qui compte le plus pour votre clientèle.' },
         { q: 'Faites-vous du SEO local pour Longueuil ?', a: 'Oui. J\'optimise votre fiche Google Business et j\'ajoute des données structurées locales pour que vous soyez trouvé par les clients de la Rive-Sud.' },
-        { q: 'Peut-on se rencontrer ?', a: 'Je suis à Laval, tout près. On peut se rencontrer au besoin, mais l\'essentiel se fait efficacement par appel et courriel.' },
+        { q: 'Peut-on se rencontrer ?', a: 'Je suis tout près, dans la région. On peut se rencontrer au besoin, mais l\'essentiel se fait efficacement par appel et courriel.' },
       ],
     },
     en: {
@@ -203,14 +203,14 @@ export const villes: Ville[] = [
       why: [
         'Local SEO targeted at Longueuil and neighbouring towns.',
         'Bilingual FR/EN sites, useful for the South Shore\'s varied audience.',
-        'Based nearby in Laval, quick to reach and in your time zone.',
+        'Based nearby, quick to reach and in your time zone.',
       ],
       servedLabel: 'I also serve',
       faqTitle: 'Frequently asked questions — Longueuil',
       faq: [
         { q: 'Do you cover the whole South Shore?', a: 'Yes: Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert and nearby. I optimize SEO for the town that matters most to your audience.' },
         { q: 'Do you do local SEO for Longueuil?', a: 'Yes. I optimize your Google Business profile and add local structured data so you get found by South Shore customers.' },
-        { q: 'Can we meet?', a: 'I\'m in Laval, close by. We can meet when needed, though most of the work happens efficiently over calls and email.' },
+        { q: 'Can we meet?', a: 'I\'m close by, in the region. We can meet when needed, though most of the work happens efficiently over calls and email.' },
       ],
     },
   },
@@ -361,11 +361,11 @@ export const villes: Ville[] = [
       localTitle: 'Le web pour les entreprises de la Couronne Nord',
       local: [
         'Entre Terrebonne, Mascouche, Repentigny et le secteur de Lanaudière, la demande locale grandit vite. Beaucoup d\'entreprises de services, de construction et de commerce de proximité y ont une présence en ligne dépassée ou inexistante, ce qui laisse un vrai espace pour celles qui soignent leur site.',
-        'J\'optimise votre site pour les recherches locales de la Couronne Nord, avec un référencement géolocalisé et une fiche Google Business bien tenue. Étant établi à Laval, juste à côté, je connais bien ce marché en expansion.',
+        'J\'optimise votre site pour les recherches locales de la Couronne Nord, avec un référencement géolocalisé et une fiche Google Business bien tenue. Étant établi juste à côté, je connais bien ce marché en expansion.',
       ],
       whyTitle: 'Pourquoi travailler avec moi sur la Couronne Nord',
       why: [
-        'Établi à Laval, tout près de Terrebonne et de la Couronne Nord.',
+        'Établi tout près de Terrebonne et de la Couronne Nord.',
         'Référencement local ciblé sur Terrebonne, Mascouche et Repentigny.',
         'Sites rapides et soignés, prêts à grandir avec votre entreprise.',
       ],
@@ -373,7 +373,7 @@ export const villes: Ville[] = [
       faqTitle: 'Questions fréquentes · Terrebonne',
       faq: [
         { q: 'Couvrez-vous Mascouche et Repentigny ?', a: 'Oui. Je dessers toute la Couronne Nord : Terrebonne, Mascouche, Repentigny, Lachenaie et les environs, avec un référencement adapté à votre clientèle.' },
-        { q: 'Êtes-vous proche de Terrebonne ?', a: 'Je suis à Laval, à quelques minutes seulement. On peut se rencontrer au besoin, mais l\'essentiel se fait efficacement à distance.' },
+        { q: 'Êtes-vous proche de Terrebonne ?', a: 'Je suis à quelques minutes seulement. On peut se rencontrer au besoin, mais l\'essentiel se fait efficacement à distance.' },
         { q: 'Faites-vous du SEO local pour Terrebonne ?', a: 'Oui. J\'optimise votre fiche Google Business et vos pages pour que les clients de la Couronne Nord vous trouvent en premier.' },
       ],
     },
@@ -387,11 +387,11 @@ export const villes: Ville[] = [
       localTitle: 'The web for North Shore businesses',
       local: [
         'Between Terrebonne, Mascouche, Repentigny and the Lanaudière area, local demand is rising quickly. Many service, construction and local retail businesses have an outdated or non-existent online presence, leaving real room for those who invest in their site.',
-        'I optimize your site for North Shore local searches, with geo-targeted SEO and a well-maintained Google Business profile. Based in Laval, right next door, I know this growing market well.',
+        'I optimize your site for North Shore local searches, with geo-targeted SEO and a well-maintained Google Business profile. Based right next door, I know this growing market well.',
       ],
       whyTitle: 'Why work with me on the North Shore',
       why: [
-        'Based in Laval, right next to Terrebonne and the North Shore.',
+        'Based right next to Terrebonne and the North Shore.',
         'Local SEO targeted at Terrebonne, Mascouche and Repentigny.',
         'Fast, polished sites, ready to grow with your business.',
       ],
@@ -399,7 +399,7 @@ export const villes: Ville[] = [
       faqTitle: 'Frequently asked questions — Terrebonne',
       faq: [
         { q: 'Do you cover Mascouche and Repentigny?', a: 'Yes. I serve the whole North Shore: Terrebonne, Mascouche, Repentigny, Lachenaie and nearby, with SEO tailored to your audience.' },
-        { q: 'Are you close to Terrebonne?', a: 'I\'m in Laval, just minutes away. We can meet when needed, though most of the work happens efficiently remotely.' },
+        { q: 'Are you close to Terrebonne?', a: 'I\'m just minutes away. We can meet when needed, though most of the work happens efficiently remotely.' },
         { q: 'Do you do local SEO for Terrebonne?', a: 'Yes. I optimize your Google Business profile and pages so North Shore customers find you first.' },
       ],
     },

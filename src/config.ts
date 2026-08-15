@@ -21,13 +21,23 @@ export const SITE = {
     linkedin: 'https://www.linkedin.com/in/patrick-laperriere-145690181/',
     github: 'https://github.com/patricklaperriere',
   },
-  // Areas served (broad: local base + national + cross-border)
+  // Areas served (broad: regional base + national + cross-border). Ordered
+  // widest-relevant first: Schema.org ignores the order, but humans and LLMs
+  // reading the JSON-LD take the first entry as the headline market.
   areaServed: {
-    fr: ['Laval', 'Grand Montréal', 'Québec', 'Canada', 'États-Unis'],
-    en: ['Laval', 'Greater Montreal', 'Quebec', 'Canada', 'United States'],
+    fr: ['Grand Montréal', 'Laval', 'Québec', 'Canada', 'États-Unis'],
+    en: ['Greater Montreal', 'Laval', 'Quebec', 'Canada', 'United States'],
   },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',
+  // ─── TODO_PHOTO ──────────────────────────────────────────────────────────
+  // Personal portrait. Drop the source at `photo-src/patrick.jpg` (any size,
+  // square or portrait) and run `npm run photo` — it writes every derivative
+  // into /public/photo/. Then flip this to true.
+  //
+  // It gates ALL placements at once (about page, article byline, Person
+  // schema, favicons), so nothing can ship a broken image reference.
+  hasPhoto: true,
   // Google Search Console verification (carried over from previous site)
   gscVerification: 'UiVkelv495WDclhAQzL8v8Jv3RhTd4HcNOHdte8VxmU',
   // Contact form endpoint — Web3Forms (see README)

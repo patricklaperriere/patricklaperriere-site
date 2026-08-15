@@ -36,16 +36,62 @@ export const en = {
   status: '● Available for new projects',
 
   hero: {
-    kicker: 'Web Developer · Laval, QC · Bilingual',
+    kicker: 'Bilingual Web Developer · Quebec, Canada, United States',
     name: 'Patrick Laperrière',
     punch:
       'I build fast, beautiful, SEO-optimized websites — so your business gets found everywhere.',
-    sub: 'Based in Laval, working with clients across Quebec, Canada and the United States.',
+    sub: 'Working with clients across Quebec, Canada and the United States.',
   },
 
   marquee: {
     label: 'Tools & technologies',
     items: ['Astro', 'Shopify', 'SEO', 'Next.js', 'Liquid', 'Tailwind', 'React', 'Performance', 'JavaScript', 'Core Web Vitals'],
+  },
+
+  // Home spotlight — Habita, the SaaS I build and operate. This is the
+  // differentiator section, not a portfolio tile. Keep it above the services.
+  habitaSpotlight: {
+    kicker: 'In-house product',
+    title: 'I don’t just build websites. I build and run software.',
+    lead: 'Habita is my SaaS building-inspection platform. It’s in production, and inspectors use it every day to do their job and bill their clients.',
+    body: 'Running a product other people depend on changes how you write code: performance, security, backups, offline mode, billing, support — all of it becomes your responsibility. When you hire me for your site, you hire someone who already lives with the consequences of his own code. Your website is the easy part.',
+    pointsLabel: 'What I keep running every day',
+    points: [
+      { t: 'Offline capture', d: 'Inspect with no connection, sync on the way back.' },
+      { t: 'AI writing', d: 'Helps draft findings, with no usage cap.' },
+      { t: 'Client portal', d: 'Interactive web reports shared through a secure link.' },
+      { t: 'Bilingual reports', d: 'Genuinely FR and EN, not a surface translation.' },
+      { t: 'Billing', d: 'Inspectors invoice their clients straight from the tool.' },
+      { t: 'Canadian hosting', d: 'Data stays in Canada, with managed backups.' },
+    ],
+    ctaCase: 'Read the case study',
+    ctaLive: 'See Habita live',
+    shotAlt: 'Preview of Habita, my SaaS building-inspection software',
+    posterAlt: 'Habita in action: writing an inspection report',
+    videoPlay: 'Play video',
+    videoPause: 'Pause video',
+  },
+
+  // Starting prices. Amounts live in src/data/prix.ts (TODO_PRIX).
+  pricing: {
+    from: 'Starting at',
+    currency: '$',
+    note: 'Starting price, before taxes. The final amount depends on the number of pages, the content and the features.',
+  },
+
+  // Measured Lighthouse scores. Values live in src/data/lighthouse.ts.
+  lighthouse: {
+    kicker: 'Proof, not promise',
+    title: 'This site, measured',
+    lead: 'Anyone can write “fast website”. These are the real scores for the page you are reading, measured with Lighthouse. Run the test yourself.',
+    caseTitle: 'Measured performance',
+    labels: {
+      performance: 'Performance',
+      accessibility: 'Accessibility',
+      seo: 'SEO',
+    },
+    measuredOn: 'Measured on',
+    method: 'Lighthouse, desktop preset',
   },
 
   servicesSection: {
@@ -88,7 +134,9 @@ export const en = {
       faqTitle: 'Frequently asked questions',
       faq: [
         { q: 'How long does a website take?', a: 'Most marketing sites ship in 2 to 4 weeks depending on page count and content. I give you a clear timeline up front.' },
-        { q: 'How much does a custom website cost?', a: 'Every project is different. After a short call, I send you a free, detailed quote with no surprises.' },
+        // Priced variant, enable together with src/data/prix.ts:
+        // 'A custom website starts at $X, before taxes. The final amount depends…'
+        { q: 'How much does a custom website cost?', a: 'The amount depends on the number of pages, the content to produce and the features. After a short call, I send you a detailed quote with no surprises.' },
         { q: 'Will I be able to edit the site myself?', a: 'Yes. I can integrate a simple content management system or train you for routine updates.' },
         { q: 'Do you work with clients outside Quebec?', a: 'Absolutely. I work remotely with clients across Canada and the United States, in both French and English.' },
       ],
@@ -206,9 +254,11 @@ export const en = {
   homeFaq: {
     title: 'Frequently asked questions',
     items: [
-      { q: 'How much does a website cost?', a: 'Every project is unique. After a short call to understand your needs, I send you a free, detailed quote with no surprises and no hidden fees.' },
+      // Priced variant, enable together with src/data/prix.ts:
+      // 'Custom websites start at $X, redesigns at $Y and Shopify stores at $Z, before taxes. …'
+      { q: 'How much does a website cost?', a: 'The amount depends on the number of pages, the content and the features. After a short call to understand your needs, I send you a detailed quote with no hidden fees.' },
       { q: 'How long does a website take?', a: 'Most marketing sites go live in 2 to 4 weeks, depending on page count and content. I give you a clear timeline from the start.' },
-      { q: 'Do you work with clients outside Quebec?', a: 'Yes. I’m based in Laval, but I work remotely with clients across Canada and the United States, in both French and English.' },
+      { q: 'Do you work with clients outside Quebec?', a: 'Yes. I work remotely with clients across Canada and the United States, in both French and English.' },
       { q: 'Do you build bilingual websites?', a: 'Absolutely. I build truly bilingual sites (FR/EN), with content optimized separately in each language and clean search ranking in both.' },
       { q: 'Is SEO included?', a: 'Yes. Every site is built with search ranking in mind from the first line: speed, structure, structured data and optimized tags. A beautiful site nobody can find is useless.' },
     ],
@@ -221,13 +271,14 @@ export const en = {
   },
 
   about: {
-    seoTitle: 'About · bilingual web developer in Laval | Patrick Laperrière',
-    seoDesc: 'Patrick Laperrière, bilingual web developer in Laval. I build fast, well-ranked websites for small businesses across Quebec, Canada and the US.',
+    seoTitle: 'About · bilingual web developer | Patrick Laperrière',
+    seoDesc: 'Patrick Laperrière, bilingual web developer. I build fast, well-ranked websites for small businesses across Quebec, Canada and the US.',
     kicker: 'About',
-    h1: 'Bilingual web developer, based in Laval',
+    portraitAlt: 'Patrick Laperrière, bilingual web developer',
+    h1: 'Bilingual web developer',
     lead: 'I build fast, well-ranked websites for businesses that want to get found — across Quebec, Canada and the United States.',
     body: [
-      'I’m Patrick Laperrière, a freelance web developer based in Laval, Quebec. I design and build custom websites for small businesses and entrepreneurs who are tired of sites that are slow, generic and invisible on Google.',
+      'I’m Patrick Laperrière, a freelance web developer based in Quebec. I design and build custom websites for small businesses and entrepreneurs who are tired of sites that are slow, generic and invisible on Google.',
       'My approach comes down to four things: performance, SEO, polished design and clear communication. I write clean code with modern technology (Astro, React, Shopify Liquid), I aim for a perfect Lighthouse score, and I think about search ranking from the very first line — because a beautiful site nobody can find is useless.',
       'Working in both French and English, I collaborate just as easily with local clients as with remote businesses across Canada and the United States. My goal is simple: deliver a website you’re proud of and that works for you, around the clock.',
     ],
@@ -242,7 +293,7 @@ export const en = {
 
   contact: {
     seoTitle: "Contact · let's build your project | Patrick Laperrière",
-    seoDesc: 'Let’s talk about your website project. Quick reply and free quote. Bilingual web developer in Laval, serving Quebec, Canada and the United States.',
+    seoDesc: 'Let’s talk about your website project. Quick reply and free quote. Bilingual web developer serving Quebec, Canada and the United States.',
     kicker: 'Contact',
     h1: "Let's build your project",
     lead: 'Quick reply. Free quote. Tell me what you have in mind.',
@@ -275,7 +326,7 @@ export const en = {
     lead: 'Concrete articles on building sites, search ranking and conversion.',
     soon: 'The first articles are coming soon.',
     byline: 'By',
-    authorRole: 'Bilingual web developer, Laval',
+    authorRole: 'Bilingual web developer, Quebec',
     authorBio: 'I build fast, beautiful, SEO-optimized websites for businesses across Quebec, Canada and the United States.',
     aboutLink: 'More about me',
     related: 'Related articles',
@@ -337,12 +388,12 @@ export const en = {
   },
 
   footer: {
-    tagline: 'Bilingual web developer in Laval. Fast, beautiful, SEO-optimized websites.',
+    tagline: 'Bilingual web developer. Fast, beautiful, SEO-optimized websites.',
     navTitle: 'Navigation',
     servicesTitle: 'Services',
     connectTitle: 'Get in touch',
     rights: 'All rights reserved.',
-    madeIn: 'Designed and coded in Laval, QC.',
+    madeIn: 'Designed and coded in Quebec.',
     privacy: 'Privacy',
   },
 
@@ -378,11 +429,11 @@ export const en = {
   regions: {
     crumb: 'Web Design',
     seoTitle: 'Web Design by City in Quebec | Patrick Laperrière',
-    seoDesc: 'Bilingual web developer serving Laval, Montreal, Longueuil, Gatineau, Quebec City and the North Shore. Fast websites optimized for local SEO.',
+    seoDesc: 'Bilingual web developer serving Montreal, Quebec City, Longueuil, Gatineau and the North Shore. Fast websites optimized for local SEO.',
     kicker: 'Local SEO',
     h1: 'Web design across Quebec',
     lead: 'I build fast, well-ranked websites for businesses in Greater Montreal, the South Shore, the Outaouais and the Capitale-Nationale.',
-    intro: 'Based in Laval, I work with small businesses and shops across Quebec. Pick your region to see how I can help you get found locally on Google.',
+    intro: 'I work with small businesses and shops across Quebec. Pick your region to see how I can help you get found locally on Google.',
     citiesTitle: 'Areas served',
     viewCity: 'View',
     servicesHeading: 'How I can help',

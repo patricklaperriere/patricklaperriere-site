@@ -37,16 +37,62 @@ export const fr = {
   status: '● Disponible pour de nouveaux projets',
 
   hero: {
-    kicker: 'Développeur web · Laval, QC · Bilingue',
+    kicker: 'Développeur web bilingue · Québec, Canada, États-Unis',
     name: 'Patrick Laperrière',
     punch:
       'Je conçois des sites web rapides, élégants et optimisés pour Google, pour que votre entreprise soit trouvée partout.',
-    sub: 'Basé à Laval, je travaille avec des clients au Québec, au Canada et aux États-Unis.',
+    sub: 'Je travaille avec des clients au Québec, au Canada et aux États-Unis.',
   },
 
   marquee: {
     label: 'Outils & technologies',
     items: ['Astro', 'Shopify', 'SEO', 'Next.js', 'Liquid', 'Tailwind', 'React', 'Performance', 'JavaScript', 'Core Web Vitals'],
+  },
+
+  // Home spotlight — Habita, the SaaS I build and operate. This is the
+  // differentiator section, not a portfolio tile. Keep it above the services.
+  habitaSpotlight: {
+    kicker: 'Produit maison',
+    title: 'Je ne fais pas que des sites. Je bâtis et j’exploite un logiciel.',
+    lead: 'Habita est mon SaaS d’inspection en bâtiment. Il est en production, et des inspecteurs s’en servent chaque jour pour faire leur travail et facturer leurs clients.',
+    body: 'Faire vivre un produit dont d’autres dépendent, ça change la façon de coder : la performance, la sécurité, les sauvegardes, le mode hors ligne, la facturation, le support, tout ça devient ma responsabilité. Quand vous me confiez votre site, vous engagez quelqu’un qui vit déjà avec les conséquences de son propre code. Votre site, c’est la partie facile.',
+    pointsLabel: 'Ce que je fais tourner au quotidien',
+    points: [
+      { t: 'Capture hors ligne', d: 'Inspecter sans réseau, avec synchronisation au retour.' },
+      { t: 'IA de rédaction', d: 'Aide à rédiger les constats, sans plafond d’utilisation.' },
+      { t: 'Portail client', d: 'Rapports web interactifs partagés par lien sécurisé.' },
+      { t: 'Rapports bilingues', d: 'Vraiment FR et EN, pas une traduction de surface.' },
+      { t: 'Facturation', d: 'Les inspecteurs facturent leurs clients depuis l’outil.' },
+      { t: 'Hébergement canadien', d: 'Données au Canada, avec sauvegardes gérées.' },
+    ],
+    ctaCase: 'Lire l’étude de cas',
+    ctaLive: 'Voir Habita en ligne',
+    shotAlt: 'Aperçu de Habita, mon logiciel SaaS d’inspection en bâtiment',
+    posterAlt: 'Habita en action : rédaction d’un rapport d’inspection',
+    videoPlay: 'Lire la vidéo',
+    videoPause: 'Mettre la vidéo en pause',
+  },
+
+  // Starting prices. Amounts live in src/data/prix.ts (TODO_PRIX).
+  pricing: {
+    from: 'À partir de',
+    currency: '$',
+    note: 'Prix de départ, avant taxes. Le montant final dépend du nombre de pages, du contenu et des fonctionnalités.',
+  },
+
+  // Measured Lighthouse scores. Values live in src/data/lighthouse.ts.
+  lighthouse: {
+    kicker: 'Preuve, pas promesse',
+    title: 'Ce site, mesuré',
+    lead: 'N’importe qui peut écrire « site rapide ». Voici les vrais scores de la page que vous lisez, mesurés avec Lighthouse. Vous pouvez refaire le test vous-même.',
+    caseTitle: 'Performance mesurée',
+    labels: {
+      performance: 'Performance',
+      accessibility: 'Accessibilité',
+      seo: 'SEO',
+    },
+    measuredOn: 'Mesuré le',
+    method: 'Lighthouse, préréglage ordinateur',
   },
 
   servicesSection: {
@@ -90,7 +136,9 @@ export const fr = {
       faqTitle: 'Questions fréquentes',
       faq: [
         { q: 'Combien de temps pour un site web ?', a: 'La plupart des sites vitrines sont livrés en 2 à 4 semaines selon le nombre de pages et le contenu. Je vous donne un échéancier clair dès le départ.' },
-        { q: 'Combien coûte un site web sur mesure ?', a: 'Chaque projet est différent. Après un court appel, je vous envoie une soumission gratuite et détaillée, sans surprise.' },
+        // Variante chiffrée, à activer avec src/data/prix.ts :
+        // 'Un site sur mesure commence à X $, avant taxes. Le montant final dépend…'
+        { q: 'Combien coûte un site web sur mesure ?', a: 'Le montant dépend du nombre de pages, du contenu à produire et des fonctionnalités. Après un court appel, je vous envoie une soumission détaillée, sans surprise.' },
         { q: 'Vais-je pouvoir modifier mon site moi-même ?', a: 'Oui. Je peux intégrer un système de gestion de contenu simple ou vous former pour les mises à jour courantes.' },
         { q: 'Travaillez-vous avec des clients hors Québec ?', a: 'Absolument. Je travaille à distance avec des clients partout au Canada et aux États-Unis, en français comme en anglais.' },
       ],
@@ -209,9 +257,11 @@ export const fr = {
   homeFaq: {
     title: 'Questions fréquentes',
     items: [
-      { q: 'Combien coûte un site web ?', a: 'Chaque projet est unique. Après un court appel pour comprendre vos besoins, je vous envoie une soumission gratuite et détaillée, sans surprise ni frais cachés.' },
+      // Variante chiffrée, à activer avec src/data/prix.ts :
+      // 'Les sites sur mesure commencent à X $, les refontes à Y $ et les boutiques Shopify à Z $, avant taxes. …'
+      { q: 'Combien coûte un site web ?', a: 'Le montant dépend du nombre de pages, du contenu et des fonctionnalités. Après un court appel pour comprendre vos besoins, je vous envoie une soumission détaillée, sans frais cachés.' },
       { q: 'Combien de temps pour livrer un site ?', a: 'La plupart des sites vitrines sont en ligne en 2 à 4 semaines, selon le nombre de pages et le contenu. Je vous donne un échéancier clair dès le départ.' },
-      { q: 'Travaillez-vous avec des clients hors Québec ?', a: 'Oui. Je suis basé à Laval, mais je travaille à distance avec des clients partout au Canada et aux États-Unis, en français comme en anglais.' },
+      { q: 'Travaillez-vous avec des clients hors Québec ?', a: 'Oui. Je travaille à distance avec des clients partout au Canada et aux États-Unis, en français comme en anglais.' },
       { q: 'Faites-vous des sites bilingues ?', a: 'Absolument. Je conçois des sites vraiment bilingues (FR/EN), avec un contenu optimisé séparément dans chaque langue et un référencement propre dans les deux.' },
       { q: 'Le SEO est-il inclus ?', a: 'Oui. Chaque site est construit avec le référencement en tête dès la première ligne : vitesse, structure, données structurées et balises optimisées. Un beau site que personne ne trouve ne sert à rien.' },
     ],
@@ -224,13 +274,14 @@ export const fr = {
   },
 
   about: {
-    seoTitle: 'À propos · développeur web bilingue à Laval | Patrick Laperrière',
-    seoDesc: 'Patrick Laperrière, développeur web bilingue à Laval. Je construis des sites rapides et bien référencés pour les PME du Québec, du Canada et des États-Unis.',
+    seoTitle: 'À propos · développeur web bilingue | Patrick Laperrière',
+    seoDesc: 'Patrick Laperrière, développeur web bilingue. Je construis des sites rapides et bien référencés pour les PME du Québec, du Canada et des États-Unis.',
     kicker: 'À propos',
-    h1: 'Développeur web bilingue, basé à Laval',
+    portraitAlt: 'Patrick Laperrière, développeur web bilingue',
+    h1: 'Développeur web bilingue',
     lead: 'Je construis des sites rapides et bien référencés pour les entreprises qui veulent être trouvées, au Québec, au Canada et aux États-Unis.',
     body: [
-      'Je suis Patrick Laperrière, développeur web freelance basé à Laval, au Québec. Je conçois et développe des sites sur mesure pour les PME et les entrepreneurs qui en ont assez des sites lents, génériques et invisibles sur Google.',
+      'Je suis Patrick Laperrière, développeur web freelance au Québec. Je conçois et développe des sites sur mesure pour les PME et les entrepreneurs qui en ont assez des sites lents, génériques et invisibles sur Google.',
       'Mon approche tient en quatre mots : performance, SEO, design soigné et communication claire. Je code proprement avec des technologies modernes (Astro, React, Shopify Liquid), je vise un score Lighthouse parfait, et je pense au référencement dès la première ligne, parce qu’un beau site que personne ne trouve ne sert à rien.',
       'Travaillant en français comme en anglais, je collabore aussi bien avec des clients locaux qu’avec des entreprises à distance partout au Canada et aux États-Unis. Mon objectif est simple : vous livrer un site dont vous êtes fier et qui travaille pour vous, 24 h sur 24.',
     ],
@@ -245,7 +296,7 @@ export const fr = {
 
   contact: {
     seoTitle: 'Contact · démarrons votre projet | Patrick Laperrière',
-    seoDesc: 'Parlons de votre projet de site web. Réponse rapide et soumission gratuite. Développeur web bilingue à Laval, au service du Québec, du Canada et des États-Unis.',
+    seoDesc: 'Parlons de votre projet de site web. Réponse rapide et soumission gratuite. Développeur web bilingue, au service du Québec, du Canada et des États-Unis.',
     kicker: 'Contact',
     h1: 'Démarrons votre projet',
     lead: 'Réponse rapide. Soumission gratuite. Parlez-moi de ce que vous avez en tête.',
@@ -278,7 +329,7 @@ export const fr = {
     lead: 'Des articles concrets sur la création de sites, le référencement et la conversion.',
     soon: 'Les premiers articles arrivent bientôt.',
     byline: 'Par',
-    authorRole: 'Développeur web bilingue, Laval',
+    authorRole: 'Développeur web bilingue, Québec',
     authorBio: 'Je conçois des sites web rapides, élégants et optimisés pour Google pour les entreprises du Québec, du Canada et des États-Unis.',
     aboutLink: 'En savoir plus sur moi',
     related: 'Articles connexes',
@@ -340,12 +391,12 @@ export const fr = {
   },
 
   footer: {
-    tagline: 'Développeur web bilingue à Laval. Sites rapides, élégants et optimisés pour Google.',
+    tagline: 'Développeur web bilingue. Sites rapides, élégants et optimisés pour Google.',
     navTitle: 'Navigation',
     servicesTitle: 'Services',
     connectTitle: 'Me joindre',
     rights: 'Tous droits réservés.',
-    madeIn: 'Conçu et codé à Laval, QC.',
+    madeIn: 'Conçu et codé au Québec.',
     privacy: 'Confidentialité',
   },
 
@@ -381,11 +432,11 @@ export const fr = {
   regions: {
     crumb: 'Création de site web',
     seoTitle: 'Création de site web par ville au Québec | Patrick Laperrière',
-    seoDesc: 'Développeur web bilingue desservant Laval, Montréal, Longueuil, Gatineau, Québec et la Couronne Nord. Sites rapides, optimisés pour le référencement local.',
+    seoDesc: 'Développeur web bilingue desservant Montréal, Québec, Longueuil, Gatineau et la Couronne Nord. Sites rapides, optimisés pour le référencement local.',
     kicker: 'SEO local',
     h1: 'Création de site web partout au Québec',
     lead: 'Je conçois des sites rapides et bien référencés pour les entreprises du Grand Montréal, de la Rive-Sud, de l’Outaouais et de la Capitale-Nationale.',
-    intro: 'Basé à Laval, je travaille avec des PME et des commerces partout au Québec. Choisissez votre région pour voir comment je peux vous aider à être trouvé localement sur Google.',
+    intro: 'Je travaille avec des PME et des commerces partout au Québec. Choisissez votre région pour voir comment je peux vous aider à être trouvé localement sur Google.',
     citiesTitle: 'Régions desservies',
     viewCity: 'Voir',
     servicesHeading: 'Comment je peux vous aider',
