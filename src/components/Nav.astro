@@ -2,7 +2,6 @@
 import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { SITE } from '../config';
-import { PHOTO, hasPhoto } from '../lib/photo';
 
 interface Props {
   locale: Locale;
@@ -30,22 +29,7 @@ const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
 <header class="nav">
   <div class="container-pl nav__inner">
     <a href={home} class="nav__logo magnetic" data-magnetic="0.25">
-      {hasPhoto ? (
-        /* Not lazy: this sits at the top of every page. A 42px avatar can
-           never be the LCP element, so eager costs nothing and avoids the
-           above-the-fold lazy-loading anti-pattern. */
-        <img
-          class="nav__photo"
-          src={PHOTO.avatar}
-          srcset={`${PHOTO.avatar} 1x, ${PHOTO.avatar2x} 2x`}
-          alt=""
-          width="42"
-          height="42"
-          decoding="async"
-        />
-      ) : (
-        <span class="nav__mono">PL</span>
-      )}
+      <span class="nav__mono">PL</span>
       <span class="sr-only">{tr.brand}</span>
     </a>
 
@@ -106,21 +90,9 @@ const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
     justify-content: center;
     width: 42px;
     height: 42px;
-    border-radius: 50%;
+    border-radius: 12px;
     border: 1px solid var(--line-strong);
     background: linear-gradient(135deg, rgba(232, 199, 154, 0.16), transparent);
-    overflow: hidden;
-    transition: border-color 0.25s;
-  }
-  .nav__logo:hover {
-    border-color: color-mix(in srgb, var(--color-gold) 60%, transparent);
-  }
-  .nav__photo {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
   }
   .nav__mono {
     font-family: var(--font-display);
