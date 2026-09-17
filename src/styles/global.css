@@ -1,11 +1,21 @@
-@import "tailwindcss";
-
-/* ═══════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════════════
    patricklaperriere.com — Design system
-   Dark premium · or champagne sur noir-marine profond
-   ═══════════════════════════════════════════════════════════ */
+   ───────────────────────────────────────────────────────────────────────────
+   Direction: EDITORIAL × PRODUCT × CREATIVE TECHNOLOGY.
 
-/* ---- Self-hosted fonts (woff2 in /public/fonts) ---------- */
+   Two worlds, one grid. The page is INK (near-black, neutral-warm) and
+   individual sections can flip to PAPER (warm bone) by setting
+   `data-surface="paper"`. Every component styles itself against the surface
+   tokens (--fg, --bg, --line, --accent-fg …) rather than hard colours, so a
+   section changes world by changing one attribute and nothing else.
+
+   No blurred blobs, no glassmorphism, no custom cursor: structure is carried
+   by hairline rules, an asymmetric grid and typographic scale.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ───────────────────────────────────────────────────────────────────────────
+   1. Fonts — self-hosted woff2 in /public/fonts
+   ─────────────────────────────────────────────────────────────────────────── */
 @font-face {
   font-family: "Bricolage Grotesque";
   src: url("/fonts/bricolage-grotesque.woff2") format("woff2");
@@ -35,72 +45,84 @@
   font-style: normal;
 }
 
-/* ---- Tailwind v4 theme tokens ---------------------------- */
-@theme {
-  --color-ink: #060b14;
-  --color-ink2: #0a1320;
-  --color-bone: #eef1f6;
-  --color-fog: #8a97ad;
-  --color-gold: #e8c79a;
-  --color-gold-bright: #f4d9b0;
-  --color-cyan: #6fd8e0;
-
-  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
-  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-
-  --radius-card: 18px;
-}
-
-/* ---- Base ------------------------------------------------- */
-:root {
-  color-scheme: dark;
-  --line: rgba(238, 241, 246, 0.08);
-  --line-strong: rgba(238, 241, 246, 0.16);
-}
-
-* {
+/* ───────────────────────────────────────────────────────────────────────────
+   2. Reset
+   Replaces Tailwind Preflight, which shipped ~180 unused custom properties on
+   the universal selector for zero utilities. Same guarantees, a fraction of
+   the weight.
+   ─────────────────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
 html {
-  scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  -moz-tab-size: 4;
+  tab-size: 4;
 }
 
-body {
+body,
+h1, h2, h3, h4, h5, h6,
+p, figure, blockquote, dl, dd, pre {
   margin: 0;
-  min-height: 100vh;
-  background:
-    radial-gradient(120% 80% at 50% -10%, var(--color-ink2) 0%, var(--color-ink) 55%) fixed;
-  color: var(--color-bone);
-  font-family: var(--font-sans);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
 }
 
-h1, h2, h3, h4, .font-display {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+ul[class], ol[class] {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.kicker {
+img, svg, video, canvas, audio, iframe, embed, object {
+  display: block;
+  vertical-align: middle;
+}
+img, video {
+  max-width: 100%;
+  height: auto;
+}
+
+button, input, select, optgroup, textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+  margin: 0;
+}
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  text-align: inherit;
+  -webkit-appearance: button;
+}
+button, [role="button"], summary {
+  cursor: pointer;
+}
+textarea {
+  resize: vertical;
+}
+:disabled {
+  cursor: default;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+hr {
+  height: 0;
+  color: inherit;
+  border-top-width: 1px;
+}
+
+b, strong { font-weight: 600; }
+
+code, kbd, samp, pre {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--color-gold);
-}
-
-.serif-accent {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-weight: 400;
+  font-size: 1em;
 }
 
 a {
@@ -108,12 +130,171 @@ a {
   text-decoration: none;
 }
 
-::selection {
-  background: var(--color-gold);
-  color: var(--color-ink);
+/* ───────────────────────────────────────────────────────────────────────────
+   3. Tokens
+   ─────────────────────────────────────────────────────────────────────────── */
+:root {
+  color-scheme: dark;
+
+  /* ---- Palette ------------------------------------------------------------
+     Ink is a neutral near-black with a faint warm cast — deliberately NOT the
+     old navy, which read as "luxury template". Paper is a warm bone that can
+     carry a whole section. Vermilion is the signature: confident, editorial,
+     and nothing like the purple-AI or champagne-gold defaults. Signal blue is
+     reserved for measured data (it is also Habita's product accent).
+     All pairings below are verified AA or better against their surface. */
+  --ink:          #0a0a0c;
+  --ink-raised:   #141417;
+  --ink-sunken:   #060607;
+  --paper:        #f0ece5;
+  --paper-raised: #f7f5f0;
+  --paper-sunken: #e4ded3;
+
+  --bone:         #f4f2ee;
+  --slate:        #9a9aa4;  /* 7.10 on ink  */
+  --slate-mute:   #8e8e98;  /* 6.10 on ink  */
+  --graphite:     #5a5a62;  /* 5.80 on paper */
+
+  /* Darkened from #d4543a so white body text on a filled button clears
+     4.5:1 (it was 4.09 and Lighthouse failed it). Now 4.96. */
+  --vermilion:        #c2472f;  /* fills, rules       */
+  --vermilion-text:   #f0714f;  /* 6.76 on ink        */
+  --vermilion-deep:   #b8432c;  /* 4.60 on paper      */
+  --signal:           #7aa2ff;  /* 7.95 on ink — data */
+  --positive:         #4fd188;  /* 10.18 on ink       */
+
+  /* ---- Type --------------------------------------------------------------- */
+  --font-display: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+  --font-serif:   "Instrument Serif", ui-serif, Georgia, serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-sans:    "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Bricolage is variable 200–800. The old system used 600 for everything;
+     the range is where the character actually lives. */
+  --fw-thin:   250;
+  --fw-light:  320;
+  --fw-book:   400;
+  --fw-medium: 500;
+  --fw-bold:   650;
+
+  /* Fluid scale. --fs-mega is for one-per-page statements only. */
+  --fs-mega:  clamp(3rem, 12vw, 10rem);
+  --fs-xxl:   clamp(2.5rem, 7.5vw, 5.75rem);
+  --fs-xl:    clamp(2rem, 5vw, 3.5rem);
+  --fs-lg:    clamp(1.6rem, 3.2vw, 2.4rem);
+  --fs-md:    clamp(1.25rem, 2.1vw, 1.6rem);
+  --fs-lead:  clamp(1.08rem, 1.5vw, 1.3rem);
+  --fs-body:  1.0625rem;
+  --fs-sm:    0.9375rem;
+  --fs-meta:  0.8125rem;
+  --fs-micro: 0.6875rem;
+
+  /* ---- Space -------------------------------------------------------------- */
+  --gutter:      clamp(1.25rem, 4vw, 3rem);
+  --sp-section:  clamp(4.5rem, 10vw, 9rem);
+  --sp-tight:    clamp(3rem, 6vw, 5rem);
+
+  --w-max:  1280px;
+  --w-wide: 1560px;
+  --w-text: 68ch;
+
+  /* ---- Form -------------------------------------------------------------- */
+  --r-sm: 2px;
+  --r-md: 4px;
+  --r-lg: 10px;
+
+  /* ---- Motion ------------------------------------------------------------- */
+  --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:  cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 180ms;
+  --t-base: 320ms;
+  --t-slow: 640ms;
 }
 
-/* ---- Visually hidden (screen-reader only) ----------------- */
+/* ───────────────────────────────────────────────────────────────────────────
+   4. Surface system
+   The single mechanism behind the page's light/dark rhythm. A section sets
+   data-surface and every descendant re-resolves its colours.
+   ─────────────────────────────────────────────────────────────────────────── */
+:root,
+[data-surface="ink"] {
+  --bg:         var(--ink);
+  --bg-raised:  var(--ink-raised);
+  --bg-sunken:  var(--ink-sunken);
+  --fg:         var(--bone);
+  --fg-dim:     var(--slate);
+  --fg-mute:    var(--slate-mute);
+  --accent-fg:  var(--vermilion-text);
+  --accent:     var(--vermilion);
+  --line:       rgba(244, 242, 238, 0.12);
+  --line-soft:  rgba(244, 242, 238, 0.07);
+  --line-strong:rgba(244, 242, 238, 0.22);
+  --btn-fill-bg: var(--bone);
+  --btn-fill-fg: var(--ink);
+}
+
+[data-surface="paper"] {
+  --bg:         var(--paper);
+  --bg-raised:  var(--paper-raised);
+  --bg-sunken:  var(--paper-sunken);
+  --fg:         #141417;
+  --fg-dim:     var(--graphite);
+  --fg-mute:    var(--graphite);
+  --accent-fg:  var(--vermilion-deep);
+  --accent:     var(--vermilion-deep);
+  --line:       rgba(20, 20, 23, 0.16);
+  --line-soft:  rgba(20, 20, 23, 0.09);
+  --line-strong:rgba(20, 20, 23, 0.28);
+  --btn-fill-bg: var(--ink);
+  --btn-fill-fg: var(--paper);
+  color-scheme: light;
+}
+
+/* A surface paints its own background and text. */
+[data-surface] {
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   5. Base
+   ─────────────────────────────────────────────────────────────────────────── */
+body {
+  min-height: 100svh;
+  background-color: var(--ink);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-weight: var(--fw-book);
+  font-size: var(--fs-body);
+  line-height: 1.6;
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: var(--fw-medium);
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+
+p { text-wrap: pretty; }
+
+::selection {
+  background: var(--vermilion);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-fg);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -121,309 +302,429 @@ a {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
   white-space: nowrap;
   border: 0;
 }
 
-/* ---- Focus visibility (a11y) ------------------------------ */
-:focus-visible {
-  outline: 2px solid var(--color-gold);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
-
-/* ---- Reusable gradient text ------------------------------- */
-.text-gold-grad {
-  background: linear-gradient(135deg, var(--color-gold-bright), var(--color-gold) 60%, #c9a878);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-/* ---- Atmosphere layer (fixed, behind everything) ---------- */
-.atmosphere {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-.atmosphere .photo {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(180deg, rgba(6, 11, 20, 0.80) 0%, rgba(6, 11, 20, 0.86) 60%, rgba(6, 11, 20, 0.94) 100%),
-    url("/assets/background.webp");
-  background-size: cover;
-  background-position: center top;
-  background-repeat: no-repeat;
-  filter: saturate(0.8);
-}
-.atmosphere .blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  opacity: 0.5;
-  will-change: transform;
-}
-.atmosphere .blob-1 {
-  width: 46vw; height: 46vw;
-  top: -12vw; left: -8vw;
-  background: radial-gradient(circle, rgba(232, 199, 154, 0.30), transparent 70%);
-  animation: drift1 26s ease-in-out infinite alternate;
-}
-.atmosphere .blob-2 {
-  width: 40vw; height: 40vw;
-  bottom: -14vw; right: -6vw;
-  background: radial-gradient(circle, rgba(111, 216, 224, 0.18), transparent 70%);
-  animation: drift2 32s ease-in-out infinite alternate;
-}
-.atmosphere .blob-3 {
-  width: 34vw; height: 34vw;
-  top: 38%; left: 42%;
-  background: radial-gradient(circle, rgba(232, 199, 154, 0.12), transparent 70%);
-  animation: drift3 38s ease-in-out infinite alternate;
-}
-.atmosphere .grain {
-  position: absolute;
-  inset: -50%;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
-  opacity: 0.04;
-  mix-blend-mode: overlay;
-}
-.atmosphere .vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(130% 130% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
-}
-/* Gold spotlight that follows the cursor (set via JS custom props) */
-.atmosphere .spotlight {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(
-    340px circle at var(--mx, 50%) var(--my, 30%),
-    rgba(232, 199, 154, 0.10),
-    transparent 60%
-  );
-  transition: background 0.2s ease-out;
-}
-
-@keyframes drift1 {
-  to { transform: translate(8vw, 6vh) scale(1.1); }
-}
-@keyframes drift2 {
-  to { transform: translate(-7vw, -5vh) scale(1.08); }
-}
-@keyframes drift3 {
-  to { transform: translate(-5vw, 7vh) scale(0.92); }
-}
-
-/* ---- Layout helpers --------------------------------------- */
+/* ───────────────────────────────────────────────────────────────────────────
+   6. Layout primitives
+   ─────────────────────────────────────────────────────────────────────────── */
 .container-pl {
   width: 100%;
-  max-width: 1180px;
+  max-width: var(--w-max);
   margin-inline: auto;
-  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  padding-inline: var(--gutter);
 }
+.container-wide {
+  width: 100%;
+  max-width: var(--w-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container-text {
+  width: 100%;
+  max-width: var(--w-text);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--sp-section);
+}
+.section-tight {
+  padding-block: var(--sp-tight);
+}
+
 main, header, footer {
   position: relative;
   z-index: 1;
 }
 
-/* ---- Buttons ---------------------------------------------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6em;
-  padding: 0.9rem 1.5rem;
-  border-radius: 999px;
-  font-weight: 500;
-  font-size: 0.95rem;
-  line-height: 1;
-  transition: transform 0.25s cubic-bezier(.2,.8,.2,1), box-shadow 0.25s, background 0.25s, border-color 0.25s;
-  will-change: transform;
-}
-.btn-primary {
-  background: linear-gradient(135deg, var(--color-gold-bright), var(--color-gold));
-  color: var(--color-ink);
-  box-shadow: 0 8px 30px -8px rgba(232, 199, 154, 0.5);
-}
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 40px -10px rgba(232, 199, 154, 0.65);
-}
-.btn-ghost {
-  border: 1px solid var(--line-strong);
-  color: var(--color-bone);
-  background: rgba(238, 241, 246, 0.02);
-}
-.btn-ghost:hover {
-  border-color: var(--color-gold);
-  color: var(--color-gold-bright);
-  transform: translateY(-2px);
-}
-
-/* ---- Cards ------------------------------------------------ */
-.card {
-  background: linear-gradient(180deg, rgba(238, 241, 246, 0.04), rgba(238, 241, 246, 0.01));
-  border: 1px solid var(--line);
-  border-radius: var(--radius-card);
-  backdrop-filter: blur(6px);
-}
-
-/* ---- Scroll reveal (IntersectionObserver toggles .is-in) -- */
-.reveal {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.7s cubic-bezier(.2,.8,.2,1), transform 0.7s cubic-bezier(.2,.8,.2,1);
-}
-.reveal.is-in {
-  opacity: 1;
-  transform: none;
-}
-
-/* ---- Gold cursor ------------------------------------------
-   A real arrow (and a real hand on interactive elements), tinted with the
-   brand gold. Replaces the earlier lagging dot, which hid the system cursor
-   and made pointing feel imprecise. The `, auto` / `, pointer` fallbacks keep
-   a normal cursor if a browser refuses the SVG.
-   ----------------------------------------------------------- */
-@media (pointer: fine) {
-  body {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M3 2.2 3 19.4 7.7 15 10.8 21.8 13.9 20.4 10.9 13.8 16.9 13.5Z' fill='%23e8c79a' stroke='%23060b14' stroke-width='1.3' stroke-linejoin='round'/%3E%3C/svg%3E") 3 2, auto;
-  }
-  a,
-  button,
-  summary,
-  label,
-  [role="button"],
-  .magnetic {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='26' height='26'%3E%3Cpath d='M9.4 11.2V4.9a1.7 1.7 0 0 1 3.4 0v5.6m0-1.3a1.7 1.7 0 0 1 3.4 0v1.3m0-.7a1.7 1.7 0 0 1 3.4 0v1.4m0-.5a1.7 1.7 0 0 1 3.3 0v4.7c0 3.9-2.6 6.9-6.7 6.9-4 0-5.4-1.6-7.4-4.9l-2.4-4a1.7 1.7 0 0 1 2.7-2l1.5 1.8' fill='%23e8c79a' stroke='%23060b14' stroke-width='1.3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E") 9 3, pointer;
-  }
-}
-
-/* ---- Infinite marquee ------------------------------------- */
-.marquee {
-  display: flex;
-  overflow: hidden;
-  user-select: none;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
-}
-.marquee__track {
-  display: flex;
-  flex-shrink: 0;
-  gap: 3rem;
-  padding-right: 3rem;
-  animation: marquee 28s linear infinite;
-  will-change: transform;
-}
-.marquee:hover .marquee__track {
-  animation-play-state: paused;
-}
-.marquee__item {
-  font-family: var(--font-mono);
-  font-size: 0.95rem;
-  letter-spacing: 0.05em;
-  color: var(--color-fog);
-  white-space: nowrap;
-  display: inline-flex;
-  align-items: center;
-  gap: 3rem;
-}
-.marquee__item::after {
-  content: "◆";
-  color: var(--color-gold);
-  font-size: 0.6rem;
-}
-@keyframes marquee {
-  to { transform: translateX(-50%); }
-}
-
-/* ---- Section rhythm --------------------------------------- */
-.section {
-  padding-block: clamp(4rem, 9vw, 8rem);
-}
-.section-tight {
-  padding-block: clamp(3rem, 6vw, 5rem);
-}
-
-/* ---- Shared page utilities -------------------------------- */
-.section-head {
-  max-width: 640px;
-  margin-bottom: 3rem;
-}
-.section-head--row {
-  max-width: none;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-.section-head__title {
-  font-size: clamp(1.9rem, 4.5vw, 3rem);
-  margin: 0.8rem 0;
-}
-.section-head__lead {
-  color: var(--color-fog);
-  font-size: 1.08rem;
-  margin: 0;
-}
-.grid-3 {
+/* 12-column editorial grid. Children opt in with `--col: span N` or explicit
+   grid-column, which is what makes the asymmetric layouts cheap. */
+.grid12 {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: clamp(1rem, 2.4vw, 2rem);
 }
+
+.grid-2,
+.grid-3,
 .grid-4 {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.25rem;
+  gap: clamp(1rem, 2.2vw, 1.75rem);
 }
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-.page-head {
-  padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 4vw, 2.5rem);
-}
-.page-head h1 {
-  font-size: clamp(2.2rem, 6vw, 4rem);
-  margin: 0.8rem 0 1rem;
-}
-.page-head .lead {
-  color: var(--color-fog);
-  font-size: clamp(1.05rem, 2vw, 1.25rem);
-  max-width: 56ch;
-  margin: 0;
-}
-.prose p {
-  color: var(--color-fog);
-  line-height: 1.7;
-  margin: 0 0 1.1rem;
-  font-size: 1.05rem;
-}
-.prose p:last-child { margin-bottom: 0; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 
 @media (max-width: 900px) {
   .grid-3 { grid-template-columns: 1fr; }
-  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 640px) {
   .grid-2 { grid-template-columns: 1fr; }
   .grid-4 { grid-template-columns: 1fr; }
 }
 
-/* ---- Reduced motion: freeze everything cleanly ------------ */
+/* ───────────────────────────────────────────────────────────────────────────
+   7. Editorial primitives
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* Hairline rule — the structural device that replaces card borders. */
+.rule {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+}
+.rule--strong { border-top-color: var(--line-strong); }
+.rule--accent { border-top-color: var(--accent); }
+
+/* Mono metadata label. Replaces the old gold `.kicker`. */
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-mute);
+  margin: 0;
+}
+.label--accent { color: var(--accent-fg); }
+
+/* A label with a leading rule, used to open sections. */
+.label-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+.label-rule::before {
+  content: "";
+  width: clamp(1.5rem, 4vw, 3.5rem);
+  height: 1px;
+  background: var(--accent);
+  flex: none;
+}
+
+/* Oversized index numerals (01, 02 …) used in work and process lists. */
+.index-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--accent-fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Editorial serif emphasis — the human moment inside a grotesk line. */
+.serif-accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Section heading block. */
+.section-head {
+  max-width: 62ch;
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+.section-head--row {
+  max-width: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem clamp(1.5rem, 4vw, 3rem);
+  flex-wrap: wrap;
+}
+.section-head__title {
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-light);
+  margin: 1rem 0 0;
+}
+.section-head__lead {
+  color: var(--fg-dim);
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  margin: 1.1rem 0 0;
+  max-width: 54ch;
+}
+
+/* Page masthead (inner pages). */
+.page-head {
+  padding-block: clamp(3.5rem, 8vw, 6.5rem) clamp(1.5rem, 4vw, 2.5rem);
+}
+.page-head h1 {
+  font-size: var(--fs-xxl);
+  font-weight: var(--fw-light);
+  margin: 1rem 0 0;
+}
+.page-head .lead {
+  color: var(--fg-dim);
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  max-width: 58ch;
+  margin: 1.25rem 0 0;
+}
+
+/* Body copy block. */
+.prose p {
+  color: var(--fg-dim);
+  line-height: 1.7;
+  margin: 0 0 1.15rem;
+}
+.prose p:last-child { margin-bottom: 0; }
+.prose strong { color: var(--fg); font-weight: var(--fw-medium); }
+
+/* Panel. The scalable stand-in for the old glassmorphic `.card`: a hairline
+   box that inherits the surface, with no blur, no inner gradient and a radius
+   you can actually see the corner of. Used by the systematised pages (local
+   SEO, services, blog index) so they stay consistent without each becoming a
+   bespoke layout. */
+.card {
+  background: color-mix(in srgb, var(--fg) 3%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  transition: border-color var(--t-base) var(--ease),
+              background-color var(--t-base) var(--ease);
+}
+a.card:hover,
+.card--hover:hover {
+  border-color: var(--line-strong);
+  background: color-mix(in srgb, var(--fg) 5%, transparent);
+}
+
+/* `.kicker` is the previous name for what is now `.label`. Kept as the single
+   shared definition rather than renamed across every page, so there is one
+   place that decides what a section eyebrow looks like. */
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-fg);
+  margin: 0;
+}
+
+/* Emphasised run of text inside a dimmer paragraph. Was a gold gradient fill;
+   now simply resolves to full-contrast foreground, which survives both
+   surfaces and never clips descenders. */
+.text-gold-grad {
+  color: var(--fg);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   8. Buttons & links
+   Squared-off, not pill. Weight comes from the fill and the rule, not a glow.
+   ─────────────────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  padding: 0.85rem 1.4rem;
+  border-radius: var(--r-sm);
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-weight: var(--fw-medium);
+  font-size: var(--fs-sm);
+  line-height: 1;
+  letter-spacing: -0.005em;
+  min-height: 44px; /* tap target */
+  transition:
+    background-color var(--t-fast) var(--ease),
+    border-color var(--t-fast) var(--ease),
+    color var(--t-fast) var(--ease),
+    transform var(--t-fast) var(--ease);
+}
+.btn__arrow {
+  transition: transform var(--t-base) var(--ease-out);
+}
+.btn:hover .btn__arrow { transform: translateX(3px); }
+
+.btn-primary {
+  background: var(--btn-fill-bg);
+  color: var(--btn-fill-fg);
+  border-color: var(--btn-fill-bg);
+}
+.btn-primary:hover {
+  background: var(--vermilion);
+  border-color: var(--vermilion);
+  color: #fff;
+}
+
+.btn-accent {
+  background: var(--vermilion);
+  border-color: var(--vermilion);
+  color: #fff;
+}
+.btn-accent:hover {
+  background: var(--vermilion-deep);
+  border-color: var(--vermilion-deep);
+}
+
+.btn-ghost {
+  border-color: var(--line-strong);
+  color: var(--fg);
+}
+.btn-ghost:hover {
+  border-color: var(--fg);
+  background: color-mix(in srgb, var(--fg) 6%, transparent);
+}
+
+/* Inline text link with a rule that draws in on hover. */
+.link {
+  display: inline-flex;
+  align-items: center;
+  /* WCAG 2.5.8 wants 24px on targets that are not inline in a sentence.
+     These links are standalone ("See all work →"), so they carry the size. */
+  min-height: 24px;
+  gap: 0.45em;
+  color: var(--fg);
+  font-weight: var(--fw-medium);
+  position: relative;
+  padding-bottom: 2px;
+}
+.link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform var(--t-base) var(--ease-out);
+}
+.link:hover::after,
+.link:focus-visible::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+.link--accent { color: var(--accent-fg); }
+
+/* Mono call-to-action used inside cards and list rows. */
+.cta-mono {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  gap: 0.5em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--accent-fg);
+}
+.cta-mono svg,
+.cta-mono span[aria-hidden] {
+  transition: transform var(--t-base) var(--ease-out);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   9. Media
+   ─────────────────────────────────────────────────────────────────────────── */
+.media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-md);
+  background: var(--bg-raised);
+}
+.media img,
+.media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Hover scale lives on the wrapper so the overflow clip stays crisp. */
+.media--zoom img {
+  transition: transform var(--t-slow) var(--ease-out);
+}
+a:hover .media--zoom img,
+.media-parent:hover .media--zoom img {
+  transform: scale(1.03);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   10. Motion primitives
+   Reveals are opt-in via .reveal and driven by IntersectionObserver in ux.ts.
+   Nothing here gates content: elements are visible with JS disabled, because
+   ux.ts adds `.js` to <html> and the hidden state is scoped to it.
+   ─────────────────────────────────────────────────────────────────────────── */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out);
+}
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Masked line reveal for display type: the line slides up behind a clip. */
+.js .reveal-mask {
+  overflow: hidden;
+  display: block;
+}
+.js .reveal-mask > * {
+  display: block;
+  transform: translateY(105%);
+  transition: transform var(--t-slow) var(--ease-out);
+}
+.js .reveal-mask.is-in > * {
+  transform: none;
+}
+
+/* Media clip reveal. */
+.js .reveal-clip {
+  clip-path: inset(0 0 100% 0);
+  transition: clip-path 900ms var(--ease-out);
+}
+.js .reveal-clip.is-in {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   11. Grain
+   A single, very low-opacity fixed texture. It is the only atmospheric effect
+   that survived: it stops the large ink fields from banding on wide gamut
+   displays. No blobs, no vignette, no cursor spotlight.
+   ─────────────────────────────────────────────────────────────────────────── */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.032;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ───────────────────────────────────────────────────────────────────────────
+   12. Reduced motion
+   ─────────────────────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
-  .reveal { opacity: 1; transform: none; }
-  .atmosphere .blob { animation: none; }
+  .js .reveal,
+  .js .reveal-mask > * {
+    opacity: 1;
+    transform: none;
+  }
+  .js .reveal-clip { clip-path: none; }
+}
+
+/* Smooth scroll only for users who did not ask otherwise. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
 }

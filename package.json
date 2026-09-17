@@ -18,12 +18,9 @@
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
-    "@tailwindcss/vite": "^4.3.3",
-    "astro": "^7.3.3",
-    "tailwindcss": "^4.3.3"
+    "astro": "^7.3.3"
   },
   "devDependencies": {
-    "lenis": "^1.3.26",
     "sharp": "^0.35.4",
     "wrangler": "^4.134.0"
   }

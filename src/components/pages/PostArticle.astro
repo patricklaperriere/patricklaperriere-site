@@ -1,4 +1,6 @@
 ---
+// Article template. The whole job here is reading comfort: one narrow measure,
+// a clear heading hierarchy, and metadata that stays out of the way.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { type Post, blogPostPath } from '../../lib/blog';
@@ -24,8 +26,8 @@ const crumbs = [
 <Breadcrumb items={crumbs} />
 
 <article class="post">
-  <header class="page-head container-pl post__head">
-    <div class="post__meta reveal">
+  <header class="post__head container-wide">
+    <div class="post__meta">
       <span class="post__byline">{tr.blog.byline} <strong>Patrick Laperrière</strong></span>
       {/* No visible date. These are evergreen reference pages, and a stamped
           date only tells a reader how long it has been since the last one.
@@ -33,13 +35,15 @@ const crumbs = [
           search engines still get the real dates. */}
       {post.data.tags.map((t) => <span class="post__tag">{t}</span>)}
     </div>
-    <h1 class="reveal" data-delay="80ms">{post.data.title}</h1>
-    <p class="lead reveal" data-delay="160ms">{post.data.description}</p>
+    <h1 class="post__title">{post.data.title}</h1>
+    <p class="post__standfirst">{post.data.description}</p>
   </header>
 
-  <div class="container-pl post__body prose reveal">
+  <div class="post__body container-wide">
     <slot />
+  </div>
 
+  <div class="container-wide">
     <aside class="post__author" aria-label={tr.about.kicker}>
       {hasPhoto ? (
         <img
@@ -47,142 +51,318 @@ const crumbs = [
           src={PHOTO.avatar}
           srcset={`${PHOTO.avatar} 1x, ${PHOTO.avatar2x} 2x`}
           alt={tr.about.portraitAlt}
-          width="48"
-          height="48"
+          width="56"
+          height="56"
           loading="lazy"
           decoding="async"
         />
       ) : (
-        <span class="post__author-mono">PL</span>
+        <span class="post__author-mono" aria-hidden="true">PL</span>
       )}
-      <div>
+      <div class="post__author-copy">
         <p class="post__author-name">Patrick Laperrière</p>
         <p class="post__author-role">{tr.blog.authorRole}</p>
         <p class="post__author-bio">{tr.blog.authorBio}</p>
-        <a href={path('about', locale)} class="post__author-link">{tr.blog.aboutLink} →</a>
+        <a href={path('about', locale)} class="link post__author-link">
+          {tr.blog.aboutLink}
+          <span aria-hidden="true">→</span>
+        </a>
       </div>
     </aside>
-
-    <p class="post__back"><a href={path('blog', locale)}>← {tr.nav.blog}</a></p>
   </div>
 </article>
 
 {related.length > 0 && (
-  <section class="section-tight container-pl">
-    <h2 class="section-head__title reveal" style="margin-bottom:1.6rem">{tr.blog.related}</h2>
-    <div class="grid-2">
+  <section class="section-tight container-wide">
+    <h2 class="label label-rule post__related-label">{tr.blog.related}</h2>
+    <ol class="post__related">
       {related.map((r, i) => (
-        <a href={blogPostPath(locale, r.data.slug)} class="card related-card reveal" data-delay={`${i * 70}ms`}>
-          {r.data.tags[0] && <span class="related-card__tag">{r.data.tags[0]}</span>}
-          <h3>{r.data.title}</h3>
-          <p>{r.data.description}</p>
-          <span class="related-card__more">{tr.blog.readMore} →</span>
-        </a>
+        <li class="reveal" data-delay={`${i * 70}ms`}>
+          <a href={blogPostPath(locale, r.data.slug)} class="post__related-link">
+            {r.data.tags[0] && <span class="post__related-tag">{r.data.tags[0]}</span>}
+            <h3 class="post__related-title">{r.data.title}</h3>
+            <span class="post__related-desc">{r.data.description}</span>
+            <span class="cta-mono">{tr.blog.readMore} <span aria-hidden="true">→</span></span>
+          </a>
+        </li>
       ))}
-    </div>
+    </ol>
   </section>
 )}
 
 <CtaBand locale={locale} />
 
 <style>
-  .post__head { padding-bottom: 1rem; }
+  /* ---- Masthead -----------------------------------------------------------
+     The article column is narrower than the site container; centring it here
+     rather than on a wrapper keeps the breadcrumb and CTA full width. */
+  .post__head {
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 3vw, 2.25rem);
+  }
+  .post__head > *,
+  .post__body > :global(*),
+  .post__author {
+    max-width: 68ch;
+    margin-inline: auto;
+  }
+
   .post__meta {
-    display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;
-    font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-fog);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-bottom: 1.5rem;
   }
-  .post__tag { padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 999px; color: var(--color-gold); }
-  .post__head h1 { max-width: 22ch; }
+  .post__byline strong { color: var(--fg); font-weight: 500; }
+  .post__tag { color: var(--accent-fg); }
 
-  .post__body { max-width: 720px; padding-block: clamp(1.5rem, 4vw, 2.5rem); }
-  .post__body :global(h2) {
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 3.5vw, 2rem);
-    margin: 2.4rem 0 0.9rem;
-    letter-spacing: -0.02em;
+  .post__title {
+    font-size: clamp(2rem, 5.2vw, 3.6rem);
+    font-weight: var(--fw-thin);
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    margin: 0;
   }
-  .post__body :global(h3) { font-size: 1.25rem; margin: 1.8rem 0 0.6rem; }
+  .post__standfirst {
+    color: var(--fg-dim);
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    margin: 1.25rem 0 0;
+  }
+
+  /* ---- Article body -------------------------------------------------------
+     `:global` because this content comes from Markdown, so Astro's scoped
+     class is never applied to it. */
+  .post__body {
+    padding-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .post__body :global(p),
   .post__body :global(ul),
-  .post__body :global(ol) { color: var(--color-fog); line-height: 1.7; padding-left: 1.3rem; margin: 0 0 1.1rem; }
-  .post__body :global(li) { margin-bottom: 0.5rem; }
-  .post__body :global(li)::marker { color: var(--color-gold); }
-  .post__body :global(strong) { color: var(--color-bone); font-weight: 600; }
-  .post__body :global(a) {
-    color: var(--color-gold-bright);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    text-decoration-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
+  .post__body :global(ol),
+  .post__body :global(blockquote),
+  .post__body :global(figure),
+  .post__body :global(pre),
+  .post__body :global(table) {
+    margin: 0 auto 1.35rem;
   }
-  .post__body :global(a):hover { text-decoration-color: var(--color-gold-bright); }
-  .post__body :global(blockquote) {
-    border-left: 2px solid var(--color-gold);
-    padding-left: 1.2rem; margin: 1.5rem 0; color: var(--color-bone); font-style: italic;
+  .post__body :global(p) {
+    color: var(--fg-dim);
+    font-size: 1.08rem;
+    line-height: 1.78;
   }
-  .post__byline strong { color: var(--color-bone); font-weight: 600; }
-  .post__sep { opacity: 0.4; }
+  .post__body :global(strong) { color: var(--fg); font-weight: var(--fw-medium); }
 
-  /* E-E-A-T author box */
+  .post__body :global(h2) {
+    font-size: clamp(1.4rem, 3vw, 1.95rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.028em;
+    color: var(--fg);
+    margin: clamp(2.5rem, 5vw, 3.5rem) auto 1rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line-soft);
+  }
+  .post__body :global(h3) {
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.02em;
+    color: var(--fg);
+    margin: 2rem auto 0.75rem;
+  }
+
+  .post__body :global(ul),
+  .post__body :global(ol) {
+    padding-left: 1.25rem;
+    color: var(--fg-dim);
+  }
+  .post__body :global(li) {
+    margin-bottom: 0.5rem;
+    line-height: 1.7;
+  }
+  .post__body :global(li::marker) { color: var(--accent); }
+
+  .post__body :global(a) {
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .post__body :global(a:hover) { color: var(--accent-fg); }
+
+  .post__body :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.25rem;
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-style: italic;
+    line-height: 1.4;
+    color: var(--fg);
+  }
+  .post__body :global(blockquote p) {
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+  }
+
+  .post__body :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.88em;
+    background: color-mix(in srgb, var(--fg) 8%, transparent);
+    border-radius: var(--r-sm);
+    padding: 0.15em 0.4em;
+  }
+  .post__body :global(pre) {
+    background: var(--ink-sunken);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+  }
+  .post__body :global(pre code) {
+    background: none;
+    padding: 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .post__body :global(img) {
+    border-radius: var(--r-md);
+    margin-inline: auto;
+  }
+  .post__body :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--line);
+    margin: 2.5rem auto;
+  }
+  .post__body :global(table) {
+    width: 100%;
+    font-size: var(--fs-sm);
+  }
+  .post__body :global(th),
+  .post__body :global(td) {
+    text-align: left;
+    padding: 0.6rem 0.75rem 0.6rem 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .post__body :global(th) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    font-weight: 500;
+  }
+  .post__body :global(td) { color: var(--fg-dim); }
+
+  /* ---- Author -------------------------------------------------------------- */
   .post__author {
     display: flex;
     gap: 1.1rem;
-    align-items: flex-start;
-    margin-top: 3rem;
-    padding: 1.6rem;
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    background: linear-gradient(180deg, rgba(232, 199, 154, 0.05), rgba(238, 241, 246, 0.01));
-  }
-  .post__author-mono {
-    flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 12px;
-    border: 1px solid var(--line-strong);
-    font-family: var(--font-display);
-    font-weight: 700;
-    color: var(--color-gold-bright);
-    background: rgba(232, 199, 154, 0.1);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
   }
   .post__author-photo {
-    flex-shrink: 0;
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
-    border: 1px solid var(--line-strong);
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
     object-fit: cover;
-    display: block;
+    flex: none;
   }
-  .post__author-name { margin: 0; font-weight: 600; color: var(--color-bone); }
-  .post__author-role {
-    margin: 0.1rem 0 0.6rem;
+  .post__author-mono {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line-strong);
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    color: var(--accent-fg);
+    flex: none;
+  }
+  .post__author-name {
+    font-weight: var(--fw-medium);
+    margin: 0;
+  }
+  .post__author-role {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-gold);
+    color: var(--fg-mute);
+    margin: 0.15rem 0 0.6rem;
   }
-  .post__author-bio { margin: 0 0 0.7rem; color: var(--color-fog); font-size: 0.95rem; line-height: 1.55; }
-  .post__author-link { font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-gold-bright); }
+  .post__author-bio {
+    color: var(--fg-dim);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    margin: 0 0 0.75rem;
+  }
 
-  .post__back { margin-top: 2.5rem; font-family: var(--font-mono); font-size: 0.85rem; }
-  .post__back a { color: var(--color-fog); }
-  .post__back a:hover { color: var(--color-gold-bright); }
+  /* ---- Related ------------------------------------------------------------- */
+  .post__related-label { margin-bottom: 1.5rem; }
+  .post__related {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .post__related li {
+    border-bottom: 1px solid var(--line-soft);
+    border-right: 1px solid var(--line-soft);
+  }
+  .post__related li:nth-child(even) { border-right: 0; }
+  .post__related-link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    height: 100%;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1.25rem, 2.5vw, 1.75rem)
+             clamp(1.25rem, 2.5vw, 1.75rem) 0;
+  }
+  .post__related li:nth-child(even) .post__related-link {
+    padding-left: clamp(1.25rem, 2.5vw, 1.75rem);
+    padding-right: 0;
+  }
+  .post__related-tag {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .post__related-title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .post__related-link:hover .post__related-title { color: var(--accent-fg); }
+  .post__related-desc {
+    color: var(--fg-dim);
+    font-size: var(--fs-meta);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 0.5rem;
+  }
 
-  /* Related articles */
-  .related-card { display: block; padding: 1.6rem; transition: transform 0.3s, border-color 0.3s, background 0.3s; }
-  .related-card:hover {
-    transform: translateY(-4px);
-    border-color: color-mix(in srgb, var(--color-gold) 50%, transparent);
-    background: linear-gradient(180deg, rgba(232,199,154,0.05), rgba(238,241,246,0.01));
+  @media (max-width: 680px) {
+    .post__related { grid-template-columns: 1fr; }
+    .post__related li,
+    .post__related li:nth-child(even) { border-right: 0; }
+    .post__related-link,
+    .post__related li:nth-child(even) .post__related-link { padding-inline: 0; }
   }
-  .related-card__tag {
-    font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-gold);
-    padding: 0.2rem 0.6rem; border: 1px solid var(--line); border-radius: 999px;
-  }
-  .related-card h3 { font-size: 1.2rem; margin: 0.9rem 0 0.5rem; }
-  .related-card p { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0 0 0.9rem; }
-  .related-card__more { font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-gold-bright); }
 </style>

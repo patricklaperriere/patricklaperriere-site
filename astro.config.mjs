@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,11 +20,7 @@ export default defineConfig({
     },
   },
 
-  // Tailwind v4 runs as a Vite plugin. Astro 7 ships Vite 8, whose own
-  // @import resolver no longer defers to the PostCSS plugin's node-module
-  // lookup, so `@import "tailwindcss"` only resolves through this plugin.
   vite: {
-    plugins: [tailwindcss()],
     build: {
       // Vite 8 minifies CSS with Lightning CSS, which transpiles to whatever
       // the target allows. Left unset it emits media-query range syntax

@@ -73,7 +73,7 @@ export const ownSite: LighthouseScore = {
   accessibility: 100,
   seo: 100,
   bestPractices: 100,
-  lcp: 0.4,
+  lcp: 0.5,
   cls: 0.0,
-  measured: '2026-08-15',
+  measured: '2026-09-17',
 };

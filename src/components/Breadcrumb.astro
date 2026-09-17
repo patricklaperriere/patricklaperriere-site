@@ -9,7 +9,7 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<nav class="breadcrumb container-pl" aria-label="Breadcrumb">
+<nav class="breadcrumb container-wide" aria-label="Breadcrumb">
   <ol>
     {items.map((it, i) => (
       <li>
@@ -24,23 +24,38 @@ const { items } = Astro.props;
   </ol>
 
   <style>
-    .breadcrumb { padding-top: 1.5rem; }
+    /* Mono trail on a hairline. Sits above the page masthead and stays quiet:
+       it is orientation, not navigation the eye should land on first. */
+    .breadcrumb {
+      padding-top: clamp(1rem, 2.5vw, 1.5rem);
+    }
     .breadcrumb ol {
       list-style: none;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: 0.5rem;
-      padding: 0;
       margin: 0;
+      padding: 0;
       font-family: var(--font-mono);
-      font-size: 0.78rem;
-      color: var(--color-fog);
+      font-size: var(--fs-micro);
+      letter-spacing: 0.08em;
+      color: var(--fg-mute);
     }
-    .breadcrumb li { display: inline-flex; align-items: center; gap: 0.5rem; }
-    .breadcrumb a { color: var(--color-fog); transition: color 0.2s; }
-    .breadcrumb a:hover { color: var(--color-gold-bright); }
-    .breadcrumb [aria-current='page'] { color: var(--color-bone); }
+    .breadcrumb li {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .breadcrumb a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      color: var(--fg-mute);
+      transition: color var(--t-fast) var(--ease);
+    }
+    .breadcrumb a:hover { color: var(--fg); }
+    .breadcrumb [aria-current="page"] { color: var(--fg); }
     .breadcrumb__sep { opacity: 0.4; }
   </style>
 </nav>

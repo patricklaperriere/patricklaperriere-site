@@ -1,9 +1,16 @@
 ---
+// Work index.
+//
+// Not a uniform 3-up card grid: projects alternate between a full-width lead
+// and a two-up pair, so the page has rhythm and the imagery carries it. The
+// chunking is derived rather than hard-coded, so adding a fifth project keeps
+// the pattern instead of breaking it.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
+import type { Project } from '../../data/projets';
 import { sortedProjects } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
-import ProjectCard from '../ProjectCard.astro';
+import ProjectFeature from '../ProjectFeature.astro';
 import CtaBand from '../CtaBand.astro';
 
 interface Props {
@@ -13,6 +20,17 @@ const { locale } = Astro.props;
 const tr = useTranslations(locale);
 const projects = sortedProjects();
 
+// Alternate 1, 2, 1, 2 … — a lead, then a pair, then a lead.
+const rows: { items: Project[]; lead: boolean; from: number }[] = [];
+let i = 0;
+let wantLead = true;
+while (i < projects.length) {
+  const take = wantLead ? 1 : 2;
+  rows.push({ items: projects.slice(i, i + take), lead: wantLead, from: i });
+  i += take;
+  wantLead = !wantLead;
+}
+
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
   { name: tr.nav.work, url: path('work', locale) },
@@ -21,19 +39,50 @@ const crumbs = [
 
 <Breadcrumb items={crumbs} />
 
-<section class="page-head container-pl">
-  <p class="kicker reveal">{tr.workSection.kicker}</p>
-  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{tr.workSection.title}</span></h1>
-  <p class="lead reveal" data-delay="160ms">{tr.workSection.lead}</p>
+<section class="page-head container-wide">
+  <p class="label label-rule">{tr.workSection.kicker}</p>
+  <h1>{tr.workSection.title}</h1>
+  <p class="lead">{tr.workSection.lead}</p>
 </section>
 
-<section class="section-tight container-pl" aria-label={tr.workSection.title}>
-  <h2 class="sr-only">{tr.workSection.title}</h2>
-  <div class="grid-3">
-    {projects.map((p, i) => (
-      <ProjectCard project={p} locale={locale} cta={tr.cta.viewProject} index={i} />
+<section class="section-tight container-wide" aria-label={tr.workSection.title}>
+  <div class="wx">
+    {rows.map((row) => (
+      <div class:list={['wx__row', !row.lead && 'wx__row--pair']}>
+        {row.items.map((p, j) => (
+          <div class="reveal" data-delay={`${j * 90}ms`}>
+            <ProjectFeature
+              project={p}
+              locale={locale}
+              index={row.from + j + 1}
+              variant={row.lead ? 'lead' : 'half'}
+            />
+          </div>
+        ))}
+      </div>
     ))}
   </div>
 </section>
 
 <CtaBand locale={locale} />
+
+<style>
+  .wx {
+    display: flex;
+    flex-direction: column;
+  }
+  .wx__row + .wx__row {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--line);
+  }
+  .wx__row--pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  @media (max-width: 760px) {
+    .wx__row--pair { grid-template-columns: 1fr; }
+  }
+</style>

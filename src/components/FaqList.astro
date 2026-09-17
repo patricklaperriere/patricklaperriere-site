@@ -1,4 +1,9 @@
 ---
+// FAQ accordion on hairlines — no cards, no chevron icons.
+//
+// Stays native <details>/<summary>: free keyboard support, free screen-reader
+// semantics, and the answers are in the DOM whether open or shut, which is
+// what keeps them crawlable and consistent with the FAQPage JSON-LD.
 interface Props {
   title: string;
   faq: readonly { q: string; a: string }[];
@@ -7,62 +12,121 @@ const { title, faq } = Astro.props;
 ---
 
 <section class="faq section-tight">
-  <div class="container-pl">
+  <div class="container-wide">
     <h2 class="faq__title reveal">{title}</h2>
+
     <div class="faq__list">
       {faq.map((item, i) => (
-        <details class="faq__item reveal" data-delay={`${i * 60}ms`}>
-          <summary>
-            <span>{item.q}</span>
-            <span class="faq__icon" aria-hidden="true">+</span>
+        <details class="faq__item reveal" data-delay={`${i * 50}ms`}>
+          <summary class="faq__q">
+            <span class="faq__num index-num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="faq__q-text">{item.q}</span>
+            <span class="faq__mark" aria-hidden="true"></span>
           </summary>
-          <p>{item.a}</p>
+          <div class="faq__a">
+            <p>{item.a}</p>
+          </div>
         </details>
       ))}
     </div>
   </div>
-
-  <style>
-    .faq__title {
-      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
-      margin: 0 0 2rem;
-    }
-    .faq__list {
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      max-width: 780px;
-    }
-    .faq__item {
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      background: rgba(238, 241, 246, 0.02);
-      overflow: hidden;
-    }
-    .faq__item summary {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 1.15rem 1.4rem;
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 1.02rem;
-      list-style: none;
-    }
-    .faq__item summary::-webkit-details-marker { display: none; }
-    .faq__icon {
-      flex-shrink: 0;
-      color: var(--color-gold);
-      font-size: 1.3rem;
-      transition: transform 0.25s ease;
-    }
-    .faq__item[open] .faq__icon { transform: rotate(45deg); }
-    .faq__item p {
-      margin: 0;
-      padding: 0 1.4rem 1.3rem;
-      color: var(--color-fog);
-      line-height: 1.6;
-    }
-  </style>
 </section>
+
+<style>
+  .faq__title {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
+    margin: 0 0 clamp(1.75rem, 4vw, 2.75rem);
+    max-width: 20ch;
+  }
+
+  .faq__list {
+    border-top: 1px solid var(--line);
+  }
+  .faq__item {
+    border-bottom: 1px solid var(--line-soft);
+  }
+
+  .faq__q {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: clamp(1rem, 2.4vw, 1.4rem) 0;
+    list-style: none;
+    min-height: 44px;
+  }
+  /* Remove the native disclosure triangle in every engine. */
+  .faq__q::-webkit-details-marker { display: none; }
+  .faq__q::marker { content: ""; }
+
+  .faq__num { flex: none; }
+  .faq__q-text {
+    font-family: var(--font-display);
+    font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.015em;
+    line-height: 1.35;
+    color: var(--fg);
+    transition: color var(--t-fast) var(--ease);
+  }
+  .faq__item:hover .faq__q-text { color: var(--accent-fg); }
+
+  /* Plus sign drawn from two rules, so it can rotate into a cross. */
+  .faq__mark {
+    position: relative;
+    width: 13px;
+    height: 13px;
+    flex: none;
+    align-self: center;
+  }
+  .faq__mark::before,
+  .faq__mark::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 auto 0;
+    height: 1.5px;
+    background: var(--fg-dim);
+    transition: transform var(--t-base) var(--ease-out),
+                background-color var(--t-fast) var(--ease);
+  }
+  .faq__mark::after { transform: rotate(90deg); }
+  .faq__item[open] .faq__mark::before { transform: rotate(180deg); }
+  .faq__item[open] .faq__mark::after { transform: rotate(0deg); }
+  .faq__item[open] .faq__mark::before,
+  .faq__item[open] .faq__mark::after { background: var(--accent-fg); }
+
+  .faq__a {
+    padding: 0 0 clamp(1rem, 2.4vw, 1.5rem);
+    /* Align the answer under the question text, past the number column. */
+    padding-left: calc(2ch + 1rem);
+    max-width: 68ch;
+  }
+  .faq__a p {
+    margin: 0;
+    color: var(--fg-dim);
+    font-size: var(--fs-sm);
+    line-height: 1.7;
+  }
+
+  /* Smooth open/close where the engine can animate the disclosure box.
+     Everything else gets the correct instant behaviour rather than a janky
+     approximation — ::details-content is only honoured in newer engines. */
+  @supports selector(details::details-content) {
+    .faq__list { interpolate-size: allow-keywords; }
+    .faq__item::details-content {
+      block-size: 0;
+      overflow: hidden;
+      transition: block-size var(--t-base) var(--ease-out),
+                  content-visibility var(--t-base) allow-discrete;
+    }
+    .faq__item[open]::details-content {
+      block-size: auto;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .faq__a { padding-left: 0; }
+  }
+</style>

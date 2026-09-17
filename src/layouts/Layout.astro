@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import SEO from '../components/SEO.astro';
-import Atmosphere from '../components/Atmosphere.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import LofiPlayer from '../components/LofiPlayer.astro';
@@ -37,9 +36,9 @@ const tr = useTranslations(locale);
 const htmlLang = tr.htmlLang;
 const altPath = alternates[otherLocale(locale)];
 
-// Gold "PL" favicon to match the brand.
+// Monogram favicon, used only when no portrait is available.
 const favicon =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23060b14'/%3E%3Ctext x='32' y='44' text-anchor='middle' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23e8c79a' letter-spacing='-2'%3EPL%3C/text%3E%3C/svg%3E";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0c'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23d4543a' letter-spacing='-2'%3EPL%3C/text%3E%3C/svg%3E";
 ---
 
 <!doctype html>
@@ -47,7 +46,14 @@ const favicon =
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#060b14" />
+    <meta name="theme-color" content="#0a0a0c" />
+
+    {/* Marks the document as scripted BEFORE first paint. Scroll-reveal start
+        states are scoped to `.js`, so without this one line the page would
+        paint every revealed element, then hide it, then animate it back in.
+        Inline and synchronous on purpose: it must win the race against CSS. */}
+    <script is:inline>document.documentElement.classList.add('js');</script>
+
     {hasPhoto ? (
       <>
         {/* Photo favicon. Deliberately NO svg <link> alongside it: browsers
@@ -85,7 +91,7 @@ const favicon =
   </head>
   <body>
     <a href="#main" class="skip-link">{tr.skipToContent}</a>
-    <Atmosphere />
+    <div class="grain" aria-hidden="true"></div>
     <Nav locale={locale} alt={altPath} />
     <main id="main">
       <slot />
@@ -103,11 +109,13 @@ const favicon =
         left: -9999px;
         top: 0;
         z-index: 100;
-        background: var(--color-gold);
-        color: var(--color-ink);
-        padding: 0.75rem 1.25rem;
-        border-radius: 0 0 10px 0;
-        font-weight: 600;
+        background: var(--vermilion);
+        color: #fff;
+        padding: 0.85rem 1.35rem;
+        font-family: var(--font-mono);
+        font-size: var(--fs-meta);
+        letter-spacing: 0.04em;
+        font-weight: 500;
       }
       .skip-link:focus {
         left: 0;

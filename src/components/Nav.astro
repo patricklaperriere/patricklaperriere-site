@@ -1,5 +1,5 @@
 ---
-import { useTranslations, path } from '../i18n';
+import { useTranslations, path, otherLocale } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { SITE } from '../config';
 
@@ -11,6 +11,7 @@ interface Props {
 
 const { locale, alt } = Astro.props;
 const tr = useTranslations(locale);
+const other = otherLocale(locale);
 
 const links = [
   { href: path('services', locale), label: tr.nav.services },
@@ -22,229 +23,417 @@ const links = [
 
 const home = path('home', locale);
 const contact = path('contact', locale);
-const current = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => (href.replace(/\/$/, '') || '/') === current;
+
+// Normalise both sides before comparing so "/services/" and "/services" match.
+const norm = (p: string) => p.replace(/\/$/, '') || '/';
+const current = norm(Astro.url.pathname);
+const isActive = (href: string) => norm(href) === current;
+
+// The wordmark: full name on desktop, initials once space runs out. Both live
+// in the same <a>, so there is one link to the homepage, not two.
+const [first, last] = tr.brand.split(' ');
 ---
 
-<header class="nav">
-  <div class="container-pl nav__inner">
-    <a href={home} class="nav__logo magnetic" data-magnetic="0.25">
-      <span class="nav__mono">PL</span>
-      <span class="sr-only">{tr.brand}</span>
+<header class="nav" id="site-nav">
+  <div class="container-wide nav__inner">
+    <a href={home} class="nav__brand" aria-label={tr.brand}>
+      {/* The space between the names is written out, because JSX collapses
+          the whitespace around the expressions and the two would run together. */}
+      <span class="nav__brand-full" aria-hidden="true">
+        <span class="nav__brand-first">{first}</span>{' '}
+        <span class="nav__brand-last">{last}</span><span class="nav__brand-dot">.</span>
+      </span>
+      <span class="nav__brand-short" aria-hidden="true">PL<span class="nav__brand-dot">.</span></span>
     </a>
 
     <nav class="nav__links" aria-label={tr.ariaPrimaryNav}>
       {links.map((l) => (
-        <a href={l.href} class:list={['nav__link', isActive(l.href) && 'is-active']}>
+        <a
+          href={l.href}
+          class:list={['nav__link', isActive(l.href) && 'is-active']}
+          aria-current={isActive(l.href) ? 'page' : undefined}
+        >
           {l.label}
         </a>
       ))}
     </nav>
 
     <div class="nav__actions">
-      <a href={`tel:${SITE.phone}`} class="nav__phone" aria-label={`${locale === 'fr' ? 'Appeler' : 'Call'} ${SITE.phoneDisplay}`}>
-        <svg class="nav__phone-ic" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
-        </svg>
-        <span>{SITE.phoneDisplay}</span>
+      <a
+        href={`tel:${SITE.phone}`}
+        class="nav__phone"
+        aria-label={`${locale === 'fr' ? 'Appeler' : 'Call'} ${SITE.phoneDisplay}`}
+      >
+        {SITE.phoneDisplay}
       </a>
-      <a href={alt} class="nav__lang" hreflang={locale === 'fr' ? 'en-CA' : 'fr-CA'} aria-label={tr.switchToLabel}>
-        {tr.switchTo}
-      </a>
-      <a href={contact} class="btn btn-primary nav__cta magnetic" data-magnetic="0.2">
-        {tr.cta.primary}
-      </a>
-      <button class="nav__burger" id="nav-burger" aria-label="Menu" aria-expanded="false" aria-controls="nav-mobile">
-        <span></span><span></span>
+
+      {/* Both languages are shown so the switch is discoverable; only the
+          other one is a link, and it carries the hreflang. */}
+      <p class="nav__lang">
+        <span class="nav__lang-on">{locale.toUpperCase()}</span>
+        <span class="nav__lang-sep" aria-hidden="true">/</span>
+        <a href={alt} hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'} aria-label={tr.switchToLabel}>
+          {other.toUpperCase()}
+        </a>
+      </p>
+
+      <a href={contact} class="btn btn-accent nav__cta">{tr.cta.primary}</a>
+
+      <button
+        class="nav__burger"
+        id="nav-burger"
+        type="button"
+        aria-label="Menu"
+        aria-expanded="false"
+        aria-controls="nav-mobile"
+      >
+        <span class="nav__burger-box" aria-hidden="true">
+          <span></span><span></span>
+        </span>
       </button>
     </div>
   </div>
 
   <div class="nav__mobile" id="nav-mobile" hidden>
-    {links.map((l) => <a href={l.href} class="nav__mobile-link">{l.label}</a>)}
-    <a href={`tel:${SITE.phone}`} class="nav__mobile-link nav__mobile-phone">📞 {SITE.phoneDisplay}</a>
-    <a href={contact} class="btn btn-primary nav__mobile-cta">{tr.cta.primary}</a>
-    <a href={alt} class="nav__mobile-lang" hreflang={locale === 'fr' ? 'en-CA' : 'fr-CA'}>{tr.langName === 'Français' ? 'English' : 'Français'}</a>
+    <nav class="nav__mobile-links" aria-label={tr.ariaPrimaryNav}>
+      {links.map((l, i) => (
+        <a
+          href={l.href}
+          class:list={['nav__mobile-link', isActive(l.href) && 'is-active']}
+          style={`--i:${i}`}
+          aria-current={isActive(l.href) ? 'page' : undefined}
+        >
+          <span class="nav__mobile-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          {l.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="nav__mobile-foot" style={`--i:${links.length}`}>
+      <a href={contact} class="btn btn-accent nav__mobile-cta">{tr.cta.primary}</a>
+      <a href={`tel:${SITE.phone}`} class="nav__mobile-phone">{SITE.phoneDisplay}</a>
+      <a href={alt} class="nav__mobile-lang" hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'}>
+        {other === 'fr' ? 'Français' : 'English'}
+      </a>
+    </div>
   </div>
 </header>
 
 <style>
+  /* The bar is transparent over the hero and gains its rule + backdrop once
+     the page scrolls (class toggled from the script below). Height is fixed in
+     both states, so toggling it can never shift layout. */
   .nav {
     position: sticky;
     top: 0;
-    z-index: 50;
-    backdrop-filter: blur(12px);
-    background: color-mix(in srgb, var(--color-ink) 72%, transparent);
-    border-bottom: 1px solid var(--line);
+    z-index: 60;
+    border-bottom: 1px solid transparent;
+    transition: background-color var(--t-base) var(--ease),
+                border-color var(--t-base) var(--ease);
+  }
+  .nav.is-stuck {
+    background: color-mix(in srgb, var(--ink) 82%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--line);
   }
   .nav__inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 68px;
-    gap: 1.5rem;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    height: 72px;
   }
-  .nav__logo {
+
+  /* ---- Wordmark ---------------------------------------------------------- */
+  .nav__brand {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    border: 1px solid var(--line-strong);
-    background: linear-gradient(135deg, rgba(232, 199, 154, 0.16), transparent);
-  }
-  .nav__mono {
+    min-height: 32px;
     font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 1.1rem;
-    letter-spacing: -0.04em;
-    color: var(--color-gold-bright);
+    font-size: 1.0625rem;
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    white-space: nowrap;
+    flex: none;
   }
+  .nav__brand-first,
+  .nav__brand-last { color: var(--fg); }
+  .nav__brand-last { transition: color var(--t-fast) var(--ease); }
+  .nav__brand-dot { color: var(--vermilion); }
+  .nav__brand-full { display: inline; }
+  .nav__brand-short { display: none; }
+  .nav__brand:hover .nav__brand-last { color: var(--vermilion-text); }
+
+  /* ---- Primary links ----------------------------------------------------- */
   .nav__links {
     display: flex;
-    gap: 1.75rem;
-    margin-inline: auto;
+    align-items: center;
+    gap: clamp(1rem, 2.4vw, 2.1rem);
   }
   .nav__link {
-    font-size: 0.92rem;
-    color: var(--color-fog);
     position: relative;
-    transition: color 0.2s ease;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--fg-dim);
+    padding-block: 0.65rem;
+    transition: color var(--t-fast) var(--ease);
   }
   .nav__link::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
-    bottom: -6px;
-    width: 0;
+    right: 0;
+    bottom: 0.15rem;
     height: 1px;
-    background: var(--color-gold);
-    transition: width 0.25s ease;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--t-base) var(--ease-out);
   }
-  .nav__link:hover,
-  .nav__link.is-active {
-    color: var(--color-bone);
-  }
-  .nav__link:hover::after,
+  .nav__link:hover { color: var(--fg); }
+  .nav__link:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav__link.is-active { color: var(--fg); }
   .nav__link.is-active::after {
-    width: 100%;
+    transform: scaleX(1);
+    background: var(--vermilion);
   }
+
+  /* ---- Right-hand actions ------------------------------------------------ */
   .nav__actions {
     display: flex;
     align-items: center;
-    gap: 0.9rem;
+    gap: clamp(0.75rem, 1.6vw, 1.35rem);
+    flex: none;
   }
   .nav__phone {
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    min-height: 32px;
     font-family: var(--font-mono);
-    font-size: 0.82rem;
-    letter-spacing: 0.02em;
-    color: var(--color-bone);
-    transition: color 0.2s ease;
-    white-space: nowrap;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--fg-dim);
+    transition: color var(--t-fast) var(--ease);
   }
-  .nav__phone-ic { color: var(--color-gold); flex-shrink: 0; }
-  .nav__phone:hover { color: var(--color-gold-bright); }
-  .nav__phone:hover .nav__phone-ic { color: var(--color-gold-bright); }
-  .nav__mobile-phone { color: var(--color-gold-bright); font-family: var(--font-mono); }
+  .nav__phone:hover { color: var(--fg); }
+
   .nav__lang {
-    font-family: var(--font-mono);
-    font-size: 0.8rem;
-    letter-spacing: 0.08em;
-    color: var(--color-fog);
-    padding: 0.35rem 0.6rem;
-    border: 1px solid var(--line);
-    border-radius: 8px;
-    transition: color 0.2s ease, border-color 0.2s ease;
-  }
-  .nav__lang:hover {
-    color: var(--color-gold-bright);
-    border-color: var(--color-gold);
-  }
-  .nav__cta {
-    padding: 0.6rem 1.1rem;
-    font-size: 0.88rem;
-  }
-  .nav__burger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: 1px solid var(--line-strong);
-    border-radius: 10px;
-    cursor: pointer;
-  }
-  .nav__burger span {
-    width: 18px;
-    height: 2px;
-    background: var(--color-bone);
-    transition: transform 0.25s ease, opacity 0.25s ease;
-  }
-  .nav__burger[aria-expanded='true'] span:first-child {
-    transform: translateY(3.5px) rotate(45deg);
-  }
-  .nav__burger[aria-expanded='true'] span:last-child {
-    transform: translateY(-3.5px) rotate(-45deg);
-  }
-  .nav__mobile {
-    display: none;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 1rem clamp(1.25rem, 4vw, 2.5rem) 1.5rem;
-    border-top: 1px solid var(--line);
-    background: var(--color-ink2);
-  }
-  .nav__mobile-link {
-    padding: 0.85rem 0;
-    font-size: 1.05rem;
-    border-bottom: 1px solid var(--line);
-    color: var(--color-bone);
-  }
-  .nav__mobile-cta {
-    margin-top: 1rem;
-    justify-content: center;
-  }
-  .nav__mobile-lang {
-    margin-top: 0.75rem;
-    text-align: center;
+    gap: 0.35rem;
     font-family: var(--font-mono);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+  .nav__lang-on { color: var(--fg); }
+  .nav__lang-sep { color: var(--fg-mute); opacity: 0.5; }
+  .nav__lang a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding-inline: 0.15rem;
+    color: var(--fg-mute);
+    transition: color var(--t-fast) var(--ease);
+  }
+  .nav__lang a:hover { color: var(--vermilion-text); }
+
+  .nav__cta {
+    padding: 0.6rem 1.05rem;
+    min-height: 40px;
     font-size: 0.85rem;
-    color: var(--color-fog);
   }
 
-  @media (max-width: 980px) {
-    .nav__phone span { display: none; }
+  /* ---- Burger ------------------------------------------------------------ */
+  .nav__burger {
+    display: none;
+    width: 44px;
+    height: 44px;
+    margin-right: -0.5rem;
+    place-items: center;
   }
-  @media (max-width: 860px) {
+  .nav__burger-box {
+    display: block;
+    position: relative;
+    width: 22px;
+    height: 12px;
+  }
+  .nav__burger-box span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--fg);
+    transition: transform var(--t-base) var(--ease-out);
+  }
+  .nav__burger-box span:first-child { top: 0; }
+  .nav__burger-box span:last-child { bottom: 0; }
+  .nav__burger[aria-expanded="true"] .nav__burger-box span:first-child {
+    transform: translateY(5.25px) rotate(45deg);
+  }
+  .nav__burger[aria-expanded="true"] .nav__burger-box span:last-child {
+    transform: translateY(-5.25px) rotate(-45deg);
+  }
+
+  /* ---- Mobile sheet ------------------------------------------------------
+     `hidden` is removed first, then `.is-open` is added on the next frame, so
+     the opacity/transform transitions have a start state to run from. */
+  .nav__mobile {
+    position: fixed;
+    inset: 72px 0 0;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(1.5rem, 5vw, 3rem) var(--gutter) calc(2rem + env(safe-area-inset-bottom));
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity var(--t-base) var(--ease);
+  }
+  .nav__mobile[hidden] { display: none; }
+  .nav__mobile.is-open { opacity: 1; }
+
+  .nav__mobile-links {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line-soft);
+  }
+  .nav__mobile-link {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    padding: clamp(0.9rem, 3vw, 1.35rem) 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--fg);
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .nav__mobile.is-open .nav__mobile-link {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--t-base) var(--ease-out) calc(var(--i) * 45ms + 60ms),
+      transform var(--t-base) var(--ease-out) calc(var(--i) * 45ms + 60ms);
+  }
+  .nav__mobile-link.is-active { color: var(--vermilion-text); }
+  .nav__mobile-num {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--fg-mute);
+  }
+
+  .nav__mobile-foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    margin-top: 2.5rem;
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  .nav__mobile.is-open .nav__mobile-foot {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity var(--t-base) var(--ease-out) calc(var(--i) * 45ms + 60ms),
+      transform var(--t-base) var(--ease-out) calc(var(--i) * 45ms + 60ms);
+  }
+  .nav__mobile-cta { flex: 1 1 14rem; }
+  .nav__mobile-phone,
+  .nav__mobile-lang {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    color: var(--fg-dim);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* ---- Breakpoints ------------------------------------------------------- */
+  @media (max-width: 1080px) {
     .nav__links { display: none; }
-    .nav__cta { display: none; }
+    .nav__burger { display: grid; }
+  }
+  @media (max-width: 720px) {
     .nav__phone { display: none; }
-    .nav__burger { display: flex; }
-    .nav__mobile[data-open='true'] { display: flex; }
+  }
+  @media (max-width: 460px) {
+    .nav__brand-full { display: none; }
+    .nav__brand-short { display: inline; }
+    .nav__cta { display: none; }
+  }
+  @media (min-width: 1081px) {
+    .nav__mobile { display: none !important; }
   }
 </style>
 
 <script>
+  // Sticky bar state. `is-stuck` only adds a background and a rule, never a
+  // size, so toggling it cannot shift layout.
+  const bar = document.getElementById('site-nav');
+  if (bar) {
+    const onScroll = () => bar.classList.toggle('is-stuck', window.scrollY > 8);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Mobile sheet.
   const burger = document.getElementById('nav-burger');
-  const menu = document.getElementById('nav-mobile');
-  if (burger && menu) {
-    burger.addEventListener('click', () => {
-      const open = burger.getAttribute('aria-expanded') === 'true';
-      burger.setAttribute('aria-expanded', String(!open));
+  const panel = document.getElementById('nav-mobile');
+
+  if (burger && panel) {
+    let open = false;
+
+    const setOpen = (next: boolean) => {
+      open = next;
+      burger.setAttribute('aria-expanded', String(open));
+      // Lock the page behind the sheet without losing the scroll position.
+      document.body.style.overflow = open ? 'hidden' : '';
+
       if (open) {
-        menu.removeAttribute('data-open');
-        menu.hidden = true;
+        panel.hidden = false;
+        requestAnimationFrame(() => panel.classList.add('is-open'));
       } else {
-        menu.hidden = false;
-        menu.setAttribute('data-open', 'true');
+        panel.classList.remove('is-open');
+        const done = () => {
+          if (!open) panel.hidden = true;
+          panel.removeEventListener('transitionend', done);
+        };
+        panel.addEventListener('transitionend', done);
       }
+    };
+
+    burger.addEventListener('click', () => setOpen(!open));
+
+    // Any navigation inside the sheet closes it.
+    panel.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && open) {
+        setOpen(false);
+        burger.focus();
+      }
+    });
+
+    // Returning to desktop width must not leave the body scroll-locked.
+    window.matchMedia('(min-width: 1081px)').addEventListener('change', (e) => {
+      if (e.matches && open) setOpen(false);
     });
   }
 </script>

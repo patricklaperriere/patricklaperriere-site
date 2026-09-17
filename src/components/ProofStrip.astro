@@ -1,0 +1,105 @@
+---
+// Credibility strip, first screen after the hero.
+// Reads as a spec sheet rather than a row of marketing counters: rules and
+// mono metadata, no icons, no cards. Every line is backed by something already
+// in the repository, so there is nothing here to invent or keep in sync.
+import { useTranslations } from '../i18n';
+import type { Locale } from '../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const p = tr.proof;
+---
+
+<section class="section-tight proof" id="proof" aria-label={p.label}>
+  <div class="container-wide">
+    <p class="label label-rule proof__label">{p.label}</p>
+
+    <ul class="proof__list">
+      {p.items.map((item, i) => (
+        <li class="proof__item reveal" data-delay={`${i * 70}ms`}>
+          <span class="proof__key">{item.k}</span>
+          <span class="proof__name">{item.l}</span>
+          <span class="proof__note">{item.n}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .proof__label {
+    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+  }
+  .proof__list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .proof__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1rem, 2vw, 1.75rem)
+             clamp(1.25rem, 2.5vw, 1.75rem) 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .proof__item:last-child { border-right: 0; }
+  .proof__item + .proof__item {
+    padding-left: clamp(1rem, 2vw, 1.75rem);
+  }
+
+  .proof__key {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+  }
+  .proof__name {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--vermilion-text);
+  }
+  .proof__note {
+    font-size: var(--fs-meta);
+    line-height: 1.5;
+    color: var(--fg-dim);
+    margin-top: 0.15rem;
+  }
+
+  @media (max-width: 900px) {
+    .proof__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* Re-draw the separators for a 2-up grid: right rule on the odd column
+       only, bottom rule on everything but the final row. */
+    .proof__item,
+    .proof__item + .proof__item {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0 clamp(1rem, 3vw, 1.5rem);
+    }
+    .proof__item:nth-child(odd) { border-right: 1px solid var(--line-soft); }
+    .proof__item:nth-child(even) { padding-inline: clamp(1rem, 3vw, 1.5rem) 0; }
+    .proof__item:nth-last-child(-n + 2) { border-bottom: 0; }
+  }
+  @media (max-width: 520px) {
+    .proof__list { grid-template-columns: 1fr; }
+    .proof__item,
+    .proof__item:nth-child(odd),
+    .proof__item:nth-child(even) {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0;
+    }
+    .proof__item:last-child { border-bottom: 0; }
+  }
+</style>

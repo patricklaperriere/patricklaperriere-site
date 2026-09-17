@@ -41,6 +41,38 @@ export const en = {
     punch:
       'I build fast, beautiful, SEO-optimized websites — so your business gets found everywhere.',
     sub: 'Working with clients across Quebec, Canada and the United States.',
+    // Positioning line added beside the name. Widens "web developer" to
+    // "product builder" without touching the keyword-bearing punch above.
+    role: 'Web developer & product builder',
+    scroll: 'Scroll',
+    meta: {
+      availabilityLabel: 'Availability',
+      locationLabel: 'Based in',
+      location: 'Laval, Quebec',
+      productLabel: 'Product',
+      product: 'Habita · SaaS in production',
+    },
+  },
+
+  // Credibility strip, first screen after the hero. Every line is backed by
+  // something already in the repository: no invented statistics.
+  proof: {
+    label: 'At a glance',
+    items: [
+      { k: '100', l: 'Lighthouse', n: 'Performance, accessibility and SEO, measured on this very site.' },
+      { k: 'FR / EN', l: 'Bilingual', n: 'Every page exists in both languages, with clean SEO in each.' },
+      { k: 'SaaS', l: 'Product in production', n: 'Habita — designed, built and operated solo.' },
+      { k: 'QC · CA · US', l: 'Markets served', n: 'Quebec, Canada and the United States, remotely.' },
+    ],
+  },
+
+  // Short human moment on the home page. Deliberately not a biography: the
+  // full story lives on the About page.
+  personal: {
+    label: 'The person behind it',
+    title: 'One person, from the first call to launch day.',
+    body: 'I am Patrick Laperrière, a freelance web developer based in Laval, Quebec. I design and build custom sites for small businesses and founders who are tired of slow, generic websites nobody can find on Google.',
+    cta: 'More about me',
   },
 
   marquee: {

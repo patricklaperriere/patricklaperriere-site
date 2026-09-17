@@ -42,6 +42,38 @@ export const fr = {
     punch:
       'Je conçois des sites web rapides, élégants et optimisés pour Google, pour que votre entreprise soit trouvée partout.',
     sub: 'Je travaille avec des clients au Québec, au Canada et aux États-Unis.',
+    // Positioning line added beside the name. Widens "développeur web" to
+    // "product builder" without touching the keyword-bearing punch above.
+    role: 'Développeur web & product builder',
+    scroll: 'Défiler',
+    meta: {
+      availabilityLabel: 'Disponibilité',
+      locationLabel: 'Base',
+      location: 'Laval, Québec',
+      productLabel: 'Produit',
+      product: 'Habita · SaaS en production',
+    },
+  },
+
+  // Credibility strip, first screen after the hero. Every line is backed by
+  // something already in the repository: no invented statistics.
+  proof: {
+    label: 'En bref',
+    items: [
+      { k: '100', l: 'Lighthouse', n: 'Performance, accessibilité et SEO, mesurés sur ce site même.' },
+      { k: 'FR / EN', l: 'Bilingue', n: 'Chaque page existe dans les deux langues, avec un référencement propre dans chacune.' },
+      { k: 'SaaS', l: 'Produit en production', n: 'Habita, conçu, développé et exploité seul.' },
+      { k: 'QC · CA · US', l: 'Marchés servis', n: 'Québec, Canada et États-Unis, à distance.' },
+    ],
+  },
+
+  // Short human moment on the home page. Deliberately not a biography: the
+  // full story lives on the About page.
+  personal: {
+    label: 'La personne derrière',
+    title: 'Un seul interlocuteur, du premier appel à la mise en ligne.',
+    body: 'Je suis Patrick Laperrière, développeur web freelance basé à Laval. Je conçois et développe des sites sur mesure pour les PME et les entrepreneurs qui en ont assez des sites lents, génériques et invisibles sur Google.',
+    cta: 'En savoir plus sur moi',
   },
 
   marquee: {

@@ -1,14 +1,24 @@
 ---
+// Editorial case study.
+//
+// Structure: masthead (client · year → oversized title → tagline → spec row),
+// full-bleed hero media, measured benchmark when the live site was tested, then
+// the narrative in a two-column editorial grid — mono label in the margin, prose
+// on a readable measure — and a link through to the next project.
+//
+// Habita gets the running product frame instead of a screenshot, because it is
+// software I operate rather than a site I delivered.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { workBase } from '../../i18n/routes';
 import type { Project } from '../../data/projets';
 import { loc, sortedProjects } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
-import ProjectCard from '../ProjectCard.astro';
 import CtaBand from '../CtaBand.astro';
 import LighthouseScores from '../LighthouseScores.astro';
+import ProductFrame from '../ProductFrame.astro';
 import { lighthouse } from '../../data/lighthouse';
+import { HABITA_LOOP } from '../../lib/habitaLoop';
 
 interface Props {
   locale: Locale;
@@ -21,8 +31,12 @@ const ws = tr.workSection;
 // Measured scores for this project's live site, if it has been measured.
 const score = lighthouse[project.slug] ?? null;
 
-// Other case studies, for cross-linking.
-const others = sortedProjects().filter((p) => p.slug !== project.slug);
+// Next case study, wrapping around — a dead end at the bottom of a case study
+// is a wasted exit.
+const all = sortedProjects();
+const idx = all.findIndex((p) => p.slug === project.slug);
+const next = all[(idx + 1) % all.length];
+const others = all.filter((p) => p.slug !== project.slug && p.slug !== next.slug);
 
 const shot = `/work/${project.slug}.webp`;
 const contain = project.fit === 'contain';
@@ -30,6 +44,8 @@ const shotAlt =
   locale === 'fr'
     ? `Capture d’écran du site ${loc(project.title, locale)}`
     : `Screenshot of the ${loc(project.title, locale)} website`;
+
+const isHabita = project.slug === 'habita';
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -42,174 +58,326 @@ const blocks = [
   { label: ws.built, body: loc(project.built, locale) },
   { label: ws.result, body: loc(project.result, locale) },
 ];
+
+const specs = [
+  { k: ws.client, v: project.client },
+  { k: ws.role, v: loc(project.role, locale) },
+  { k: ws.year, v: project.year },
+];
 ---
 
 <Breadcrumb items={crumbs} />
 
 <article class="case" style={`--accent:${project.accent}`}>
-  <header class="page-head container-pl">
-    <p class="kicker reveal">{project.client} · {project.year}</p>
-    <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{loc(project.title, locale)}</span></h1>
-    <p class="lead reveal" data-delay="160ms">{loc(project.tagline, locale)}</p>
+  <header class="case__head container-wide">
+    <p class="label label-rule">{project.client} · {project.year}</p>
+    <h1 class="case__title">{loc(project.title, locale)}</h1>
+    <p class="case__tagline">{loc(project.tagline, locale)}</p>
 
-    <div class="case__meta reveal" data-delay="240ms">
-      <div>
-        <span class="case__meta-label">{ws.role}</span>
-        <span class="case__meta-value">{loc(project.role, locale)}</span>
+    <dl class="case__specs">
+      {specs.map((s) => (
+        <div class="case__spec">
+          <dt>{s.k}</dt>
+          <dd>{s.v}</dd>
+        </div>
+      ))}
+      <div class="case__spec case__spec--stack">
+        <dt>{ws.stack}</dt>
+        <dd>
+          <ul class="case__stack">
+            {project.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        </dd>
       </div>
-      <div>
-        <span class="case__meta-label">{ws.stack}</span>
-        <span class="case__meta-value">{project.stack.join(' · ')}</span>
-      </div>
-      <div>
-        <a href={project.url} class="btn btn-primary magnetic" data-magnetic="0.2" target="_blank" rel="noopener">
-          {tr.cta.visitSite} <span aria-hidden="true">↗</span>
-        </a>
-      </div>
-    </div>
+    </dl>
+
+    <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
+      {tr.cta.visitSite}
+      <span aria-hidden="true">↗</span>
+    </a>
   </header>
 
-  <figure class:list={['case__shot container-pl reveal', contain && 'case__shot--contain']}>
-    <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
-      <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
-    </a>
-  </figure>
+  <div class="container-wide case__media reveal-clip">
+    {isHabita ? (
+      <ProductFrame
+        host={new URL(project.url).host}
+        liveLabel={locale === 'fr' ? 'En production' : 'In production'}
+        poster={HABITA_LOOP.poster}
+        webm={HABITA_LOOP.webm}
+        mp4={HABITA_LOOP.mp4}
+        width={HABITA_LOOP.width}
+        height={HABITA_LOOP.height}
+        posterAlt={tr.habitaSpotlight.posterAlt}
+        playLabel={tr.habitaSpotlight.videoPlay}
+        pauseLabel={tr.habitaSpotlight.videoPause}
+        fallbackSrc={shot}
+        fallbackAlt={`${tr.cta.visitSite} — ${project.client}`}
+        fallbackHref={project.url}
+        external
+        fit={project.fit ?? 'cover'}
+      />
+    ) : (
+      <figure class:list={['case__shot', contain && 'case__shot--contain']}>
+        <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+          <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+        </a>
+      </figure>
+    )}
+  </div>
 
   {score && (
-    <section class="container-pl case__lh reveal">
-      <h2 class="case__block-label">{tr.lighthouse.caseTitle}</h2>
-      <LighthouseScores locale={locale} score={score} />
+    <section class="container-wide case__bench">
+      <h2 class="label case__bench-label">{tr.lighthouse.caseTitle}</h2>
+      <LighthouseScores locale={locale} score={score} variant="compact" />
     </section>
   )}
 
-  <div class="container-pl case__body">
+  <div class="container-wide case__body">
     {blocks.map((b, i) => (
-      <section class="case__block reveal" data-delay={`${i * 80}ms`}>
-        <h2 class="case__block-label">{b.label}</h2>
-        <p>{b.body}</p>
+      <section class="case__block reveal" data-delay={`${i * 60}ms`}>
+        <h2 class="case__block-label">
+          <span class="index-num">{String(i + 1).padStart(2, '0')}</span>
+          <span>{b.label}</span>
+        </h2>
+        <div class="case__block-body prose">
+          <p>{b.body}</p>
+        </div>
       </section>
     ))}
-
-    <a href={path('work', locale)} class="case__back">{tr.cta.backToWork}</a>
   </div>
+
+  <nav class="container-wide case__next" aria-label={tr.nav.work}>
+    <div class="case__next-row">
+      <a href={`${workBase[locale]}/${next.slug}`} class="case__next-link">
+        <span class="label case__next-label">
+          {locale === 'fr' ? 'Projet suivant' : 'Next project'}
+        </span>
+        <span class="case__next-title">{loc(next.title, locale)}</span>
+        <span class="case__next-arrow" aria-hidden="true">→</span>
+      </a>
+      <a href={path('work', locale)} class="link case__all">{tr.cta.allWork}</a>
+    </div>
+
+    {/* The remaining case studies stay one click away rather than two: the
+        "next" link alone would leave every other project reachable only via
+        the index. */}
+    {others.length > 0 && (
+      <ul class="case__others">
+        {others.map((o) => (
+          <li>
+            <a href={`${workBase[locale]}/${o.slug}`}>{loc(o.title, locale)}</a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </nav>
 </article>
-
-{/* More work — internal linking */}
-<section class="section-tight container-pl">
-  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{ws.featuredTitle}</h2>
-  <div class="grid-2">
-    {others.map((p, i) => (
-      <ProjectCard project={p} locale={locale} cta={tr.cta.viewProject} index={i} />
-    ))}
-  </div>
-</section>
 
 <CtaBand locale={locale} />
 
 <style>
-  .case__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    align-items: center;
-    margin-top: 2.5rem;
-    padding-top: 2rem;
+  /* ---- Masthead ----------------------------------------------------------- */
+  .case__head {
+    padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
+  }
+  .case__title {
+    font-size: var(--fs-xxl);
+    font-weight: var(--fw-thin);
+    letter-spacing: -0.035em;
+    margin: 1.25rem 0 0;
+    max-width: 18ch;
+  }
+  .case__tagline {
+    color: var(--fg-dim);
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    max-width: 56ch;
+    margin: 1.25rem 0 0;
+  }
+
+  .case__specs {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    margin: clamp(2rem, 4vw, 3rem) 0 0;
     border-top: 1px solid var(--line);
   }
-  .case__meta-label {
-    display: block;
+  .case__spec {
+    padding: 1.1rem clamp(0.75rem, 2vw, 1.5rem) 1.1rem 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .case__spec + .case__spec { padding-left: clamp(0.75rem, 2vw, 1.5rem); }
+  .case__spec:last-child { border-right: 0; }
+  .case__spec dt {
     font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
+    font-size: var(--fs-micro);
     letter-spacing: 0.14em;
-    color: var(--color-fog);
-    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin-bottom: 0.45rem;
   }
-  .case__meta-value {
-    font-size: 0.98rem;
-    color: var(--color-bone);
+  .case__spec dd {
+    margin: 0;
+    font-size: var(--fs-meta);
+    line-height: 1.5;
+    color: var(--fg);
   }
+  .case__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    color: var(--fg-dim);
+  }
+  .case__stack li + li::before {
+    content: "/";
+    margin-right: 0.75rem;
+    opacity: 0.45;
+  }
+
+  .case__visit { margin-top: clamp(1.5rem, 3vw, 2rem); }
+
+  /* ---- Hero media --------------------------------------------------------- */
+  .case__media { margin-top: clamp(1.5rem, 3vw, 2.5rem); }
   .case__shot {
-    margin: clamp(2rem, 5vw, 3rem) auto 0;
-    padding: 0;
-  }
-  .case__shot a {
-    display: block;
-    border: 1px solid var(--line-strong);
-    border-radius: 18px;
+    margin: 0;
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
     overflow: hidden;
-    background: var(--color-ink2);
-    box-shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.7);
-    transition: border-color 0.3s ease;
+    background: var(--ink-raised);
   }
-  .case__shot a:hover { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
   .case__shot img {
+    display: block;
     width: 100%;
     height: auto;
-    display: block;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: top center;
+    transition: transform var(--t-slow) var(--ease-out);
   }
-  /* Transparent device mockup, habita.expert style: floats on a smooth
-     navy backdrop with a soft blue glow rising from the bottom. No frame. */
-  .case__shot--contain { position: relative; isolation: isolate; }
-  .case__shot--contain::before {
-    content: '';
-    position: absolute;
-    inset: -14% -18% -12%;
-    z-index: 0;
-    pointer-events: none;
+  .case__shot:hover img { transform: scale(1.015); }
+  .case__shot--contain {
+    padding: clamp(1rem, 3vw, 2.5rem);
     background:
-      radial-gradient(52% 46% at 50% 74%, rgba(122, 162, 255, 0.34), rgba(122, 162, 255, 0.10) 46%, transparent 72%),
-      radial-gradient(72% 72% at 50% 42%, rgba(9, 16, 28, 0.96), rgba(8, 13, 23, 0.66) 55%, transparent 82%);
+      radial-gradient(70% 78% at 50% 48%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 72%),
+      var(--ink-raised);
   }
-  .case__shot--contain a {
-    position: relative;
-    z-index: 1;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    overflow: visible;
-    padding: clamp(1rem, 4vw, 3rem);
-  }
-  .case__shot--contain a:hover { border-color: transparent; }
-  .case__shot--contain img {
-    aspect-ratio: auto;
-    height: auto;
-    object-fit: contain;
-    filter: drop-shadow(0 30px 60px rgba(0, 0, 0, 0.5));
-  }
+  .case__shot--contain img { object-fit: contain; }
+
+  /* ---- Benchmark ---------------------------------------------------------- */
+  .case__bench { margin-top: clamp(2.5rem, 5vw, 4rem); }
+  .case__bench-label { margin-bottom: 1rem; }
+
+  /* ---- Narrative ----------------------------------------------------------
+     Mono label sits in the margin, prose stays on a readable measure — the
+     asymmetry is the point. */
   .case__body {
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+  .case__block {
     display: grid;
-    gap: 2.5rem;
-    max-width: 760px;
-    padding-block: clamp(2.5rem, 6vw, 4rem);
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: clamp(1rem, 4vw, 3.5rem);
+    padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
+    border-top: 1px solid var(--line);
   }
-  .case__lh {
-    max-width: 760px;
-    padding-top: clamp(2.5rem, 6vw, 4rem);
-  }
-  .case__lh .case__block-label { margin-bottom: 1.1rem; }
   .case__block-label {
-    font-family: var(--font-serif);
-    font-style: italic;
-    font-size: 1.6rem;
-    color: var(--accent);
-    margin: 0 0 0.8rem;
-  }
-  .case__block p {
-    color: var(--color-fog);
-    line-height: 1.75;
-    font-size: 1.08rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
     margin: 0;
   }
-  .case__back {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-fog);
-    transition: color 0.2s;
+  .case__block-body {
+    max-width: 68ch;
   }
-  .case__back:hover { color: var(--color-gold-bright); }
+  .case__block-body p {
+    font-size: var(--fs-body);
+    line-height: 1.75;
+  }
+
+  /* ---- Next --------------------------------------------------------------- */
+  .case__next {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: clamp(1.5rem, 3vw, 2rem);
+    border-top: 1px solid var(--line);
+  }
+  .case__next-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+  }
+  .case__others {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem clamp(1rem, 3vw, 2rem);
+    margin-top: clamp(1.25rem, 3vw, 2rem);
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-soft);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
+  .case__others a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--fg-mute);
+    transition: color var(--t-fast) var(--ease);
+  }
+  .case__others a:hover { color: var(--fg); }
+  .case__next-link {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: baseline;
+    gap: 0.4rem 1rem;
+  }
+  .case__next-label { grid-column: 1 / -1; }
+  .case__next-title {
+    font-size: clamp(1.5rem, 3.5vw, 2.5rem);
+    font-family: var(--font-display);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .case__next-arrow {
+    font-size: 1.25rem;
+    color: var(--accent-fg);
+    transition: transform var(--t-base) var(--ease-out);
+  }
+  .case__next-link:hover .case__next-title { color: var(--accent-fg); }
+  .case__next-link:hover .case__next-arrow { transform: translateX(5px); }
+
+  /* ---- Responsive --------------------------------------------------------- */
+  @media (max-width: 900px) {
+    .case__specs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .case__spec,
+    .case__spec + .case__spec {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0 1rem;
+    }
+    .case__spec:nth-child(odd) { border-right: 1px solid var(--line-soft); }
+    .case__spec:nth-child(even) { padding-inline: 1rem 0; }
+  }
+  @media (max-width: 760px) {
+    .case__block { grid-template-columns: 1fr; gap: 0.9rem; }
+  }
+  @media (max-width: 480px) {
+    .case__specs { grid-template-columns: 1fr; }
+    .case__spec,
+    .case__spec + .case__spec,
+    .case__spec:nth-child(odd),
+    .case__spec:nth-child(even) {
+      border-right: 0;
+      padding-inline: 0;
+    }
+  }
 </style>

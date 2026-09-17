@@ -1,9 +1,16 @@
 ---
+// Personal editorial profile.
+//
+// Was a single prose column with the portrait floated into the middle of it and
+// a rounded "why me" card stranded beside a half-empty grid. Now: portrait and
+// story share a two-column masthead, the principles become a numbered row on
+// paper, and the stack is stated plainly as an index.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import { PHOTO, hasPhoto } from '../../lib/photo';
+import { SITE } from '../../config';
 
 interface Props {
   locale: Locale;
@@ -16,115 +23,207 @@ const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
   { name: tr.nav.about, url: path('about', locale) },
 ];
+
+const availability = tr.status.replace('●', '').trim();
 ---
 
 <Breadcrumb items={crumbs} />
 
-<section class="page-head container-pl">
-  <p class="kicker reveal">{a.kicker}</p>
-  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{a.h1}</span></h1>
-  <p class="lead reveal" data-delay="160ms">{a.lead}</p>
+<section class="page-head container-wide">
+  <p class="label label-rule">{a.kicker}</p>
+  <h1>{a.h1}</h1>
+  <p class="lead">{a.lead}</p>
 </section>
 
-<section class="section-tight container-pl about__grid">
-  <div class="prose about__body reveal">
-    {hasPhoto && (
-      <figure class="about__portrait">
-        <img
-          src={PHOTO.portrait}
-          alt={a.portraitAlt}
-          width="720"
-          height="900"
-          loading="lazy"
-          decoding="async"
-        />
-      </figure>
-    )}
-    {a.body.map((p) => <p>{p}</p>)}
-    <p class="about__status"><span class="about__dot"></span>{tr.status.replace('●', '').trim()}</p>
-  </div>
+<!-- Portrait + story ------------------------------------------------------ -->
+<section class="section-tight container-wide about__top">
+  {hasPhoto && (
+    <figure class="about__portrait reveal">
+      <img
+        src={PHOTO.portrait}
+        srcset={`${PHOTO.avatar2x} 256w, ${PHOTO.portrait} 720w`}
+        sizes="(max-width: 880px) 100vw, 420px"
+        alt={a.portraitAlt}
+        width="720"
+        height="900"
+        loading="lazy"
+        decoding="async"
+      />
+      <figcaption class="about__caption">
+        <span class="about__status">
+          <span class="about__dot" aria-hidden="true"></span>
+          {availability}
+        </span>
+        <span class="about__where">{SITE.city}, {SITE.regionName}</span>
+      </figcaption>
+    </figure>
+  )}
 
-  <aside class="about__why reveal" data-delay="120ms">
-    <h2 class="about__why-title">{a.whyTitle}</h2>
-    <ul>
-      {a.why.map((w) => (
-        <li>
-          <h3>{w.t}</h3>
-          <p>{w.d}</p>
+  <div class="about__story prose reveal" data-delay="80ms">
+    {a.body.map((p) => <p>{p}</p>)}
+  </div>
+</section>
+
+<!-- Principles (paper chapter) -------------------------------------------- -->
+<section class="section-tight about__why" data-surface="paper">
+  <div class="container-wide">
+    <h2 class="label label-rule about__why-label">{a.whyTitle}</h2>
+    <ul class="about__why-list">
+      {a.why.map((w, i) => (
+        <li class="about__why-item reveal" data-delay={`${i * 70}ms`}>
+          <span class="index-num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="about__why-title">{w.t}</h3>
+          <p class="about__why-text">{w.d}</p>
         </li>
       ))}
     </ul>
-  </aside>
+  </div>
+</section>
+
+<!-- Stack ------------------------------------------------------------------ -->
+<section class="section-tight container-wide about__stack-wrap">
+  <h2 class="label label-rule">{tr.marquee.label}</h2>
+  <ul class="about__stack">
+    {tr.marquee.items.map((t) => <li>{t}</li>)}
+  </ul>
 </section>
 
 <CtaBand locale={locale} />
 
 <style>
-  .about__grid {
+  /* ---- Masthead ----------------------------------------------------------- */
+  .about__top {
     display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 3rem;
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    gap: clamp(1.75rem, 5vw, 4rem);
     align-items: start;
   }
-  /* Portrait floats beside the bio on desktop, full width on mobile. */
   .about__portrait {
-    float: right;
-    width: min(260px, 42%);
-    margin: 0 0 1.4rem 1.8rem;
-    border: 1px solid var(--line);
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    background: var(--color-ink2);
+    margin: 0;
+    position: relative;
   }
   .about__portrait img {
-    display: block;
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;
     object-fit: cover;
+    object-position: center 18%;
+    border-radius: var(--r-md);
+    background: var(--ink-raised);
+  }
+  .about__caption {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem 1rem;
+    margin-top: 0.9rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    color: var(--fg-mute);
   }
   .about__status {
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-bone) !important;
-    margin-top: 1.5rem;
+    gap: 0.5rem;
+    color: var(--fg);
   }
   .about__dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #46d28a; box-shadow: 0 0 10px rgba(70,210,138,0.6);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--positive);
+    flex: none;
   }
-  .about__why {
-    padding: 1.9rem;
-    border: 1px solid var(--line);
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(232,199,154,0.05), rgba(238,241,246,0.01));
-    position: sticky;
-    top: 90px;
-  }
-  .about__why-title {
-    font-family: var(--font-mono);
-    font-size: 0.74rem;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--color-fog);
-    margin: 0 0 1.4rem;
-  }
-  .about__why ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.3rem; }
-  .about__why h3 { font-size: 1.08rem; margin: 0 0 0.3rem; color: var(--color-gold-bright); }
-  .about__why p { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0; }
 
-  @media (max-width: 860px) {
-    .about__grid { grid-template-columns: 1fr; }
-    .about__why { position: static; }
+  .about__story p {
+    font-size: var(--fs-body);
+    line-height: 1.75;
+    max-width: 64ch;
   }
-  @media (max-width: 560px) {
-    .about__portrait {
-      float: none;
-      width: 100%;
-      margin: 0 0 1.8rem;
+  /* First paragraph reads as the standfirst. */
+  .about__story p:first-child {
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    color: var(--fg);
+  }
+
+  /* ---- Principles --------------------------------------------------------- */
+  .about__why-label { margin-bottom: clamp(1.75rem, 4vw, 2.5rem); }
+  .about__why-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .about__why-item {
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1rem, 2vw, 1.75rem)
+             clamp(1.25rem, 2.5vw, 1.75rem) 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .about__why-item + .about__why-item { padding-left: clamp(1rem, 2vw, 1.75rem); }
+  .about__why-item:last-child { border-right: 0; }
+  .about__why-title {
+    font-size: 1.05rem;
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.015em;
+    margin: 0.9rem 0 0.45rem;
+  }
+  .about__why-text {
+    color: var(--fg-dim);
+    font-size: var(--fs-meta);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---- Stack -------------------------------------------------------------- */
+  .about__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    color: var(--fg-dim);
+  }
+  .about__stack li + li::before {
+    content: "/";
+    margin-right: 1.5rem;
+    opacity: 0.4;
+  }
+
+  /* ---- Responsive --------------------------------------------------------- */
+  @media (max-width: 880px) {
+    .about__top { grid-template-columns: 1fr; }
+    .about__portrait { max-width: 22rem; }
+  }
+  @media (max-width: 900px) {
+    .about__why-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .about__why-item,
+    .about__why-item + .about__why-item {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0 1rem;
     }
+    .about__why-item:nth-child(odd) { border-right: 1px solid var(--line-soft); }
+    .about__why-item:nth-child(even) { padding-inline: 1rem 0; }
+    .about__why-item:nth-last-child(-n + 2) { border-bottom: 0; }
+  }
+  @media (max-width: 520px) {
+    .about__why-list { grid-template-columns: 1fr; }
+    .about__why-item,
+    .about__why-item + .about__why-item,
+    .about__why-item:nth-child(odd),
+    .about__why-item:nth-child(even) {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0;
+    }
+    .about__why-item:last-child { border-bottom: 0; }
   }
 </style>

@@ -1,9 +1,14 @@
 ---
+// Services overview.
+//
+// The old version was three short cards and a row of pills, which gave the page
+// almost nothing to say. Each service now gets a full editorial row built from
+// copy that already exists in the dictionary (lead + the "what's included"
+// list), so the page earns its place without inventing a word.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { villes, villePath, villesHubPath } from '../../data/villes';
 import Breadcrumb from '../Breadcrumb.astro';
-import ServiceCard from '../ServiceCard.astro';
 import CtaBand from '../CtaBand.astro';
 import { startingPrice, type PricedService } from '../../data/prix';
 
@@ -23,62 +28,182 @@ const crumbs = [
 
 <Breadcrumb items={crumbs} />
 
-<section class="page-head container-pl">
-  <p class="kicker reveal">{tr.servicesSection.kicker}</p>
-  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{tr.servicesSection.title}</span></h1>
-  <p class="lead reveal" data-delay="160ms">{tr.servicesSection.lead}</p>
+<section class="page-head container-wide">
+  <p class="label label-rule">{tr.servicesSection.kicker}</p>
+  <h1>{tr.servicesSection.title}</h1>
+  <p class="lead">{tr.servicesSection.lead}</p>
 </section>
 
-<section class="section-tight container-pl" aria-label={tr.servicesSection.title}>
-  <h2 class="sr-only">{tr.servicesSection.title}</h2>
-  <div class="grid-3">
-    {services.map((s, i) => (
-      <ServiceCard
-        icon={s.icon}
-        title={s.title}
-        blurb={s.blurb}
-        href={path(s.key, locale)}
-        cta={tr.cta.seeServices}
-        index={i}
-        price={startingPrice[s.key as PricedService] ?? null}
-        priceFrom={tr.pricing.from}
-        currency={tr.pricing.currency}
-      />
-    ))}
-  </div>
+<section class="section-tight container-wide" aria-label={tr.servicesSection.title}>
+  <ol class="svcx">
+    {services.map((s, i) => {
+      const price = startingPrice[s.key as PricedService] ?? null;
+      return (
+        <li class="svcx__row reveal" data-delay={`${i * 80}ms`}>
+          <div class="svcx__aside">
+            <span class="index-num">{String(i + 1).padStart(2, '0')}</span>
+            {price && (
+              <p class="svcx__price">
+                <span class="svcx__price-from">{tr.pricing.from}</span>
+                <b>{`${price} ${tr.pricing.currency}`}</b>
+              </p>
+            )}
+          </div>
+
+          <div class="svcx__main">
+            <h2 class="svcx__title">
+              <a href={path(s.key, locale)}>{s.title}</a>
+            </h2>
+            <p class="svcx__lead">{s.lead}</p>
+
+            <p class="label svcx__inc-label">{s.includedTitle}</p>
+            <ul class="svcx__inc">
+              {s.included.slice(0, 4).map((item) => <li>{item}</li>)}
+            </ul>
+
+            <a href={path(s.key, locale)} class="cta-mono svcx__cta">
+              {tr.cta.seeServices}
+              <span class="svcx__arrow" aria-hidden="true">→</span>
+            </a>
+          </div>
+        </li>
+      );
+    })}
+  </ol>
 </section>
 
-<section class="section-tight container-pl">
-  <h2 class="section-head__title reveal" style="margin-bottom:1.2rem">{tr.regions.citiesTitle}</h2>
-  <ul class="region-links reveal" data-delay="60ms">
+<!-- Local reach ------------------------------------------------------------ -->
+<section class="section-tight container-wide svcx__regions">
+  <h2 class="label label-rule">{tr.regions.citiesTitle}</h2>
+  <ul class="region-links">
     {cities.map((v) => (
       <li><a href={villePath(locale, v.slug)}>{v.name}</a></li>
     ))}
-    <li><a href={villesHubPath(locale)} class="region-links__all">{tr.regions.allCities} →</a></li>
   </ul>
+  <a href={villesHubPath(locale)} class="link svcx__regions-all">
+    {tr.regions.allCities}
+    <span aria-hidden="true">→</span>
+  </a>
 </section>
 
 <CtaBand locale={locale} />
 
 <style>
-  .region-links {
+  /* ---- Service rows ------------------------------------------------------- */
+  .svcx {
     list-style: none;
+    margin: 0;
     padding: 0;
+    border-top: 1px solid var(--line);
+  }
+  .svcx__row {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 9fr);
+    gap: clamp(1rem, 4vw, 3.5rem);
+    padding-block: clamp(1.75rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .svcx__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+  .svcx__price {
     margin: 0;
     display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .svcx__price-from {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .svcx__price b {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
+  }
+
+  .svcx__title {
+    font-size: clamp(1.6rem, 3.4vw, 2.5rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.032em;
+    margin: 0 0 0.85rem;
+  }
+  .svcx__title a { transition: color var(--t-fast) var(--ease); }
+  .svcx__title a:hover { color: var(--accent-fg); }
+
+  .svcx__lead {
+    color: var(--fg-dim);
+    font-size: var(--fs-lead);
+    line-height: 1.6;
+    max-width: 60ch;
+    margin: 0 0 1.75rem;
+  }
+
+  .svcx__inc-label {
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid var(--line-soft);
+    margin-bottom: 0.9rem;
+  }
+  .svcx__inc {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem clamp(1rem, 3vw, 2.5rem);
+    margin: 0 0 1.5rem;
+    max-width: 62rem;
+  }
+  .svcx__inc li {
+    position: relative;
+    padding-left: 1.1rem;
+    color: var(--fg-dim);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+  .svcx__inc li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 5px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .svcx__arrow { transition: transform var(--t-base) var(--ease-out); }
+  .svcx__cta:hover .svcx__arrow { transform: translateX(4px); }
+
+  /* ---- Regions ------------------------------------------------------------ */
+  .region-links {
+    display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem 0.8rem;
+    gap: 0.4rem clamp(1rem, 3vw, 2rem);
+    margin: 1.5rem 0 0;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
   }
   .region-links a {
-    display: inline-block;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 0.45rem 1rem;
-    font-size: 0.9rem;
-    color: var(--color-bone);
-    background: rgba(238, 241, 246, 0.02);
-    transition: border-color 0.2s ease, color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--fg-dim);
+    transition: color var(--t-fast) var(--ease);
   }
-  .region-links a:hover { border-color: color-mix(in srgb, var(--color-gold) 50%, transparent); color: var(--color-gold-bright); }
-  .region-links__all { color: var(--color-gold-bright); }
+  .region-links a:hover { color: var(--accent-fg); }
+  .svcx__regions-all { margin-top: 1.5rem; }
+
+  /* ---- Responsive --------------------------------------------------------- */
+  @media (max-width: 860px) {
+    .svcx__row { grid-template-columns: 1fr; gap: 0.9rem; }
+    .svcx__aside { flex-direction: row; align-items: baseline; gap: 1.5rem; }
+  }
+  @media (max-width: 560px) {
+    .svcx__inc { grid-template-columns: 1fr; }
+  }
 </style>

@@ -1,9 +1,14 @@
 ---
+// Service detail page.
+//
+// Same content as before — problem, solution, what's included, process, FAQ,
+// cross-links — re-laid out on the editorial system. The process step becomes a
+// paper chapter so a long keyword page still has rhythm instead of scrolling as
+// one uninterrupted dark column.
 import { useTranslations, path } from '../../i18n';
 import type { Locale, RouteKey } from '../../i18n/routes';
 import Breadcrumb from '../Breadcrumb.astro';
 import FaqList from '../FaqList.astro';
-import ServiceCard from '../ServiceCard.astro';
 import CtaBand from '../CtaBand.astro';
 import { startingPrice, type PricedService } from '../../data/prix';
 
@@ -17,9 +22,9 @@ const { locale, service } = Astro.props;
 const tr = useTranslations(locale);
 const s = tr.services[service];
 
-// The other two services, for cross-linking at the bottom of the page.
 const price = startingPrice[s.key as PricedService] ?? null;
 
+// The other two services, for cross-linking at the bottom of the page.
 const allKeys: ServiceKey[] = ['web', 'seo', 'shopify'];
 const related = allKeys.filter((k) => k !== service).map((k) => tr.services[k]);
 
@@ -32,177 +37,285 @@ const crumbs = [
 
 <Breadcrumb items={crumbs} />
 
-<section class="page-head container-pl">
-  <p class="kicker reveal">{s.title}</p>
-  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{s.h1}</span></h1>
-  <p class="lead reveal" data-delay="160ms">{s.lead}</p>
+<section class="page-head container-wide">
+  <p class="label label-rule">{s.title}</p>
+  <h1>{s.h1}</h1>
+  <p class="lead">{s.lead}</p>
+
   {price && (
-    <div class="svc-price reveal" data-delay="200ms">
-      <p class="svc-price__line">
-        <span class="svc-price__from">{tr.pricing.from}</span>
+    <div class="sd__price">
+      <p class="sd__price-line">
+        <span class="sd__price-from">{tr.pricing.from}</span>
         <b>{`${price} ${tr.pricing.currency}`}</b>
       </p>
-      <p class="svc-price__note">{tr.pricing.note}</p>
+      <p class="sd__price-note">{tr.pricing.note}</p>
     </div>
   )}
-  <div class="reveal" data-delay="240ms" style="margin-top:2rem">
-    <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.2">
-      {tr.cta.primary} <span aria-hidden="true">→</span>
-    </a>
+
+  <a href={path('contact', locale)} class="btn btn-accent sd__cta">
+    {tr.cta.primary}
+    <span class="btn__arrow" aria-hidden="true">→</span>
+  </a>
+</section>
+
+<!-- Problem / solution ----------------------------------------------------- -->
+<section class="section-tight container-wide">
+  <div class="sd__ps">
+    <div class="sd__ps-col reveal">
+      <h2 class="label sd__ps-label">{s.problemTitle}</h2>
+      <p class="sd__ps-text">{s.problem}</p>
+    </div>
+    <div class="sd__ps-col sd__ps-col--solution reveal" data-delay="90ms">
+      <h2 class="label label--accent sd__ps-label">{s.solutionTitle}</h2>
+      <p class="sd__ps-text sd__ps-text--strong">{s.solution}</p>
+    </div>
   </div>
 </section>
 
-{/* Problem / Solution */}
-<section class="section-tight container-pl">
-  <div class="grid-2">
-    <div class="card ps-card reveal">
-      <h2>{s.problemTitle}</h2>
-      <p>{s.problem}</p>
-    </div>
-    <div class="card ps-card ps-card--gold reveal" data-delay="100ms">
-      <h2>{s.solutionTitle}</h2>
-      <p>{s.solution}</p>
-    </div>
-  </div>
-</section>
-
-{/* What's included */}
-<section class="section-tight container-pl">
-  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{s.includedTitle}</h2>
-  <ul class="included">
+<!-- What's included --------------------------------------------------------- -->
+<section class="section-tight container-wide">
+  <h2 class="label label-rule sd__sec-label">{s.includedTitle}</h2>
+  <ul class="sd__inc">
     {s.included.map((item, i) => (
-      <li class="reveal" data-delay={`${i * 50}ms`}>
-        <span class="included__check" aria-hidden="true">✦</span>{item}
+      <li class="reveal" data-delay={`${i * 45}ms`}>{item}</li>
+    ))}
+  </ul>
+</section>
+
+<!-- Process (paper chapter) ------------------------------------------------- -->
+<section class="section-tight sd__process-wrap" data-surface="paper">
+  <div class="container-wide">
+    <h2 class="label label-rule sd__sec-label">{s.processTitle}</h2>
+    <ol class="sd__process">
+      {s.process.map((step, i) => (
+        <li class="sd__step reveal" data-delay={`${i * 70}ms`}>
+          <span class="index-num">{String(i + 1).padStart(2, '0')}</span>
+          <h3 class="sd__step-title">{step.t}</h3>
+          <p class="sd__step-text">{step.d}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<FaqList title={s.faqTitle} faq={s.faq} />
+
+<!-- Related services — internal linking ------------------------------------- -->
+<section class="section-tight container-wide">
+  <h2 class="label label-rule sd__sec-label">{tr.servicesSection.kicker}</h2>
+  <ul class="sd__related">
+    {related.map((r, i) => (
+      <li class="reveal" data-delay={`${i * 80}ms`}>
+        <a href={path(r.key, locale)} class="sd__related-link">
+          <h3 class="sd__related-title">{r.title}</h3>
+          <span class="sd__related-blurb">{r.blurb}</span>
+          <span class="cta-mono">
+            {tr.cta.seeServices}
+            <span class="sd__arrow" aria-hidden="true">→</span>
+          </span>
+        </a>
       </li>
     ))}
   </ul>
 </section>
 
-{/* Process */}
-<section class="section-tight container-pl">
-  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{s.processTitle}</h2>
-  <ol class="process">
-    {s.process.map((step, i) => (
-      <li class="process__step reveal" data-delay={`${i * 70}ms`}>
-        <span class="process__num">0{i + 1}</span>
-        <h3>{step.t}</h3>
-        <p>{step.d}</p>
-      </li>
-    ))}
-  </ol>
-</section>
-
-<FaqList title={s.faqTitle} faq={s.faq} />
-
-{/* Related services — internal linking */}
-<section class="section-tight container-pl">
-  <h2 class="section-head__title reveal" style="margin-bottom:1.8rem">{tr.servicesSection.kicker}</h2>
-  <div class="grid-2">
-    {related.map((r, i) => (
-      <ServiceCard
-        icon={r.icon}
-        title={r.title}
-        blurb={r.blurb}
-        href={path(r.key, locale)}
-        cta={tr.cta.seeServices}
-        index={i}
-      />
-    ))}
-  </div>
-</section>
-
 <CtaBand locale={locale} />
 
 <style>
-  .svc-price {
-    margin-top: 1.8rem;
-    padding: 1.2rem 1.5rem;
-    border-left: 2px solid var(--color-gold);
-    background: linear-gradient(90deg, rgba(232, 199, 154, 0.07), transparent 70%);
-    max-width: 56ch;
+  .sd__price {
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+    padding-left: 1.25rem;
+    border-left: 2px solid var(--accent);
   }
-  .svc-price__line {
-    margin: 0;
+  .sd__price-line {
     display: flex;
     align-items: baseline;
-    gap: 0.6rem;
     flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
   }
-  .svc-price__from {
+  .sd__price-from {
     font-family: var(--font-mono);
-    font-size: 0.74rem;
+    font-size: var(--fs-micro);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-fog);
+    color: var(--fg-mute);
   }
-  .svc-price__line b {
+  .sd__price-line b {
     font-family: var(--font-display);
-    font-size: clamp(1.7rem, 3.5vw, 2.2rem);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--color-gold-bright);
+    font-size: 1.75rem;
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
   }
-  .svc-price__note {
-    margin: 0.6rem 0 0;
-    font-size: 0.88rem;
-    line-height: 1.5;
-    color: var(--color-fog);
+  .sd__price-note {
+    color: var(--fg-dim);
+    font-size: var(--fs-meta);
+    margin: 0.4rem 0 0;
   }
-  .ps-card { padding: 2rem; }
-  .ps-card h2 { font-size: 1.5rem; margin: 0 0 1rem; }
-  .ps-card p { color: var(--color-fog); line-height: 1.65; margin: 0; }
-  .ps-card--gold {
-    border-color: color-mix(in srgb, var(--color-gold) 35%, transparent);
-    background: linear-gradient(180deg, rgba(232, 199, 154, 0.06), rgba(238, 241, 246, 0.01));
-  }
-  .ps-card--gold h2 { color: var(--color-gold-bright); }
+  .sd__cta { margin-top: clamp(1.5rem, 3vw, 2rem); }
 
-  .included {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  .sd__sec-label { margin-bottom: clamp(1.5rem, 3vw, 2.25rem); }
+
+  /* ---- Problem / solution -------------------------------------------------
+     Two columns split by a rule. The solution carries the accent and the
+     brighter text, so the contrast is typographic rather than two boxes. */
+  .sd__ps {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem 2rem;
-    max-width: 900px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
   }
-  .included li {
+  .sd__ps-col {
+    padding: clamp(1.5rem, 3vw, 2.25rem) clamp(1.25rem, 3vw, 2.5rem)
+             clamp(1.5rem, 3vw, 2.25rem) 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .sd__ps-col--solution {
+    border-right: 0;
+    padding-left: clamp(1.25rem, 3vw, 2.5rem);
+    padding-right: 0;
+  }
+  .sd__ps-label { margin-bottom: 1rem; }
+  .sd__ps-text {
+    color: var(--fg-dim);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 52ch;
+  }
+  .sd__ps-text--strong { color: var(--fg); }
+
+  /* ---- Included ------------------------------------------------------------ */
+  .sd__inc {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .sd__inc li {
+    position: relative;
+    padding: 0.85rem 1.5rem 0.85rem 1.6rem;
+    border-bottom: 1px solid var(--line-soft);
+    color: var(--fg-dim);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+  }
+  .sd__inc li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 1.35em;
+    width: 8px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .sd__inc li:nth-child(odd) { border-right: 1px solid var(--line-soft); }
+
+  /* ---- Process -------------------------------------------------------------- */
+  .sd__process {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .sd__step {
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1rem, 2vw, 1.75rem)
+             clamp(1.25rem, 2.5vw, 1.75rem) 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .sd__step + .sd__step { padding-left: clamp(1rem, 2vw, 1.75rem); }
+  .sd__step:last-child { border-right: 0; }
+  .sd__step-title {
+    font-size: 1.05rem;
+    font-weight: var(--fw-medium);
+    letter-spacing: -0.015em;
+    margin: 0.9rem 0 0.45rem;
+  }
+  .sd__step-text {
+    color: var(--fg-dim);
+    font-size: var(--fs-meta);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ---- Related -------------------------------------------------------------- */
+  .sd__related {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .sd__related li { border-bottom: 1px solid var(--line-soft); }
+  .sd__related li:nth-child(odd) { border-right: 1px solid var(--line-soft); }
+  .sd__related-link {
     display: flex;
-    gap: 0.75rem;
-    align-items: flex-start;
-    color: var(--color-bone);
-    line-height: 1.5;
+    flex-direction: column;
+    gap: 0.6rem;
+    height: 100%;
+    padding: clamp(1.25rem, 2.5vw, 1.75rem) clamp(1.25rem, 2.5vw, 1.75rem)
+             clamp(1.25rem, 2.5vw, 1.75rem) 0;
   }
-  .included__check { color: var(--color-gold); flex-shrink: 0; }
-
-  .process {
-    list-style: none;
-    counter-reset: step;
-    padding: 0;
+  .sd__related li:nth-child(even) .sd__related-link {
+    padding-left: clamp(1.25rem, 2.5vw, 1.75rem);
+    padding-right: 0;
+  }
+  .sd__related-title {
     margin: 0;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.25rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2vw, 1.45rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.025em;
+    transition: color var(--t-fast) var(--ease);
   }
-  .process__step {
-    padding: 1.6rem;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    background: rgba(238, 241, 246, 0.02);
+  .sd__related-link:hover .sd__related-title { color: var(--accent-fg); }
+  .sd__related-blurb {
+    color: var(--fg-dim);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    flex: 1;
   }
-  .process__num {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-gold);
-  }
-  .process__step h3 { font-size: 1.15rem; margin: 0.8rem 0 0.5rem; }
-  .process__step p { color: var(--color-fog); font-size: 0.92rem; line-height: 1.5; margin: 0; }
+  .sd__arrow { transition: transform var(--t-base) var(--ease-out); }
+  .sd__related-link:hover .sd__arrow { transform: translateX(4px); }
 
-  @media (max-width: 900px) {
-    .included { grid-template-columns: 1fr; }
-    .process { grid-template-columns: repeat(2, 1fr); }
+  /* ---- Responsive ----------------------------------------------------------- */
+  @media (max-width: 1000px) {
+    .sd__process { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .sd__step,
+    .sd__step + .sd__step {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0 1rem;
+    }
+    .sd__step:nth-child(odd) { border-right: 1px solid var(--line-soft); }
+    .sd__step:nth-child(even) { padding-inline: 1rem 0; }
+    .sd__step:nth-last-child(-n + 2) { border-bottom: 0; }
+  }
+  @media (max-width: 760px) {
+    .sd__ps { grid-template-columns: 1fr; }
+    .sd__ps-col,
+    .sd__ps-col--solution {
+      border-right: 0;
+      border-bottom: 1px solid var(--line-soft);
+      padding-inline: 0;
+    }
+    .sd__ps-col--solution { border-bottom: 0; }
+    .sd__inc { grid-template-columns: 1fr; }
+    .sd__inc li:nth-child(odd) { border-right: 0; }
+    .sd__related { grid-template-columns: 1fr; }
+    .sd__related li:nth-child(odd) { border-right: 0; }
+    .sd__related-link,
+    .sd__related li:nth-child(even) .sd__related-link { padding-inline: 0; }
   }
   @media (max-width: 520px) {
-    .process { grid-template-columns: 1fr; }
+    .sd__process { grid-template-columns: 1fr; }
+    .sd__step,
+    .sd__step + .sd__step,
+    .sd__step:nth-child(odd),
+    .sd__step:nth-child(even) {
+      border-right: 0;
+      padding-inline: 0;
+    }
   }
 </style>

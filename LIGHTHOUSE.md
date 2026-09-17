@@ -7,21 +7,25 @@ Lighthouse desktop preset, headless Chrome.
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 | --- | :---: | :---: | :---: | :---: |
-| Home (`/`) — incl. FAQ + project images | **100** | **100** | **100** | **100** |
+| Home (`/`) — hero portrait, product video, FAQ | **100** | **100** | **100** | **100** |
 | Service (`/services/creation-site-web`) | **100** | **100** | **100** | **100** |
 | Contact (`/contact`) | **100** | **100** | **100** | **100** |
-| Case study (`/realisations/hp-addik`) — with screenshot | **100** | **100** | **100** | **100** |
+| Case study (`/realisations/habita`) — with looping product video | **100** | **100** | **100** | **100** |
 | Blog article (`/blogue/vitesse-site-web-pme`) | **100** | **100** | **100** | **100** |
 
 ## Core Web Vitals (home, desktop)
 
 | Metric | Value |
 | --- | --- |
-| First Contentful Paint | 0.3 s |
-| Largest Contentful Paint | 0.3 s |
+| First Contentful Paint | 0.4 s |
+| Largest Contentful Paint | 0.5 s |
 | Total Blocking Time | 0 ms |
 | Cumulative Layout Shift | 0 |
-| Speed Index | 0.5 s |
+| Speed Index | 0.4 s |
+
+Re-measured on 2026-09-17, after the visual redesign. The home LCP moved from
+0.3 s to 0.5 s: the hero now loads a portrait as its largest element instead of
+a text block. Every other page still paints its LCP at 0.4 s.
 
 ## How to reproduce
 

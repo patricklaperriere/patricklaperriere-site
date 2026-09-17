@@ -24,18 +24,24 @@ progressive enhancement. Targets Lighthouse 100 across the board.
 | Concern | Choice |
 | --- | --- |
 | Framework | [Astro 7](https://astro.build) — `output: 'static'` |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com) via the Vite plugin (`@tailwindcss/vite`) |
+| Styling | Hand-written CSS — design tokens + surface system in `src/styles/global.css`, component styles scoped in `.astro` files |
 | i18n | Astro native i18n — FR at `/`, EN under `/en/` |
 | Fonts | Self-hosted (Bricolage Grotesque, Instrument Serif, JetBrains Mono) in `public/fonts/` |
-| Animation | CSS first; Lenis available, loaded lazily/idle |
+| Animation | CSS only; one IntersectionObserver for scroll reveals. No animation library |
 | Sitemap | `@astrojs/sitemap` with i18n alternates |
 | Hosting | **Cloudflare Pages** (static `dist/`) |
 
-> **Note on Tailwind:** Astro 7 ships Vite 8, so Tailwind runs as a Vite
-> plugin (`@tailwindcss/vite`, registered in `astro.config.mjs`). There is no
-> `postcss.config.mjs` — Vite 8's own `@import` resolver does not defer to the
-> PostCSS plugin's node-module lookup, so `@import "tailwindcss"` only resolves
-> through the Vite plugin.
+> **Note on styling:** Tailwind was removed during the 2026 redesign. It was
+> shipping Preflight plus ~180 unused custom properties on the universal
+> selector for *zero* utility classes — the site had always been hand-written
+> CSS. `src/styles/global.css` now carries the reset, the tokens and the shared
+> page system; everything else is scoped per component.
+
+> **Note on the surface system:** the page is INK (near-black) and any section
+> can flip to PAPER (warm bone) with `data-surface="paper"`. Components style
+> themselves against `--fg` / `--bg` / `--line` / `--accent-fg` rather than
+> fixed colours, so a section changes world by changing one attribute. That is
+> what produces the light/dark rhythm on the home, services and about pages.
 
 > **Note on CSS targets:** Vite 8 minifies CSS with Lightning CSS, which
 > transpiles to whatever the browser target allows. `vite.build.cssTarget` in

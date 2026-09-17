@@ -30,116 +30,192 @@ const serviceLinks = [
 ---
 
 <footer class="footer">
-  <div class="container-pl footer__grid">
-    <div class="footer__brand">
-      <a href={path('home', locale)} class="footer__logo">Patrick Laperrière</a>
+  <div class="container-wide">
+    <!-- Contact block: the two routes that actually convert, given room. -->
+    <div class="footer__top">
+      <p class="label label-rule">{tr.nav.contact}</p>
+      <div class="footer__reach">
+        <a href={`mailto:${SITE.email}`} class="footer__mail">{SITE.email}</a>
+        <a href={`tel:${SITE.phone}`} class="footer__tel">{SITE.phoneDisplay}</a>
+      </div>
       <p class="footer__tagline">{tr.footer.tagline}</p>
-      <a href={`mailto:${SITE.email}`} class="footer__email">{SITE.email}</a>
-      <a href={`tel:${SITE.phone}`} class="footer__email footer__phone">{SITE.phoneDisplay}</a>
     </div>
 
-    <nav class="footer__col" aria-label={tr.footer.navTitle}>
-      <h2 class="footer__title">{tr.footer.navTitle}</h2>
-      {navLinks.map((l) => <a href={l.href} class="footer__link">{l.label}</a>)}
-    </nav>
+    <div class="footer__grid">
+      <nav class="footer__col" aria-label={tr.footer.navTitle}>
+        <h2 class="footer__title">{tr.footer.navTitle}</h2>
+        <ul class="footer__list">
+          {navLinks.map((l) => (
+            <li><a href={l.href} class="footer__link">{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
 
-    <nav class="footer__col" aria-label={tr.footer.servicesTitle}>
-      <h2 class="footer__title">{tr.footer.servicesTitle}</h2>
-      {serviceLinks.map((l) => <a href={l.href} class="footer__link">{l.label}</a>)}
-    </nav>
+      <nav class="footer__col" aria-label={tr.footer.servicesTitle}>
+        <h2 class="footer__title">{tr.footer.servicesTitle}</h2>
+        <ul class="footer__list">
+          {serviceLinks.map((l) => (
+            <li><a href={l.href} class="footer__link">{l.label}</a></li>
+          ))}
+        </ul>
+      </nav>
 
-    <div class="footer__col">
-      <h2 class="footer__title">{tr.footer.connectTitle}</h2>
-      {SOCIAL_LIST.map((s) => (
-        <a href={s.url} class="footer__link" target="_blank" rel="me noopener">{s.label}</a>
-      ))}
-      <a href={locale === 'fr' ? '/rss.xml' : '/en/rss.xml'} class="footer__link">RSS</a>
+      <div class="footer__col">
+        <h2 class="footer__title">{tr.footer.connectTitle}</h2>
+        <ul class="footer__list">
+          {SOCIAL_LIST.map((s) => (
+            <li>
+              <a href={s.url} class="footer__link" target="_blank" rel="me noopener">
+                {s.label}
+                <span class="footer__ext" aria-hidden="true">↗</span>
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href={locale === 'fr' ? '/rss.xml' : '/en/rss.xml'} class="footer__link">RSS</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer__col footer__col--sign">
+        <SignaturePL variant="card" />
+      </div>
     </div>
-  </div>
 
-  <div class="container-pl footer__bottom">
-    <p class="footer__legal">
-      © {year} Patrick Laperrière. {tr.footer.rights}
-      <span class="footer__sep">·</span> {tr.footer.madeIn}
-      <span class="footer__sep">·</span>
+    <div class="footer__bottom">
+      <p class="footer__legal">
+        © {year} Patrick Laperrière. {tr.footer.rights}
+        <span class="footer__sep" aria-hidden="true">·</span> {tr.footer.madeIn}
+      </p>
       <a href={path('privacy', locale)} class="footer__legal-link">{tr.footer.privacy}</a>
-    </p>
-    <SignaturePL variant="card" />
+    </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    margin-top: 4rem;
     border-top: 1px solid var(--line);
-    background: linear-gradient(180deg, transparent, rgba(6, 11, 20, 0.6));
+    padding-block: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
   }
+
+  /* ---- Reach ------------------------------------------------------------- */
+  .footer__top {
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+  .footer__reach {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.75rem clamp(1.5rem, 4vw, 3rem);
+    margin: clamp(1.25rem, 3vw, 2rem) 0 1.25rem;
+  }
+  .footer__mail {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 3.6vw, 2.6rem);
+    font-weight: var(--fw-thin);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--fg);
+    word-break: break-word;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .footer__mail:hover { color: var(--vermilion-text); }
+  .footer__tel {
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    letter-spacing: 0.04em;
+    color: var(--fg-dim);
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .footer__tel:hover { color: var(--fg); }
+  .footer__tagline {
+    color: var(--fg-dim);
+    font-size: var(--fs-sm);
+    max-width: 44ch;
+    margin: 0;
+  }
+
+  /* ---- Columns ----------------------------------------------------------- */
   .footer__grid {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr 1fr;
-    gap: 2.5rem;
-    padding-block: clamp(3rem, 6vw, 4.5rem) 2.5rem;
-  }
-  .footer__logo {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    color: var(--color-bone);
-  }
-  .footer__tagline {
-    margin: 0.9rem 0 1.2rem;
-    color: var(--color-fog);
-    font-size: 0.95rem;
-    max-width: 32ch;
-  }
-  .footer__email {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    color: var(--color-gold);
-  }
-  .footer__email:hover { color: var(--color-gold-bright); }
-  .footer__phone { display: block; margin-top: 0.5rem; }
-  .footer__title {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--color-fog);
-    margin: 0 0 1rem;
-  }
-  .footer__col { display: flex; flex-direction: column; gap: 0.6rem; }
-  .footer__link {
-    color: var(--color-bone);
-    opacity: 0.78;
-    font-size: 0.92rem;
-    transition: opacity 0.2s ease, color 0.2s ease;
-    width: fit-content;
-  }
-  .footer__link:hover { opacity: 1; color: var(--color-gold-bright); }
-  .footer__bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    padding-block: 1.5rem 2.5rem;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(1.75rem, 4vw, 3rem);
+    padding-block: clamp(2rem, 4vw, 3rem);
     border-top: 1px solid var(--line);
   }
-  .footer__legal {
-    margin: 0;
-    color: var(--color-fog);
-    font-size: 0.82rem;
+  .footer__title {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+    margin: 0 0 1.1rem;
   }
-  .footer__sep { opacity: 0.5; margin-inline: 0.4rem; }
-  .footer__legal-link { color: var(--color-fog); text-decoration: underline; text-underline-offset: 2px; }
-  .footer__legal-link:hover { color: var(--color-gold-bright); }
+  .footer__list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .footer__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    min-height: 32px;
+    font-size: var(--fs-sm);
+    color: var(--fg-dim);
+    transition: color var(--t-fast) var(--ease);
+  }
+  .footer__link:hover { color: var(--fg); }
+  .footer__ext { font-size: 0.7em; opacity: 0.6; }
+
+  .footer__col--sign {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+
+  /* ---- Legal ------------------------------------------------------------- */
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-top: clamp(1.25rem, 3vw, 2rem);
+    border-top: 1px solid var(--line-soft);
+  }
+  .footer__legal,
+  .footer__legal-link {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.05em;
+    color: var(--fg-mute);
+    margin: 0;
+  }
+  .footer__legal-link {
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    transition: color var(--t-fast) var(--ease);
+  }
+  .footer__legal-link:hover { color: var(--fg); }
+  .footer__sep { opacity: 0.5; margin-inline: 0.25rem; }
 
   @media (max-width: 860px) {
-    .footer__grid { grid-template-columns: 1fr 1fr; gap: 2rem; }
-    .footer__brand { grid-column: 1 / -1; }
+    .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .footer__col--sign {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+    }
   }
-  @media (max-width: 520px) {
+  @media (max-width: 460px) {
     .footer__grid { grid-template-columns: 1fr; }
   }
 </style>

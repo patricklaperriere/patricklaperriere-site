@@ -1,6 +1,10 @@
 ---
+// Closing call to action. No card, no gradient box: the size of the type and
+// the space around it are the emphasis. Direct contact routes sit on the rule
+// underneath, for people who would rather not fill a form.
 import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
+import { SITE } from '../config';
 
 interface Props {
   locale: Locale;
@@ -9,37 +13,74 @@ const { locale } = Astro.props;
 const tr = useTranslations(locale);
 ---
 
-<section class="cta-band section">
-  <div class="container-pl cta-band__inner reveal">
-    <p class="kicker">{tr.finalCta.kicker}</p>
-    <h2 class="cta-band__title">{tr.finalCta.title}</h2>
-    <p class="cta-band__lead">{tr.finalCta.lead}</p>
-    <a href={path('contact', locale)} class="btn btn-primary magnetic" data-magnetic="0.25">
-      {tr.cta.primary} <span aria-hidden="true">→</span>
-    </a>
-  </div>
+<section class="cta section" id="contact-cta">
+  <div class="container-wide">
+    <p class="label label-rule">{tr.finalCta.kicker}</p>
 
-  <style>
-    .cta-band__inner {
-      text-align: center;
-      max-width: 720px;
-      margin-inline: auto;
-      padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 4rem);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      background:
-        radial-gradient(120% 120% at 50% 0%, rgba(232, 199, 154, 0.08), transparent 60%),
-        rgba(238, 241, 246, 0.02);
-    }
-    .cta-band__title {
-      font-size: clamp(2rem, 5vw, 3.4rem);
-      margin: 1rem 0 1rem;
-    }
-    .cta-band__lead {
-      color: var(--color-fog);
-      font-size: 1.1rem;
-      max-width: 46ch;
-      margin: 0 auto 2rem;
-    }
-  </style>
+    <h2 class="cta__title reveal">{tr.finalCta.title}</h2>
+    <p class="cta__lead reveal" data-delay="80ms">{tr.finalCta.lead}</p>
+
+    <div class="cta__actions reveal" data-delay="140ms">
+      <a href={path('contact', locale)} class="btn btn-accent cta__btn">
+        {tr.cta.primary}
+        <span class="btn__arrow" aria-hidden="true">→</span>
+      </a>
+
+      <ul class="cta__direct">
+        <li>
+          <a href={`tel:${SITE.phone}`} class="link">{SITE.phoneDisplay}</a>
+        </li>
+        <li>
+          <a href={`mailto:${SITE.email}`} class="link">{SITE.email}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </section>
+
+<style>
+  .cta {
+    border-top: 1px solid var(--line);
+  }
+  .cta__title {
+    font-size: clamp(2.4rem, 8vw, 6rem);
+    font-weight: var(--fw-thin);
+    letter-spacing: -0.04em;
+    line-height: 0.98;
+    max-width: 14ch;
+    margin: clamp(1.5rem, 3vw, 2.5rem) 0 0;
+  }
+  .cta__lead {
+    color: var(--fg-dim);
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    max-width: 46ch;
+    margin: 1.5rem 0 0;
+  }
+
+  .cta__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem clamp(1.5rem, 4vw, 3rem);
+    margin-top: clamp(2rem, 4vw, 3rem);
+    padding-top: clamp(1.5rem, 3vw, 2rem);
+    border-top: 1px solid var(--line-soft);
+  }
+  .cta__btn {
+    padding-inline: 1.75rem;
+  }
+  .cta__direct {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem clamp(1.25rem, 3vw, 2.25rem);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--fg-dim);
+  }
+  .cta__direct a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+</style>

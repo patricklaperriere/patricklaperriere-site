@@ -1,0 +1,113 @@
+---
+// A short human moment on the home page — deliberately not a biography wall.
+// The full story lives on the About page; this is the portrait, one paragraph
+// and a way through.
+import { useTranslations, path } from '../i18n';
+import type { Locale } from '../i18n/routes';
+import { PHOTO, hasPhoto } from '../lib/photo';
+import { SITE } from '../config';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const tr = useTranslations(locale);
+const p = tr.personal;
+---
+
+<section class="section-tight pi" data-surface="paper">
+  <div class="container-wide pi__inner">
+    {hasPhoto && (
+      <figure class="pi__portrait reveal">
+        <img
+          src={PHOTO.portrait}
+          srcset={`${PHOTO.avatar2x} 256w, ${PHOTO.portrait} 720w`}
+          sizes="(max-width: 860px) 96px, 260px"
+          alt={tr.about.portraitAlt}
+          width="720"
+          height="900"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+    )}
+
+    <div class="pi__copy">
+      <p class="label label-rule">{p.label}</p>
+      <h2 class="pi__title reveal">{p.title}</h2>
+      <p class="pi__body reveal" data-delay="80ms">{p.body}</p>
+
+      <p class="pi__where reveal" data-delay="120ms">
+        <span class="pi__where-k">{tr.hero.meta.locationLabel}</span>
+        <span>{SITE.city}, {SITE.regionName}</span>
+      </p>
+
+      <a href={path('about', locale)} class="link pi__cta">
+        {p.cta}
+        <span aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pi__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
+    gap: clamp(1.5rem, 5vw, 4rem);
+    align-items: start;
+  }
+  .pi__portrait {
+    margin: 0;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--paper-sunken);
+  }
+  .pi__portrait img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: center 18%;
+  }
+
+  .pi__title {
+    font-size: clamp(1.5rem, 3.2vw, 2.4rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.03em;
+    margin: 1rem 0 1.25rem;
+    max-width: 22ch;
+  }
+  .pi__body {
+    color: var(--fg-dim);
+    font-size: var(--fs-lead);
+    line-height: 1.65;
+    max-width: 58ch;
+    margin: 0 0 1.5rem;
+  }
+
+  .pi__where {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--fg);
+    padding-top: 1rem;
+    border-top: 1px solid var(--line-soft);
+    margin: 0 0 1.75rem;
+    max-width: 24rem;
+  }
+  .pi__where-k {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+
+  @media (max-width: 860px) {
+    .pi__inner { grid-template-columns: 1fr; }
+    .pi__portrait { width: 96px; }
+    .pi__portrait img { aspect-ratio: 1 / 1; }
+  }
+</style>
