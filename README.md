@@ -23,17 +23,25 @@ progressive enhancement. Targets Lighthouse 100 across the board.
 
 | Concern | Choice |
 | --- | --- |
-| Framework | [Astro 6](https://astro.build) — `output: 'static'` |
-| Styling | [Tailwind CSS v4](https://tailwindcss.com) via PostCSS (`@tailwindcss/postcss`) |
+| Framework | [Astro 7](https://astro.build) — `output: 'static'` |
+| Styling | [Tailwind CSS v4](https://tailwindcss.com) via the Vite plugin (`@tailwindcss/vite`) |
 | i18n | Astro native i18n — FR at `/`, EN under `/en/` |
 | Fonts | Self-hosted (Bricolage Grotesque, Instrument Serif, JetBrains Mono) in `public/fonts/` |
 | Animation | CSS first; GSAP + Lenis available, loaded lazily/idle |
 | Sitemap | `@astrojs/sitemap` with i18n alternates |
 | Hosting | **Cloudflare Pages** (static `dist/`) |
 
-> **Note on Tailwind:** Astro 6 ships rolldown-vite, which is currently
-> incompatible with the `@tailwindcss/vite` plugin. We wire Tailwind through
-> **PostCSS** instead (`postcss.config.mjs`). Same Tailwind v4, no Vite plugin.
+> **Note on Tailwind:** Astro 7 ships Vite 8, so Tailwind runs as a Vite
+> plugin (`@tailwindcss/vite`, registered in `astro.config.mjs`). There is no
+> `postcss.config.mjs` — Vite 8's own `@import` resolver does not defer to the
+> PostCSS plugin's node-module lookup, so `@import "tailwindcss"` only resolves
+> through the Vite plugin.
+
+> **Note on CSS targets:** Vite 8 minifies CSS with Lightning CSS, which
+> transpiles to whatever the browser target allows. `vite.build.cssTarget` in
+> `astro.config.mjs` is pinned so the output keeps classic `max-width` media
+> queries instead of range syntax (`@media (width<=820px)`), which Safari below
+> 16.4 ignores outright. Widen the target to shave a few kB of CSS.
 
 ---
 
