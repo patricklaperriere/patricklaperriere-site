@@ -27,7 +27,7 @@ progressive enhancement. Targets Lighthouse 100 across the board.
 | Styling | [Tailwind CSS v4](https://tailwindcss.com) via the Vite plugin (`@tailwindcss/vite`) |
 | i18n | Astro native i18n — FR at `/`, EN under `/en/` |
 | Fonts | Self-hosted (Bricolage Grotesque, Instrument Serif, JetBrains Mono) in `public/fonts/` |
-| Animation | CSS first; GSAP + Lenis available, loaded lazily/idle |
+| Animation | CSS first; Lenis available, loaded lazily/idle |
 | Sitemap | `@astrojs/sitemap` with i18n alternates |
 | Hosting | **Cloudflare Pages** (static `dist/`) |
 
