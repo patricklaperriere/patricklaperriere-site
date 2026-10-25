@@ -28,21 +28,38 @@ function initReveals() {
     return;
   }
 
+  // A .reveal-clip starts at `clip-path: inset(0 0 100% 0)`. Chromium measures
+  // intersection AFTER the element's own clip-path, so a fully clipped target
+  // never reports as visible and never reveals (and the Habita video inside it
+  // never starts). We therefore watch its parent, which is not clipped, and
+  // reveal the clip element when the parent enters the viewport.
+  // One watched element can stand for several reveals (a parent with two clip
+  // children, or a parent that is itself a .reveal), hence a list.
+  const targetsOf = new Map<Element, HTMLElement[]>();
+
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
         if (!e.isIntersecting) continue;
-        const el = e.target as HTMLElement;
-        const delay = el.dataset.delay;
-        if (delay) el.style.transitionDelay = delay;
-        el.classList.add('is-in');
-        io.unobserve(el);
+        for (const el of targetsOf.get(e.target) ?? []) {
+          const delay = el.dataset.delay;
+          if (delay) el.style.transitionDelay = delay;
+          el.classList.add('is-in');
+        }
+        io.unobserve(e.target);
       }
     },
     { rootMargin: '0px 0px -8% 0px', threshold: 0.08 },
   );
 
-  els.forEach((el) => io.observe(el));
+  els.forEach((el) => {
+    const watched =
+      el.classList.contains('reveal-clip') && el.parentElement ? el.parentElement : el;
+    const list = targetsOf.get(watched);
+    if (list) list.push(el);
+    else targetsOf.set(watched, [el]);
+    io.observe(watched);
+  });
 }
 
 /* ---- Count-up numbers ------------------------------------------------------
