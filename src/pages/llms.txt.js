@@ -20,6 +20,7 @@ export async function GET() {
       [tr.services.web, routes.svcWeb[locale]],
       [tr.services.seo, routes.svcSeo[locale]],
       [tr.services.shopify, routes.svcShopify[locale]],
+      [tr.services.tools, routes.svcTools[locale]],
     ].map(([s, p]) => `- [${s.title}](${abs(p)}): ${s.blurb}`);
 
   const work = (locale) =>

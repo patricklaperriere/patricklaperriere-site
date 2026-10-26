@@ -9,13 +9,14 @@ import { PHOTO, hasPhoto } from './photo';
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
 
-/** OfferCatalog of the three services, language-aware. */
+/** OfferCatalog of the services, language-aware. */
 function offerCatalog(locale: Locale) {
   const tr = useTranslations(locale);
   const services = [
     { svc: tr.services.web, key: 'svcWeb' as const },
     { svc: tr.services.seo, key: 'svcSeo' as const },
     { svc: tr.services.shopify, key: 'svcShopify' as const },
+    { svc: tr.services.tools, key: 'svcTools' as const },
   ];
   return {
     '@type': 'OfferCatalog',

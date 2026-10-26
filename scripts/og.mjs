@@ -135,6 +135,12 @@ const images = [
     title: 'E-commerce Shopify',
     subtitle: 'Boutiques Shopify sur mesure en Liquid',
   },
+  {
+    file: 'service-tools.png',
+    kicker: 'SERVICE',
+    title: 'Outils sur mesure',
+    subtitle: 'Applications web en React et Supabase',
+  },
   // Section pages
   {
     file: 'about.png',

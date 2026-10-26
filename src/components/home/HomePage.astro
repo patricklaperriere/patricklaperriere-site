@@ -12,9 +12,10 @@ import { SITE } from '../../config';
 import type { Locale } from '../../i18n/routes';
 import { routes, workBase } from '../../i18n/routes';
 import { homeCopy } from '../../i18n/home';
-import { sortedProjects } from '../../data/projets';
+import metrics from '../../data/site-metrics.json';
 import SiteSheet from './SiteSheet.astro';
 import HouseScene from './HouseScene.astro';
+import ExternalIcon from '../ExternalIcon.astro';
 
 interface Props {
   locale: Locale;
@@ -22,8 +23,17 @@ interface Props {
 const { locale } = Astro.props;
 const t = homeCopy[locale];
 
-// Habita is presented once, as the foundations; the list shows client work.
-const work = (await sortedProjects()).filter((p) => !p.draft && p.slug !== 'habita');
+// The work list is written in home.ts (facts only); 'case' points to the
+// published case study. The "this site" proof reads the same measurement as
+// the inspection sheet.
+const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
+const score = (metrics.pages as Record<string, { performance: number }>)[locale === 'fr' ? '/' : '/en']?.performance;
+const proofs = [
+  { k: t.about.proofs.company, v: t.about.proofs.companyValue },
+  { k: t.about.proofs.stack, v: t.about.proofs.stackValue },
+  { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
+  ...(score ? [{ k: t.about.proofs.site, v: t.about.proofs.siteValue(score) }] : []),
+];
 
 ---
 
@@ -59,22 +69,32 @@ const work = (await sortedProjects()).filter((p) => !p.draft && p.slug !== 'habi
   <section class="work st-frame" id="travaux" aria-labelledby="work-title">
     <header class="st-grid work__head" data-reveal>
       <h2 id="work-title" class="h2">{t.work.title}</h2>
-      <a class="work__all" href={routes.work[locale]}>{t.work.all}</a>
+      <p class="work__intro">{t.work.intro}</p>
     </header>
-    <ul class="st-grid work__list">
-      {work.map((p) => (
-        <li class="card" data-reveal>
-          <a href={`${workBase[locale]}/${p.slug}`}>
-            <span class="card__media">
-              <img src={p.image} alt={t.work.shot(p.title[locale])} width="1280" height="800" loading="lazy" decoding="async" />
-            </span>
-            <span class="card__title">{p.title[locale]}</span>
-            <span class="card__meta">{t.work.kinds[p.category]}, {p.year}</span>
-            <span class="card__tagline">{p.tagline[locale]}</span>
-          </a>
+    <ol class="st-grid work__list">
+      {t.work.items.map((w, i) => (
+        <li class="file" data-reveal>
+          <p class="file__ref annot">{t.work.file} {String(i + 1).padStart(2, '0')} · {w.kind}</p>
+          <h3 class="file__title">{w.title}</h3>
+          <p class="file__body">{w.body}</p>
+          <div class="file__foot">
+            <span class:list={['file__status', w.links.length === 0 && 'file__status--off']}>{w.status}</span>
+            {w.links.length > 0 && (
+            <p class="file__links">
+            {w.links.map((l) =>
+              l.external ? (
+                <a class="file__link" href={l.href} rel="noopener">{l.label}<ExternalIcon /></a>
+              ) : (
+                <a class="file__link" href={caseHref(w.slug)}>{l.label}</a>
+              ),
+            )}
+            </p>
+            )}
+          </div>
         </li>
       ))}
-    </ul>
+    </ol>
+    <p class="work__all-wrap" data-reveal><a class="work__all" href={routes.work[locale]}>{t.work.all}</a></p>
   </section>
 
   {/* ---- About -------------------------------------------------------------------- */}
@@ -83,6 +103,14 @@ const work = (await sortedProjects()).filter((p) => !p.draft && p.slug !== 'habi
       <h2 id="about-title" class="h2 about__title" data-reveal>{t.about.title}</h2>
       <div class="about__text" data-reveal>
         {t.about.body.map((p) => <p>{p}</p>)}
+        <dl class="proofs">
+          {proofs.map((p) => (
+            <div>
+              <dt>{p.k}</dt>
+              <dd>{p.v}</dd>
+            </div>
+          ))}
+        </dl>
         <p><a href={routes.about[locale]}>{t.about.more}</a></p>
       </div>
     </div>
@@ -179,32 +207,62 @@ const work = (await sortedProjects()).filter((p) => !p.draft && p.slug !== 'habi
     .insp__intro { grid-column: 1 / span 6; }
   }
 
-  /* ---- Work ------------------------------------------------------------------ */
-  .work__head { row-gap: var(--s2); align-items: end; margin-bottom: var(--s6); }
-  .work__all { grid-column: 1 / -1; justify-self: start; }
-  .work__list { list-style: none; margin: 0; padding: 0; row-gap: var(--s6); }
-  .card { grid-column: 1 / -1; }
-  .card a { display: grid; gap: var(--s1); text-decoration: none !important; color: var(--bone) !important; }
-  .card__media { display: block; margin-bottom: var(--s2); border: 1px solid var(--line); overflow: hidden; }
-  .card__media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
-  .card a:hover .card__media img { transform: scale(1.02); }
-  .card__title { font-family: var(--font-display); font-weight: 800; font-size: 1.875rem; line-height: 1; }
-  .card a:hover .card__title { color: var(--signal); }
-  .card__meta { color: var(--signal); font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; }
-  .card__tagline { color: var(--slate); }
+  /* ---- Work: three inspection files ---------------------------------------- */
+  .work__head { row-gap: var(--s2); margin-bottom: var(--s6); }
+  .work__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
+  .work__list { list-style: none; margin: 0; padding: 0; row-gap: var(--gap); }
+  .file {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s2);
+    padding: var(--s3);
+    border: 1px solid var(--line-strong);
+    background: var(--ink-raised);
+  }
+  .file__ref { margin: 0; }
+  .file__title { font-size: clamp(1.75rem, 2.4vw, 2.25rem); line-height: 1; margin: 0; }
+  .file__body { color: var(--slate); margin: 0; flex: 1; }
+  .file__foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s1);
+    padding-top: var(--s2);
+    border-top: 1px solid var(--line);
+  }
+  .file__links { display: flex; flex-wrap: wrap; column-gap: var(--s3); margin: 0; }
+  /* Same stamp as the sheet, smaller; muted when there is nothing to visit. */
+  .file__status {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--signal);
+    border: 1px solid currentColor;
+    padding: 1px var(--s1);
+  }
+  .file__status--off { color: var(--slate-mute); }
+  .home a.file__link { display: inline-flex; align-items: center; min-height: 44px; }
+  .work__all-wrap { margin: var(--s5) 0 0; }
   @media (min-width: 768px) {
-    .card { grid-column: span 4; }
+    .work__intro { grid-column: 1 / span 6; }
+    .file:first-child { grid-column: 1 / -1; }
+    .file { grid-column: span 4; }
   }
   @media (min-width: 1024px) {
-    .work__head .h2 { grid-column: 1 / span 6; }
-    .work__all { grid-column: 7 / span 6; justify-self: end; }
-    .card { grid-column: span 4; }
+    .file, .file:first-child { grid-column: span 4; }
   }
 
   /* ---- About ------------------------------------------------------------------- */
   .about__text { grid-column: 1 / -1; margin-top: var(--s3); }
   .about__text p { color: var(--slate); font-size: 1.125rem; max-width: 52ch; margin: 0 0 var(--s3); }
   .about__text p:last-child { margin-bottom: 0; }
+  .proofs { margin: var(--s4) 0; border-top: 1px solid var(--line); }
+  .proofs div { display: grid; grid-template-columns: 8rem 1fr; gap: var(--s2); padding-block: var(--s2); border-bottom: 1px solid var(--line); }
+  .proofs dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 0.3em; }
+  .proofs dd { margin: 0; color: var(--bone); }
   @media (min-width: 1024px) {
     .about__title { grid-column: 1 / span 4; }
     .about__text { grid-column: 7 / span 6; margin-top: 0; }

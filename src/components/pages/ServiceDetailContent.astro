@@ -12,7 +12,7 @@ import FaqList from '../FaqList.astro';
 import CtaBand from '../CtaBand.astro';
 import { startingPrice, type PricedService } from '../../data/prix';
 
-type ServiceKey = 'web' | 'seo' | 'shopify';
+type ServiceKey = 'web' | 'seo' | 'shopify' | 'tools';
 
 interface Props {
   locale: Locale;
@@ -25,7 +25,7 @@ const s = tr.services[service];
 const price = startingPrice[s.key as PricedService] ?? null;
 
 // The other two services, for cross-linking at the bottom of the page.
-const allKeys: ServiceKey[] = ['web', 'seo', 'shopify'];
+const allKeys: ServiceKey[] = ['web', 'seo', 'shopify', 'tools'];
 const related = allKeys.filter((k) => k !== service).map((k) => tr.services[k]);
 
 const crumbs = [

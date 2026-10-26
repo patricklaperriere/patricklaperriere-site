@@ -8,7 +8,11 @@
 
 import type { Locale } from './routes';
 
-type LinkKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'work' | 'habitaCase' | 'habitaSite';
+type LinkKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'svcTools' | 'habitaCase' | 'habitaSite';
+
+// One entry in the work list. `href` is a case study or a live site; no link
+// when neither exists yet. `status` is a plain fact checked on the date below.
+type WorkItem = { slug: string; kind: string; title: string; body: string; status: string; links: { href: string; label: string; external?: boolean }[] };
 
 const fr = {
   hero: {
@@ -57,7 +61,7 @@ const fr = {
         name: 'Structure',
         title: 'Les outils qui font tourner l’entreprise.',
         body: 'Demandes en ligne, prise de rendez-vous, tableaux de bord : des outils en React et Supabase, conçus autour de votre façon de travailler.',
-        links: [{ key: 'work', label: 'Voir les réalisations' }],
+        links: [{ key: 'svcTools', label: 'Outils sur mesure' }],
       },
       {
         name: 'Fondations',
@@ -70,23 +74,65 @@ const fr = {
       },
     ] as { name: string; title: string; body: string; links: { key: LinkKey; label: string }[] }[],
   },
+  // Facts only. BeauRegard and Bâti-Conseil: supplied by Patrick or read from
+  // the live site (title, Astro generator) and the Bâti-Conseil repository.
+  // <!-- À CONFIRMER PATRICK : accord des deux clients pour être nommés à l'accueil -->
   work: {
-    title: 'Réalisations récentes',
+    title: 'Réalisations',
+    intro: 'Mon propre logiciel, et deux sites pour des inspecteurs en bâtiment.',
     all: 'Toutes les réalisations',
-    shot: (t: string) => `Page d’accueil du site ${t}`,
-    kinds: { saas: 'Logiciel SaaS', web: 'Site sur mesure', seo: 'Site et SEO local', shopify: 'Boutique Shopify' } as Record<string, string>,
+    file: 'Dossier',
+    items: [
+      {
+        slug: 'habita',
+        kind: 'Logiciel SaaS',
+        title: 'Habita',
+        body: 'Le logiciel d’inspection en bâtiment que je conçois et développe : rapports web et PDF, IA de rédaction des constats, mode hors ligne, bilingue.',
+        status: 'En ligne',
+        links: [
+          { href: 'case', label: 'L’étude de cas' },
+          { href: 'https://habita.expert', label: 'habita.expert', external: true },
+        ],
+      },
+      {
+        slug: 'inspection-beauregard',
+        kind: 'Site sur mesure',
+        title: 'Inspection BeauRegard',
+        body: 'Un inspecteur en bâtiment de Sherbrooke, qui rédige ses rapports dans Habita. J’ai fait passer son site de Wix à un site Astro sur mesure.',
+        status: 'En ligne',
+        links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
+      },
+      {
+        slug: 'bati-conseil',
+        kind: 'Site sur mesure',
+        title: 'Bâti-Conseil',
+        body: 'Un site Astro statique pour un inspecteur en bâtiment : une page par service, un exemple de rapport selon le modèle Habita et un formulaire de demande qui fonctionne sans JavaScript.',
+        status: 'Pas encore en ligne',
+        links: [],
+      },
+    ] as WorkItem[],
   },
   about: {
     title: 'Qui je suis',
     body: [
       'Développeur web au Québec, je travaille directement avec vous : un seul interlocuteur, du premier appel à la mise en ligne.',
-      'Mes outils de tous les jours sont Astro, React, Supabase et Vercel. Je travaille en français comme en anglais.',
+      'Bâtir et faire évoluer mon propre logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
     ],
+    proofs: {
+      company: 'Entreprise',
+      companyValue: 'Fondateur de Technologies Habita inc.',
+      stack: 'Outils',
+      stackValue: 'Astro, React, Supabase, Vercel',
+      languages: 'Langues',
+      languagesValue: 'Français et anglais',
+      site: 'Ce site',
+      siteValue: (score: number) => `${score} / 100 en performance mobile`,
+    },
     more: 'Mon parcours',
   },
   contact: {
-    title: 'Parlons de votre projet.',
-    lead: 'Un site à bâtir ou à refaire, un outil à concevoir : écrivez-moi, je réponds personnellement.',
+    title: 'Un site à bâtir, un outil à concevoir ?',
+    lead: 'Écrivez-moi : je réponds personnellement, en français ou en anglais.',
     email: 'Courriel',
     phone: 'Téléphone',
     cta: 'Écrire un message',
@@ -141,7 +187,7 @@ const en: HomeCopy = {
         name: 'Structure',
         title: 'The tools that keep the business running.',
         body: 'Online requests, appointment booking, dashboards: tools in React and Supabase, built around the way you actually work.',
-        links: [{ key: 'work', label: 'See the work' }],
+        links: [{ key: 'svcTools', label: 'Custom tools' }],
       },
       {
         name: 'Foundations',
@@ -155,22 +201,61 @@ const en: HomeCopy = {
     ],
   },
   work: {
-    title: 'Recent work',
+    title: 'Work',
+    intro: 'My own software, and two websites for building inspectors.',
     all: 'All work',
-    shot: (t: string) => `Home page of the ${t} website`,
-    kinds: { saas: 'SaaS product', web: 'Custom site', seo: 'Site and local SEO', shopify: 'Shopify store' },
+    file: 'File',
+    items: [
+      {
+        slug: 'habita',
+        kind: 'SaaS product',
+        title: 'Habita',
+        body: 'The building inspection software I design and build: web and PDF reports, AI-assisted findings, offline mode, fully bilingual.',
+        status: 'Live',
+        links: [
+          { href: 'case', label: 'The case study' },
+          { href: 'https://habita.expert', label: 'habita.expert', external: true },
+        ],
+      },
+      {
+        slug: 'inspection-beauregard',
+        kind: 'Custom site',
+        title: 'Inspection BeauRegard',
+        body: 'A building inspector in Sherbrooke who writes his reports in Habita. I moved his site from Wix to a custom Astro site.',
+        status: 'Live',
+        links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
+      },
+      {
+        slug: 'bati-conseil',
+        kind: 'Custom site',
+        title: 'Bâti-Conseil',
+        body: 'A static Astro site for a building inspector: one page per service, a sample report based on the Habita model, and a request form that works without JavaScript.',
+        status: 'Not live yet',
+        links: [],
+      },
+    ],
   },
   about: {
     title: 'Who I am',
     body: [
       'A web developer in Quebec, I work with you directly: one contact, from the first call to launch day.',
-      'My everyday tools are Astro, React, Supabase and Vercel. I work in French and in English.',
+      'Building and growing my own software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
     ],
+    proofs: {
+      company: 'Company',
+      companyValue: 'Founder of Technologies Habita inc.',
+      stack: 'Tools',
+      stackValue: 'Astro, React, Supabase, Vercel',
+      languages: 'Languages',
+      languagesValue: 'French and English',
+      site: 'This site',
+      siteValue: (score: number) => `${score} / 100 for mobile performance`,
+    },
     more: 'More about me',
   },
   contact: {
-    title: 'Let’s talk about your project.',
-    lead: 'A site to build or rebuild, a tool to design: write to me, I answer personally.',
+    title: 'A site to build, a tool to design?',
+    lead: 'Write to me: I answer personally, in French or in English.',
     email: 'Email',
     phone: 'Phone',
     cta: 'Send a message',
