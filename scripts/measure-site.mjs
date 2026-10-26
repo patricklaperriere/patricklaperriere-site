@@ -78,7 +78,9 @@ async function waitFor(url, ms = 30000) {
 // spawnSync would stop it from answering Lighthouse.
 function exec(cmd, args, timeoutMs) {
   return new Promise((resolve) => {
-    const child = spawn(cmd, args, { stdio: 'ignore', env: process.env });
+    // Started in the temp folder: under WSL, chrome-launcher creates its Chrome
+    // profiles in the working directory, named after a Windows temp path.
+    const child = spawn(cmd, args, { stdio: 'ignore', env: process.env, cwd: work });
     const timer = setTimeout(() => child.kill('SIGKILL'), timeoutMs);
     child.on('close', () => {
       clearTimeout(timer);

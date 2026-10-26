@@ -27,3 +27,7 @@ Thumbs.db
 .claude/settings.local.json
 
 photo-src/
+
+# Chrome profiles that chrome-launcher (Lighthouse) creates under WSL, named
+# after a Windows temp path, in whatever directory it is started from.
+C:*
