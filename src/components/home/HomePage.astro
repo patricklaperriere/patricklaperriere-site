@@ -12,9 +12,11 @@ import { SITE } from '../../config';
 import type { Locale } from '../../i18n/routes';
 import { routes, workBase } from '../../i18n/routes';
 import { homeCopy } from '../../i18n/home';
-import { Picture } from 'astro:assets';
 import { useTranslations } from '../../i18n';
-import { PHOTO, PORTRAIT_WIDTHS, hasPhoto } from '../../lib/photo';
+import { PHOTO, hasPhoto } from '../../lib/photo';
+import PortraitFrame from '../PortraitFrame.astro';
+import DossierFrame from '../DossierFrame.astro';
+import { showCapture } from '../../lib/work-media';
 import SiteSheet from './SiteSheet.astro';
 import HouseScene from './HouseScene.astro';
 import ExternalIcon from '../ExternalIcon.astro';
@@ -29,6 +31,8 @@ const tr = useTranslations(locale);
 // The work list is written in home.ts (facts only); 'case' points to the
 // published case study.
 const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
+// Captures whose file is not there yet are left out (see lib/work-media.ts).
+const work = t.work.items.map((w) => ({ ...w, media: w.media.filter((m) => showCapture(m.file)) }));
 const proofs = [
   { k: t.about.proofs.stack, v: t.about.proofs.stackValue },
   { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
@@ -43,10 +47,10 @@ const quote = t.about.testimonial;
   <section class="hero st-frame" aria-labelledby="hero-title">
     <div class="st-grid hero__grid">
       <div class="hero__text">
-        <h1 id="hero-title" class="hero__title">{t.hero.title}</h1>
+        <h1 id="hero-title" class="hero__title">{t.hero.title.map((line) => <span>{line}</span>)}</h1>
         <p class="hero__lead">{t.hero.lead}</p>
         <p class="hero__actions">
-          <a class="btn btn-primary" href={routes.contact[locale]}>{t.hero.cta}</a>
+          <a class="btn btn-primary" href={routes.contact[locale]}>{tr.cta.primary}</a>
           <a class="hero__link" href="#travaux">{t.hero.secondary}</a>
         </p>
       </div>
@@ -73,11 +77,16 @@ const quote = t.about.testimonial;
       <p class="work__intro">{t.work.intro}</p>
     </header>
     <ol class="st-grid work__list">
-      {t.work.items.map((w, i) => (
+      {work.map((w, i) => (
         <li class="file" data-reveal>
           <p class="file__ref annot">{t.work.file} {String(i + 1).padStart(2, '0')} · {w.kind}</p>
           <h3 class="file__title">{w.title}</h3>
           <p class="file__body">{w.body}</p>
+          {w.media.length > 0 && (
+            <div class:list={['file__media', w.media.length > 1 && 'file__media--pair']}>
+              {w.media.map((m) => <DossierFrame file={m.file} label={m.label} alt={m.alt} />)}
+            </div>
+          )}
           <div class="file__foot">
             <span class:list={['file__status', w.links.length === 0 && 'file__status--off']}>{w.status}</span>
             {w.links.length > 0 && (
@@ -104,17 +113,7 @@ const quote = t.about.testimonial;
       <h2 id="about-title" class="h2 about__title" data-reveal>{t.about.title}</h2>
       {hasPhoto && (
         <div class="about__photo" data-reveal>
-          <Picture
-            src={PHOTO.portrait}
-            formats={['avif', 'webp']}
-            widths={PORTRAIT_WIDTHS}
-            sizes="(min-width: 1024px) 300px, (min-width: 768px) 40vw, 60vw"
-            alt={tr.about.portraitAlt}
-            width={720}
-            height={900}
-            loading="lazy"
-            decoding="async"
-          />
+          <PortraitFrame src={PHOTO.portrait} alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 300px, (min-width: 768px) 40vw, 60vw" />
         </div>
       )}
       <div class="about__text" data-reveal>
@@ -156,7 +155,7 @@ const quote = t.about.testimonial;
             <dd><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></dd>
           </div>
         </dl>
-        <a class="btn btn-primary" href={routes.contact[locale]}>{t.contact.cta}</a>
+        <a class="btn btn-primary" href={routes.contact[locale]}>{tr.cta.primary}</a>
       </div>
     </div>
   </section>
@@ -187,11 +186,17 @@ const quote = t.about.testimonial;
   .home .hero { padding-block: var(--s5) var(--s6); }
   .hero__grid { row-gap: var(--s5); align-items: start; }
   .hero__text, .hero__sheet { grid-column: 1 / -1; }
+  /* One sentence per line: the size follows the width so the longest
+     sentence fits on one line from 320px up. */
   .hero__title {
-    font-size: clamp(3rem, 7vw, 6.5rem);
+    font-size: clamp(1.875rem, 9.2vw, 4.75rem);
     font-weight: 900;
     line-height: 0.95;
     margin: 0;
+  }
+  .hero__title span { display: block; }
+  @media (min-width: 1024px) {
+    .hero__title { font-size: clamp(4rem, 6.4vw, 5.75rem); }
   }
   .hero__lead {
     color: var(--slate);
@@ -215,6 +220,11 @@ const quote = t.about.testimonial;
   /* The scene adds its own top padding once pinned; the section's bottom
      padding is trimmed so the pin's end is not followed by an empty band. */
   .home .insp { padding-block: var(--s6) var(--s5); }
+  /* Desktop, once pinned: the scene's own top padding clears the header, so
+     the section adds none, and the heading shows on the first screen. */
+  @media (min-width: 1024px) {
+    .home .insp:has(:global(.is-live)) { padding-top: 0; }
+  }
   .insp__head { row-gap: var(--s1); margin-bottom: var(--s3); }
   .insp__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
   @media (min-width: 768px) {
@@ -237,6 +247,8 @@ const quote = t.about.testimonial;
   .file__ref { margin: 0; }
   .file__title { font-size: clamp(1.75rem, 2.4vw, 2.25rem); line-height: 1; margin: 0; }
   .file__body { color: var(--slate); margin: 0; flex: 1; }
+  .file__media { display: grid; gap: var(--s1); }
+  .file__media--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .file__foot {
     display: flex;
     flex-direction: column;
@@ -270,7 +282,6 @@ const quote = t.about.testimonial;
 
   /* ---- About ------------------------------------------------------------------- */
   .about__photo { grid-column: 1 / span 3; margin-top: var(--s3); max-width: 300px; }
-  .about__photo :global(img) { display: block; width: 100%; height: auto; border: 1px solid var(--line-strong); }
   .about__text { grid-column: 1 / -1; margin-top: var(--s4); }
   .quote { margin: var(--s4) 0; padding-left: var(--s3); border-left: 2px solid var(--signal); }
   .quote blockquote { margin: 0; }

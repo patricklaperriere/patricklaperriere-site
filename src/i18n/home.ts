@@ -18,7 +18,10 @@ export type ServiceKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'svcTools';
 
 // One entry in the work list. `href` is a case study or a live site; no link
 // when neither exists yet. `status` is a plain fact checked on the date below.
-type WorkItem = { slug: string; kind: string; title: string; body: string; status: string; links: { href: string; label: string; external?: boolean }[] };
+// `media`: captures shown in a dossier frame (DossierFrame.astro), by file
+// name in src/assets/work/; a capture whose file is absent is simply left out.
+type Media = { file: string; label: string; alt: string };
+type WorkItem = { slug: string; kind: string; title: string; body: string; status: string; media: Media[]; links: { href: string; label: string; external?: boolean }[] };
 
 // A client's words, published only once the client has supplied and approved
 // them. Null hides the slot.
@@ -26,9 +29,9 @@ type Testimonial = { quote: string; name: string; role: string } | null;
 
 const fr = {
   hero: {
-    title: 'Des sites rapides. Des outils sur mesure. Bâtis au Québec.',
+    // One sentence per line; « sur mesure » never splits (no-break space).
+    title: ['Des sites rapides.', 'Des outils sur\u00A0mesure.', 'Bâtis au Québec.'],
     lead: 'Je conçois des sites qui se trouvent sur Google et des outils qui servent pour vrai, pour les PME d’ici, en français comme en anglais.',
-    cta: 'Parlons de votre projet',
     secondary: 'Voir les réalisations',
   },
   sheet: {
@@ -42,7 +45,8 @@ const fr = {
     status: 'Statut',
     pass: 'Conforme',
     fix: 'À corriger',
-    measured: (date: string, tool: string) => `Mesuré le ${date} avec ${tool}, profil mobile.`,
+    measured: (date: string, tool: string, live: boolean) =>
+      `Mesuré le ${date} ${live ? 'sur patricklaperriere.com' : 'sur un build local'} avec ${tool}, profil mobile.`,
     notMeasured: 'Pas encore mesuré : lancer npm run measure.',
   },
   inspection: {
@@ -90,6 +94,8 @@ const fr = {
         title: 'Habita',
         body: 'Le logiciel d’inspection en bâtiment que je conçois et développe : rapports web et PDF, IA de rédaction des constats, mode hors ligne, bilingue.',
         status: 'En ligne',
+        // <!-- À CONFIRMER PATRICK : capture à plat d'un rapport web, données de démo -->
+        media: [{ file: 'habita-rapport-web.png', label: 'Rapport web', alt: 'Un rapport d’inspection Habita affiché dans le navigateur' }],
         links: [
           { href: 'case', label: 'L’étude de cas' },
           { href: 'https://habita.expert', label: 'habita.expert', external: true },
@@ -101,6 +107,11 @@ const fr = {
         title: 'Inspection BeauRegard',
         body: 'Un inspecteur en bâtiment de Sherbrooke, qui rédige ses rapports dans Habita. J’ai fait passer son site de Wix à un site Astro sur mesure.',
         status: 'En ligne',
+        // <!-- À CONFIRMER PATRICK : accord d'Éric avant d'ajouter ces deux captures -->
+        media: [
+          { file: 'beauregard-avant.png', label: 'Avant · Wix', alt: 'L’ancien site d’Inspection BeauRegard, sur Wix' },
+          { file: 'beauregard-apres.png', label: 'Après · Astro', alt: 'Le nouveau site d’Inspection BeauRegard, en Astro' },
+        ],
         links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
       },
     ] as WorkItem[],
@@ -126,7 +137,6 @@ const fr = {
     lead: 'Écrivez-moi : je réponds personnellement, en français ou en anglais.',
     email: 'Courriel',
     phone: 'Téléphone',
-    cta: 'Écrire un message',
   },
 };
 
@@ -134,9 +144,8 @@ type HomeCopy = typeof fr;
 
 const en: HomeCopy = {
   hero: {
-    title: 'Fast websites. Custom tools. Built in Quebec.',
+    title: ['Fast websites.', 'Custom tools.', 'Built in Quebec.'],
     lead: 'I design websites that get found on Google and tools that actually get used, for small businesses here, in French and in English.',
-    cta: 'Tell me about your project',
     secondary: 'See the work',
   },
   sheet: {
@@ -150,7 +159,8 @@ const en: HomeCopy = {
     status: 'Status',
     pass: 'Pass',
     fix: 'Needs work',
-    measured: (date: string, tool: string) => `Measured on ${date} with ${tool}, mobile profile.`,
+    measured: (date: string, tool: string, live: boolean) =>
+      `Measured on ${date} ${live ? 'on patricklaperriere.com' : 'on a local build'} with ${tool}, mobile profile.`,
     notMeasured: 'Not measured yet: run npm run measure.',
   },
   inspection: {
@@ -193,6 +203,7 @@ const en: HomeCopy = {
         title: 'Habita',
         body: 'The building inspection software I design and build: web and PDF reports, AI-assisted findings, offline mode, fully bilingual.',
         status: 'Live',
+        media: [{ file: 'habita-rapport-web.png', label: 'Web report', alt: 'A Habita inspection report shown in the browser' }],
         links: [
           { href: 'case', label: 'The case study' },
           { href: 'https://habita.expert', label: 'habita.expert', external: true },
@@ -204,6 +215,10 @@ const en: HomeCopy = {
         title: 'Inspection BeauRegard',
         body: 'A building inspector in Sherbrooke who writes his reports in Habita. I moved his site from Wix to a custom Astro site.',
         status: 'Live',
+        media: [
+          { file: 'beauregard-avant.png', label: 'Before · Wix', alt: 'The former Inspection BeauRegard site, on Wix' },
+          { file: 'beauregard-apres.png', label: 'After · Astro', alt: 'The new Inspection BeauRegard site, in Astro' },
+        ],
         links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
       },
     ],
@@ -228,7 +243,6 @@ const en: HomeCopy = {
     lead: 'Write to me: I answer personally, in French or in English.',
     email: 'Email',
     phone: 'Phone',
-    cta: 'Send a message',
   },
 };
 

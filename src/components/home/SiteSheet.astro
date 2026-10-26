@@ -2,7 +2,9 @@
 // The site's own inspection sheet, in the hero. Every number comes from
 // src/data/site-metrics.json, written by `npm run measure` (scripts/
 // measure-site.mjs): Lighthouse, mobile profile, median of several valid
-// runs. Nothing is typed by hand. Without a measurement, the sheet says so.
+// runs. Nothing is typed by hand (the build checks the file's fingerprint).
+// The sheet says where the numbers come from: the live site (`npm run
+// measure -- --prod`) or a local build. Without a measurement, it says so.
 //
 // Status: "Conforme" when the page meets Google's "good" thresholds (score 90
 // or more, LCP 2.5 s or less, CLS 0.1 or less), "À corriger" otherwise.
@@ -54,7 +56,7 @@ const rows = page
         <span class="annot sheet__status-k">{t.status}</span>
         <strong class:list={['sheet__stamp', !pass && 'sheet__stamp--fix']}>{pass ? t.pass : t.fix}</strong>
       </p>
-      <p class="sheet__meta">{t.measured(date ?? '', metrics.tool ?? '')}</p>
+      <p class="sheet__meta">{t.measured(date ?? '', metrics.tool ?? '', (metrics as { source?: string }).source === 'production')}</p>
     </>
   ) : (
     <p class="sheet__meta">{t.notMeasured}</p>

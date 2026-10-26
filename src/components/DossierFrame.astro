@@ -1,0 +1,51 @@
+---
+// A capture in a "dossier" frame: thin border, mono label, the image flat
+// (no device mock-up). Images live in src/assets/work/ and are served as
+// responsive AVIF/WebP with their dimensions, lazy loaded.
+//
+// `file` names an image in src/assets/work/. While that file does not exist,
+// nothing is rendered in a build, so a card never shows an empty frame on the
+// site; `astro dev` shows a dashed slot with the expected file name instead,
+// as a reminder of what is missing.
+import { Picture } from 'astro:assets';
+import { capture } from '../lib/work-media';
+
+interface Props {
+  file: string;
+  label: string;
+  alt: string;
+  sizes?: string;
+}
+const { file, label, alt, sizes = '(min-width: 1024px) 600px, (min-width: 768px) 45vw, 100vw' } = Astro.props;
+
+const image = capture(file);
+const dev = import.meta.env.DEV;
+---
+
+{image ? (
+  <figure class="dossier">
+    <figcaption class="dossier__label annot">{label}</figcaption>
+    <Picture
+      src={image}
+      formats={['avif', 'webp']}
+      widths={[400, 600, 800, 1200]}
+      sizes={sizes}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+    />
+  </figure>
+) : dev && (
+  <div class="dossier dossier--missing" aria-hidden="true">
+    <p class="dossier__label annot">{label}</p>
+    <p class="dossier__todo">src/assets/work/{file}</p>
+  </div>
+)}
+
+<style>
+  .dossier { margin: 0; border: 1px solid var(--line-strong); background: var(--ink-sunken); }
+  .dossier__label { margin: 0; padding: 6px var(--s1); border-bottom: 1px solid var(--line); font-size: 0.75rem; }
+  .dossier :global(img) { display: block; width: 100%; height: auto; }
+  .dossier--missing { border-style: dashed; }
+  .dossier__todo { margin: 0; padding: var(--s4) var(--s2); color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; overflow-wrap: anywhere; }
+</style>

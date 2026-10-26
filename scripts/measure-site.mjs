@@ -1,9 +1,12 @@
 // Measures the home page and writes the numbers its inspection sheet shows.
 // Run with: npm run measure   (needs Chrome or Chromium; set CHROME_PATH if it
 // is not where chrome-launcher looks, e.g. a Playwright build).
+//   npm run measure -- --prod   measures the live site (PROD below) instead of
+//                               a local build; the sheet then says so. Use it
+//                               once the page is live, then commit the JSON.
 //
 // What it does, in order:
-//   1. builds the site and serves dist/ with a tiny static server (below;
+//   1. (local mode) builds the site and serves dist/ with a tiny static server (below;
 //      `astro preview` may detach into a shared background service);
 //   2. runs Lighthouse (pinned version, mobile profile, simulated throttling)
 //      on / and /en until it has RUNS valid runs each. A run is rejected if
@@ -27,12 +30,14 @@ import { join, extname } from 'node:path';
 import { metricsDigest } from './metrics-digest.mjs';
 
 const LIGHTHOUSE = 'lighthouse@12.8.2';
+const PROD = 'https://www.patricklaperriere.com';
+const prod = process.argv.includes('--prod');
 const RUNS = 3;
-const MAX_ATTEMPTS = 10;
+const MAX_ATTEMPTS = 15;
 const PORT = 4391;
 const PAGES = ['/', '/en'];
 const OUT = 'src/data/site-metrics.json';
-const base = `http://127.0.0.1:${PORT}`;
+const base = prod ? PROD : `http://127.0.0.1:${PORT}`;
 const work = mkdtempSync(join(tmpdir(), 'measure-'));
 
 // The builds below skip the fingerprint check: this script is the one that
@@ -132,8 +137,8 @@ async function lighthouse(url) {
 const median = (runs) =>
   [...runs].sort((x, y) => y.performance - x.performance || x.lcpMs - y.lcpMs)[Math.floor(runs.length / 2)];
 
-run('npx', ['astro', 'build']);
-const server = await serveDist(PORT);
+if (!prod) run('npx', ['astro', 'build']);
+const server = prod ? null : await serveDist(PORT);
 try {
   await waitFor(base + '/');
   const pages = {};
@@ -155,7 +160,9 @@ try {
     measuredAt: new Date().toISOString(),
     tool: `Lighthouse ${version}`,
     profile: 'mobile, simulated throttling (Slow 4G, 4x CPU)',
-    command: 'npm run measure',
+    command: prod ? 'npm run measure -- --prod' : 'npm run measure',
+    source: prod ? 'production' : 'local',
+    url: base,
     pages,
     htmlBytes: {},
   };
@@ -167,5 +174,5 @@ try {
   console.log(`\nWrote ${OUT}`);
   console.log(JSON.stringify(metrics.pages, null, 2));
 } finally {
-  server.close();
+  server?.close();
 }

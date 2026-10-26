@@ -379,11 +379,14 @@ const [first, last] = tr.brand.split(' ');
   }
 
   /* ---- Breakpoints ------------------------------------------------------- */
-  @media (max-width: 1080px) {
+  /* Full bar from 1024px; between 1024 and 1279px the phone number steps
+     aside so the links, language and call to action fit (it stays in the
+     footer and the contact section). */
+  @media (max-width: 1023px) {
     .nav__links { display: none; }
     .nav__burger { display: grid; }
   }
-  @media (max-width: 720px) {
+  @media (max-width: 720px), (min-width: 1024px) and (max-width: 1279px) {
     .nav__phone { display: none; }
   }
   @media (max-width: 460px) {
@@ -391,7 +394,7 @@ const [first, last] = tr.brand.split(' ');
     .nav__brand-short { display: inline; }
     .nav__cta { display: none; }
   }
-  @media (min-width: 1081px) {
+  @media (min-width: 1024px) {
     .nav__mobile { display: none !important; }
   }
 </style>
@@ -448,7 +451,7 @@ const [first, last] = tr.brand.split(' ');
     });
 
     // Returning to desktop width must not leave the body scroll-locked.
-    window.matchMedia('(min-width: 1081px)').addEventListener('change', (e) => {
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
       if (e.matches && open) setOpen(false);
     });
   }

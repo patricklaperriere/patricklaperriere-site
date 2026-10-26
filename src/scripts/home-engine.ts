@@ -3,8 +3,9 @@
 //
 //   · soft fade-ins for content still below the fold when this runs, from 0.6
 //     opacity over 12px: nothing a visitor already sees ever disappears;
-//   · the inspection scene (HouseScene.astro), heading included, pinned for
-//     one extra screen on a desktop and three quarters of one on a phone: the
+//   · the inspection scene (HouseScene.astro), pinned for one extra screen on
+//     a desktop (heading included) and three quarters of one below 1024px
+//     (drawing and text only, just under the header): the
 //     house comes apart, then each layer is swept by the scan rule, traced
 //     stroke by stroke, washed in plum, marked "Conforme" and tied to its
 //     text by a leader line; the house closes and the "Inspecté" stamp lands.
@@ -154,13 +155,23 @@ function sceneTimeline() {
   const last = layers.length - 1;
   const desktop = window.matchMedia(DESKTOP).matches;
 
+  // Desktop: the whole scene, heading included, pinned at the top (its own
+  // padding clears the header). Below 1024px: only the drawing and its text,
+  // pinned just under the header, so the heading never slides beneath it; if
+  // they are taller than the room left, they pin by their bottom instead.
+  const stage = el.querySelector<HTMLElement>('.scene__stage')!;
+  const target = desktop ? el : stage;
+  const below = () => (document.getElementById('site-nav')?.offsetHeight ?? 72) + 16;
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
-      trigger: el,
-      // Pinned once its bottom reaches the screen's: on a short phone the
-      // scene is taller than the screen, and the heading scrolls off first.
-      start: () => `top+=${Math.max(0, el.offsetHeight - window.innerHeight)} top`,
+      trigger: target,
+      start: () =>
+        desktop
+          ? `top+=${Math.max(0, el.offsetHeight - window.innerHeight)} top`
+          : stage.offsetHeight > window.innerHeight - below()
+            ? 'bottom bottom-=16'
+            : `top ${below()}px`,
       // The scene is one screen; the pin adds 1 more on a desktop, 0.75 on a
       // phone: about a third of a screen per layer.
       end: () => `+=${window.innerHeight * (desktop ? 1 : 0.75)}`,

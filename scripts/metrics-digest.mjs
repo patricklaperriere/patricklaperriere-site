@@ -6,5 +6,5 @@ import { createHash } from 'node:crypto';
 
 export const metricsDigest = (m) =>
   createHash('sha256')
-    .update(JSON.stringify({ measuredAt: m.measuredAt, tool: m.tool, profile: m.profile, pages: m.pages }))
+    .update(JSON.stringify({ measuredAt: m.measuredAt, tool: m.tool, profile: m.profile, source: m.source, url: m.url, pages: m.pages }))
     .digest('hex');

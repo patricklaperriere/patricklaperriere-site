@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { existsSync, readFileSync } from 'node:fs';
 import { metricsDigest } from './scripts/metrics-digest.mjs';
+import { typoFaults } from './src/lib/typography.mjs';
 
 // The sitemap mirrors each page's own <head> instead of guessing: hreflang
 // pairs come from the page's <link rel="alternate" hreflang> tags (FR and EN
@@ -58,6 +59,13 @@ function metricsFreshness() {
               'Run `npm run measure` to write real numbers.',
           );
         }
+        // A production deploy should show numbers measured on production.
+        if (process.env.VERCEL_ENV === 'production' && m.source !== 'production') {
+          console.warn(
+            '[site-metrics] The inspection sheet shows a local measurement: once this deploy is live, ' +
+              'run `npm run measure -- --prod` and commit src/data/site-metrics.json.',
+          );
+        }
       },
       'astro:build:done': ({ dir, logger }) => {
         const file = new URL('./src/data/site-metrics.json', import.meta.url);
@@ -79,6 +87,29 @@ function metricsFreshness() {
                 'the inspection sheet is stale, run `npm run measure`.',
             );
           }
+        }
+      },
+    },
+  };
+}
+
+// After the build, every page is checked for an ordinary space left before
+// ; : ? ! » or after « (src/middleware.ts should have replaced them all): any
+// left over stops the build, with the page and the text around it.
+/** @returns {import('astro').AstroIntegration} */
+function typographyCheck() {
+  return {
+    name: 'typography-check',
+    hooks: {
+      'astro:build:done': ({ pages, dir }) => {
+        const faults = [];
+        for (const { pathname } of pages) {
+          const file = new URL(`${pathname}${pathname === '' || pathname.endsWith('/') ? '' : '/'}index.html`, dir);
+          if (!existsSync(file)) continue;
+          for (const f of typoFaults(readFileSync(file, 'utf8'))) faults.push(`/${pathname}: ${f}`);
+        }
+        if (faults.length) {
+          throw new Error(`Ordinary spaces left before ; : ? ! » or after «:\n${faults.slice(0, 20).join('\n')}`);
         }
       },
     },
@@ -122,6 +153,7 @@ export default defineConfig({
 
   integrations: [
     metricsFreshness(),
+    typographyCheck(),
     sitemap({
       serialize,
       // The 404 is noindex; drafts never reach a build in the first place.

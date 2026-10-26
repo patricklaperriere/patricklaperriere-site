@@ -210,22 +210,24 @@ const layers: Layer[] = [
   .house__stamp text { font-size: 44px; font-weight: 500; letter-spacing: 0.22em; fill: var(--signal); text-anchor: middle; dominant-baseline: central; }
 
   /* ---- Pinned sequence (class set by the engine) ------------------------------
-     At least one screen, heading included: heading, drawing and active text
-     stay together as one block, centred on the screen. Desktop: the
-     drawing on columns 1 to 8, the active text on columns 9 to 12 at the
-     height of its layer, tied to it by a leader line. Phones: the drawing,
-     then the active text under it. */
-  .scene:global(.is-live) {
-    min-height: 100svh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-block: calc(72px + var(--s2)) var(--s2);
-  }
+     Desktop: the whole scene is pinned, heading included, one screen tall,
+     from the top (no band of empty space above the heading); the drawing on
+     columns 1 to 8, the active text on columns 9 to 12 at the height of its
+     layer, tied to it by a leader line. Phones and tablets: the heading
+     scrolls by as usual, and only the drawing and the active text under it
+     are pinned, just below the header. */
   .scene:global(.is-live) .scene__stage { row-gap: var(--s2); }
   .scene:global(.is-live) .house__leader,
   .scene:global(.is-live) .house__anchor,
   .scene:global(.is-live) .house__scan { display: inline; }
+  @media (min-width: 1024px) {
+    .scene:global(.is-live) {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      padding-block: calc(72px + var(--s3)) var(--s2);
+    }
+  }
   /* The notes overlap; the box keeps the tallest one's height (set by the
      engine), so none is ever clipped. */
   .scene:global(.is-live) .scene__notes { display: block; min-height: var(--notes-h, 15rem); }
