@@ -6,8 +6,8 @@ titreSeo:
   fr: "Bâti-Conseil, site Astro d’inspecteur"
   en: "Bâti-Conseil, Astro site for an inspector"
 accroche:
-  fr: "Site Astro rapide et sobre pour un inspecteur en bâtiment. <!-- À CONFIRMER PATRICK : régions desservies à nommer -->"
-  en: "A fast, restrained Astro site for a building inspector. <!-- À CONFIRMER PATRICK -->"
+  fr: "Site Astro rapide et sobre pour un inspecteur en bâtiment des Laurentides, de Lanaudière, de Laval et de Montréal."
+  en: "A fast, restrained Astro site for a building inspector serving the Laurentides, Lanaudière, Laval and Montreal."
 description:
   fr: "Étude de cas : site Astro pour Bâti-Conseil, inspection en bâtiment. Pages par service, exemple de rapport interactif et formulaire de demande."
   en: "Case study: Astro site for Bâti-Conseil, a building inspection firm. Service pages, a sample interactive report and a request form."

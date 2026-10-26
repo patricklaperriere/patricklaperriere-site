@@ -6,7 +6,8 @@ developer serving Québec, Canada and the United States.
 > **Positioning rule — do not undo this.** The site names no home town: the
 > scope is **Québec / Canada / United States** everywhere, structured data
 > included (no `addressLocality`). The former Laval city pages are removed and
-> 308-redirected to the regions hub (`vercel.json`). No city page may name a
+> 308-redirected to the regions hub (`vercel.json`). A client's own territory
+> in a case study is fine (Bâti-Conseil serves Laval). No city page may name a
 > city other than its own (regional designations such as "Rive-Sud de
 > Montréal" are fine). When generating copy from this README, carry that rule
 > forward.
