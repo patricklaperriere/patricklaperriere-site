@@ -5,14 +5,12 @@
 // also appear as a tile in the work grid below: that would be the same link
 // twice on one screen and would weaken both.
 //
-// Treatment: a sunken, near-black band with the product running full width
-// inside a chrome frame, so it reads as software rather than a screenshot.
+// Treatment: a sunken, near-black band with the interface shown whole (desktop,
+// tablet and phone) on a raised panel, linking to the case study.
 import { useTranslations } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { workBase } from '../i18n/routes';
 import { getProject } from '../data/projets';
-import { HABITA_LOOP } from '../lib/habitaLoop';
-import ProductFrame from './ProductFrame.astro';
 
 interface Props {
   locale: Locale;
@@ -24,7 +22,6 @@ const s = tr.habitaSpotlight;
 // Pull the live URL from the project data so there is one source of truth.
 const habita = (await getProject('habita'))!;
 const caseHref = `${workBase[locale]}/${habita.slug}`;
-const host = new URL(habita.url).host;
 ---
 
 <section class="section habita" id="habita" data-surface="ink">
@@ -35,22 +32,18 @@ const host = new URL(habita.url).host;
     </header>
 
     <div class="reveal-clip">
-      <ProductFrame
-        host={host}
-        liveLabel={locale === 'fr' ? 'En production' : 'In production'}
-        poster={HABITA_LOOP.poster}
-        webm={HABITA_LOOP.webm}
-        mp4={HABITA_LOOP.mp4}
-        width={HABITA_LOOP.width}
-        height={HABITA_LOOP.height}
-        posterAlt={s.posterAlt}
-        playLabel={s.videoPlay}
-        pauseLabel={s.videoPause}
-        fallbackSrc={habita.image}
-        fallbackAlt={s.shotAlt}
-        fallbackHref={caseHref}
-        fit={habita.fit}
-      />
+      <figure class="habita__shot">
+        <a href={caseHref} aria-label={s.ctaCase}>
+          <img
+            src={habita.image}
+            alt={s.shotAlt}
+            width="1300"
+            height="794"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+      </figure>
     </div>
 
     <div class="habita__body">
@@ -95,6 +88,22 @@ const host = new URL(habita.url).host;
   .habita {
     --bg: var(--ink-sunken);
     border-block: 1px solid var(--line-soft);
+  }
+
+  .habita__shot {
+    margin: 0;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    background:
+      radial-gradient(70% 78% at 50% 48%, color-mix(in srgb, #7aa2ff 14%, transparent), transparent 72%),
+      var(--ink-raised);
+  }
+  .habita__shot a { display: block; }
+  .habita__shot img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   .habita__head {

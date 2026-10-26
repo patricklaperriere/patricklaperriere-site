@@ -100,9 +100,6 @@ export const en = {
     shotAlt: 'Preview of Habita, my SaaS building-inspection software',
     // Describes what is actually on screen (the Habita site), not what we
     // wish were there. Update if the capture switches to the `app` scenario.
-    posterAlt: 'Preview of Habita, my SaaS building-inspection software',
-    videoPlay: 'Play video',
-    videoPause: 'Pause video',
   },
 
   // Starting prices. Amounts live in src/data/prix.ts (TODO_PRIX).

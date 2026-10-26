@@ -7,10 +7,10 @@ Lighthouse desktop preset, headless Chrome.
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 | --- | :---: | :---: | :---: | :---: |
-| Home (`/`) — hero portrait, product video, FAQ | **100** | **100** | **100** | **100** |
+| Home (`/`) — hero portrait, FAQ | **100** | **100** | **100** | **100** |
 | Service (`/services/creation-site-web`) | **100** | **100** | **100** | **100** |
 | Contact (`/contact`) | **100** | **100** | **100** | **100** |
-| Case study (`/realisations/habita`) — with looping product video | **100** | **100** | **100** | **100** |
+| Case study (`/realisations/habita`) | **100** | **100** | **100** | **100** |
 | Blog article (`/blogue/vitesse-site-web-pme`) | **100** | **100** | **100** | **100** |
 
 ## Core Web Vitals (home, desktop)

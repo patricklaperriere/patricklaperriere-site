@@ -30,8 +30,7 @@ function initReveals() {
 
   // A .reveal-clip starts at `clip-path: inset(0 0 100% 0)`. Chromium measures
   // intersection AFTER the element's own clip-path, so a fully clipped target
-  // never reports as visible and never reveals (and the Habita video inside it
-  // never starts). We therefore watch its parent, which is not clipped, and
+  // never reports as visible and never reveals. We therefore watch its parent, which is not clipped, and
   // reveal the clip element when the parent enters the viewport.
   // One watched element can stand for several reveals (a parent with two clip
   // children, or a parent that is itself a .reveal), hence a list.
@@ -103,81 +102,6 @@ function initCounters() {
   els.forEach((el) => io.observe(el));
 }
 
-/* ---- Habita loop video -----------------------------------------------------
-   The video never starts on load: it waits until the frame is nearly in view,
-   so it cannot compete with the hero for bandwidth or become the LCP. It then
-   plays while visible and pauses off screen, which also spares the CPU.
-
-   It plays even under prefers-reduced-motion. That setting is what stopped it
-   for real visitors: Windows turns it on for everyone who disables "Animation
-   effects", so Chrome on Windows often reports `reduce` without the visitor
-   ever asking for it. The loop is a muted, slow product demo, not a parallax
-   effect, and the pause button stays reachable while it plays (WCAG 2.2.2),
-   so a visitor who wants it still can stop it. Once they do, it stays paused.
-   `autoplay` is still absent from the markup so that playback starts from
-   here, in view, rather than on load. */
-function initHabitaVideo() {
-  const wrap = document.querySelector<HTMLElement>('[data-habita-video]');
-  if (!wrap) return;
-  const video = wrap.querySelector('video');
-  if (!video) return;
-  const btn = wrap.querySelector<HTMLButtonElement>('[data-habita-play]');
-
-  // Belt and braces for autoplay policies: the attribute alone sets
-  // defaultMuted, and some builds only honour the property at play() time.
-  video.muted = true;
-
-  let userPaused = false;
-
-  const sync = () => {
-    wrap.classList.toggle('is-playing', !video.paused);
-    if (!btn) return;
-    const label = video.paused ? btn.dataset.labelPlay : btn.dataset.labelPause;
-    if (label) btn.setAttribute('aria-label', label);
-  };
-
-  // play() rejects when the browser blocks it (data saver, battery saver) or
-  // when no source can be decoded. Swallow it: the poster and the button are
-  // still there, so we degrade to click-to-play instead of throwing.
-  const play = () => video.play().then(sync).catch(() => sync());
-
-  video.addEventListener('play', sync);
-  video.addEventListener('pause', sync);
-
-  btn?.addEventListener('click', () => {
-    if (video.paused) {
-      userPaused = false;
-      play();
-    } else {
-      userPaused = true;
-      video.pause();
-    }
-  });
-
-  if (!('IntersectionObserver' in window)) {
-    play();
-    return;
-  }
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          if (!userPaused) play();
-        } else if (!video.paused) {
-          video.pause();
-        }
-      }
-    },
-    // threshold 0: the frame sits inside a .reveal-clip whose clip-path is
-    // still opening when it scrolls in, so a higher ratio could be reached
-    // late or, on a short viewport, not at all.
-    { rootMargin: '100px 0px', threshold: 0 },
-  );
-  io.observe(wrap);
-}
-
 /* ---- Boot ---------------------------------------------------------------- */
 initReveals();
 initCounters();
-initHabitaVideo();

@@ -101,9 +101,6 @@ export const fr = {
     shotAlt: 'Aperçu de Habita, mon logiciel SaaS d’inspection en bâtiment',
     // Décrit ce qui est réellement filmé (le site de Habita), pas ce qu’on
     // aimerait montrer. À changer si la capture passe au scénario « app ».
-    posterAlt: 'Aperçu de Habita, mon logiciel SaaS d’inspection en bâtiment',
-    videoPlay: 'Lire la vidéo',
-    videoPause: 'Mettre la vidéo en pause',
   },
 
   // Starting prices. Amounts live in src/data/prix.ts (TODO_PRIX).
