@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import { existsSync, readFileSync } from 'node:fs';
+import { metricsDigest } from './scripts/metrics-digest.mjs';
 
 // The sitemap mirrors each page's own <head> instead of guessing: hreflang
 // pairs come from the page's <link rel="alternate" hreflang> tags (FR and EN
@@ -40,11 +41,24 @@ function serialize(item) {
 // compare the built pages with the sizes recorded at measurement time: if one
 // has moved by more than 10%, the numbers on the sheet describe a page that no
 // longer exists, so say so loudly (the build itself still succeeds).
+// Before the build, the file's fingerprint is checked: numbers edited by hand
+// stop the build (scripts/metrics-digest.mjs).
 /** @returns {import('astro').AstroIntegration} */
 function metricsFreshness() {
   return {
     name: 'site-metrics-freshness',
     hooks: {
+      'astro:build:start': () => {
+        const file = new URL('./src/data/site-metrics.json', import.meta.url);
+        if (!existsSync(file)) return;
+        const m = JSON.parse(readFileSync(file, 'utf8'));
+        if (!process.env.MEASURING && m.measuredAt && m.digest !== metricsDigest(m)) {
+          throw new Error(
+            'src/data/site-metrics.json does not match its fingerprint: it was edited by hand. ' +
+              'Run `npm run measure` to write real numbers.',
+          );
+        }
+      },
       'astro:build:done': ({ dir, logger }) => {
         const file = new URL('./src/data/site-metrics.json', import.meta.url);
         if (!existsSync(file)) return;

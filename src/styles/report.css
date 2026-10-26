@@ -63,10 +63,14 @@ html.theme-report {
   --slate:        #D5C3CE;
   --slate-mute:   #B9A2B1;
 
-  /* Accent: plum, a fill (buttons, active wash). */
+  /* Accent: plum, a fill (active wash). On buttons it was too faint against
+     the ground (1.9:1), so they take a paler mauve that stands out from it
+     (3.1:1, the bar for a control) and keeps light text (5.0:1); on hover
+     they turn paler still, with dark text. */
   --plum:         #77216F;
-  --plum-hover:   #8C2A83;
   --plum-wash:    rgba(119, 33, 111, 0.55);
+  --mauve:        #A33E9A;
+  --mauve-hover:  #D08BC9;
 
   /* Signal yellow: annotations and active states only. */
   --signal:       #FFD23F;
@@ -75,16 +79,16 @@ html.theme-report {
   --plan-line:    #9E7B92;
   --plan-grid:    rgba(246, 238, 242, 0.035);
 
-  --vermilion:      var(--plum);
+  --vermilion:      var(--mauve);
   --vermilion-text: var(--signal);
-  --vermilion-deep: var(--plum);
+  --vermilion-deep: var(--mauve);
   --accent:         var(--plum);
   --accent-fg:      var(--signal);
 
   --line:        rgba(246, 238, 242, 0.14);
   --line-soft:   rgba(246, 238, 242, 0.08);
   --line-strong: rgba(246, 238, 242, 0.3);
-  --btn-fill-bg: var(--plum);
+  --btn-fill-bg: var(--mauve);
   --btn-fill-fg: var(--bone);
 
   --font-display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
@@ -182,19 +186,31 @@ html.theme-report {
 .theme-report :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 0; }
 .theme-report .grain { display: none; }
 
-/* ---- Buttons: plum filled, light text (8.3:1) ------------------------------- */
+/* ---- Links: one style for every link in the content ------------------------
+   Underlined, light; the rule and the text turn signal yellow on hover. */
+.theme-report main a:not(.btn) {
+  color: var(--bone);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+.theme-report main a:not(.btn):hover { text-decoration-color: var(--signal); color: var(--signal); }
+
+/* ---- Buttons: mauve filled, light text; paler with dark text on hover ------- */
 .theme-report .btn-primary,
 .theme-report .btn-accent {
-  background: var(--plum);
-  border-color: var(--plum);
+  background: var(--mauve);
+  border-color: var(--mauve);
   color: var(--bone);
   font-weight: 600;
 }
 .theme-report .btn-primary:hover,
 .theme-report .btn-accent:hover {
-  background: var(--plum-hover);
-  border-color: var(--plum-hover);
-  color: var(--bone);
+  background: var(--mauve-hover);
+  border-color: var(--mauve-hover);
+  color: var(--ink);
 }
 .theme-report .btn-ghost { border-color: var(--line-strong); }
 
@@ -256,16 +272,10 @@ html.theme-report .footer .footer__title { font-family: var(--font-sans); font-s
 html.theme-report .footer .footer__list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 0 var(--s3); margin: 0; }
 html.theme-report .footer .footer__list li { margin: 0; }
 html.theme-report .footer .footer__link { font-size: 0.9375rem; line-height: 1.5; min-height: 44px; padding: 0; }
-html.theme-report .footer .footer__col--sign { grid-column: auto; padding: 0; margin: 0; border: 0; }
 html.theme-report .footer .footer__bottom { margin-top: var(--s3); padding-top: var(--s2); }
 html.theme-report .footer .footer__legal,
 html.theme-report .footer .footer__legal-link { font-size: 0.8125rem; line-height: 1.5; }
 html.theme-report .footer .footer__bottom { gap: 4px var(--s3); }
-/* The signature's name was a plum gradient (1.9:1 on aubergine): plain bone
-   here, signal yellow on hover, like every other link. */
-html.theme-report .pl-signature__name { background: none; color: var(--bone); }
-html.theme-report .pl-signature:hover .pl-signature__name { color: var(--signal); }
-html.theme-report .pl-signature__label { opacity: 1; color: var(--slate); }
 html.theme-report .footer .footer__ext { margin-left: 0; }
 /* Phones: the column titles go to screen readers only (each list is still a
    labelled nav landmark), and the groups sit 8px apart. */
@@ -286,7 +296,7 @@ html.theme-report .footer .footer__ext { margin-left: 0; }
   html.theme-report .footer .footer__made { display: none; }
 }
 @media (min-width: 1024px) {
-  html.theme-report .footer .footer__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: var(--gap); }
+  html.theme-report .footer .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); }
   html.theme-report .footer .footer__list { display: block; }
 }
 

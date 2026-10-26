@@ -3,11 +3,11 @@
 //
 //   · soft fade-ins for content still below the fold when this runs, from 0.6
 //     opacity over 12px: nothing a visitor already sees ever disappears;
-//   · the inspection scene (HouseScene.astro), pinned for 2.5 screens on a
-//     desktop and 2 on a phone: the house comes apart, then each layer is
-//     swept by the scan rule, traced stroke by stroke, washed in plum, marked
-//     "Conforme" and tied to its text by a leader line, while a large outlined
-//     word drifts behind; the house closes and the "Inspecté" stamp lands.
+//   · the inspection scene (HouseScene.astro), heading included, pinned for
+//     one extra screen on a desktop and three quarters of one on a phone: the
+//     house comes apart, then each layer is swept by the scan rule, traced
+//     stroke by stroke, washed in plum, marked "Conforme" and tied to its
+//     text by a leader line; the house closes and the "Inspecté" stamp lands.
 //
 // Setup runs in steps, each in its own gsap.matchMedia() handler with a yield
 // in between: no long task, and every step reverts on its own if the visitor
@@ -63,6 +63,9 @@ function fades() {
 }
 
 // ---- The scene ------------------------------------------------------------------
+// Travel of the exploded view, in viewBox units.
+const EXPLODE = 50;
+
 let scene: ReturnType<typeof prepareScene> = null;
 
 function prepareScene() {
@@ -80,20 +83,49 @@ function prepareScene() {
   const spans = layers.map((l) => l.dataset.span!.split(' ').map(Number) as [number, number]);
   const scan = el.querySelector<SVGGElement>('[data-scan]')!;
   const stamp = el.querySelector<SVGGElement>('[data-stamp]')!;
-  const word = el.querySelector<HTMLElement>('[data-word]')!;
   const notes = [...el.querySelectorAll<HTMLElement>('[data-note]')];
   const notesBox = el.querySelector<HTMLElement>('.scene__notes')!;
-  const draw = el.querySelector<HTMLElement>('.scene__draw')!;
+  const head = el.firstElementChild as HTMLElement;
 
-  // Desktop: the notes sit on their leader lines, so the notes column needs
-  // the drawing's height and top offset. Re-measured on every refresh.
+  const ends = anchors.map((a) => [Number(a.getAttribute('cx')), Number(a.getAttribute('cy'))]);
+  // Each layer's offset in the exploded view, when its note is shown.
+  const shift = layers.map((_, i) => (i === 0 ? -EXPLODE : i === layers.length - 1 ? EXPLODE : 0));
+
+  // Re-measured on every refresh. The heading's height caps the drawing, so
+  // both fit one screen; the notes box keeps the tallest note's height, since
+  // the notes are stacked. On a desktop each note's label sits on its leader
+  // line; a note that would run past the bottom of the scene (the bottom of
+  // the screen, once pinned) moves up, and its leader bends to meet it.
   const place = () => {
-    const d = draw.getBoundingClientRect();
+    el.style.setProperty('--head-h', `${head.offsetHeight}px`);
+    el.style.setProperty('--notes-h', `${Math.max(...notes.map((n) => n.offsetHeight))}px`);
+    const d = svg.getBoundingClientRect();
     const n = notesBox.getBoundingClientRect();
+    const drawTop = d.top - n.top;
+    const floor = el.getBoundingClientRect().bottom - parseFloat(getComputedStyle(el).paddingBottom) - n.top;
+    const scale = d.height / 560;
     el.style.setProperty('--draw-h', `${d.height}px`);
-    el.style.setProperty('--draw-top', `${d.top - n.top}px`);
+    el.style.setProperty('--draw-top', `${drawTop}px`);
+    const desktop = window.matchMedia(DESKTOP).matches;
+    notes.forEach((note, i) => {
+      const [x, y] = ends[i];
+      if (!desktop) {
+        note.style.removeProperty('top');
+        leaders[i].setAttribute('d', `M${x} ${y} H1000`);
+        return;
+      }
+      const name = note.querySelector<HTMLElement>('.note__name')!;
+      const mid = name.offsetTop + name.offsetHeight / 2;
+      const line = drawTop + (y + shift[i]) * scale;
+      const top = Math.max(0, Math.min(line - mid, floor - note.offsetHeight));
+      note.style.top = `${top}px`;
+      const meet = Math.round(((top + mid - drawTop) / scale - shift[i]) * 10) / 10;
+      leaders[i].setAttribute('d', Math.abs(meet - y) < 1 ? `M${x} ${y} H1000` : `M${x} ${y} H950 V${meet} H1000`);
+    });
   };
-  ScrollTrigger.addEventListener('refreshInit', () => el.style.removeProperty('--draw-top'));
+  // Placed before the triggers re-measure, so the leader tweens pick up
+  // the new path lengths, and again once the layout has settled.
+  ScrollTrigger.addEventListener('refreshInit', place);
   ScrollTrigger.addEventListener('refresh', place);
   place();
 
@@ -104,7 +136,7 @@ function prepareScene() {
   gsap.set(scan, { autoAlpha: 0, y: spans[0][0] });
   gsap.set(stamp, { autoAlpha: 0, scale: 1.6, transformOrigin: '50% 50%' });
   gsap.set(notes, { autoAlpha: 0, y: 12 });
-  return { el, svg, body, layers, traces, fills, tags, leaders, anchors, spans, scan, stamp, word, notes };
+  return { el, svg, body, layers, traces, fills, tags, leaders, anchors, spans, scan, stamp, notes };
 }
 
 function sceneSetup() {
@@ -115,12 +147,9 @@ function sceneSetup() {
   };
 }
 
-// Travel of the exploded view, in viewBox units.
-const EXPLODE = 50;
-
 function sceneTimeline() {
   if (!scene) return;
-  const { el, body, layers, traces, fills, tags, leaders, anchors, spans, scan, stamp, word, notes } = scene;
+  const { el, body, layers, traces, fills, tags, leaders, anchors, spans, scan, stamp, notes } = scene;
   const done = token('--bone');
   const last = layers.length - 1;
   const desktop = window.matchMedia(DESKTOP).matches;
@@ -129,18 +158,18 @@ function sceneTimeline() {
     defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: el,
-      start: 'top top',
-      // The stage is one screen; the pin adds 1.5 more on a desktop, 1 on a phone.
-      end: () => `+=${window.innerHeight * (desktop ? 1.5 : 1)}`,
+      // Pinned once its bottom reaches the screen's: on a short phone the
+      // scene is taller than the screen, and the heading scrolls off first.
+      start: () => `top+=${Math.max(0, el.offsetHeight - window.innerHeight)} top`,
+      // The scene is one screen; the pin adds 1 more on a desktop, 0.75 on a
+      // phone: about a third of a screen per layer.
+      end: () => `+=${window.innerHeight * (desktop ? 1 : 0.75)}`,
       pin: true,
       scrub: 0.6,
       invalidateOnRefresh: true,
       anticipatePin: 1,
     },
   });
-
-  // The word drifts the whole way, behind everything.
-  tl.fromTo(word, { xPercent: 4 }, { xPercent: -38, duration: 4.8 }, 0);
 
   // Open: the house grows a little and comes apart.
   // An absolute SVG origin, in both states: a transformOrigin set on the "to"

@@ -35,9 +35,11 @@ const checks = [
     ['plan-line', s, 3, 'plan line (graphic)'],
     ['signal', s, 3, 'active trace / focus (graphic)'],
   ]),
-  ['bone', 'plum', 4.5, 'button text'],
-  ['bone', 'plum-hover', 4.5, 'button text, hover'],
-  ['signal', 'plum', 3, 'focus ring on a button'],
+  ['bone', 'plum', 4.5, 'text on the plum wash'],
+  ['mauve', 'ink', 3, 'button against the ground (control)'],
+  ['bone', 'mauve', 4.5, 'button text'],
+  ['ink', 'mauve-hover', 4.5, 'button text, hover'],
+  ['mauve-hover', 'ink', 3, 'button against the ground, hover (control)'],
 ];
 
 let failed = 0;

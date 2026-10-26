@@ -24,6 +24,10 @@ const links = [
 const home = path('home', locale);
 const contact = path('contact', locale);
 
+// The open menu lists every page, Contact included; its one call to action
+// sits at the bottom, so the bar's own button steps aside while it is open.
+const menuLinks = [...links, { href: contact, label: tr.nav.contact }];
+
 // Normalise both sides before comparing so "/services/" and "/services" match.
 const norm = (p: string) => p.replace(/\/$/, '') || '/';
 const current = norm(Astro.url.pathname);
@@ -96,7 +100,7 @@ const [first, last] = tr.brand.split(' ');
 
   <div class="nav__mobile" id="nav-mobile" hidden>
     <nav class="nav__mobile-links" aria-label={tr.ariaPrimaryNav}>
-      {links.map((l, i) => (
+      {menuLinks.map((l, i) => (
         <a
           href={l.href}
           class:list={['nav__mobile-link', isActive(l.href) && 'is-active']}
@@ -109,7 +113,7 @@ const [first, last] = tr.brand.split(' ');
       ))}
     </nav>
 
-    <div class="nav__mobile-foot" style={`--i:${links.length}`}>
+    <div class="nav__mobile-foot" style={`--i:${menuLinks.length}`}>
       <a href={contact} class="btn btn-accent nav__mobile-cta">{tr.cta.primary}</a>
       <a href={`tel:${SITE.phone}`} class="nav__mobile-phone">{SITE.phoneDisplay}</a>
       <a href={alt} class="nav__mobile-lang" hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'}>
@@ -312,7 +316,7 @@ const [first, last] = tr.brand.split(' ');
   }
   .nav__mobile-link {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
     padding: clamp(0.9rem, 3vw, 1.35rem) 0;
     border-bottom: 1px solid var(--line-soft);
@@ -333,13 +337,18 @@ const [first, last] = tr.brand.split(' ');
       transform var(--t-base) var(--ease-out) calc(var(--i) * 45ms + 60ms);
   }
   .nav__mobile-link.is-active { color: var(--vermilion-text); }
+  /* Fixed width, so every label starts on the same line. */
   .nav__mobile-num {
+    flex: none;
+    width: 2.25rem;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 1rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
     color: var(--fg-mute);
   }
+  .nav.is-menu-open .nav__cta { visibility: hidden; }
 
   .nav__mobile-foot {
     display: flex;
@@ -407,6 +416,7 @@ const [first, last] = tr.brand.split(' ');
     const setOpen = (next: boolean) => {
       open = next;
       burger.setAttribute('aria-expanded', String(open));
+      bar?.classList.toggle('is-menu-open', open);
       // Lock the page behind the sheet without losing the scroll position.
       document.body.style.overflow = open ? 'hidden' : '';
 

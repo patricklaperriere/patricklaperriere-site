@@ -2,23 +2,32 @@
 // home is written as one piece (a voice, not a set of reusable strings).
 //
 // Every fact here is already published elsewhere on the site or was supplied
-// by Patrick: Habita is in production with paying clients and is published by
-// Technologies Habita inc., which he founded; the stack is Astro, React,
-// Supabase and Vercel; one contact from first call to launch.
+// by Patrick: Habita is published by Technologies Habita inc., which he
+// founded; the stack is Astro, React, Supabase and Vercel; one contact from
+// first call to launch.
+//
+// Repetition is kept in check on purpose: Habita has one strong mention (its
+// work file), the measured score one (the inspection sheet), and "bâtir"
+// appears twice on the French page (H1 and contact title). Service names are
+// not written here: the house links read them from fr.ts / en.ts, so the home,
+// the footer and the service pages always use the same name.
 
 import type { Locale } from './routes';
 
-type LinkKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'svcTools' | 'habitaCase' | 'habitaSite';
+export type ServiceKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'svcTools';
 
 // One entry in the work list. `href` is a case study or a live site; no link
 // when neither exists yet. `status` is a plain fact checked on the date below.
 type WorkItem = { slug: string; kind: string; title: string; body: string; status: string; links: { href: string; label: string; external?: boolean }[] };
 
+// A client's words, published only once the client has supplied and approved
+// them. Null hides the slot.
+type Testimonial = { quote: string; name: string; role: string } | null;
+
 const fr = {
   hero: {
-    name: 'Patrick Laperrière, développeur web',
     title: 'Des sites rapides. Des outils sur mesure. Bâtis au Québec.',
-    lead: 'Je bâtis des sites qui se trouvent sur Google et des outils qui servent pour vrai, pour les PME d’ici, en français comme en anglais.',
+    lead: 'Je conçois des sites qui se trouvent sur Google et des outils qui servent pour vrai, pour les PME d’ici, en français comme en anglais.',
     cta: 'Parlons de votre projet',
     secondary: 'Voir les réalisations',
   },
@@ -41,8 +50,6 @@ const fr = {
     intro: 'De la toiture aux fondations : trois couches, trois façons de vous aider.',
     planLabel: 'Plan d’une maison en coupe, en trois couches numérotées : toiture, structure et fondations, chacune marquée conforme',
     // Annotations on the drawing (mono, capitals, decorative).
-    word: 'Inspection',
-    ref: 'Réf. PL-2026-01',
     ok: 'Conforme',
     scanning: 'Balayage',
     stamp: 'Inspecté',
@@ -50,36 +57,30 @@ const fr = {
       {
         name: 'Toiture',
         title: 'Le site que vos clients voient.',
-        body: 'Rapide, bien référencé, vraiment bilingue. Je le bâtis en Astro, avec une structure pensée pour Google dès la première ligne.',
-        links: [
-          { key: 'svcWeb', label: 'Création de site web' },
-          { key: 'svcSeo', label: 'Refonte et SEO' },
-          { key: 'svcShopify', label: 'Boutique Shopify' },
-        ],
+        body: 'Rapide, bien référencé, vraiment bilingue. Je le développe en Astro, avec une structure pensée pour Google dès la première ligne.',
+        links: ['svcWeb', 'svcShopify'],
       },
       {
         name: 'Structure',
         title: 'Les outils qui font tourner l’entreprise.',
         body: 'Demandes en ligne, prise de rendez-vous, tableaux de bord : des outils en React et Supabase, conçus autour de votre façon de travailler.',
-        links: [{ key: 'svcTools', label: 'Outils sur mesure' }],
+        links: ['svcTools'],
       },
       {
         name: 'Fondations',
-        title: 'Habita, mon propre logiciel.',
-        body: 'Le logiciel de rapports d’inspection en bâtiment de Technologies Habita inc., que j’ai fondée. Il est en production, avec des clients payants, et son IA aide les inspecteurs à rédiger leurs constats.',
-        links: [
-          { key: 'habitaCase', label: 'L’étude de cas' },
-          { key: 'habitaSite', label: 'habita.expert' },
-        ],
+        title: 'Ce qui ne se voit pas, mais que Google mesure.',
+        body: 'Vitesse, structure, balises, données structurées. Sur un site existant, je commence par auditer et corriger ces fondations techniques, puis je modernise le reste.',
+        links: ['svcSeo'],
       },
-    ] as { name: string; title: string; body: string; links: { key: LinkKey; label: string }[] }[],
+    ] as { name: string; title: string; body: string; links: ServiceKey[] }[],
   },
-  // Facts only. BeauRegard and Bâti-Conseil: supplied by Patrick or read from
-  // the live site (title, Astro generator) and the Bâti-Conseil repository.
-  // <!-- À CONFIRMER PATRICK : accord des deux clients pour être nommés à l'accueil -->
+  // Facts only. BeauRegard: supplied by Patrick or read from the live site
+  // (title, Astro generator). Bâti-Conseil stays off the home page until the
+  // client agrees to be named.
+  // <!-- À CONFIRMER PATRICK : accord d'Éric Beauregard pour être nommé à l'accueil -->
   work: {
     title: 'Réalisations',
-    intro: 'Mon propre logiciel, et deux sites pour des inspecteurs en bâtiment.',
+    intro: 'Mon propre logiciel et un site pour un inspecteur en bâtiment.',
     all: 'Toutes les réalisations',
     file: 'Dossier',
     items: [
@@ -102,32 +103,22 @@ const fr = {
         status: 'En ligne',
         links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
       },
-      {
-        slug: 'bati-conseil',
-        kind: 'Site sur mesure',
-        title: 'Bâti-Conseil',
-        body: 'Un site Astro statique pour un inspecteur en bâtiment : une page par service, un exemple de rapport selon le modèle Habita et un formulaire de demande qui fonctionne sans JavaScript.',
-        status: 'Pas encore en ligne',
-        links: [],
-      },
     ] as WorkItem[],
   },
   about: {
     title: 'Qui je suis',
     body: [
       'Développeur web au Québec, je travaille directement avec vous : un seul interlocuteur, du premier appel à la mise en ligne.',
-      'Bâtir et faire évoluer mon propre logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
+      'Je développe aussi Habita, le logiciel de l’entreprise que j’ai fondée, Technologies Habita inc. Faire évoluer mon propre logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
     ],
     proofs: {
-      company: 'Entreprise',
-      companyValue: 'Fondateur de Technologies Habita inc.',
       stack: 'Outils',
       stackValue: 'Astro, React, Supabase, Vercel',
       languages: 'Langues',
       languagesValue: 'Français et anglais',
-      site: 'Ce site',
-      siteValue: (score: number) => `${score} / 100 en performance mobile`,
     },
+    // <!-- À CONFIRMER PATRICK : vraie citation d'un client, avec son accord -->
+    testimonial: null as Testimonial,
     more: 'Mon parcours',
   },
   contact: {
@@ -143,9 +134,8 @@ type HomeCopy = typeof fr;
 
 const en: HomeCopy = {
   hero: {
-    name: 'Patrick Laperrière, web developer',
     title: 'Fast websites. Custom tools. Built in Quebec.',
-    lead: 'I build websites that get found on Google and tools that actually get used, for small businesses here, in French and in English.',
+    lead: 'I design websites that get found on Google and tools that actually get used, for small businesses here, in French and in English.',
     cta: 'Tell me about your project',
     secondary: 'See the work',
   },
@@ -167,8 +157,6 @@ const en: HomeCopy = {
     title: 'A website gets inspected like a house.',
     intro: 'From the roof down to the foundations: three layers, three ways I can help.',
     planLabel: 'Section drawing of a house in three numbered layers: roof, structure and foundations, each marked as passing',
-    word: 'Inspection',
-    ref: 'Ref. PL-2026-01',
     ok: 'Pass',
     scanning: 'Scanning',
     stamp: 'Inspected',
@@ -176,33 +164,26 @@ const en: HomeCopy = {
       {
         name: 'Roof',
         title: 'The site your customers see.',
-        body: 'Fast, well ranked, genuinely bilingual. I build it in Astro, with a structure designed for Google from the first line.',
-        links: [
-          { key: 'svcWeb', label: 'Web design and development' },
-          { key: 'svcSeo', label: 'Redesign and SEO' },
-          { key: 'svcShopify', label: 'Shopify store' },
-        ],
+        body: 'Fast, well ranked, genuinely bilingual. I develop it in Astro, with a structure designed for Google from the first line.',
+        links: ['svcWeb', 'svcShopify'],
       },
       {
         name: 'Structure',
         title: 'The tools that keep the business running.',
         body: 'Online requests, appointment booking, dashboards: tools in React and Supabase, built around the way you actually work.',
-        links: [{ key: 'svcTools', label: 'Custom tools' }],
+        links: ['svcTools'],
       },
       {
         name: 'Foundations',
-        title: 'Habita, my own software.',
-        body: 'The building inspection reporting software of Technologies Habita inc., the company I founded. It is in production with paying clients, and its AI helps inspectors write up their findings.',
-        links: [
-          { key: 'habitaCase', label: 'The case study' },
-          { key: 'habitaSite', label: 'habita.expert' },
-        ],
+        title: 'What visitors don’t see, but Google measures.',
+        body: 'Speed, structure, tags, structured data. On an existing site, I start by auditing and fixing these technical foundations, then modernize the rest.',
+        links: ['svcSeo'],
       },
     ],
   },
   work: {
     title: 'Work',
-    intro: 'My own software, and two websites for building inspectors.',
+    intro: 'My own software and a website for a building inspector.',
     all: 'All work',
     file: 'File',
     items: [
@@ -225,32 +206,21 @@ const en: HomeCopy = {
         status: 'Live',
         links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
       },
-      {
-        slug: 'bati-conseil',
-        kind: 'Custom site',
-        title: 'Bâti-Conseil',
-        body: 'A static Astro site for a building inspector: one page per service, a sample report based on the Habita model, and a request form that works without JavaScript.',
-        status: 'Not live yet',
-        links: [],
-      },
     ],
   },
   about: {
     title: 'Who I am',
     body: [
       'A web developer in Quebec, I work with you directly: one contact, from the first call to launch day.',
-      'Building and growing my own software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
+      'I also develop Habita, the software of the company I founded, Technologies Habita inc. Growing my own software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
     ],
     proofs: {
-      company: 'Company',
-      companyValue: 'Founder of Technologies Habita inc.',
       stack: 'Tools',
       stackValue: 'Astro, React, Supabase, Vercel',
       languages: 'Languages',
       languagesValue: 'French and English',
-      site: 'This site',
-      siteValue: (score: number) => `${score} / 100 for mobile performance`,
     },
+    testimonial: null,
     more: 'More about me',
   },
   contact: {

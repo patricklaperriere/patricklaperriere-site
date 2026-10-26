@@ -175,7 +175,7 @@ export const fr = {
     seo: {
       key: 'svcSeo',
       icon: '↗',
-      title: 'Refonte + SEO',
+      title: 'Refonte et SEO',
       tagline: 'Transformer un site lent en source de clients.',
       blurb: 'Transformer un site lent ou dépassé en site qui se classe sur Google et attire des clients.',
       seoTitle: 'Refonte de site web et optimisation SEO | Patrick Laperrière',
@@ -213,7 +213,7 @@ export const fr = {
     shopify: {
       key: 'svcShopify',
       icon: '⬡',
-      title: 'Boutique e-commerce (Shopify)',
+      title: 'Boutique Shopify',
       tagline: 'Boutiques Shopify sur mesure en Liquid.',
       blurb: 'Boutiques Shopify sur mesure en Liquid, rapides et optimisées pour vendre.',
       seoTitle: 'Développeur Shopify · boutique sur mesure | Patrick Laperrière',
@@ -376,7 +376,7 @@ export const fr = {
       email: 'Courriel',
       emailPlaceholder: 'vous@exemple.com',
       projectType: 'Type de projet',
-      projectTypeOptions: ['Nouveau site web', 'Refonte + SEO', 'Boutique Shopify', 'Autre'],
+      projectTypeOptions: ['Nouveau site web', 'Refonte et SEO', 'Boutique Shopify', 'Autre'],
       budget: 'Budget approximatif',
       budgetOptions: ['Moins de 2 000 $', '2 000 $ à 5 000 $', '5 000 $ à 10 000 $', 'Plus de 10 000 $', 'À déterminer'],
       message: 'Message',

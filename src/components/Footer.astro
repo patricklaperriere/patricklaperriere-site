@@ -3,7 +3,6 @@ import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { SITE, SOCIAL_LIST } from '../config';
 import { villesHubPath } from '../data/villes';
-import SignaturePL from './SignaturePL.astro';
 import ExternalIcon from './ExternalIcon.astro';
 
 interface Props {
@@ -78,10 +77,6 @@ const serviceLinks = [
           </li>
         </ul>
       </div>
-
-      <div class="footer__col footer__col--sign">
-        <SignaturePL variant="card" label={locale === 'fr' ? 'Conçu par' : 'Design by'} newTab={false} />
-      </div>
     </div>
 
     <div class="footer__bottom">
@@ -146,7 +141,7 @@ const serviceLinks = [
   /* ---- Columns ----------------------------------------------------------- */
   .footer__grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(1.75rem, 4vw, 3rem);
     padding-block: clamp(2rem, 4vw, 3rem);
     border-top: 1px solid var(--line);
@@ -177,12 +172,6 @@ const serviceLinks = [
   .footer__link:hover { color: var(--fg); }
   .footer__ext { opacity: 0.7; }
 
-  .footer__col--sign {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
-
   /* ---- Legal ------------------------------------------------------------- */
   .footer__bottom {
     display: flex;
@@ -212,10 +201,6 @@ const serviceLinks = [
 
   @media (max-width: 860px) {
     .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .footer__col--sign {
-      grid-column: 1 / -1;
-      justify-content: flex-start;
-    }
   }
   @media (max-width: 460px) {
     .footer__grid { grid-template-columns: 1fr; }

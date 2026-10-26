@@ -12,7 +12,9 @@ import { SITE } from '../../config';
 import type { Locale } from '../../i18n/routes';
 import { routes, workBase } from '../../i18n/routes';
 import { homeCopy } from '../../i18n/home';
-import metrics from '../../data/site-metrics.json';
+import { Picture } from 'astro:assets';
+import { useTranslations } from '../../i18n';
+import { PHOTO, PORTRAIT_WIDTHS, hasPhoto } from '../../lib/photo';
 import SiteSheet from './SiteSheet.astro';
 import HouseScene from './HouseScene.astro';
 import ExternalIcon from '../ExternalIcon.astro';
@@ -22,18 +24,17 @@ interface Props {
 }
 const { locale } = Astro.props;
 const t = homeCopy[locale];
+const tr = useTranslations(locale);
 
 // The work list is written in home.ts (facts only); 'case' points to the
-// published case study. The "this site" proof reads the same measurement as
-// the inspection sheet.
+// published case study.
 const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
-const score = (metrics.pages as Record<string, { performance: number }>)[locale === 'fr' ? '/' : '/en']?.performance;
 const proofs = [
-  { k: t.about.proofs.company, v: t.about.proofs.companyValue },
   { k: t.about.proofs.stack, v: t.about.proofs.stackValue },
   { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
-  ...(score ? [{ k: t.about.proofs.site, v: t.about.proofs.siteValue(score) }] : []),
 ];
+// Shown only once a client has supplied and approved a quote (home.ts).
+const quote = t.about.testimonial;
 
 ---
 
@@ -41,7 +42,6 @@ const proofs = [
   {/* ---- Hero ------------------------------------------------------------ */}
   <section class="hero st-frame" aria-labelledby="hero-title">
     <div class="st-grid hero__grid">
-      <p class="hero__name">{t.hero.name}</p>
       <div class="hero__text">
         <h1 id="hero-title" class="hero__title">{t.hero.title}</h1>
         <p class="hero__lead">{t.hero.lead}</p>
@@ -58,11 +58,12 @@ const proofs = [
 
   {/* ---- Inspection: the one pinned moment -------------------------------- */}
   <section class="insp st-frame" id="inspection" aria-labelledby="insp-title">
-    <header class="st-grid insp__head" data-reveal>
-      <h2 id="insp-title" class="h2">{t.inspection.title}</h2>
-      <p class="insp__intro">{t.inspection.intro}</p>
-    </header>
-    <HouseScene locale={locale} />
+    <HouseScene locale={locale}>
+      <header class="st-grid insp__head">
+        <h2 id="insp-title" class="h2">{t.inspection.title}</h2>
+        <p class="insp__intro">{t.inspection.intro}</p>
+      </header>
+    </HouseScene>
   </section>
 
   {/* ---- Work ------------------------------------------------------------------- */}
@@ -101,6 +102,21 @@ const proofs = [
   <section class="about st-frame" aria-labelledby="about-title">
     <div class="st-grid">
       <h2 id="about-title" class="h2 about__title" data-reveal>{t.about.title}</h2>
+      {hasPhoto && (
+        <div class="about__photo" data-reveal>
+          <Picture
+            src={PHOTO.portrait}
+            formats={['avif', 'webp']}
+            widths={PORTRAIT_WIDTHS}
+            sizes="(min-width: 1024px) 300px, (min-width: 768px) 40vw, 60vw"
+            alt={tr.about.portraitAlt}
+            width={720}
+            height={900}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      )}
       <div class="about__text" data-reveal>
         {t.about.body.map((p) => <p>{p}</p>)}
         <dl class="proofs">
@@ -111,6 +127,12 @@ const proofs = [
             </div>
           ))}
         </dl>
+        {quote && (
+          <figure class="quote">
+            <blockquote><p>{quote.quote}</p></blockquote>
+            <figcaption>{quote.name}, {quote.role}</figcaption>
+          </figure>
+        )}
         <p><a href={routes.about[locale]}>{t.about.more}</a></p>
       </div>
     </div>
@@ -157,15 +179,6 @@ const proofs = [
   @media (min-width: 768px) {
     .h2 { grid-column: 1 / span 6; }
   }
-  .home a:not(.btn) {
-    color: var(--bone);
-    text-decoration: underline;
-    text-decoration-color: var(--line-strong);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.25em;
-    transition: text-decoration-color 0.2s ease, color 0.2s ease;
-  }
-  .home a:not(.btn):hover { text-decoration-color: var(--signal); color: var(--signal); }
   .home .btn { min-height: 48px; padding-inline: var(--s3); font-size: 1rem; }
 
   /* ---- Hero ---------------------------------------------------------------- */
@@ -173,8 +186,7 @@ const proofs = [
      inspection sheet sits beside it, its top on the headline's top. */
   .home .hero { padding-block: var(--s5) var(--s6); }
   .hero__grid { row-gap: var(--s5); align-items: start; }
-  .hero__name, .hero__text, .hero__sheet { grid-column: 1 / -1; }
-  .hero__name { color: var(--signal); font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 calc(var(--s3) - var(--s5)); }
+  .hero__text, .hero__sheet { grid-column: 1 / -1; }
   .hero__title {
     font-size: clamp(3rem, 7vw, 6.5rem);
     font-weight: 900;
@@ -200,14 +212,16 @@ const proofs = [
   }
 
   /* ---- Inspection ---------------------------------------------------------- */
-  .home .insp { padding-top: var(--s6); }
-  .insp__head { row-gap: var(--s2); margin-bottom: var(--s4); }
+  /* The scene adds its own top padding once pinned; the section's bottom
+     padding is trimmed so the pin's end is not followed by an empty band. */
+  .home .insp { padding-block: var(--s6) var(--s5); }
+  .insp__head { row-gap: var(--s1); margin-bottom: var(--s3); }
   .insp__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
   @media (min-width: 768px) {
     .insp__intro { grid-column: 1 / span 6; }
   }
 
-  /* ---- Work: three inspection files ---------------------------------------- */
+  /* ---- Work: inspection files ----------------------------------------------- */
   .work__head { row-gap: var(--s2); margin-bottom: var(--s6); }
   .work__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
   .work__list { list-style: none; margin: 0; padding: 0; row-gap: var(--gap); }
@@ -248,15 +262,20 @@ const proofs = [
   .work__all-wrap { margin: var(--s5) 0 0; }
   @media (min-width: 768px) {
     .work__intro { grid-column: 1 / span 6; }
-    .file:first-child { grid-column: 1 / -1; }
     .file { grid-column: span 4; }
   }
   @media (min-width: 1024px) {
-    .file, .file:first-child { grid-column: span 4; }
+    .file { grid-column: span 6; }
   }
 
   /* ---- About ------------------------------------------------------------------- */
-  .about__text { grid-column: 1 / -1; margin-top: var(--s3); }
+  .about__photo { grid-column: 1 / span 3; margin-top: var(--s3); max-width: 300px; }
+  .about__photo :global(img) { display: block; width: 100%; height: auto; border: 1px solid var(--line-strong); }
+  .about__text { grid-column: 1 / -1; margin-top: var(--s4); }
+  .quote { margin: var(--s4) 0; padding-left: var(--s3); border-left: 2px solid var(--signal); }
+  .quote blockquote { margin: 0; }
+  .quote blockquote p { color: var(--bone); font-size: 1.25rem; }
+  .quote figcaption { color: var(--slate-mute); font-size: 0.9375rem; margin-top: var(--s1); }
   .about__text p { color: var(--slate); font-size: 1.125rem; max-width: 52ch; margin: 0 0 var(--s3); }
   .about__text p:last-child { margin-bottom: 0; }
   .proofs { margin: var(--s4) 0; border-top: 1px solid var(--line); }
@@ -264,8 +283,10 @@ const proofs = [
   .proofs dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 0.3em; }
   .proofs dd { margin: 0; color: var(--bone); }
   @media (min-width: 1024px) {
-    .about__title { grid-column: 1 / span 4; }
-    .about__text { grid-column: 7 / span 6; margin-top: 0; }
+    .about .st-grid { align-content: start; }
+    .about__title { grid-column: 1 / span 4; grid-row: 1; }
+    .about__photo { grid-column: 1 / span 4; grid-row: 2; margin-top: var(--s4); }
+    .about__text { grid-column: 7 / span 6; grid-row: 1 / span 2; margin-top: 0; }
   }
 
   /* ---- Contact ------------------------------------------------------------------- */

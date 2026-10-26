@@ -12,7 +12,8 @@
 //      a run measures the machine, not the page;
 //   3. keeps the median run (by performance score, then LCP) per page;
 //   4. writes src/data/site-metrics.json: tool and version, date, profile,
-//      score, LCP, CLS, TBT and the bytes transferred, per page;
+//      score, LCP, CLS, TBT and the bytes transferred, per page, sealed with
+//      a fingerprint the build checks (scripts/metrics-digest.mjs);
 //   5. builds once more (the sheet now prints these numbers) and records the
 //      size of each built page, which the build compares against later to
 //      warn when the numbers have gone stale (see astro.config.mjs).
@@ -23,6 +24,7 @@ import { readFileSync, writeFileSync, mkdtempSync, existsSync, statSync } from '
 import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join, extname } from 'node:path';
+import { metricsDigest } from './metrics-digest.mjs';
 
 const LIGHTHOUSE = 'lighthouse@12.8.2';
 const RUNS = 3;
@@ -32,6 +34,10 @@ const PAGES = ['/', '/en'];
 const OUT = 'src/data/site-metrics.json';
 const base = `http://127.0.0.1:${PORT}`;
 const work = mkdtempSync(join(tmpdir(), 'measure-'));
+
+// The builds below skip the fingerprint check: this script is the one that
+// writes the numbers (and the fingerprint) in the first place.
+process.env.MEASURING = '1';
 
 const run = (cmd, args) => {
   const r = spawnSync(cmd, args, { stdio: 'inherit', shell: false });
@@ -153,6 +159,7 @@ try {
     pages,
     htmlBytes: {},
   };
+  metrics.digest = metricsDigest(metrics);
   writeFileSync(OUT, JSON.stringify(metrics, null, 2) + '\n');
   run('npx', ['astro', 'build']);
   metrics.htmlBytes = htmlBytes();

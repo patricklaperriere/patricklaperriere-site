@@ -133,7 +133,7 @@ export const en = {
     web: {
       key: 'svcWeb',
       icon: '◆',
-      title: 'Web Design & Development',
+      title: 'Web design and development',
       tagline: 'Custom websites — fast, modern, built to convert.',
       blurb: 'Custom, fast, modern websites designed to turn visitors into customers.',
       seoTitle: 'Custom Web Design & Development | Patrick Laperrière',
@@ -173,7 +173,7 @@ export const en = {
     seo: {
       key: 'svcSeo',
       icon: '↗',
-      title: 'Website Redesign & SEO',
+      title: 'Redesign and SEO',
       tagline: 'Turn a slow site into a lead machine.',
       blurb: 'Turn a slow or outdated website into a lead machine that ranks on Google.',
       seoTitle: 'Website Redesign & SEO Optimization | Patrick Laperrière',
@@ -211,7 +211,7 @@ export const en = {
     shopify: {
       key: 'svcShopify',
       icon: '⬡',
-      title: 'E-commerce (Shopify)',
+      title: 'Shopify store',
       tagline: 'Custom Shopify stores in Liquid.',
       blurb: 'Custom Shopify stores built in Liquid — fast and optimized to sell.',
       seoTitle: 'Shopify Developer · Custom E-commerce Stores | Patrick Laperrière',
@@ -373,7 +373,7 @@ export const en = {
       email: 'Email',
       emailPlaceholder: 'you@example.com',
       projectType: 'Project type',
-      projectTypeOptions: ['New website', 'Redesign + SEO', 'Shopify store', 'Other'],
+      projectTypeOptions: ['New website', 'Redesign and SEO', 'Shopify store', 'Other'],
       budget: 'Approximate budget',
       budgetOptions: ['Under $2,000', '$2,000 – $5,000', '$5,000 – $10,000', 'Over $10,000', 'To be determined'],
       message: 'Message',
