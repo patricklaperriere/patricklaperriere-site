@@ -66,14 +66,3 @@ export const lighthouse: Record<string, LighthouseScore> = {
     measured: '2026-08-15',
   },
 };
-
-/** This site, measured on the production build. */
-export const ownSite: LighthouseScore = {
-  performance: 100,
-  accessibility: 100,
-  seo: 100,
-  bestPractices: 100,
-  lcp: 0.5,
-  cls: 0.0,
-  measured: '2026-09-17',
-};
