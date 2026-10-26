@@ -40,6 +40,6 @@ Au Québec et au Canada, parler à un seul marché linguistique, c'est laisser l
 
 ## Ce qu'une refonte change
 
-Une refonte bien faite ne se limite pas à « rafraîchir le look ». On corrige les fondations : vitesse, structure, SEO, conversion. Le résultat, c'est un site qui charge vite, qui ranke et qui transforme les visiteurs en clients.
+Une refonte bien faite ne se limite pas à « rafraîchir le look ». On corrige les fondations : vitesse, structure, SEO, conversion. Le résultat, c'est un site qui charge vite, qui se classe bien sur Google et qui transforme les visiteurs en clients.
 
 Vous reconnaissez deux signaux ou plus ? Il est probablement temps d'agir. Voyez [mon service de refonte + SEO](/services/refonte-seo), ou [parlons de votre site](/contact) directement.

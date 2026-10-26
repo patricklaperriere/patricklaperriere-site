@@ -84,7 +84,7 @@ const availability = tr.status.replace('●', '').trim();
 <section class="section-tight container-wide about__stack-wrap">
   <h2 class="label label-rule">{tr.marquee.label}</h2>
   <ul class="about__stack">
-    {tr.marquee.items.map((t) => <li>{t}</li>)}
+    {SITE.stack.map((t) => <li>{t}</li>)}
   </ul>
 </section>
 

@@ -18,7 +18,7 @@ interface Props {
 }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
-const projects = sortedProjects();
+const projects = await sortedProjects();
 
 // Alternate 1, 2, 1, 2 … — a lead, then a pair, then a lead.
 const rows: { items: Project[]; lead: boolean; from: number }[] = [];

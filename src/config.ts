@@ -28,6 +28,23 @@ export const SITE = {
     fr: ['Grand Montréal', 'Laval', 'Québec', 'Canada', 'États-Unis'],
     en: ['Greater Montreal', 'Laval', 'Quebec', 'Canada', 'United States'],
   },
+  // The company behind Habita. Patrick is its founder; it appears in the
+  // Organization JSON-LD on every page and in the about page copy.
+  company: {
+    name: 'Technologies Habita inc.',
+    legalName: 'Technologies Habita inc.',
+    url: 'https://habita.expert',
+    // Québec enterprise number. Left null until Patrick supplies it: an
+    // identifier is a factual claim, never a guess.
+    neq: null as string | null,
+  },
+  // Technologies, for Person.knowsAbout and the stack list on the site. One
+  // list, tools only (no "SEO" or "Performance": those are outcomes, not tools).
+  stack: ['Astro', 'React', 'TypeScript', 'Next.js', 'Supabase', 'Shopify', 'Liquid', 'Tailwind CSS'],
+  serviceDescription: {
+    fr: 'Conception et développement de sites web sur mesure, de boutiques Shopify et de logiciels SaaS, en français et en anglais.',
+    en: 'Design and development of custom websites, Shopify stores and SaaS software, in French and English.',
+  },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',
   // ─── TODO_PHOTO ──────────────────────────────────────────────────────────

@@ -21,7 +21,7 @@ const { project, locale, index, variant = 'half' } = Astro.props;
 const tr = useTranslations(locale);
 
 const href = `${workBase[locale]}/${project.slug}`;
-const shot = `/work/${project.slug}.webp`;
+const shot = project.image;
 const contain = project.fit === 'contain';
 const num = String(index).padStart(2, '0');
 
@@ -32,6 +32,7 @@ const shotAlt =
 
 // Category reads better as a human word than as the raw data key.
 const categoryLabel: Record<string, { fr: string; en: string }> = {
+  saas: { fr: 'Logiciel SaaS', en: 'SaaS product' },
   web: { fr: 'Site sur mesure', en: 'Custom site' },
   seo: { fr: 'Site + SEO local', en: 'Site + local SEO' },
   shopify: { fr: 'E-commerce Shopify', en: 'Shopify e-commerce' },
@@ -57,6 +58,7 @@ const category = categoryLabel[project.category]?.[locale] ?? project.category;
         <span class="index-num pf__num">{num}</span>
         <span class="pf__rule" aria-hidden="true"></span>
         <span class="pf__cat">{category}</span>
+        {project.draft && <span class="pf__draft">{locale === 'fr' ? 'Brouillon' : 'Draft'}</span>}
         <span class="pf__year">{project.year}</span>
       </div>
 
@@ -135,6 +137,12 @@ const category = categoryLabel[project.category]?.[locale] ?? project.category;
     max-width: 3rem;
   }
   .pf__year { margin-left: auto; }
+  /* Only ever rendered under `astro dev`: drafts never reach a build. */
+  .pf__draft {
+    padding: 0.1rem 0.45rem;
+    border: 1px dashed var(--vermilion);
+    color: var(--vermilion-text);
+  }
 
   .pf__title {
     font-size: clamp(1.5rem, 2.6vw, 2.1rem);

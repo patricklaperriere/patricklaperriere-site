@@ -10,7 +10,7 @@
 import { useTranslations } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { workBase } from '../i18n/routes';
-import { projects } from '../data/projets';
+import { getProject } from '../data/projets';
 import { HABITA_LOOP } from '../lib/habitaLoop';
 import ProductFrame from './ProductFrame.astro';
 
@@ -22,7 +22,7 @@ const tr = useTranslations(locale);
 const s = tr.habitaSpotlight;
 
 // Pull the live URL from the project data so there is one source of truth.
-const habita = projects.find((p) => p.slug === 'habita')!;
+const habita = (await getProject('habita'))!;
 const caseHref = `${workBase[locale]}/${habita.slug}`;
 const host = new URL(habita.url).host;
 ---
@@ -46,10 +46,10 @@ const host = new URL(habita.url).host;
         posterAlt={s.posterAlt}
         playLabel={s.videoPlay}
         pauseLabel={s.videoPause}
-        fallbackSrc={`/work/${habita.slug}.webp`}
+        fallbackSrc={habita.image}
         fallbackAlt={s.shotAlt}
         fallbackHref={caseHref}
-        fit={habita.fit ?? 'cover'}
+        fit={habita.fit}
       />
     </div>
 

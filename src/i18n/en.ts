@@ -43,7 +43,7 @@ export const en = {
     sub: 'Working with clients across Quebec, Canada and the United States.',
     // Positioning line added beside the name. Widens "web developer" to
     // "product builder" without touching the keyword-bearing punch above.
-    role: 'Web developer & product builder',
+    role: 'Web developer & software builder',
     scroll: 'Scroll',
     meta: {
       availabilityLabel: 'Availability',
@@ -71,13 +71,12 @@ export const en = {
   personal: {
     label: 'The person behind it',
     title: 'One person, from the first call to launch day.',
-    body: 'I am Patrick Laperrière, a freelance web developer based in Laval, Quebec. I design and build custom sites for small businesses and founders who are tired of slow, generic websites nobody can find on Google.',
+    body: 'I am Patrick Laperrière, a freelance web developer based in Quebec. I design and build custom sites for small businesses and founders who are tired of slow, generic websites nobody can find on Google.',
     cta: 'More about me',
   },
 
   marquee: {
-    label: 'Tools & technologies',
-    items: ['Astro', 'Shopify', 'SEO', 'Next.js', 'Liquid', 'Tailwind', 'React', 'Performance', 'JavaScript', 'Core Web Vitals'],
+    label: 'Technologies',
   },
 
   // Home spotlight — Habita, the SaaS I build and operate. This is the
@@ -124,8 +123,7 @@ export const en = {
       accessibility: 'Accessibility',
       seo: 'SEO',
     },
-    measuredOn: 'Measured on',
-    method: 'Lighthouse, desktop preset',
+    method: 'Measured with Lighthouse, desktop preset',
   },
 
   servicesSection: {
@@ -313,6 +311,7 @@ export const en = {
     lead: 'I build fast, well-ranked websites for businesses that want to get found — across Quebec, Canada and the United States.',
     body: [
       'I’m Patrick Laperrière, a freelance web developer based in Quebec. I design and build custom websites for small businesses and entrepreneurs who are tired of sites that are slow, generic and invisible on Google.',
+      'I’m also the founder of Technologies Habita inc., the company behind Habita, a building-inspection SaaS I design and develop myself. Building and running my own product keeps me demanding about what matters to clients: code that is reliable, fast and built to last.',
       'My approach comes down to four things: performance, SEO, polished design and clear communication. I write clean code with modern technology (Astro, React, Shopify Liquid), I aim for a perfect Lighthouse score, and I think about search ranking from the very first line — because a beautiful site nobody can find is useless.',
       'Working in both French and English, I collaborate just as easily with local clients as with remote businesses across Canada and the United States. My goal is simple: deliver a website you’re proud of and that works for you, around the clock.',
     ],

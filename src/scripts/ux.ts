@@ -104,17 +104,30 @@ function initCounters() {
 }
 
 /* ---- Habita loop video -----------------------------------------------------
-   The video never starts on load: it waits until the section is nearly in
-   view, so it cannot compete with the hero for bandwidth or become the LCP.
-   Under prefers-reduced-motion nothing autoplays — the poster stays up and the
-   button is the only way in. That is also why `autoplay` is absent from the
-   markup: the attribute would start playback before this code could decide. */
+   The video never starts on load: it waits until the frame is nearly in view,
+   so it cannot compete with the hero for bandwidth or become the LCP. It then
+   plays while visible and pauses off screen, which also spares the CPU.
+
+   It plays even under prefers-reduced-motion. That setting is what stopped it
+   for real visitors: Windows turns it on for everyone who disables "Animation
+   effects", so Chrome on Windows often reports `reduce` without the visitor
+   ever asking for it. The loop is a muted, slow product demo, not a parallax
+   effect, and the pause button stays reachable while it plays (WCAG 2.2.2),
+   so a visitor who wants it still can stop it. Once they do, it stays paused.
+   `autoplay` is still absent from the markup so that playback starts from
+   here, in view, rather than on load. */
 function initHabitaVideo() {
   const wrap = document.querySelector<HTMLElement>('[data-habita-video]');
   if (!wrap) return;
   const video = wrap.querySelector('video');
   if (!video) return;
   const btn = wrap.querySelector<HTMLButtonElement>('[data-habita-play]');
+
+  // Belt and braces for autoplay policies: the attribute alone sets
+  // defaultMuted, and some builds only honour the property at play() time.
+  video.muted = true;
+
+  let userPaused = false;
 
   const sync = () => {
     wrap.classList.toggle('is-playing', !video.paused);
@@ -123,30 +136,43 @@ function initHabitaVideo() {
     if (label) btn.setAttribute('aria-label', label);
   };
 
-  // play() rejects when the browser blocks it (low-power mode, data saver).
-  // Swallow it: the poster and the button are still there, so we degrade to
-  // click-to-play instead of throwing.
+  // play() rejects when the browser blocks it (data saver, battery saver) or
+  // when no source can be decoded. Swallow it: the poster and the button are
+  // still there, so we degrade to click-to-play instead of throwing.
   const play = () => video.play().then(sync).catch(() => sync());
 
   video.addEventListener('play', sync);
   video.addEventListener('pause', sync);
 
   btn?.addEventListener('click', () => {
-    if (video.paused) play();
-    else video.pause();
+    if (video.paused) {
+      userPaused = false;
+      play();
+    } else {
+      userPaused = true;
+      video.pause();
+    }
   });
 
-  if (reduceMotion || !('IntersectionObserver' in window)) return;
+  if (!('IntersectionObserver' in window)) {
+    play();
+    return;
+  }
 
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        play();
-        io.unobserve(e.target);
+        if (e.isIntersecting) {
+          if (!userPaused) play();
+        } else if (!video.paused) {
+          video.pause();
+        }
       }
     },
-    { rootMargin: '200px 0px', threshold: 0.25 },
+    // threshold 0: the frame sits inside a .reveal-clip whose clip-path is
+    // still opening when it scrolls in, so a higher ratio could be reached
+    // late or, on a short viewport, not at all.
+    { rootMargin: '100px 0px', threshold: 0 },
   );
   io.observe(wrap);
 }

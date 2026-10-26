@@ -33,12 +33,12 @@ const score = lighthouse[project.slug] ?? null;
 
 // Next case study, wrapping around — a dead end at the bottom of a case study
 // is a wasted exit.
-const all = sortedProjects();
+const all = await sortedProjects();
 const idx = all.findIndex((p) => p.slug === project.slug);
 const next = all[(idx + 1) % all.length];
 const others = all.filter((p) => p.slug !== project.slug && p.slug !== next.slug);
 
-const shot = `/work/${project.slug}.webp`;
+const shot = project.image;
 const contain = project.fit === 'contain';
 const shotAlt =
   locale === 'fr'
@@ -70,6 +70,13 @@ const specs = [
 
 <article class="case" style={`--accent:${project.accent}`}>
   <header class="case__head container-wide">
+    {project.draft && (
+      <p class="case__draft" role="note">
+        {locale === 'fr'
+          ? 'Brouillon : visible seulement en local (npm run dev), jamais publié tant que « publié » vaut false.'
+          : 'Draft: local preview only (npm run dev). Never built while “publié” is false.'}
+      </p>
+    )}
     <p class="label label-rule">{project.client} · {project.year}</p>
     <h1 class="case__title">{loc(project.title, locale)}</h1>
     <p class="case__tagline">{loc(project.tagline, locale)}</p>
@@ -111,10 +118,10 @@ const specs = [
         playLabel={tr.habitaSpotlight.videoPlay}
         pauseLabel={tr.habitaSpotlight.videoPause}
         fallbackSrc={shot}
-        fallbackAlt={`${tr.cta.visitSite} — ${project.client}`}
+        fallbackAlt={`${tr.cta.visitSite} : ${project.client}`}
         fallbackHref={project.url}
         external
-        fit={project.fit ?? 'cover'}
+        fit={project.fit}
       />
     ) : (
       <figure class:list={['case__shot', contain && 'case__shot--contain']}>
@@ -177,6 +184,14 @@ const specs = [
 
 <style>
   /* ---- Masthead ----------------------------------------------------------- */
+  .case__draft {
+    margin: 0 0 1.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px dashed var(--vermilion);
+    color: var(--vermilion-text);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
   .case__head {
     padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
   }

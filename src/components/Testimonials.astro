@@ -9,7 +9,7 @@ import { useTranslations } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { workBase } from '../i18n/routes';
 import { temoignages, reviewAggregate } from '../data/temoignages';
-import { projects, loc } from '../data/projets';
+import { sortedProjects, loc } from '../data/projets';
 
 interface Props {
   locale: Locale;
@@ -22,6 +22,7 @@ const tr = useTranslations(locale);
 const ordered = [...temoignages].sort((a, b) => b.text.length - a.text.length);
 const [lead, ...rest] = ordered;
 
+const projects = await sortedProjects();
 const projectOf = (slug?: string) => {
   if (!slug) return null;
   const p = projects.find((x) => x.slug === slug);

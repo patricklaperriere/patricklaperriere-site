@@ -35,7 +35,7 @@ const services = [tr.services.web, tr.services.seo, tr.services.shopify];
 // Habita owns the cinematic section directly above, so it does not also
 // appear as a tile here — it would be the same link twice on one screen and
 // would weaken both. The full index at /realisations still lists it first.
-const clientWork = featuredProjects().filter((p) => p.slug !== 'habita');
+const clientWork = (await featuredProjects()).filter((p) => p.slug !== 'habita');
 const [leadProject, ...restProjects] = clientWork;
 ---
 

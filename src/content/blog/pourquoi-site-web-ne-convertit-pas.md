@@ -34,4 +34,4 @@ La majorité de vos visiteurs sont sur leur téléphone. Si les boutons sont min
 
 Aucun de ces problèmes n'est une fatalité. Un site pensé pour la conversion guide le visiteur, charge vite, inspire confiance et fonctionne parfaitement sur mobile. C'est exactement ce que je construis.
 
-Votre site attire du trafic mais ne convertit pas ? [Voyons comment le transformer en machine à leads](/services/creation-site-web), ou [parlons directement de votre projet](/contact).
+Votre site attire du trafic mais ne convertit pas ? [Voyons comment le transformer en source de clients](/services/creation-site-web), ou [parlons directement de votre projet](/contact).

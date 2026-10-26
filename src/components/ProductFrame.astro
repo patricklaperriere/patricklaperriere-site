@@ -3,10 +3,11 @@
 // image fallback. Shared by the home-page Habita spotlight and the Habita case
 // study so the product is presented identically in both places.
 //
-// Playback is driven by ux.ts via [data-habita-video]: the loop only starts
-// once the frame scrolls into view, and never under prefers-reduced-motion.
-// `autoplay` is deliberately absent from the markup — the attribute would win
-// the race before the script could opt out.
+// Playback is driven by ux.ts via [data-habita-video]: the loop starts once
+// the frame scrolls into view and pauses off screen (see initHabitaVideo for
+// why it also plays under prefers-reduced-motion). `autoplay` is deliberately
+// absent from the markup so playback cannot start before the frame is in view.
+// The MP4 (H.264) source is the fallback for browsers without VP9 WebM.
 interface Props {
   /** Shown in the chrome bar, e.g. "habita.expert". */
   host: string;
@@ -243,13 +244,33 @@ const hasLoop = Boolean(webm && mp4 && poster);
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent;
   }
-  /* Once it is looping the button would only be visual noise. */
+  /* While it loops, the button shrinks to a pause control in the corner. It
+     never disappears: moving content needs a way to stop it (WCAG 2.2.2). */
   .frame__player.is-playing .frame__play {
-    opacity: 0;
-    pointer-events: none;
+    left: auto;
+    top: auto;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    transform: none;
+    width: 44px;
+    height: 44px;
+    opacity: 0.7;
+  }
+  .frame__player.is-playing .frame__play:hover,
+  .frame__player.is-playing .frame__play:focus-visible {
+    opacity: 1;
+  }
+  .frame__player.is-playing .frame__play-icon {
+    width: 12px;
+    height: 14px;
+    margin-left: 0;
+    border: 0;
+    border-left: 4px solid #f4f2ee;
+    border-right: 4px solid #f4f2ee;
   }
 
   @media (max-width: 620px) {
     .frame__play { width: 52px; height: 52px; }
+    .frame__player.is-playing .frame__play { width: 44px; height: 44px; }
   }
 </style>

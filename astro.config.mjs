@@ -1,6 +1,39 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { existsSync, readFileSync } from 'node:fs';
+
+// The sitemap mirrors each page's own <head> instead of guessing: hreflang
+// pairs come from the page's <link rel="alternate" hreflang> tags (FR and EN
+// slugs differ, e.g. /realisations ↔ /en/work, which @astrojs/sitemap's i18n
+// option cannot pair), and <lastmod> from the page's dateModified when it
+// declares one (blog posts). Pages without a reliable date get no lastmod
+// rather than the build time, which search engines learn to ignore.
+const distDir = new URL('./dist/', import.meta.url);
+
+/** @param {string} url */
+function pageHead(url) {
+  const { pathname } = new URL(url);
+  const rel = pathname.replace(/^\/|\/$/g, '');
+  const file = new URL(rel ? `${rel}/index.html` : 'index.html', distDir);
+  if (!existsSync(file)) return null;
+  const html = readFileSync(file, 'utf8');
+  return html.slice(0, html.indexOf('</head>'));
+}
+
+/** @param {import('@astrojs/sitemap').SitemapItem} item */
+function serialize(item) {
+  const head = pageHead(item.url);
+  if (!head) return item;
+  const links = [...head.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)"/g)]
+    .map(([, lang, url]) => ({ lang, url }));
+  const modified = head.match(/"dateModified":"([^"]+)"/);
+  return {
+    ...item,
+    ...(links.length ? { links } : {}),
+    ...(modified ? { lastmod: modified[1] } : {}),
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
@@ -20,6 +53,12 @@ export default defineConfig({
     },
   },
 
+  build: {
+    // Inline every stylesheet: three render-blocking requests on the home page
+    // cost more on a first visit than the few kB of CSS repeated per page.
+    inlineStylesheets: 'always',
+  },
+
   vite: {
     build: {
       // Vite 8 minifies CSS with Lightning CSS, which transpiles to whatever
@@ -33,13 +72,9 @@ export default defineConfig({
 
   integrations: [
     sitemap({
-      i18n: {
-        defaultLocale: 'fr',
-        locales: {
-          fr: 'fr-CA',
-          en: 'en-CA',
-        },
-      },
+      serialize,
+      // The 404 is noindex; drafts never reach a build in the first place.
+      filter: (page) => !page.endsWith('/404'),
     }),
   ],
 });

@@ -44,7 +44,7 @@ export const fr = {
     sub: 'Je travaille avec des clients au Québec, au Canada et aux États-Unis.',
     // Positioning line added beside the name. Widens "développeur web" to
     // "product builder" without touching the keyword-bearing punch above.
-    role: 'Développeur web & product builder',
+    role: 'Développeur web & créateur de logiciels',
     scroll: 'Défiler',
     meta: {
       availabilityLabel: 'Disponibilité',
@@ -72,13 +72,12 @@ export const fr = {
   personal: {
     label: 'La personne derrière',
     title: 'Un seul interlocuteur, du premier appel à la mise en ligne.',
-    body: 'Je suis Patrick Laperrière, développeur web freelance basé à Laval. Je conçois et développe des sites sur mesure pour les PME et les entrepreneurs qui en ont assez des sites lents, génériques et invisibles sur Google.',
+    body: 'Je suis Patrick Laperrière, développeur web freelance au Québec. Je conçois et développe des sites sur mesure pour les PME et les entrepreneurs qui en ont assez des sites lents, génériques et invisibles sur Google.',
     cta: 'En savoir plus sur moi',
   },
 
   marquee: {
-    label: 'Outils & technologies',
-    items: ['Astro', 'Shopify', 'SEO', 'Next.js', 'Liquid', 'Tailwind', 'React', 'Performance', 'JavaScript', 'Core Web Vitals'],
+    label: 'Technologies',
   },
 
   // Home spotlight — Habita, the SaaS I build and operate. This is the
@@ -125,14 +124,13 @@ export const fr = {
       accessibility: 'Accessibilité',
       seo: 'SEO',
     },
-    measuredOn: 'Mesuré le',
-    method: 'Lighthouse, préréglage ordinateur',
+    method: 'Mesuré avec Lighthouse, préréglage ordinateur',
   },
 
   servicesSection: {
     kicker: 'Ce que je fais',
     title: 'Des sites pensés pour convertir',
-    lead: 'Trois façons de transformer votre présence en ligne en machine à leads.',
+    lead: 'Trois façons de transformer votre présence en ligne en source de clients.',
   },
 
   services: {
@@ -181,12 +179,12 @@ export const fr = {
       key: 'svcSeo',
       icon: '↗',
       title: 'Refonte + SEO',
-      tagline: 'Transformer un site lent en machine à leads.',
-      blurb: 'Transformer un site lent ou dépassé en machine à leads qui ranke sur Google.',
+      tagline: 'Transformer un site lent en source de clients.',
+      blurb: 'Transformer un site lent ou dépassé en site qui se classe sur Google et attire des clients.',
       seoTitle: 'Refonte de site web et optimisation SEO | Patrick Laperrière',
       seoDesc: 'Refonte de sites web lents ou dépassés et optimisation SEO. Plus de vitesse, plus de visibilité sur Google, plus de clients. Québec, Canada et États-Unis.',
       h1: 'Refonte de site web + optimisation SEO',
-      lead: 'Votre site existe mais ne génère rien ? On le transforme en machine à leads qui ranke sur Google et qui charge en un éclair.',
+      lead: 'Votre site existe mais ne génère rien ? On le transforme en site qui se classe sur Google, attire des clients et charge en un éclair.',
       problemTitle: 'Le problème',
       problem: 'Un site lent, daté ou mal structuré fait fuir les visiteurs et reste invisible sur Google. Chaque seconde de chargement de trop, c’est des clients perdus.',
       solutionTitle: 'Ma solution',
@@ -316,6 +314,7 @@ export const fr = {
     lead: 'Je construis des sites rapides et bien référencés pour les entreprises qui veulent être trouvées, au Québec, au Canada et aux États-Unis.',
     body: [
       'Je suis Patrick Laperrière, développeur web freelance au Québec. Je conçois et développe des sites sur mesure pour les PME et les entrepreneurs qui en ont assez des sites lents, génériques et invisibles sur Google.',
+      'Je suis aussi le fondateur de Technologies Habita inc., l’entreprise derrière Habita, un logiciel SaaS d’inspection en bâtiment que je conçois et développe moi-même. Bâtir et faire évoluer mon propre produit me garde exigeant sur ce qui compte pour mes clients : un code fiable, rapide et qui tient dans le temps.',
       'Mon approche tient en quatre mots : performance, SEO, design soigné et communication claire. Je code proprement avec des technologies modernes (Astro, React, Shopify Liquid), je vise un score Lighthouse parfait, et je pense au référencement dès la première ligne, parce qu’un beau site que personne ne trouve ne sert à rien.',
       'Travaillant en français comme en anglais, je collabore aussi bien avec des clients locaux qu’avec des entreprises à distance partout au Canada et aux États-Unis. Mon objectif est simple : vous livrer un site dont vous êtes fier et qui travaille pour vous, 24 h sur 24.',
     ],
@@ -446,7 +445,7 @@ export const fr = {
   concepts: {
     crumb: 'Concepts',
     seoTitle: 'Concepts · démos d’interfaces par industrie | Patrick Laperrière',
-    seoDesc: 'Un aperçu de look and feel : des concepts d’interfaces sur mesure pour le barbier, le resto, le gym, l’immobilier, la clinique et le café. Voici ce que je peux créer.',
+    seoDesc: 'Des concepts d’interfaces sur mesure pour le barbier, le resto, le gym, l’immobilier, la clinique et le café. Un aperçu de ce que je peux créer.',
     kicker: 'Studio · Concepts',
     h1: 'Imaginez-le. Je le construis.',
     lead: 'Une démonstration de look and feel. Des concepts d’interfaces sur mesure, une industrie à la fois. Chaque écran est pensé, codé et animé, pas une image.',

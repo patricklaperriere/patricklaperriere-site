@@ -1,32 +1,24 @@
 ---
-// Quiet technical ticker. The old version was a fast gold-diamond marquee;
-// this one is slow, monochrome and hairline-bounded, so it reads as an index
-// of tools rather than a decoration.
-//
-// The track is duplicated once and translated by exactly -50%, which is what
-// makes the loop seamless. Only the first copy is exposed to assistive tech.
+// Technology index. It used to be a scrolling ticker, which needed the list
+// twice in the markup for a seamless loop: crawlers and text-only readers saw
+// every technology two times, mixed with outcomes ("SEO", "Performance").
+// It is now one static, wrapped list of tools, read from SITE.stack so the
+// home page, the about page and the Person schema can never disagree.
 import { useTranslations } from '../i18n';
 import type { Locale } from '../i18n/routes';
+import { SITE } from '../config';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
-const items = tr.marquee.items;
 ---
 
 <section class="ticker" aria-label={tr.marquee.label}>
-  <div class="ticker__mask">
-    <div class="ticker__track">
-      <ul class="ticker__set">
-        {items.map((it) => <li class="ticker__item">{it}</li>)}
-      </ul>
-      <ul class="ticker__set" aria-hidden="true">
-        {items.map((it) => <li class="ticker__item">{it}</li>)}
-      </ul>
-    </div>
-  </div>
+  <ul class="ticker__set container-wide">
+    {SITE.stack.map((it) => <li class="ticker__item">{it}</li>)}
+  </ul>
 </section>
 
 <style>
@@ -34,24 +26,14 @@ const items = tr.marquee.items;
     border-block: 1px solid var(--line);
     padding-block: 1.1rem;
   }
-  .ticker__mask {
-    overflow: hidden;
-    user-select: none;
-    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  }
-  .ticker__track {
-    display: flex;
-    width: max-content;
-    animation: tickerScroll 58s linear infinite;
-  }
-  .ticker__mask:hover .ticker__track {
-    animation-play-state: paused;
-  }
   .ticker__set {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
-    flex: none;
+    gap: 0.5rem clamp(0.75rem, 2vw, 1.5rem);
+    list-style: none;
+    margin-block: 0;
   }
   .ticker__item {
     font-family: var(--font-mono);
@@ -59,28 +41,18 @@ const items = tr.marquee.items;
     letter-spacing: 0.08em;
     color: var(--fg-mute);
     white-space: nowrap;
-    padding-inline: clamp(1.1rem, 2.5vw, 2rem);
     display: inline-flex;
     align-items: center;
   }
-  /* Separator drawn as a hairline rather than a glyph, so it never reads as
-     a bullet to a screen reader and never inherits the accent colour. */
-  .ticker__item::after {
+  /* Separator drawn as a dot rather than a glyph, so it never reads as a
+     bullet to a screen reader and never inherits the accent colour. */
+  .ticker__item + .ticker__item::before {
     content: "";
     width: 3px;
     height: 3px;
     border-radius: 50%;
     background: currentColor;
     opacity: 0.45;
-    margin-left: clamp(1.1rem, 2.5vw, 2rem);
-  }
-
-  @keyframes tickerScroll {
-    to { transform: translateX(-50%); }
-  }
-
-  /* Frozen, not hidden: the list stays readable, it simply stops moving. */
-  @media (prefers-reduced-motion: reduce) {
-    .ticker__track { animation: none; }
+    margin-right: clamp(0.75rem, 2vw, 1.5rem);
   }
 </style>

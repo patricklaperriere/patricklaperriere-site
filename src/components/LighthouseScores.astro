@@ -1,7 +1,10 @@
 ---
 // Measured Lighthouse scores, presented as an instrument readout rather than
-// marketing counters: tabular mono figures, a scale bar per metric, and the
-// measurement date stated plainly.
+// marketing counters: tabular mono figures and a scale bar per metric.
+//
+// No date is shown. A dated score reads as stale within weeks; the method is
+// stated instead, so anyone can re-run it. The dates stay in data/lighthouse.ts
+// as an internal record of when each number was taken.
 //
 // Every value comes from src/data/lighthouse.ts, which is filled from real
 // runs — a null renders nothing rather than a zero or a placeholder, so an
@@ -21,17 +24,14 @@ const tr = useTranslations(locale);
 const l = tr.lighthouse;
 
 // Best Practices is intentionally excluded — see the note in data/lighthouse.ts.
-const metrics = [
-  { key: 'performance', label: l.labels.performance, value: score.performance },
-  { key: 'accessibility', label: l.labels.accessibility, value: score.accessibility },
-  { key: 'seo', label: l.labels.seo, value: score.seo },
-].filter((m): m is { key: string; label: string; value: number } => m.value !== null);
-
-const dateFmt = new Intl.DateTimeFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-}).format(new Date(score.measured + 'T12:00:00'));
+type Metric = { key: string; label: string; value: number };
+const metrics = (
+  [
+    { key: 'performance', label: l.labels.performance, value: score.performance },
+    { key: 'accessibility', label: l.labels.accessibility, value: score.accessibility },
+    { key: 'seo', label: l.labels.seo, value: score.seo },
+  ] as { key: string; label: string; value: number | null }[]
+).filter((m): m is Metric => m.value !== null);
 
 const band = (v: number) => (v >= 90 ? 'good' : v >= 50 ? 'mid' : 'low');
 
@@ -71,7 +71,7 @@ const vitals = [
       </ul>
     )}
 
-    <p class="bench__meta">{`${l.measuredOn} ${dateFmt} · ${l.method}`}</p>
+    <p class="bench__meta">{l.method}</p>
   </div>
 )}
 

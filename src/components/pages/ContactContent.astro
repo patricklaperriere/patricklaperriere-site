@@ -20,7 +20,7 @@ const crumbs = [
 
 const subject =
   locale === 'fr'
-    ? 'Nouveau projet — patricklaperriere.com'
+    ? 'Nouveau projet · patricklaperriere.com'
     : 'New project — patricklaperriere.com';
 ---
 
@@ -100,7 +100,7 @@ const subject =
         {temoignages.map((t) => (
           <li>
             <span class="contact__trust-quote">“{t.text}”</span>
-            <span class="contact__trust-author">— {t.author}</span>
+            <span class="contact__trust-author">{t.author}</span>
           </li>
         ))}
       </ul>

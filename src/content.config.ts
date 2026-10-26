@@ -19,4 +19,42 @@ const blog = defineCollection({
   }),
 });
 
-export const collections = { blog };
+// Portfolio. One Markdown file per project in src/content/projets/; the file
+// name is the slug (/realisations/<slug> and /en/work/<slug>). Every text field
+// carries both languages. The Markdown body is for internal notes only and is
+// never rendered. See src/content/projets/README.md.
+const bilingue = z.object({ fr: z.string(), en: z.string() });
+
+const projets = defineCollection({
+  loader: glob({ pattern: ['*.md', '!README.md'], base: './src/content/projets' }),
+  schema: z.object({
+    titre: bilingue,
+    /** Short title for <title>, before " | Patrick Laperrière". Keep it under 44 characters. */
+    titreSeo: bilingue,
+    /** One-line pitch shown on cards and under the case-study title. */
+    accroche: bilingue,
+    /** Meta description, written by hand. 160 characters max. */
+    description: z.object({ fr: z.string().max(160), en: z.string().max(160) }),
+    client: z.string(),
+    rôle: bilingue,
+    stack: z.array(z.string()).min(1),
+    défi: bilingue,
+    réalisation: bilingue,
+    résultat: bilingue,
+    lien: z.string(),
+    /** Screenshot under public/, 1280×800 WebP. */
+    image: z.string(),
+    ordre: z.number().int(),
+    publié: z.boolean().default(false),
+    année: z.string(),
+    catégorie: z.enum(['saas', 'web', 'seo', 'shopify']),
+    /** Shown in the home-page selection. */
+    vedette: z.boolean().default(false),
+    /** Card accent colour (hex). */
+    accent: z.string().default('#d4543a'),
+    /** `contain` shows a device mockup whole instead of cropping it. */
+    cadrage: z.enum(['cover', 'contain']).default('cover'),
+  }),
+});
+
+export const collections = { blog, projets };
