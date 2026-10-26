@@ -4,7 +4,7 @@
 // Drawn wide and low (a long bungalow section, about 2.6:1) so that, even
 // pulled apart into an exploded view, it can span nearly the whole screen
 // width and still fit one pinned viewport. Each layer is its own group:
-//   · a flat mauve wash (foundations: a dot screen) that lights up when active;
+//   · a flat plum wash (foundations: a dot screen) that lights up when active;
 //   · a quiet base line, always there;
 //   · a trace over it, drawn in the accent while inspected;
 //   · its stretch of the dimension line on the left, with its number.
@@ -80,23 +80,22 @@ const layers: Layer[] = [
   .iplan { display: block; width: 100%; height: auto; overflow: visible; }
   .iplan path { fill: none; stroke-linecap: square; vector-effect: non-scaling-stroke; }
 
-  .iplan__fill { fill: var(--mauve-wash) !important; stroke: none; opacity: 1; }
+  /* Washes are plum fills; the foundations get a dot screen in the plan-line
+     colour. Yellow is kept for the active trace and the numbers. */
+  .iplan__fill { fill: var(--plum-wash) !important; stroke: none; opacity: 1; }
   .iplan__fill--dots { fill: url(#iplan-dots) !important; }
-  .iplan pattern circle { fill: var(--mauve-light); opacity: 0.45; }
+  .iplan pattern circle { fill: var(--plan-line); }
 
-  .iplan__base path { stroke: rgba(243, 236, 240, 0.5); stroke-width: 1.25px; }
+  .iplan__base path { stroke: var(--plan-line); stroke-width: 1.25px; }
   .iplan__trace path { stroke: var(--bone); stroke-width: 2px; }
   .iplan__cote path { stroke: var(--slate-mute); stroke-width: 1px; }
   .iplan__cote text {
     font-family: var(--font-mono);
     font-size: 24px;
     font-weight: 500;
-    fill: var(--mauve-light);
+    fill: var(--signal);
     text-anchor: end;
     dominant-baseline: central;
   }
 
-  @media (min-width: 1024px) {
-    .iplan__base path { stroke: rgba(243, 236, 240, 0.36); }
-  }
 </style>

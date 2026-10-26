@@ -4,7 +4,7 @@
 //   · soft fade-ins for content still below the fold when this runs, from 0.6
 //     opacity over 12px: nothing a visitor already sees ever disappears;
 //   · the inspection: the plan is pinned, pulled apart into an exploded view,
-//     and each layer in turn gets its mauve wash, its traced outline and its
+//     and each layer in turn gets its plum wash, its yellow traced outline and its
 //     annotation (on phones, a caption under the plan); then the house closes
 //     again. The full text of each layer follows the pinned plan.
 //
@@ -72,7 +72,8 @@ function prepareInspection() {
   const fills = layers.map((l) => l.querySelector<SVGPathElement>('[data-fill]')!);
   const notes = layers.map((l) => l.querySelector<SVGGElement>('[data-note]')!);
   const captions = [...el.querySelectorAll<HTMLElement>('[data-caption]')];
-  const accent = token('--mauve-light');
+  // Active trace in signal yellow (an active state); done traces in text white.
+  const accent = token('--signal');
   const done = token('--bone');
 
   gsap.set(traces.flat(), { drawSVG: '0%', stroke: accent });

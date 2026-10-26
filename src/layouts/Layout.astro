@@ -18,9 +18,10 @@ interface Props {
   ogType?: 'website' | 'article' | 'profile';
   schema?: object | null;
   noindex?: boolean;
-  /** Visual theme. `studio` is the new direction, applied to the home page
-   *  first (styles in src/styles/studio.css, imported by the page itself). */
-  theme?: 'studio';
+  /** Visual theme. `report` ("le rapport d'inspection") is the new direction,
+   *  applied to the home page first (styles in src/styles/report.css,
+   *  imported by the page itself). */
+  theme?: 'report';
 }
 
 const {
@@ -73,7 +74,7 @@ const favicon =
     )}
 
     {/* Preload the faces the first screen paints with. */}
-    {theme === 'studio' ? (
+    {theme === 'report' ? (
       <>
         <link rel="preload" href="/fonts/big-shoulders-display.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="preload" href="/fonts/red-hat-text.woff2" as="font" type="font/woff2" crossorigin />

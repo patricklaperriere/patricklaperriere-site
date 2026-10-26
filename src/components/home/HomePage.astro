@@ -1,13 +1,13 @@
 ---
-// The home page, both languages, in the studio direction.
+// The home page, both languages: "le rapport d'inspection".
 //
-// One grid (4 / 8 / 12 columns, studio.css), one 8px rhythm. Column 1 carries
+// One grid (4 / 8 / 12 columns, report.css), one 8px rhythm. Column 1 carries
 // the main content and column 9 the secondary column; the portrait closes on
 // the last column. Every word and image is in the HTML: without JavaScript or
 // with reduced motion, this is the page. home-motion.ts adds soft fade-ins
 // below the fold and one pinned moment: the plan, exploded and inspected
 // layer by layer.
-import '../../styles/studio.css';
+import '../../styles/report.css';
 import { Picture } from 'astro:assets';
 import { SITE } from '../../config';
 import type { Locale } from '../../i18n/routes';
@@ -188,19 +188,18 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     text-underline-offset: 0.25em;
     transition: text-decoration-color 0.2s ease, color 0.2s ease;
   }
-  .home a:not(.btn):hover { text-decoration-color: var(--mauve-light); color: var(--mauve-light); }
+  .home a:not(.btn):hover { text-decoration-color: var(--signal); color: var(--signal); }
   .home .btn { min-height: 48px; padding-inline: var(--s3); font-size: 1rem; }
 
   /* ---- Hero ---------------------------------------------------------------- */
   .home .hero { padding-block: var(--s5) var(--s6); }
   .hero__grid { row-gap: var(--s5); align-items: start; }
   .hero__name, .hero__text, .hero__photo, .hero__hint { grid-column: 1 / -1; }
-  .hero__name { color: var(--mauve-light); font-family: var(--font-mono); font-size: 0.9375rem; margin: 0 0 calc(var(--s3) - var(--s5)); }
+  .hero__name { color: var(--signal); font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 calc(var(--s3) - var(--s5)); }
   .hero__title {
     font-size: clamp(3rem, 6vw, 5.75rem);
     font-weight: 900;
-    line-height: 0.92;
-    text-transform: uppercase;
+    line-height: 0.95;
     margin: 0;
   }
   .hero__lead {
@@ -238,11 +237,13 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
       min-height: 44px;
       color: var(--slate-mute) !important;
       font-family: var(--font-mono);
-      font-size: 0.8125rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       text-decoration: none !important;
     }
     .hero__hint-line { width: var(--s5); height: 1px; background: var(--line-strong); }
-    .hero__hint:hover .hero__hint-line { background: var(--mauve-light); }
+    .hero__hint:hover .hero__hint-line { background: var(--signal); }
   }
   @media (min-width: 1024px) {
     .home .hero { padding-block: var(--s6) var(--s5); }
@@ -292,7 +293,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     color: var(--slate);
     margin: 0 0 var(--s2);
   }
-  .layer__num { color: var(--mauve-light); font-weight: 500; }
+  .layer__num { color: var(--signal); font-weight: 500; }
   .layer__title { font-size: clamp(1.875rem, 2.6vw, 2.375rem); line-height: 1.02; margin: 0; }
   .layer__body { color: var(--slate); margin: var(--s2) 0 var(--s3); max-width: 44ch; }
   .layer__links { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); margin: 0; }
@@ -352,8 +353,8 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .card__media img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
   .card a:hover .card__media img { transform: scale(1.02); }
   .card__title { font-family: var(--font-display); font-weight: 800; font-size: 1.875rem; line-height: 1; }
-  .card a:hover .card__title { color: var(--mauve-light); }
-  .card__meta { color: var(--mauve-light); font-family: var(--font-mono); font-size: 0.8125rem; }
+  .card a:hover .card__title { color: var(--signal); }
+  .card__meta { color: var(--signal); font-family: var(--font-mono); font-size: 0.8125rem; letter-spacing: 0.08em; text-transform: uppercase; }
   .card__tagline { color: var(--slate); }
   @media (min-width: 768px) {
     .card { grid-column: span 4; }
@@ -375,12 +376,12 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 
   /* ---- Contact ------------------------------------------------------------------- */
   .contact__intro, .contact__reach { grid-column: 1 / -1; }
-  .contact__title { font-size: clamp(2.75rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; text-transform: uppercase; margin: 0; }
+  .contact__title { font-size: clamp(2.75rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; margin: 0; }
   .contact__lead { color: var(--slate); font-size: 1.125rem; max-width: 42ch; margin: var(--s3) 0 0; }
   .contact__reach { margin-top: var(--s5); }
   .contact__reach dl { margin: 0 0 var(--s4); border-top: 1px solid var(--line); }
   .contact__reach dl div { display: grid; grid-template-columns: 7rem 1fr; gap: var(--s2); padding-block: var(--s2); border-bottom: 1px solid var(--line); }
-  .contact__reach dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.8125rem; padding-top: 0.2em; }
+  .contact__reach dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 0.3em; }
   .contact__reach dd { margin: 0; overflow-wrap: anywhere; }
   @media (min-width: 1024px) {
     .contact .st-grid { align-items: end; }

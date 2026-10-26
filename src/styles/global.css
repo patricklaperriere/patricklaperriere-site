@@ -259,6 +259,12 @@ a {
 /* ───────────────────────────────────────────────────────────────────────────
    5. Base
    ─────────────────────────────────────────────────────────────────────────── */
+/* The root carries the text face too: with it only on body, <html> keeps the
+   browser default (Times New Roman), which audits flag as a serif fallback. */
+html {
+  font-family: var(--font-sans);
+}
+
 body {
   min-height: 100svh;
   background-color: var(--ink);

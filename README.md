@@ -63,6 +63,7 @@ npm install        # install dependencies
 npm run dev        # local dev server (http://localhost:4321)
 npm run build      # production build → dist/
 npm run preview    # preview the built site locally
+npm run contrast   # WCAG AA check of the report theme's colour pairings
 ```
 
 ---

@@ -12,7 +12,8 @@
     "og": "node scripts/og.mjs",
     "photo": "node scripts/photo.mjs",
     "check": "node scripts/check-prix.mjs",
-    "astro": "astro"
+    "astro": "astro",
+    "contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
