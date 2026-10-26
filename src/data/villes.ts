@@ -35,66 +35,6 @@ export interface Ville {
 
 export const villes: Ville[] = [
   {
-    slug: 'laval',
-    name: 'Laval',
-    region: { fr: 'Laval, QC', en: 'Laval, QC' },
-    geo: { lat: 45.6066, lng: -73.7124 },
-    nearby: ['Chomedey', 'Sainte-Dorothée', 'Sainte-Rose', 'Vimont', 'Duvernay', 'Laval-des-Rapides', 'Fabreville'],
-    order: 1,
-    fr: {
-      metaTitle: 'Création de site web à Laval | Patrick Laperrière',
-      metaDesc: 'Développeur web à Laval. Sites rapides, bilingues et optimisés pour Google pour les PME lavalloises qui veulent générer des clients. Soumission gratuite.',
-      h1: 'Création de site web à Laval',
-      lead: 'Un développeur web établi à Laval, qui conçoit des sites rapides et bien référencés pour les entreprises de la région.',
-      intro:
-        'Je suis basé à Laval et je travaille avec des commerces, des professionnels et des PME d\'ici. Un site rapide et bien structuré, c\'est ce qui vous place devant vos concurrents quand un client de votre quartier cherche votre service sur Google.',
-      localTitle: 'Le web pour les entreprises de Laval',
-      local: [
-        'Laval est l\'un des plus grands marchés du Québec, avec une économie portée par les services professionnels, la construction, la santé, le commerce de proximité et une foule de PME. La concurrence locale est réelle : un site lent ou daté vous fait perdre des appels au profit du commerce d\'à côté.',
-        'Mon travail consiste à faire en sorte que votre entreprise ressorte dans les recherches « près de chez moi » et sur les requêtes propres à votre secteur. Référencement local, données structurées, fiche Google Business soignée et un site qui charge en un éclair sur mobile, là où se font la majorité des recherches à Laval.',
-      ],
-      whyTitle: 'Pourquoi un développeur de Laval',
-      why: [
-        'Je connais le marché local et je suis dans votre fuseau horaire, joignable rapidement.',
-        'On peut se rencontrer ou faire un appel sans détour, en français comme en anglais.',
-        'Chaque page est construite pour le référencement local dès le départ, pas ajouté après coup.',
-      ],
-      servedLabel: 'Je dessers aussi les secteurs de',
-      faqTitle: 'Questions fréquentes · Laval',
-      faq: [
-        { q: 'Travaillez-vous avec des entreprises de Laval en personne ?', a: 'Oui. Étant établi à Laval, je peux vous rencontrer au besoin, mais l\'essentiel du travail se fait efficacement par appel et courriel pour vous faire gagner du temps.' },
-        { q: 'Faites-vous du référencement local pour Laval ?', a: 'Absolument. J\'optimise votre fiche Google Business, j\'ajoute les données structurées locales et je structure vos pages pour que vous soyez trouvé par les clients de Laval et des environs.' },
-        { q: 'Combien coûte un site web pour une PME de Laval ?', a: 'Ça dépend de vos objectifs et du nombre de pages. Après un court appel, je vous envoie une soumission gratuite et détaillée, sans surprise.' },
-      ],
-    },
-    en: {
-      metaTitle: 'Web Design in Laval, QC | Patrick Laperrière',
-      metaDesc: 'Web developer based in Laval. Fast, bilingual, SEO-optimized websites built for Laval businesses that want to generate leads. Free quote.',
-      h1: 'Web Design & Development in Laval',
-      lead: 'A web developer based in Laval, building fast, well-ranked websites for local businesses.',
-      intro:
-        'I\'m based in Laval and work with local shops, professionals and small businesses. A fast, well-structured site is what puts you ahead of competitors when someone in your neighbourhood searches for your service on Google.',
-      localTitle: 'The web for Laval businesses',
-      local: [
-        'Laval is one of Quebec\'s largest markets, driven by professional services, construction, healthcare, local retail and a large base of small businesses. Local competition is real: a slow or dated website loses calls to the shop next door.',
-        'My job is to make your business stand out in "near me" searches and on the queries specific to your industry. Local SEO, structured data, a polished Google Business profile and a site that loads instantly on mobile, where most Laval searches happen.',
-      ],
-      whyTitle: 'Why a Laval-based developer',
-      why: [
-        'I know the local market and I\'m in your time zone, quick to reach.',
-        'We can meet or hop on a straightforward call, in French or English.',
-        'Every page is built for local SEO from the start, not bolted on afterward.',
-      ],
-      servedLabel: 'I also serve the areas of',
-      faqTitle: 'Frequently asked questions — Laval',
-      faq: [
-        { q: 'Do you work with Laval businesses in person?', a: 'Yes. Being based in Laval, I can meet when needed, though most of the work happens efficiently over calls and email to save you time.' },
-        { q: 'Do you do local SEO for Laval?', a: 'Absolutely. I optimize your Google Business profile, add local structured data and structure your pages so you get found by customers in Laval and nearby areas.' },
-        { q: 'How much does a website cost for a Laval business?', a: 'It depends on your goals and number of pages. After a short call, I send a free, detailed quote with no surprises.' },
-      ],
-    },
-  },
-  {
     slug: 'montreal',
     name: 'Montréal',
     region: { fr: 'Grand Montréal', en: 'Greater Montreal' },

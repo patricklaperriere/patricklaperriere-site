@@ -3,16 +3,20 @@
 Bilingual (FR-CA / EN-CA) marketing site for **Patrick Laperrière**, freelance web
 developer serving Québec, Canada and the United States.
 
-> **Positioning rule — do not undo this.** The site is deliberately *not*
-> positioned as local-to-Laval. "Laval" may appear in exactly two places:
-> the `/creation-site-web/laval` + `/en/web-design/laval` city pages, and the
-> `LocalBusiness` structured data (`SITE.city` for address/geo, and
-> `SITE.areaServed`, which tells Google where I operate). Anywhere else —
-> titles, meta descriptions, H1s, the footer, other city pages, the concepts
-> mockups — the scope is **Québec / Canada / United States**. No city page may
-> name a city other than its own (regional designations such as "Rive-Sud de
+> **Positioning rule — do not undo this.** The site names no home town: the
+> scope is **Québec / Canada / United States** everywhere, structured data
+> included (no `addressLocality`). The former Laval city pages are removed and
+> 308-redirected to the regions hub (`vercel.json`). No city page may name a
+> city other than its own (regional designations such as "Rive-Sud de
 > Montréal" are fine). When generating copy from this README, carry that rule
 > forward.
+>
+> **Email.** Public address: `info@patricklaperriere.com` (contact page,
+> footer, JSON-LD). The About page alone shows `pl@patricklaperriere.com`. The
+> contact form posts to Web3Forms, which forwards to the inbox configured in
+> that account; no personal address is printed anywhere. **Before launch,
+> configure mail routing for the domain** so both addresses actually receive
+> mail.
 
 Built SEO-first: static HTML at first paint, animations layered on top as
 progressive enhancement. Targets Lighthouse 100 across the board.

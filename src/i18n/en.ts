@@ -48,7 +48,7 @@ export const en = {
     meta: {
       availabilityLabel: 'Availability',
       locationLabel: 'Based in',
-      location: 'Laval, Quebec',
+      location: 'Quebec',
       productLabel: 'Product',
       product: 'Habita · SaaS in production',
     },
@@ -413,7 +413,7 @@ export const en = {
       {
         title: 'Get in touch',
         body: [
-          'For any question about this policy or your information, email me at patricklaperriere819@gmail.com.',
+          'For any question about this policy or your information, email me at info@patricklaperriere.com.',
         ],
       },
     ],

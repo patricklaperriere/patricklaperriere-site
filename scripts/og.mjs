@@ -168,12 +168,7 @@ const images = [
     subtitle: 'Des concepts d’interfaces sur mesure, par industrie',
   },
   // Local SEO city pages
-  {
-    file: 'ville-laval.png',
-    kicker: 'SEO LOCAL · CRÉATION DE SITE WEB',
-    title: 'Site web à Laval',
-    subtitle: 'Rapide, bilingue et optimisé pour Google',
-  },
+
   {
     file: 'ville-montreal.png',
     kicker: 'SEO LOCAL · CRÉATION DE SITE WEB',

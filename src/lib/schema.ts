@@ -40,6 +40,7 @@ export const HABITA_APP_ID = `${SITE.domain}/#habita`;
 /** Areas served, typed: countries as Country, the rest as AdministrativeArea. */
 function areaServed(locale: Locale) {
   const countries = new Set(['Canada', 'États-Unis', 'United States']);
+  // 'Québec' / 'Quebec' is the province here, hence AdministrativeArea.
   return SITE.areaServed[locale].map((name) => ({
     '@type': countries.has(name) ? 'Country' : 'AdministrativeArea',
     name,
@@ -65,7 +66,6 @@ export function personSchema(locale: Locale) {
     knowsLanguage: ['fr-CA', 'en-CA'],
     address: {
       '@type': 'PostalAddress',
-      addressLocality: SITE.city,
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
@@ -127,7 +127,6 @@ export function professionalServiceSchema(locale: Locale) {
     areaServed: areaServed(locale),
     address: {
       '@type': 'PostalAddress',
-      addressLocality: SITE.city,
       addressRegion: SITE.region,
       addressCountry: SITE.country,
     },
