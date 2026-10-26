@@ -1,0 +1,197 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Studio theme — the new direction, scoped to html.theme-studio.
+   ───────────────────────────────────────────────────────────────────────────
+   Restrained and exact: a warm graphite ground (never pure black), cream
+   type, one quiet steel-blue accent. Young Serif for titles, Atkinson
+   Hyperlegible Next for text. No grain, no glow, no gradient.
+
+   Only the home page sets the theme for now. Every rule below is prefixed
+   with .theme-studio, so the rest of the site is untouched until it moves
+   over too; at that point these tokens simply become the root ones.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Young Serif";
+  src: url("/fonts/young-serif.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("/fonts/atkinson-next.woff2") format("woff2");
+  font-weight: 200 800;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("/fonts/atkinson-next-italic.woff2") format("woff2");
+  font-weight: 200 800;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ---- Tokens ----------------------------------------------------------------
+   Contrast on --ink (#171614): cream 15.1, --slate 7.4, --slate-mute 4.9,
+   accent 8.4. Overriding the base names keeps every shared component
+   (nav, footer, buttons) on the new palette without editing it. */
+html.theme-studio {
+  --ink:          #171614;
+  --ink-raised:   #1e1d1a;
+  --ink-sunken:   #121110;
+  --bone:         #ece5d8;
+  --slate:        #aaa395;
+  --slate-mute:   #8b8579;
+  --signal:       #9db4d3;
+  --vermilion:      #9db4d3;
+  --vermilion-text: #9db4d3;
+  --vermilion-deep: #9db4d3;
+
+  --accent-fg: var(--signal);
+  --accent:    var(--signal);
+  --line:        rgba(236, 229, 216, 0.12);
+  --line-soft:   rgba(236, 229, 216, 0.07);
+  --line-strong: rgba(236, 229, 216, 0.24);
+  --btn-fill-bg: var(--bone);
+  --btn-fill-fg: var(--ink);
+
+  --font-display: "Young Serif", Georgia, "Times New Roman", serif;
+  --font-serif:   "Young Serif", Georgia, serif;
+  --font-sans:    "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* No code on these pages: the mono token falls back to the text face, so
+     the skip link and the shared labels never fetch JetBrains Mono. */
+  --font-mono:    var(--font-sans);
+
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+
+  /* ---- Grid: 4 / 8 / 12 columns, one margin, one gutter ----------------- */
+  --cols:   4;
+  --gap:    16px;
+  --margin: 20px;
+  --maxw:   1320px;
+
+  /* ---- Vertical rhythm: an 8px base ---------------------------------------- */
+  --s1: 8px;
+  --s2: 16px;
+  --s3: 24px;
+  --s4: 32px;
+  --s5: 40px;
+  --s6: 48px;
+  --s8: 64px;
+  --s10: 80px;
+  --s12: 96px;
+  --s16: 128px;
+  --section: var(--s10);
+}
+@media (min-width: 768px) {
+  html.theme-studio { --cols: 8; --gap: 24px; --margin: 40px; --section: var(--s12); }
+}
+@media (min-width: 1024px) {
+  html.theme-studio { --cols: 12; --gap: 24px; --margin: 56px; --section: var(--s16); }
+}
+
+/* The content frame and its grid. Everything on the home page is placed on
+   these columns, so edges line up from section to section. */
+.theme-studio .st-frame {
+  width: 100%;
+  max-width: calc(var(--maxw) + 2 * var(--margin));
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+.theme-studio .st-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gap);
+}
+
+/* ---- Base ------------------------------------------------------------------ */
+.theme-studio body {
+  background-color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+.theme-studio h1,
+.theme-studio h2,
+.theme-studio h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+.theme-studio ::selection { background: var(--signal); color: var(--ink); }
+.theme-studio :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 0; }
+
+/* The base layer's SVG noise has no place here. */
+.theme-studio .grain { display: none; }
+
+/* ---- Buttons ------------------------------------------------------------------ */
+.theme-studio .btn-primary,
+.theme-studio .btn-accent {
+  background: var(--bone);
+  border-color: var(--bone);
+  color: var(--ink);
+}
+.theme-studio .btn-primary:hover,
+.theme-studio .btn-accent:hover {
+  background: transparent;
+  border-color: var(--bone);
+  color: var(--bone);
+}
+.theme-studio .btn-ghost { border-color: var(--line-strong); }
+
+/* ---- Shared chrome: nav and footer -------------------------------------------
+   Their small labels use the mono face in capitals with wide tracking. Here
+   the mono token resolves to the text face, and capitals go. */
+.theme-studio .nav,
+.theme-studio .footer {
+  --font-mono: var(--font-sans);
+}
+.theme-studio .nav *,
+.theme-studio .footer * {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+.theme-studio .nav,
+.theme-studio .nav.is-stuck {
+  background: var(--ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.theme-studio .nav.is-stuck { border-bottom-color: var(--line); }
+.theme-studio .nav__brand { font-family: var(--font-display); }
+.theme-studio .nav__brand-dot { color: var(--signal); }
+.theme-studio .nav .nav__cta {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid var(--line-strong);
+}
+.theme-studio .nav .nav__cta:hover { border-color: var(--bone); }
+.theme-studio .nav__mobile { background: var(--ink); }
+.theme-studio .label {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--slate-mute);
+}
+.theme-studio .label-rule::before { background: var(--line-strong); }
+
+/* The home page ends on its own contact section: the footer's contact block
+   would repeat it word for word. */
+.theme-studio .footer__top { display: none; }
+
+/* Lenis (home only) takes over wheel scrolling while it runs. */
+html.theme-studio.lenis,
+html.theme-studio.lenis body { height: auto; }
+.theme-studio.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.theme-studio.lenis.lenis-stopped { overflow: hidden; }
+
+/* Nav and footer share the page frame, so the wordmark and the last link line
+   up with the content's first and last columns. */
+.theme-studio .nav .container-wide,
+.theme-studio .footer .container-wide {
+  max-width: calc(var(--maxw) + 2 * var(--margin));
+  padding-inline: var(--margin);
+}
+/* The 22px icon is centred in a 44px tap target: pull the target out by half
+   the difference so the visible lines end on the frame. */
+.theme-studio .nav__burger { margin-right: -11px; }

@@ -18,6 +18,9 @@ interface Props {
   ogType?: 'website' | 'article' | 'profile';
   schema?: object | null;
   noindex?: boolean;
+  /** Visual theme. `studio` is the new direction, applied to the home page
+   *  first (styles in src/styles/studio.css, imported by the page itself). */
+  theme?: 'studio';
 }
 
 const {
@@ -30,6 +33,7 @@ const {
   ogType,
   schema = null,
   noindex = false,
+  theme,
 } = Astro.props;
 
 const tr = useTranslations(locale);
@@ -42,7 +46,7 @@ const favicon =
 ---
 
 <!doctype html>
-<html lang={htmlLang}>
+<html lang={htmlLang} class:list={[theme && `theme-${theme}`]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -68,14 +72,15 @@ const favicon =
       <link rel="icon" type="image/svg+xml" href={favicon} />
     )}
 
-    {/* Preload the display font used by the hero (LCP) */}
-    <link
-      rel="preload"
-      href="/fonts/bricolage-grotesque.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    {/* Preload the faces the first screen paints with. */}
+    {theme === 'studio' ? (
+      <>
+        <link rel="preload" href="/fonts/young-serif.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/atkinson-next.woff2" as="font" type="font/woff2" crossorigin />
+      </>
+    ) : (
+      <link rel="preload" href="/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin />
+    )}
 
     <SEO
       title={title}
