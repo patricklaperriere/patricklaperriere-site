@@ -13,8 +13,8 @@ type LinkKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'work' | 'habitaCase' | 'hab
 const fr = {
   hero: {
     name: 'Patrick Laperrière, développeur web au Québec',
-    title: 'Je bâtis des sites qui chargent vite, se trouvent sur Google et tiennent dans le temps.',
-    lead: 'Sites web, refontes, boutiques Shopify et outils sur mesure pour les PME d’ici, en français comme en anglais.',
+    title: 'Des sites rapides. Des outils sur mesure. Bâtis au Québec.',
+    lead: 'Je bâtis des sites qui se trouvent sur Google et des outils qui servent pour vrai, pour les PME d’ici, en français comme en anglais.',
     cta: 'Parlons de votre projet',
     secondary: 'Voir les réalisations',
     scroll: 'Défiler',
@@ -80,8 +80,8 @@ type HomeCopy = typeof fr;
 const en: HomeCopy = {
   hero: {
     name: 'Patrick Laperrière, web developer in Quebec',
-    title: 'I build websites that load fast, get found on Google and hold up over time.',
-    lead: 'Websites, redesigns, Shopify stores and custom tools for small businesses here, in French and in English.',
+    title: 'Fast websites. Custom tools. Built in Quebec.',
+    lead: 'I build websites that get found on Google and tools that actually get used, for small businesses here, in French and in English.',
     cta: 'Tell me about your project',
     secondary: 'See the work',
     scroll: 'Scroll',

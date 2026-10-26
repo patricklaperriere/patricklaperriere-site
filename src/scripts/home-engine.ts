@@ -1,10 +1,11 @@
 // Home-page motion, loaded on demand by home-motion.ts (never under reduced
 // motion). Two things only:
 //
-//   · soft fade-ups for content that is below the fold when this runs, so
-//     nothing a visitor is already looking at ever disappears;
-//   · the inspection: the section drawing is pinned while each layer is
-//     traced in the accent colour, its marker lit and its text brought in.
+//   · soft fade-ins for content still below the fold when this runs, from 0.6
+//     opacity over 12px: nothing a visitor already sees ever disappears;
+//   · the inspection: the plan is pinned, pulled apart into an exploded view,
+//     and each layer in turn gets its mauve wash, its traced outline and its
+//     annotation while its text takes over; then the house closes again.
 //
 // Setup runs in steps, each in its own gsap.matchMedia() handler with a yield
 // in between: no long task, and every step reverts on its own if the visitor
@@ -18,8 +19,8 @@ gsap.registerPlugin(ScrollTrigger, DrawSVGPlugin);
 
 const MOTION = '(prefers-reduced-motion: no-preference)';
 const yieldToMain = () => new Promise((resolve) => setTimeout(resolve, 0));
-const ACCENT = 'var(--signal)';
-const DONE = 'var(--bone)';
+// Resolved from the theme at run time: GSAP interpolates colours, not var().
+const token = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
 function smoothScroll() {
   // Wheel only: touch keeps native scrolling.
@@ -45,7 +46,7 @@ function hideBelowFold() {
   );
   // Opacity only (not visibility): a faded heading stays in the accessibility
   // tree, so the outline is the same before and after it fades in.
-  if (below.length) gsap.set(below, { opacity: 0, y: 24 });
+  if (below.length) gsap.set(below, { opacity: 0.6, y: 12 });
 }
 
 function fades() {
@@ -64,15 +65,20 @@ function prepareInspection() {
   const el = document.querySelector<HTMLElement>('[data-insp-stage]');
   if (!el) return null;
   el.classList.add('is-pinned');
+  const body = el.querySelector<SVGGElement>('[data-plan-body]')!;
   const layers = [...el.querySelectorAll<SVGGElement>('.iplan__layer')];
   const traces = layers.map((l) => [...l.querySelectorAll<SVGPathElement>('[data-trace] path')]);
-  const markers = layers.map((l) => l.querySelector<SVGGElement>('[data-marker]')!);
+  const fills = layers.map((l) => l.querySelector<SVGPathElement>('[data-fill]')!);
+  const notes = layers.map((l) => l.querySelector<SVGGElement>('[data-note]')!);
   const texts = [...el.querySelectorAll<HTMLElement>('[data-layer-text]')];
+  const accent = token('--mauve-light');
+  const done = token('--bone');
 
-  gsap.set(traces.flat(), { drawSVG: '0%', stroke: ACCENT });
-  gsap.set(markers, { opacity: 0.4 });
-  gsap.set(texts.slice(1), { autoAlpha: 0, y: 16 });
-  return { el, traces, markers, texts };
+  gsap.set(traces.flat(), { drawSVG: '0%', stroke: accent });
+  gsap.set(fills, { opacity: 0.2 });
+  gsap.set(notes, { opacity: 0.45 });
+  gsap.set(texts.slice(1), { autoAlpha: 0, y: 12 });
+  return { el, body, layers, traces, fills, notes, texts, done };
 }
 
 function inspection() {
@@ -85,13 +91,14 @@ function inspection() {
 
 function inspectionTimeline() {
   if (!stage) return;
-  const { el, traces, markers, texts } = stage;
+  const { el, body, layers, traces, fills, notes, texts, done } = stage;
+  const last = layers.length - 1;
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
       trigger: el,
       start: 'top top',
-      end: () => `+=${window.innerHeight * 2.4}`,
+      end: () => `+=${window.innerHeight * 2.8}`,
       pin: true,
       scrub: 0.5,
       invalidateOnRefresh: true,
@@ -99,19 +106,31 @@ function inspectionTimeline() {
     },
   });
 
+  // Open: the plan grows a little and comes apart, roof up, foundations down.
+  tl.fromTo(body, { scale: 0.94 }, { scale: 1, duration: 0.6, transformOrigin: '50% 50%', ease: 'power1.out' }, 0);
+  tl.to(layers[0], { y: -36, duration: 0.6, ease: 'power2.inOut' }, 0);
+  tl.to(layers[last], { y: 36, duration: 0.6, ease: 'power2.inOut' }, 0);
+
   traces.forEach((paths, i) => {
-    const at = i * 2;
+    const at = 0.6 + i * 1.6;
     if (i > 0) {
-      tl.to(texts[i - 1], { autoAlpha: 0, y: -16, duration: 0.4, ease: 'power1.in' }, at);
-      tl.to(texts[i], { autoAlpha: 1, y: 0, duration: 0.5, ease: 'power2.out' }, at + 0.2);
-      tl.to(traces[i - 1], { stroke: DONE, duration: 0.4 }, at);
-      tl.to(markers[i - 1], { opacity: 0.4, duration: 0.3 }, at);
+      tl.to(texts[i - 1], { autoAlpha: 0, y: -12, duration: 0.35, ease: 'power1.in' }, at);
+      tl.to(texts[i], { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' }, at + 0.2);
+      tl.to(traces[i - 1], { stroke: done, duration: 0.4 }, at);
+      tl.to(fills[i - 1], { opacity: 0.35, duration: 0.4 }, at);
+      tl.to(notes[i - 1], { opacity: 0.45, duration: 0.3 }, at);
     }
-    tl.to(markers[i], { opacity: 1, duration: 0.3 }, at);
-    tl.to(paths, { drawSVG: '100%', duration: 1.4, stagger: { amount: 0.4 } }, at + 0.1);
+    tl.to(fills[i], { opacity: 1, duration: 0.4 }, at);
+    tl.to(notes[i], { opacity: 1, duration: 0.3 }, at);
+    tl.to(paths, { drawSVG: '100%', duration: 1.1, stagger: { amount: 0.3 } }, at + 0.1);
   });
-  tl.to(traces[traces.length - 1], { stroke: DONE, duration: 0.4 });
-  tl.to({}, { duration: 0.4 });
+
+  // Close: the last layer settles and the house comes back together.
+  const end = 0.6 + layers.length * 1.6;
+  tl.to(traces[last], { stroke: done, duration: 0.4 }, end);
+  tl.to(fills, { opacity: 0.35, duration: 0.4 }, end);
+  tl.to([layers[0], layers[last]], { y: 0, duration: 0.6, ease: 'power2.inOut' }, end);
+  tl.to({}, { duration: 0.3 });
 }
 
 export async function start() {

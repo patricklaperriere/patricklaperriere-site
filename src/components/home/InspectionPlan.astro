@@ -1,94 +1,127 @@
 ---
-// A house in section, drawn as a fine-line plan: roof, structure, foundations.
+// A house in section, drawn as a plan: roof, structure, foundations.
 //
-// Each layer is drawn twice: a quiet base line that is always there, and a
-// trace that the home page draws in, in the accent colour, while that layer
-// is being "inspected". Without motion the trace is simply complete. Numbered
-// markers (1, 2, 3) tie each layer to its text, which is in the HTML beside
-// the drawing, so the SVG is one image with one label.
+// Each layer is its own group so the home page can pull the drawing apart
+// into an exploded view while it inspects one layer at a time. A layer has:
+//   · a flat mauve wash (foundations: a dot screen) that lights up when active;
+//   · a quiet base line, always there;
+//   · a trace over it that gets drawn in the accent while inspected;
+//   · a dimension line on the left and a mono annotation on the right.
+// Without motion, everything is simply in place and complete.
 interface Props {
   label: string;
+  names: string[];
 }
-const { label } = Astro.props;
+const { label, names } = Astro.props;
 
-// Roof slopes: outer line from (40,220) to the ridge (280,60) and back.
-const k = 160 / 240;
-const right = (x: number) => 60 + (x - 280) * k;
+// Roof slope on the right side, outer line from the ridge (340,80) to (580,240).
+const right = (x: number) => 80 + (x - 340) * (160 / 240);
 const r = (n: number) => Math.round(n * 10) / 10;
 
-const hatch = Array.from({ length: 10 }, (_, i) => 92 + i * 40).map((x) => `M${x} 476 L${x + 24} 444`);
+type Layer = {
+  id: string;
+  fill: string;
+  dots?: boolean;
+  paths: string[];
+  cote: [number, number];
+  lead: string;
+  labelY: number;
+};
 
-const layers = [
+const layers: Layer[] = [
   {
     id: 'toiture',
-    marker: [536, 124],
-    lead: `M440 ${r(right(440))} L524 124`,
+    fill: 'M100 240 L340 80 L580 240 Z',
     paths: [
-      'M40 220 L280 60 L520 220',
-      'M72 220 L280 81.3 L488 220',
-      `M380 ${r(right(380))} V92 H410 V${r(right(410))}`,
-      'M40 220 H520',
+      'M100 240 L340 80 L580 240',
+      'M132 240 L340 101.3 L548 240',
+      `M440 ${r(right(440))} V112 H470 V${r(right(470))}`,
+      'M100 240 H580',
     ],
+    cote: [80, 240],
+    lead: `M520 ${r(right(520))} H600`,
+    labelY: 200,
   },
   {
     id: 'structure',
-    marker: [536, 300],
-    lead: 'M488 300 H524',
+    fill: 'M132 240 H548 V440 H132 Z',
     paths: [
-      'M72 220 V420',
-      'M488 220 V420',
-      'M72 320 H488',
-      'M110 252 H180 V300 H110 Z',
-      'M380 252 H450 V300 H380 Z',
-      'M380 352 H450 V400 H380 Z',
-      'M250 420 V350 H310 V420',
+      'M132 240 V440',
+      'M548 240 V440',
+      'M132 340 H548',
+      'M170 272 H240 V320 H170 Z',
+      'M440 272 H510 V320 H440 Z',
+      'M440 372 H510 V420 H440 Z',
+      'M310 440 V370 H370 V440',
     ],
+    cote: [240, 440],
+    lead: 'M548 340 H600',
+    labelY: 340,
   },
   {
     id: 'fondations',
-    marker: [536, 462],
-    lead: 'M488 462 H524',
+    fill: 'M132 440 H548 V500 H564 V520 H116 V500 H132 Z',
+    dots: true,
     paths: [
-      'M16 420 H544',
-      'M72 420 V480 H488 V420',
-      'M56 480 H504 V500 H56 Z',
-      ...hatch,
+      'M60 440 H620',
+      'M132 440 V500 H548 V440',
+      'M116 500 H564 V520 H116 Z',
     ],
+    cote: [440, 520],
+    lead: 'M548 480 H600',
+    labelY: 480,
   },
 ];
 ---
 
-<svg class="iplan" viewBox="0 0 560 520" role="img" aria-label={label} data-plan>
-  {layers.map((l, i) => (
-    <g class="iplan__layer" data-layer={l.id}>
-      <g class="iplan__base">{l.paths.map((d) => <path d={d} />)}</g>
-      <g class="iplan__trace" data-trace>{l.paths.map((d) => <path d={d} />)}</g>
-      <g class="iplan__marker" data-marker aria-hidden="true">
-        <path class="iplan__lead" d={l.lead} />
-        <circle cx={l.marker[0]} cy={l.marker[1]} r="12" />
-        <text x={l.marker[0]} y={l.marker[1]}>{i + 1}</text>
+<svg class="iplan" viewBox="0 0 720 548" role="img" aria-label={label} data-plan>
+  <defs>
+    <pattern id="iplan-dots" width="10" height="10" patternUnits="userSpaceOnUse">
+      <circle cx="5" cy="5" r="1.4" />
+    </pattern>
+  </defs>
+  <g class="iplan__body" data-plan-body>
+    {layers.map((l, i) => (
+      <g class="iplan__layer" data-layer={l.id}>
+        <path class:list={['iplan__fill', l.dots && 'iplan__fill--dots']} d={l.fill} data-fill />
+        <g class="iplan__base">{l.paths.map((d) => <path d={d} />)}</g>
+        <g class="iplan__trace" data-trace>{l.paths.map((d) => <path d={d} />)}</g>
+        <g class="iplan__cote" aria-hidden="true">
+          <path d={`M44 ${l.cote[0] + 4} V${l.cote[1] - 4}`} />
+          <path d={`M36 ${l.cote[0]} H52 M36 ${l.cote[1]} H52`} />
+        </g>
+        <g class="iplan__note" data-note aria-hidden="true">
+          <path class="iplan__lead" d={l.lead} />
+          <text class="iplan__num" x="612" y={l.labelY - 4}>{String(i + 1).padStart(2, '0')}</text>
+          <text class="iplan__name" x="612" y={l.labelY + 22}>{names[i]}</text>
+        </g>
       </g>
-    </g>
-  ))}
+    ))}
+  </g>
 </svg>
 
 <style>
   .iplan { display: block; width: 100%; height: auto; overflow: visible; }
-  .iplan path,
-  .iplan circle {
-    fill: none;
-    stroke-linecap: square;
-    vector-effect: non-scaling-stroke;
+  .iplan path { fill: none; stroke-linecap: square; vector-effect: non-scaling-stroke; }
+
+  .iplan__fill { fill: var(--mauve-wash) !important; stroke: none; opacity: 1; }
+  .iplan__fill--dots { fill: url(#iplan-dots) !important; }
+  .iplan pattern circle { fill: var(--mauve-light); opacity: 0.45; }
+
+  .iplan__base path { stroke: rgba(243, 236, 240, 0.5); stroke-width: 1.25px; }
+  .iplan__trace path { stroke: var(--bone); stroke-width: 2px; }
+  .iplan__cote path, .iplan__lead { stroke: var(--slate-mute); stroke-width: 1px; }
+
+  .iplan text { font-family: var(--font-mono); fill: var(--slate); }
+  .iplan__num { font-size: 30px; font-weight: 500; fill: var(--bone); }
+  .iplan__name { font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  @media (min-width: 1024px) {
+    .iplan__base path { stroke: rgba(243, 236, 240, 0.34); }
   }
-  .iplan__base path { stroke: var(--line-strong); stroke-width: 1px; }
-  .iplan__trace path { stroke: var(--bone); stroke-width: 1.25px; }
-  .iplan__lead { stroke: var(--line-strong); stroke-width: 1px; }
-  .iplan circle { stroke: var(--slate-mute); stroke-width: 1px; }
-  .iplan text {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    fill: var(--slate);
-    text-anchor: middle;
-    dominant-baseline: central;
+  /* Narrow screens: the names would fall under 9px; the numbers stay, and the
+     text beside the plan carries the names. */
+  @media (max-width: 559px) {
+    .iplan__name { display: none; }
   }
 </style>
