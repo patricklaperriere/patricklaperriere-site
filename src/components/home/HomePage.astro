@@ -183,8 +183,7 @@ const quote = t.about.testimonial;
   /* ---- Hero ---------------------------------------------------------------- */
   /* No photo: the headline is the largest paint, and the site's own
      inspection sheet sits beside it, its top on the headline's top. */
-  .home .hero { padding-block: var(--s5) var(--s6); }
-  .hero__grid { row-gap: var(--s5); align-items: start; }
+  .hero__grid { row-gap: var(--head); align-items: start; }
   .hero__text, .hero__sheet { grid-column: 1 / -1; }
   /* One sentence per line: the size follows the width so the longest
      sentence fits on one line from 320px up. */
@@ -211,28 +210,19 @@ const quote = t.about.testimonial;
     .hero__sheet { grid-column: 1 / span 5; }
   }
   @media (min-width: 1024px) {
-    .home .hero { padding-block: var(--s8) var(--s6); }
     .hero__text { grid-column: 1 / span 8; }
     .hero__sheet { grid-column: 9 / span 4; }
   }
 
   /* ---- Inspection ---------------------------------------------------------- */
-  /* The scene adds its own top padding once pinned; the section's bottom
-     padding is trimmed so the pin's end is not followed by an empty band. */
-  .home .insp { padding-block: var(--s6) var(--s5); }
-  /* Desktop, once pinned: the scene's own top padding clears the header, so
-     the section adds none, and the heading shows on the first screen. */
-  @media (min-width: 1024px) {
-    .home .insp:has(:global(.is-live)) { padding-top: 0; }
-  }
-  .insp__head { row-gap: var(--s1); margin-bottom: var(--s3); }
+  .insp__head { row-gap: var(--s1); margin-bottom: var(--head); }
   .insp__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
   @media (min-width: 768px) {
     .insp__intro { grid-column: 1 / span 6; }
   }
 
   /* ---- Work: inspection files ----------------------------------------------- */
-  .work__head { row-gap: var(--s2); margin-bottom: var(--s6); }
+  .work__head { row-gap: var(--s2); margin-bottom: var(--head); }
   .work__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
   .work__list { list-style: none; margin: 0; padding: 0; row-gap: var(--gap); }
   .file {
@@ -271,7 +261,7 @@ const quote = t.about.testimonial;
   }
   .file__status--off { color: var(--slate-mute); }
   .home a.file__link { display: inline-flex; align-items: center; min-height: 44px; }
-  .work__all-wrap { margin: var(--s5) 0 0; }
+  .work__all-wrap { margin: var(--head) 0 0; }
   @media (min-width: 768px) {
     .work__intro { grid-column: 1 / span 6; }
     .file { grid-column: span 4; }
@@ -281,8 +271,8 @@ const quote = t.about.testimonial;
   }
 
   /* ---- About ------------------------------------------------------------------- */
-  .about__photo { grid-column: 1 / span 3; margin-top: var(--s3); max-width: 300px; }
-  .about__text { grid-column: 1 / -1; margin-top: var(--s4); }
+  .about__photo { grid-column: 1 / span 3; margin-top: var(--head); max-width: 300px; }
+  .about__text { grid-column: 1 / -1; margin-top: var(--head); }
   .quote { margin: var(--s4) 0; padding-left: var(--s3); border-left: 2px solid var(--signal); }
   .quote blockquote { margin: 0; }
   .quote blockquote p { color: var(--bone); font-size: 1.25rem; }
@@ -296,7 +286,7 @@ const quote = t.about.testimonial;
   @media (min-width: 1024px) {
     .about .st-grid { align-content: start; }
     .about__title { grid-column: 1 / span 4; grid-row: 1; }
-    .about__photo { grid-column: 1 / span 4; grid-row: 2; margin-top: var(--s4); }
+    .about__photo { grid-column: 1 / span 4; grid-row: 2; margin-top: var(--head); }
     .about__text { grid-column: 7 / span 6; grid-row: 1 / span 2; margin-top: 0; }
   }
 
@@ -304,7 +294,7 @@ const quote = t.about.testimonial;
   .contact__intro, .contact__reach { grid-column: 1 / -1; }
   .contact__title { font-size: clamp(2.75rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; margin: 0; }
   .contact__lead { color: var(--slate); font-size: 1.125rem; max-width: 42ch; margin: var(--s3) 0 0; }
-  .contact__reach { margin-top: var(--s5); }
+  .contact__reach { margin-top: var(--head); }
   .contact__reach dl { margin: 0 0 var(--s4); border-top: 1px solid var(--line); }
   .contact__reach dl div { display: grid; grid-template-columns: 7rem 1fr; gap: var(--s2); padding-block: var(--s2); border-bottom: 1px solid var(--line); }
   .contact__reach dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 0.3em; }

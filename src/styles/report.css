@@ -122,13 +122,17 @@ html.theme-report {
   --s10: 80px;
   --s12: 96px;
   --s16: 128px;
-  --section: var(--s8);
+  /* Page rhythm, two steps only: --section above and below each section's
+     content (so two sections sit 2 × --section apart), --head between a
+     section's heading and what follows it. */
+  --section: var(--s5);
+  --head: var(--s4);
 }
 @media (min-width: 768px) {
-  html.theme-report { --cols: 8; --gap: 24px; --margin: 40px; --section: var(--s10); }
+  html.theme-report { --cols: 8; --gap: 24px; --margin: 40px; --section: var(--s6); }
 }
 @media (min-width: 1024px) {
-  html.theme-report { --cols: 12; --gap: 24px; --margin: 56px; --section: var(--s12); }
+  html.theme-report { --cols: 12; --gap: 24px; --margin: 56px; --section: var(--s8); --head: var(--s5); }
 }
 
 /* The content frame and its grid. */
