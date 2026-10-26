@@ -25,6 +25,9 @@ réalisation:
 résultat:
   fr: "Un produit que je conçois et fais évoluer en continu, positionné comme l’alternative moderne et bilingue aux logiciels d’inspection traditionnels du Québec, soutenu par une vraie stratégie de contenu et de comparaison pour attirer les inspecteurs en recherche d’un meilleur outil. C’est ma plus grande fierté."
   en: "A product I design and keep evolving, positioned as the modern, bilingual alternative to Quebec’s traditional inspection software, backed by a real content and comparison strategy to attract inspectors looking for a better tool. It’s what I’m proudest of."
+terrain:
+  fr: "Éric Beauregard, d’Inspection BeauRegard, utilise Habita pour ses inspections : il prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau. <!-- À CONFIRMER : citation et accord d'Éric -->"
+  en: "Éric Beauregard, of Inspection BeauRegard, uses Habita for his inspections: he shoots his photos in the field with his own camera, then writes the report back at the office. <!-- À CONFIRMER : citation et accord d'Éric -->"
 lien: "https://habita.expert"
 image: "/work/habita.webp"
 ordre: 1
@@ -41,4 +44,5 @@ Notes internes (jamais publiées : seul le frontmatter alimente les pages).
 - Habita est publié depuis la refonte précédente : la fiche reste `publié: true` pour ne pas casser /realisations/habita ni le lien de l'accueil.
 - <!-- À CONFIRMER PATRICK --> Statut réel du produit : le site affiche « En production » et l'accueil dit que des inspecteurs s'en servent chaque jour, mais le README du dépôt Habita parle d'une bêta sur invitation.
 - <!-- À CONFIRMER PATRICK --> Un résultat mesurable à ajouter au champ `résultat` (nombre d'inspecteurs, de rapports produits, temps gagné par rapport). Rien n'est inventé ici.
+- <!-- À CONFIRMER : citation et accord d'Éric --> Section « Utilisé sur le terrain » (champ `terrain`) : visible avec npm run dev seulement, retirée du build tant que le marqueur reste. Éric doit approuver le texte et le fait d'être nommé.
 - <!-- À CONFIRMER PATRICK --> NEQ de Technologies Habita inc., si tu veux qu'il apparaisse sur le site et dans les données structurées.
