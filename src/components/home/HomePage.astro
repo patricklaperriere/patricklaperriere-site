@@ -2,20 +2,18 @@
 // The home page, both languages: "le rapport d'inspection".
 //
 // One grid (4 / 8 / 12 columns, report.css), one 8px rhythm. Column 1 carries
-// the main content and column 9 the secondary column; the portrait closes on
-// the last column. Every word and image is in the HTML: without JavaScript or
+// the main content and column 9 the secondary column; the inspection sheet
+// closes on the last column. Every word is in the HTML: without JavaScript or
 // with reduced motion, this is the page. home-motion.ts adds soft fade-ins
 // below the fold and one pinned moment: the plan, exploded and inspected
 // layer by layer.
 import '../../styles/report.css';
-import { Picture } from 'astro:assets';
 import { SITE } from '../../config';
 import type { Locale } from '../../i18n/routes';
 import { routes, workBase } from '../../i18n/routes';
 import { homeCopy } from '../../i18n/home';
 import { sortedProjects } from '../../data/projets';
-import { PORTRAIT_WIDTHS } from '../../lib/photo';
-import portrait from '../../assets/photo/patrick-portrait-mauve.jpg';
+import SiteSheet from './SiteSheet.astro';
 import InspectionPlan from './InspectionPlan.astro';
 
 interface Props {
@@ -51,22 +49,9 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
           <a class="hero__link" href="#travaux">{t.hero.secondary}</a>
         </p>
       </div>
-      <figure class="hero__photo">
-        <Picture
-          src={portrait}
-          formats={['avif', 'webp']}
-          widths={PORTRAIT_WIDTHS}
-          sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 34vw, 540px"
-          alt={t.hero.portraitAlt}
-          width={720}
-          height={900}
-          loading="eager"
-        />
-      </figure>
-      <a class="hero__hint" href="#inspection">
-        <span class="hero__hint-line" aria-hidden="true"></span>
-        {t.hero.scroll}
-      </a>
+      <div class="hero__sheet">
+        <SiteSheet locale={locale} />
+      </div>
     </div>
   </section>
 
@@ -192,12 +177,14 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   .home .btn { min-height: 48px; padding-inline: var(--s3); font-size: 1rem; }
 
   /* ---- Hero ---------------------------------------------------------------- */
+  /* No photo: the headline is the largest paint, and the site's own
+     inspection sheet sits beside it, its top on the headline's top. */
   .home .hero { padding-block: var(--s5) var(--s6); }
   .hero__grid { row-gap: var(--s5); align-items: start; }
-  .hero__name, .hero__text, .hero__photo, .hero__hint { grid-column: 1 / -1; }
+  .hero__name, .hero__text, .hero__sheet { grid-column: 1 / -1; }
   .hero__name { color: var(--signal); font-family: var(--font-mono); font-size: 0.8125rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin: 0 0 calc(var(--s3) - var(--s5)); }
   .hero__title {
-    font-size: clamp(3rem, 6vw, 5.75rem);
+    font-size: clamp(3rem, 7vw, 6.5rem);
     font-weight: 900;
     line-height: 0.95;
     margin: 0;
@@ -210,46 +197,14 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     margin: var(--s4) 0 var(--s5);
   }
   .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); margin: 0; }
-  .hero__photo { margin: 0; overflow: hidden; }
-  .hero__photo :global(picture) { display: block; }
-  /* Phones: a tighter, square crop on the face. */
-  .hero__photo :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    object-position: 50% 28%;
-    transform: scale(1.18);
-    transform-origin: 52% 34%;
-  }
-  .hero__hint { display: none; }
-
   @media (min-width: 768px) {
-    .hero__text { grid-column: 1 / span 5; }
-    .hero__photo { grid-column: 6 / span 3; }
-    .hero__photo :global(img) { aspect-ratio: 4 / 5; transform: none; object-position: 50% 50%; }
-    .hero__hint {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--s2);
-      justify-self: start;
-      min-height: 44px;
-      color: var(--slate-mute) !important;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      text-decoration: none !important;
-    }
-    .hero__hint-line { width: var(--s5); height: 1px; background: var(--line-strong); }
-    .hero__hint:hover .hero__hint-line { background: var(--signal); }
+    .hero__text { grid-column: 1 / span 8; }
+    .hero__sheet { grid-column: 1 / span 5; }
   }
   @media (min-width: 1024px) {
-    .home .hero { padding-block: var(--s6) var(--s5); }
-    .hero__text { grid-column: 1 / span 7; }
-    /* Larger, and its top edge on the title's top edge. */
-    .hero__photo { grid-column: 8 / span 5; }
+    .home .hero { padding-block: var(--s8) var(--s6); }
+    .hero__text { grid-column: 1 / span 8; }
+    .hero__sheet { grid-column: 9 / span 4; }
   }
 
   /* ---- Inspection ---------------------------------------------------------- */

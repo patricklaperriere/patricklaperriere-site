@@ -64,6 +64,8 @@ npm run dev        # local dev server (http://localhost:4321)
 npm run build      # production build → dist/
 npm run preview    # preview the built site locally
 npm run contrast   # WCAG AA check of the report theme's colour pairings
+npm run measure    # Lighthouse (mobile, median of 3 valid runs) on / and /en → src/data/site-metrics.json
+                   # needs Chrome/Chromium; set CHROME_PATH if chrome-launcher cannot find it
 ```
 
 ---
@@ -145,6 +147,22 @@ frontmatter: `title`, `description`, `lang` (`fr`|`en`), `slug`, `translationKey
 5. Pass the new path in each page's `alternates` prop so hreflang stays complete.
 
 ---
+
+## The home page's inspection sheet
+
+The hero shows a sheet with this site's own numbers: mobile performance
+score, LCP, CLS and bytes transferred. They come only from
+`src/data/site-metrics.json`, written by `npm run measure`
+(`scripts/measure-site.mjs`): build, serve `dist/`, Lighthouse 12.8.2 mobile
+until 3 valid runs per page, median kept. A run is rejected when headless
+Chrome stalls (no score, or Speed Index over 10 s). The status reads
+"Conforme" when the page meets Google's "good" thresholds (score 90+, LCP
+2.5 s or less, CLS 0.1 or less).
+
+Every build compares the built pages with the sizes recorded at measurement
+time and warns (`[site-metrics-freshness]`) when one has moved by more than
+10%: re-run `npm run measure` and commit the JSON. Vercel cannot run
+Lighthouse during its build, so measuring is a local step.
 
 ## SEO
 

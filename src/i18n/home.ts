@@ -12,13 +12,25 @@ type LinkKey = 'svcWeb' | 'svcSeo' | 'svcShopify' | 'work' | 'habitaCase' | 'hab
 
 const fr = {
   hero: {
-    name: 'Patrick Laperrière, développeur web au Québec',
+    name: 'Patrick Laperrière, développeur web',
     title: 'Des sites rapides. Des outils sur mesure. Bâtis au Québec.',
     lead: 'Je bâtis des sites qui se trouvent sur Google et des outils qui servent pour vrai, pour les PME d’ici, en français comme en anglais.',
     cta: 'Parlons de votre projet',
     secondary: 'Voir les réalisations',
-    scroll: 'Défiler',
-    portraitAlt: 'Patrick Laperrière, souriant, en veston bleu et t-shirt noir',
+  },
+  sheet: {
+    ref: 'Réf. PL-2026-01',
+    title: 'Fiche d’inspection de ce site',
+    performance: 'Performance mobile',
+    lcp: 'Affichage du contenu (LCP)',
+    cls: 'Stabilité visuelle (CLS)',
+    weight: 'Poids transféré',
+    kb: 'Ko',
+    status: 'Statut',
+    pass: 'Conforme',
+    fix: 'À corriger',
+    measured: (date: string, tool: string) => `Mesuré le ${date} avec ${tool}, profil mobile.`,
+    notMeasured: 'Pas encore mesuré : lancer npm run measure.',
   },
   inspection: {
     title: 'Un site s’inspecte comme une maison.',
@@ -79,13 +91,25 @@ type HomeCopy = typeof fr;
 
 const en: HomeCopy = {
   hero: {
-    name: 'Patrick Laperrière, web developer in Quebec',
+    name: 'Patrick Laperrière, web developer',
     title: 'Fast websites. Custom tools. Built in Quebec.',
     lead: 'I build websites that get found on Google and tools that actually get used, for small businesses here, in French and in English.',
     cta: 'Tell me about your project',
     secondary: 'See the work',
-    scroll: 'Scroll',
-    portraitAlt: 'Patrick Laperrière smiling, in a blue blazer and a black T-shirt',
+  },
+  sheet: {
+    ref: 'Ref. PL-2026-01',
+    title: 'Inspection sheet for this site',
+    performance: 'Mobile performance',
+    lcp: 'Content display (LCP)',
+    cls: 'Visual stability (CLS)',
+    weight: 'Data transferred',
+    kb: 'KB',
+    status: 'Status',
+    pass: 'Pass',
+    fix: 'Needs work',
+    measured: (date: string, tool: string) => `Measured on ${date} with ${tool}, mobile profile.`,
+    notMeasured: 'Not measured yet: run npm run measure.',
   },
   inspection: {
     title: 'A website gets inspected like a house.',

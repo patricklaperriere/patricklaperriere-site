@@ -35,6 +35,42 @@ function serialize(item) {
   };
 }
 
+// The home page's inspection sheet prints real numbers from
+// src/data/site-metrics.json, written by `npm run measure`. After each build,
+// compare the built pages with the sizes recorded at measurement time: if one
+// has moved by more than 10%, the numbers on the sheet describe a page that no
+// longer exists, so say so loudly (the build itself still succeeds).
+/** @returns {import('astro').AstroIntegration} */
+function metricsFreshness() {
+  return {
+    name: 'site-metrics-freshness',
+    hooks: {
+      'astro:build:done': ({ dir, logger }) => {
+        const file = new URL('./src/data/site-metrics.json', import.meta.url);
+        if (!existsSync(file)) return;
+        const m = JSON.parse(readFileSync(file, 'utf8'));
+        if (!m.measuredAt) {
+          logger.warn('site-metrics.json has no measurement yet: run `npm run measure`.');
+          return;
+        }
+        for (const [path, recorded] of Object.entries(m.htmlBytes ?? {})) {
+          const rel = path === '/' ? 'index.html' : `${path.replace(/^\//, '')}/index.html`;
+          const built = new URL(rel, dir);
+          if (!existsSync(built)) continue;
+          const now = readFileSync(built).length;
+          const drift = Math.abs(now - recorded) / recorded;
+          if (drift > 0.1) {
+            logger.warn(
+              `${path} is ${Math.round(drift * 100)}% off the size measured on ${m.measuredAt.slice(0, 10)}: ` +
+                'the inspection sheet is stale, run `npm run measure`.',
+            );
+          }
+        }
+      },
+    },
+  };
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://www.patricklaperriere.com',
@@ -71,6 +107,7 @@ export default defineConfig({
   },
 
   integrations: [
+    metricsFreshness(),
     sitemap({
       serialize,
       // The 404 is noindex; drafts never reach a build in the first place.
