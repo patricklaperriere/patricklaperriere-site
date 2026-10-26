@@ -17,6 +17,8 @@ Le schéma est validé par `src/content.config.ts` : un champ manquant fait éch
 | `rôle` (fr, en) | Ce que j'ai fait |
 | `stack` | Technologies, dans l'ordre d'importance |
 | `défi`, `réalisation`, `résultat` (fr, en) | Les trois sections de l'étude de cas |
+| `terrain` (fr, en), facultatif | Section « Utilisé sur le terrain » |
+| `témoignage`, facultatif | `citation` (fr, en), `auteur`, `fonction` (fr, en). Seulement avec l'accord écrit du client |
 | `lien` | URL du site en ligne |
 | `image` | Capture 1280×800 en WebP dans `public/work/` |
 | `ordre` | Position dans la liste (1 = premier) |
@@ -29,6 +31,9 @@ Le corps du fichier (sous le frontmatter) sert aux notes internes. Il n'est jama
 
 Tant qu'un champ contient `À CONFIRMER`, le projet ne peut pas être publié : la compilation échoue
 si `publié: true` et qu'une valeur affichée contient encore ce marqueur.
+
+Exception : `terrain` et `témoignage` peuvent garder le marqueur sur un projet publié. Ils s'affichent
+alors avec `npm run dev` seulement et sont retirés du build jusqu'à confirmation.
 
 ## Image de partage
 

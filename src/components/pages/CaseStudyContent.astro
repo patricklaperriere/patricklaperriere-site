@@ -56,8 +56,10 @@ const crumbs = [
 const blocks = [
   { label: ws.challenge, body: loc(project.challenge, locale) },
   { label: ws.built, body: loc(project.built, locale) },
+  ...(project.field ? [{ label: ws.field, body: loc(project.field, locale) }] : []),
   { label: ws.result, body: loc(project.result, locale) },
 ];
+const quote = project.testimonial;
 
 const specs = [
   { k: ws.client, v: project.client },
@@ -153,6 +155,21 @@ const specs = [
     ))}
   </div>
 
+  {quote && (
+    <section class="container-wide case__quote reveal" aria-labelledby="case-quote-label">
+      <h2 class="label label-rule" id="case-quote-label">{ws.testimonial}</h2>
+      <figure>
+        <blockquote class="case__quote-text">
+          <p>{loc(quote.quote, locale)}</p>
+        </blockquote>
+        <figcaption class="case__quote-by">
+          <span>{quote.author}</span>
+          <span class="case__quote-title">{loc(quote.title, locale)}</span>
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
   <nav class="container-wide case__next" aria-label={tr.nav.work}>
     <div class="case__next-row">
       <a href={`${workBase[locale]}/${next.slug}`} class="case__next-link">
@@ -184,6 +201,26 @@ const specs = [
 
 <style>
   /* ---- Masthead ----------------------------------------------------------- */
+  .case__quote {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .case__quote figure { margin: 1.5rem 0 0; max-width: 60ch; }
+  .case__quote-text {
+    margin: 0;
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .case__quote-text p { margin: 0; }
+  .case__quote-by {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
+  .case__quote-title { color: var(--fg-mute); }
   .case__draft {
     margin: 0 0 1.5rem;
     padding: 0.75rem 1rem;

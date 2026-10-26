@@ -261,6 +261,8 @@ export const en = {
     built: 'What I built',
     stack: 'Tech stack',
     result: 'Result',
+    field: 'In the field',
+    testimonial: 'Testimonial',
     role: 'Role',
     year: 'Year',
   },

@@ -41,6 +41,16 @@ const projets = defineCollection({
     défi: bilingue,
     réalisation: bilingue,
     résultat: bilingue,
+    /** Optional: how the product is used in practice (Habita). */
+    terrain: bilingue.optional(),
+    /** Optional: a client's own words, quoted only with their written OK. */
+    témoignage: z
+      .object({
+        citation: bilingue,
+        auteur: z.string(),
+        fonction: bilingue,
+      })
+      .optional(),
     lien: z.string(),
     /** Screenshot under public/, 1280×800 WebP. */
     image: z.string(),

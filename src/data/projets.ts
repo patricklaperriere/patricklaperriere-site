@@ -5,6 +5,11 @@
 // Drafts (`publié: false`) exist only under `astro dev`, flagged `draft`, so a
 // project can be previewed locally before it is approved. A production build
 // never sees them: no page, no card, no sitemap entry.
+//
+// The optional sections (`terrain`, `témoignage`) follow the same rule one
+// level down: while one still contains "À CONFIRMER" it shows under
+// `astro dev` and is dropped from a build, so a published project can carry a
+// pending section without blocking deploys or leaking the placeholder.
 
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Locale } from '../i18n/routes';
@@ -36,14 +41,25 @@ export interface Project {
   challenge: LocalizedField;
   built: LocalizedField;
   result: LocalizedField;
+  /** Optional section, null when absent or still awaiting confirmation. */
+  field: LocalizedField | null;
+  testimonial: { quote: LocalizedField; author: string; title: LocalizedField } | null;
   stack: string[];
 }
 
 /** Placeholder left in a draft wherever Patrick still has to supply a fact. */
 export const TO_CONFIRM = 'À CONFIRMER';
 
+/** Keep an optional section in dev; in a build, only once it is confirmed. */
+function pending<T>(section: T | undefined): T | null {
+  if (section === undefined) return null;
+  if (!import.meta.env.DEV && JSON.stringify(section).includes(TO_CONFIRM)) return null;
+  return section;
+}
+
 function toProject(entry: CollectionEntry<'projets'>): Project {
   const d = entry.data;
+  const t = pending(d.témoignage);
   return {
     slug: entry.id,
     draft: !d.publié,
@@ -64,6 +80,8 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     challenge: d.défi,
     built: d.réalisation,
     result: d.résultat,
+    field: pending(d.terrain),
+    testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction } : null,
     stack: d.stack,
   };
 }
@@ -77,7 +95,9 @@ export async function sortedProjects(): Promise<Project[]> {
   // build rather than ship "À CONFIRMER" to a client's case study.
   for (const p of list) {
     if (p.draft) continue;
-    const { slug, draft, featured, order, ...shown } = p;
+    // `field` and `testimonial` are left out: `pending()` already drops them
+    // from a build while they hold the placeholder.
+    const { slug, draft, featured, order, field, testimonial, ...shown } = p;
     if (JSON.stringify(shown).includes(TO_CONFIRM)) {
       throw new Error(
         `Projet « ${slug} » : publié: true alors qu’un champ contient encore « ${TO_CONFIRM} ».`,

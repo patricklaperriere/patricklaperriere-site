@@ -264,6 +264,8 @@ export const fr = {
     built: 'Ce que j’ai construit',
     stack: 'Technologies',
     result: 'Résultat',
+    field: 'Utilisé sur le terrain',
+    testimonial: 'Témoignage',
     role: 'Rôle',
     year: 'Année',
   },
