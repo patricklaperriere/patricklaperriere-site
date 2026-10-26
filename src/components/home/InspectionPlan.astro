@@ -1,83 +1,63 @@
 ---
 // A house in section, drawn as a plan: roof, structure, foundations.
 //
-// Each layer is its own group so the home page can pull the drawing apart
-// into an exploded view while it inspects one layer at a time. A layer has:
+// Drawn wide and low (a long bungalow section, about 2.6:1) so that, even
+// pulled apart into an exploded view, it can span nearly the whole screen
+// width and still fit one pinned viewport. Each layer is its own group:
 //   · a flat mauve wash (foundations: a dot screen) that lights up when active;
 //   · a quiet base line, always there;
-//   · a trace over it that gets drawn in the accent while inspected;
-//   · a dimension line on the left and a mono annotation on the right.
-// Without motion, everything is simply in place and complete.
+//   · a trace over it, drawn in the accent while inspected;
+//   · its stretch of the dimension line on the left, with its number.
+// The layer names are in the HTML (a caption above the plan while pinned, and
+// the texts after it). Without motion, everything is in place and complete.
 interface Props {
   label: string;
-  names: string[];
 }
-const { label, names } = Astro.props;
+const { label } = Astro.props;
 
-// Roof slope on the right side, outer line from the ridge (340,80) to (580,240).
-const right = (x: number) => 80 + (x - 340) * (160 / 240);
+// Roof: outer line from (60,230) up to the ridge (590,80), down to (1120,230).
+const k = 150 / 530;
+const right = (x: number) => 80 + (x - 590) * k;
 const r = (n: number) => Math.round(n * 10) / 10;
 
-type Layer = {
-  id: string;
-  fill: string;
-  dots?: boolean;
-  paths: string[];
-  cote: [number, number];
-  lead: string;
-  labelY: number;
-};
+type Layer = { id: string; fill: string; dots?: boolean; paths: string[]; cote: [number, number] };
+
+const windows = [160, 330, 690, 860].flatMap((x) =>
+  [252, 340].map((y) => `M${x} ${y} H${x + 120} V${y + 46} H${x} Z`),
+);
 
 const layers: Layer[] = [
   {
     id: 'toiture',
-    fill: 'M100 240 L340 80 L580 240 Z',
+    fill: 'M60 230 L590 80 L1120 230 Z',
     paths: [
-      'M100 240 L340 80 L580 240',
-      'M132 240 L340 101.3 L548 240',
-      `M440 ${r(right(440))} V112 H470 V${r(right(470))}`,
-      'M100 240 H580',
+      'M60 230 L590 80 L1120 230',
+      'M100 230 L590 102 L1080 230',
+      `M820 ${r(right(820))} V100 H860 V${r(right(860))}`,
+      'M60 230 H1120',
     ],
-    cote: [80, 240],
-    lead: `M520 ${r(right(520))} H600`,
-    labelY: 200,
+    cote: [80, 230],
   },
   {
     id: 'structure',
-    fill: 'M132 240 H548 V440 H132 Z',
-    paths: [
-      'M132 240 V440',
-      'M548 240 V440',
-      'M132 340 H548',
-      'M170 272 H240 V320 H170 Z',
-      'M440 272 H510 V320 H440 Z',
-      'M440 372 H510 V420 H440 Z',
-      'M310 440 V370 H370 V440',
-    ],
-    cote: [240, 440],
-    lead: 'M548 340 H600',
-    labelY: 340,
+    fill: 'M100 230 H1080 V410 H100 Z',
+    paths: ['M100 230 V410', 'M1080 230 V410', 'M100 320 H1080', ...windows, 'M560 410 V340 H620 V410'],
+    cote: [230, 410],
   },
   {
     id: 'fondations',
-    fill: 'M132 440 H548 V500 H564 V520 H116 V500 H132 Z',
+    fill: 'M100 410 H1080 V465 H1100 V485 H80 V465 H100 Z',
     dots: true,
-    paths: [
-      'M60 440 H620',
-      'M132 440 V500 H548 V440',
-      'M116 500 H564 V520 H116 Z',
-    ],
-    cote: [440, 520],
-    lead: 'M548 480 H600',
-    labelY: 480,
+    paths: ['M40 410 H1150', 'M100 410 V465 H1080 V410', 'M80 465 H1100 V485 H80 Z'],
+    cote: [410, 485],
   },
 ];
 ---
 
-<svg class="iplan" viewBox="0 0 720 548" role="img" aria-label={label} data-plan>
+<svg class="iplan" viewBox="0 60 1160 440" role="img" aria-label={label} data-plan>
   <defs>
-    <pattern id="iplan-dots" width="10" height="10" patternUnits="userSpaceOnUse">
-      <circle cx="5" cy="5" r="1.4" />
+    <pattern id="iplan-dots" width="11" height="11" patternUnits="userSpaceOnUse">
+      <circle cx="5.5" cy="5.5" r="1.5" />
     </pattern>
   </defs>
   <g class="iplan__body" data-plan-body>
@@ -86,14 +66,10 @@ const layers: Layer[] = [
         <path class:list={['iplan__fill', l.dots && 'iplan__fill--dots']} d={l.fill} data-fill />
         <g class="iplan__base">{l.paths.map((d) => <path d={d} />)}</g>
         <g class="iplan__trace" data-trace>{l.paths.map((d) => <path d={d} />)}</g>
-        <g class="iplan__cote" aria-hidden="true">
+        <g class="iplan__cote" data-note aria-hidden="true">
           <path d={`M44 ${l.cote[0] + 4} V${l.cote[1] - 4}`} />
           <path d={`M36 ${l.cote[0]} H52 M36 ${l.cote[1]} H52`} />
-        </g>
-        <g class="iplan__note" data-note aria-hidden="true">
-          <path class="iplan__lead" d={l.lead} />
-          <text class="iplan__num" x="612" y={l.labelY - 4}>{String(i + 1).padStart(2, '0')}</text>
-          <text class="iplan__name" x="612" y={l.labelY + 22}>{names[i]}</text>
+          <text x="30" y={(l.cote[0] + l.cote[1]) / 2}>{String(i + 1).padStart(2, '0')}</text>
         </g>
       </g>
     ))}
@@ -110,18 +86,17 @@ const layers: Layer[] = [
 
   .iplan__base path { stroke: rgba(243, 236, 240, 0.5); stroke-width: 1.25px; }
   .iplan__trace path { stroke: var(--bone); stroke-width: 2px; }
-  .iplan__cote path, .iplan__lead { stroke: var(--slate-mute); stroke-width: 1px; }
-
-  .iplan text { font-family: var(--font-mono); fill: var(--slate); }
-  .iplan__num { font-size: 30px; font-weight: 500; fill: var(--bone); }
-  .iplan__name { font-size: 17px; letter-spacing: 0.08em; text-transform: uppercase; }
+  .iplan__cote path { stroke: var(--slate-mute); stroke-width: 1px; }
+  .iplan__cote text {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 500;
+    fill: var(--mauve-light);
+    text-anchor: end;
+    dominant-baseline: central;
+  }
 
   @media (min-width: 1024px) {
-    .iplan__base path { stroke: rgba(243, 236, 240, 0.34); }
-  }
-  /* Narrow screens: the names would fall under 9px; the numbers stay, and the
-     text beside the plan carries the names. */
-  @media (max-width: 559px) {
-    .iplan__name { display: none; }
+    .iplan__base path { stroke: rgba(243, 236, 240, 0.36); }
   }
 </style>

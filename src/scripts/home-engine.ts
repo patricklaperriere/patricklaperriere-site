@@ -5,7 +5,8 @@
 //     opacity over 12px: nothing a visitor already sees ever disappears;
 //   · the inspection: the plan is pinned, pulled apart into an exploded view,
 //     and each layer in turn gets its mauve wash, its traced outline and its
-//     annotation while its text takes over; then the house closes again.
+//     annotation (on phones, a caption under the plan); then the house closes
+//     again. The full text of each layer follows the pinned plan.
 //
 // Setup runs in steps, each in its own gsap.matchMedia() handler with a yield
 // in between: no long task, and every step reverts on its own if the visitor
@@ -70,15 +71,15 @@ function prepareInspection() {
   const traces = layers.map((l) => [...l.querySelectorAll<SVGPathElement>('[data-trace] path')]);
   const fills = layers.map((l) => l.querySelector<SVGPathElement>('[data-fill]')!);
   const notes = layers.map((l) => l.querySelector<SVGGElement>('[data-note]')!);
-  const texts = [...el.querySelectorAll<HTMLElement>('[data-layer-text]')];
+  const captions = [...el.querySelectorAll<HTMLElement>('[data-caption]')];
   const accent = token('--mauve-light');
   const done = token('--bone');
 
   gsap.set(traces.flat(), { drawSVG: '0%', stroke: accent });
-  gsap.set(fills, { opacity: 0.2 });
-  gsap.set(notes, { opacity: 0.45 });
-  gsap.set(texts.slice(1), { autoAlpha: 0, y: 12 });
-  return { el, body, layers, traces, fills, notes, texts, done };
+  gsap.set(fills, { opacity: 0.15 });
+  gsap.set(notes, { opacity: 0.35 });
+  gsap.set(captions, { autoAlpha: 0, y: 8 });
+  return { el, body, layers, traces, fills, notes, captions, done };
 }
 
 function inspection() {
@@ -89,9 +90,12 @@ function inspection() {
   };
 }
 
+// Travel of the exploded view, in viewBox units (the pinned plan reserves 120).
+const EXPLODE = 60;
+
 function inspectionTimeline() {
   if (!stage) return;
-  const { el, body, layers, traces, fills, notes, texts, done } = stage;
+  const { el, body, layers, traces, fills, notes, captions, done } = stage;
   const last = layers.length - 1;
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
@@ -100,36 +104,37 @@ function inspectionTimeline() {
       start: 'top top',
       end: () => `+=${window.innerHeight * 2.8}`,
       pin: true,
-      scrub: 0.5,
+      scrub: 0.6,
       invalidateOnRefresh: true,
       anticipatePin: 1,
     },
   });
 
-  // Open: the plan grows a little and comes apart, roof up, foundations down.
-  tl.fromTo(body, { scale: 0.94 }, { scale: 1, duration: 0.6, transformOrigin: '50% 50%', ease: 'power1.out' }, 0);
-  tl.to(layers[0], { y: -36, duration: 0.6, ease: 'power2.inOut' }, 0);
-  tl.to(layers[last], { y: 36, duration: 0.6, ease: 'power2.inOut' }, 0);
+  // Open: the plan grows and comes apart, roof lifted, foundations dropped.
+  tl.fromTo(body, { scale: 0.9 }, { scale: 1, duration: 0.8, transformOrigin: '50% 50%', ease: 'power2.out' }, 0);
+  tl.to(layers[0], { y: -EXPLODE, duration: 0.8, ease: 'power3.inOut' }, 0);
+  tl.to(layers[last], { y: EXPLODE, duration: 0.8, ease: 'power3.inOut' }, 0);
 
   traces.forEach((paths, i) => {
-    const at = 0.6 + i * 1.6;
+    const at = 0.8 + i * 1.6;
     if (i > 0) {
-      tl.to(texts[i - 1], { autoAlpha: 0, y: -12, duration: 0.35, ease: 'power1.in' }, at);
-      tl.to(texts[i], { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' }, at + 0.2);
       tl.to(traces[i - 1], { stroke: done, duration: 0.4 }, at);
       tl.to(fills[i - 1], { opacity: 0.35, duration: 0.4 }, at);
-      tl.to(notes[i - 1], { opacity: 0.45, duration: 0.3 }, at);
+      tl.to(notes[i - 1], { opacity: 0.35, duration: 0.3 }, at);
+      tl.to(captions[i - 1], { autoAlpha: 0, y: -8, duration: 0.3 }, at);
     }
+    tl.to(captions[i], { autoAlpha: 1, y: 0, duration: 0.35 }, at + 0.1);
     tl.to(fills[i], { opacity: 1, duration: 0.4 }, at);
     tl.to(notes[i], { opacity: 1, duration: 0.3 }, at);
     tl.to(paths, { drawSVG: '100%', duration: 1.1, stagger: { amount: 0.3 } }, at + 0.1);
   });
 
   // Close: the last layer settles and the house comes back together.
-  const end = 0.6 + layers.length * 1.6;
+  const end = 0.8 + layers.length * 1.6;
   tl.to(traces[last], { stroke: done, duration: 0.4 }, end);
   tl.to(fills, { opacity: 0.35, duration: 0.4 }, end);
-  tl.to([layers[0], layers[last]], { y: 0, duration: 0.6, ease: 'power2.inOut' }, end);
+  tl.to(notes, { opacity: 1, duration: 0.4 }, end);
+  tl.to([layers[0], layers[last]], { y: 0, duration: 0.8, ease: 'power3.inOut' }, end);
   tl.to({}, { duration: 0.3 });
 }
 

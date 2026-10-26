@@ -42,8 +42,8 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   {/* ---- Hero ------------------------------------------------------------ */}
   <section class="hero st-frame" aria-labelledby="hero-title">
     <div class="st-grid hero__grid">
+      <p class="hero__name">{t.hero.name}</p>
       <div class="hero__text">
-        <p class="hero__name">{t.hero.name}</p>
         <h1 id="hero-title" class="hero__title">{t.hero.title}</h1>
         <p class="hero__lead">{t.hero.lead}</p>
         <p class="hero__actions">
@@ -56,7 +56,7 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
           src={portrait}
           formats={['avif', 'webp']}
           widths={PORTRAIT_WIDTHS}
-          sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 34vw, 430px"
+          sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1023px) 34vw, 540px"
           alt={t.hero.portraitAlt}
           width={720}
           height={900}
@@ -77,12 +77,21 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
       <p class="insp__intro">{t.inspection.intro}</p>
     </header>
     <div class="st-grid insp__stage" data-insp-stage>
+      {/* While pinned: which layer is being inspected. The full text of each
+          layer follows the plan, so this stays out of the accessibility tree. */}
+      <ol class="insp__caption" aria-hidden="true">
+        {t.inspection.layers.map((l, i) => (
+          <li data-caption><span class="layer__num">{num(i)}</span>{l.name}</li>
+        ))}
+      </ol>
       <div class="insp__plan">
-        <InspectionPlan label={t.inspection.planLabel} names={t.inspection.layers.map((l) => l.name)} />
+        <InspectionPlan label={t.inspection.planLabel} />
       </div>
+    </div>
+    <div class="st-grid">
       <ol class="insp__layers">
         {t.inspection.layers.map((l, i) => (
-          <li class="layer" data-layer-text>
+          <li class="layer" data-reveal>
             <p class="layer__name"><span class="layer__num">{num(i)}</span>{l.name}</p>
             <h3 class="layer__title">{l.title}</h3>
             <p class="layer__body">{l.body}</p>
@@ -184,11 +193,11 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
 
   /* ---- Hero ---------------------------------------------------------------- */
   .home .hero { padding-block: var(--s5) var(--s6); }
-  .hero__grid { row-gap: var(--s5); align-items: end; }
-  .hero__text, .hero__photo, .hero__hint { grid-column: 1 / -1; }
-  .hero__name { color: var(--mauve-light); font-family: var(--font-mono); font-size: 0.9375rem; margin: 0 0 var(--s3); }
+  .hero__grid { row-gap: var(--s5); align-items: start; }
+  .hero__name, .hero__text, .hero__photo, .hero__hint { grid-column: 1 / -1; }
+  .hero__name { color: var(--mauve-light); font-family: var(--font-mono); font-size: 0.9375rem; margin: 0 0 calc(var(--s3) - var(--s5)); }
   .hero__title {
-    font-size: clamp(3.25rem, 8.4vw, 8rem);
+    font-size: clamp(3rem, 6vw, 5.75rem);
     font-weight: 900;
     line-height: 0.92;
     text-transform: uppercase;
@@ -236,9 +245,10 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     .hero__hint:hover .hero__hint-line { background: var(--mauve-light); }
   }
   @media (min-width: 1024px) {
-    .home .hero { padding-block: var(--s8) var(--s5); }
-    .hero__text { grid-column: 1 / span 8; }
-    .hero__photo { grid-column: 9 / span 4; }
+    .home .hero { padding-block: var(--s6) var(--s5); }
+    .hero__text { grid-column: 1 / span 7; }
+    /* Larger, and its top edge on the title's top edge. */
+    .hero__photo { grid-column: 8 / span 5; }
   }
 
   /* ---- Inspection ---------------------------------------------------------- */
@@ -248,9 +258,29 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
   @media (min-width: 768px) {
     .insp__intro { grid-column: 1 / span 6; }
   }
-  .insp__stage { row-gap: var(--s5); align-items: center; }
-  .insp__plan, .insp__layers { grid-column: 1 / -1; }
-  .insp__layers { list-style: none; margin: 0; padding: 0; display: grid; row-gap: var(--s6); }
+  .insp__stage { align-items: center; }
+  /* The plan is a full-bleed figure: it leaves the 1320px frame to reach the
+     page margins (on phones, the screen edges), centred on the grid. Its
+     width is --plan-w; the house is 91% of it. */
+  .insp__plan {
+    --plan-w: 100vw;
+    grid-column: 1 / -1;
+    width: var(--plan-w);
+    margin-left: calc((100% - var(--plan-w)) / 2);
+  }
+  @media (min-width: 768px) {
+    .insp__plan { --plan-w: calc(100vw - 2 * var(--margin)); }
+  }
+  .insp__caption { display: none; }
+
+  .insp__layers {
+    grid-column: 1 / -1;
+    list-style: none;
+    margin: var(--s6) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s6) var(--gap);
+  }
   .layer__name {
     display: flex;
     align-items: baseline;
@@ -263,29 +293,53 @@ const num = (i: number) => String(i + 1).padStart(2, '0');
     margin: 0 0 var(--s2);
   }
   .layer__num { color: var(--mauve-light); font-weight: 500; }
-  .layer__title { font-size: clamp(1.875rem, 2.8vw, 2.5rem); line-height: 1.02; margin: 0; }
+  .layer__title { font-size: clamp(1.875rem, 2.6vw, 2.375rem); line-height: 1.02; margin: 0; }
   .layer__body { color: var(--slate); margin: var(--s2) 0 var(--s3); max-width: 44ch; }
   .layer__links { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); margin: 0; }
   @media (min-width: 1024px) {
     .home .insp { padding-top: var(--s8); }
-    .insp__plan { grid-column: 1 / span 8; }
-    .insp__layers { grid-column: 9 / span 4; }
+    .insp__layers { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: var(--s8); }
   }
 
-  /* Pinned (class set by the motion script): the plan fills the screen and the
-     layers take turns beside or under it. */
+  /* Pinned (class set by the motion script): the stage is one screen, under
+     the 72px bar: the caption line, then the plan, capped so the exploded
+     drawing (viewBox 440 tall plus 120 of travel) fits the remaining height. */
   .insp__stage:global(.is-pinned) {
     height: 100svh;
     align-content: center;
-    padding-block: var(--s10) var(--s3);
+    row-gap: var(--s2);
+    padding-block: calc(72px + var(--s2)) var(--s2);
   }
-  .insp__stage:global(.is-pinned) .insp__plan { max-width: min(100%, 50svh * 1.31); justify-self: center; }
-  .insp__stage:global(.is-pinned) .insp__layers { display: block; position: relative; min-height: 16rem; }
-  .insp__stage:global(.is-pinned) .layer { position: absolute; inset: 0 0 auto 0; }
-  @media (min-width: 1024px) {
-    .insp__stage:global(.is-pinned) { padding-block: var(--s8); }
-    .insp__stage:global(.is-pinned) .insp__plan { max-width: min(100%, 80svh * 1.31); justify-self: start; }
-    .insp__stage:global(.is-pinned) .insp__layers { min-height: 20rem; }
+  .insp__stage:global(.is-pinned) .insp__plan {
+    --plan-w: min(100vw, calc((100svh - 72px - var(--s12)) * 1160 / 560));
+    padding-block: var(--s5);
+  }
+  @media (min-width: 768px) {
+    .insp__stage:global(.is-pinned) .insp__plan {
+      --plan-w: min(calc(100vw - 2 * var(--margin)), calc((100svh - 72px - var(--s12)) * 1160 / 560));
+      padding-block: 0;
+    }
+  }
+  .insp__stage:global(.is-pinned) .insp__caption {
+    display: block;
+    grid-column: 1 / -1;
+    position: relative;
+    height: var(--s4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .insp__stage:global(.is-pinned) .insp__caption li {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: baseline;
+    gap: var(--s2);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--bone);
   }
 
   /* ---- Work ------------------------------------------------------------------ */
