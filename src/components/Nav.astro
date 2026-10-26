@@ -149,7 +149,8 @@ const [first, last] = tr.brand.split(' ');
   .nav__brand {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 44px;
+    min-width: 44px;
     font-family: var(--font-display);
     font-size: 1.0625rem;
     font-weight: var(--fw-medium);
@@ -180,7 +181,9 @@ const [first, last] = tr.brand.split(' ');
     letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--fg-dim);
-    padding-block: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     transition: color var(--t-fast) var(--ease);
   }
   .nav__link::after {
@@ -188,7 +191,7 @@ const [first, last] = tr.brand.split(' ');
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0.15rem;
+    bottom: 0.75rem;
     height: 1px;
     background: currentColor;
     transform: scaleX(0);
@@ -213,7 +216,7 @@ const [first, last] = tr.brand.split(' ');
   .nav__phone {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 44px;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
@@ -237,8 +240,11 @@ const [first, last] = tr.brand.split(' ');
   .nav__lang a {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
-    padding-inline: 0.15rem;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
+    /* 44px target, without pushing the two codes apart. */
+    margin-inline: -0.6rem;
     color: var(--fg-mute);
     transition: color var(--t-fast) var(--ease);
   }
@@ -246,7 +252,7 @@ const [first, last] = tr.brand.split(' ');
 
   .nav__cta {
     padding: 0.6rem 1.05rem;
-    min-height: 40px;
+    min-height: 44px;
     font-size: 0.85rem;
   }
 

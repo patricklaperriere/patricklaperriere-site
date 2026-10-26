@@ -252,15 +252,21 @@ html.theme-report .footer .footer__grid {
   border: 0;
 }
 html.theme-report .footer .footer__col { padding: 0; border: 0; }
-html.theme-report .footer .footer__title { font-size: 0.8125rem; color: var(--slate-mute); margin: 0 0 4px; font-weight: 600; }
+html.theme-report .footer .footer__title { font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.5; color: var(--slate-mute); margin: 0 0 4px; font-weight: 600; }
 html.theme-report .footer .footer__list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 0 var(--s3); margin: 0; }
 html.theme-report .footer .footer__list li { margin: 0; }
-html.theme-report .footer .footer__link { font-size: 0.9375rem; line-height: 1.5; min-height: 28px; padding: 0; }
+html.theme-report .footer .footer__link { font-size: 0.9375rem; line-height: 1.5; min-height: 44px; padding: 0; }
 html.theme-report .footer .footer__col--sign { grid-column: auto; padding: 0; margin: 0; border: 0; }
 html.theme-report .footer .footer__bottom { margin-top: var(--s3); padding-top: var(--s2); }
 html.theme-report .footer .footer__legal,
 html.theme-report .footer .footer__legal-link { font-size: 0.8125rem; line-height: 1.5; }
 html.theme-report .footer .footer__bottom { gap: 4px var(--s3); }
+/* The signature's name was a plum gradient (1.9:1 on aubergine): plain bone
+   here, signal yellow on hover, like every other link. */
+html.theme-report .pl-signature__name { background: none; color: var(--bone); }
+html.theme-report .pl-signature:hover .pl-signature__name { color: var(--signal); }
+html.theme-report .pl-signature__label { opacity: 1; color: var(--slate); }
+html.theme-report .footer .footer__ext { margin-left: 0; }
 /* Phones: the column titles go to screen readers only (each list is still a
    labelled nav landmark), and the groups sit 8px apart. */
 @media (max-width: 1023px) {
@@ -294,5 +300,4 @@ html.theme-report.lenis body { height: auto; }
 @media (max-width: 400px) {
   html.theme-report .footer { padding-top: var(--s3); }
   html.theme-report .footer .footer__list { column-gap: var(--s2); }
-  html.theme-report .footer .footer__ext { display: none; }
 }

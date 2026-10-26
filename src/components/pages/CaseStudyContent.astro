@@ -14,6 +14,7 @@ import { loc, sortedProjects } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import LighthouseScores from '../LighthouseScores.astro';
+import ExternalIcon from '../ExternalIcon.astro';
 import { lighthouse } from '../../data/lighthouse';
 
 interface Props {
@@ -99,7 +100,7 @@ const specs = [
 
     <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
       {tr.cta.visitSite}
-      <span aria-hidden="true">↗</span>
+      <ExternalIcon />
     </a>
   </header>
 

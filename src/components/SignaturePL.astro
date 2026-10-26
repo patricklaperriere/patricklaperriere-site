@@ -3,31 +3,36 @@
 // Dropped in the footer of client sites → dofollow backlink to patricklaperriere.com.
 // Also used in this site's own footer.
 //
-// The text is a fixed wordmark — identical in every language, never translated.
+// On client sites the text is a fixed wordmark, "Design by", never translated.
+// This site's own footer passes its own label (French: "Conçu par") and keeps
+// the link in the same tab, since it points home.
 import { SITE } from '../config';
 
 interface Props {
   /** "muted" for subtle footer use, "card" for a bordered pill. */
   variant?: 'muted' | 'card';
+  label?: string;
+  newTab?: boolean;
 }
 
-const { variant = 'muted' } = Astro.props;
+const { variant = 'muted', label = 'Design by', newTab = true } = Astro.props;
 ---
 
 <a
   class:list={['pl-signature', variant === 'card' && 'pl-signature--card']}
   href={SITE.domain}
-  rel="dofollow"
-  target="_blank"
+  rel={newTab ? 'dofollow noopener' : undefined}
+  target={newTab ? '_blank' : undefined}
 >
-  <span class="pl-signature__label">Design by</span>{' '}
+  <span class="pl-signature__label">{label}</span>{' '}
   <span class="pl-signature__name">Patrick Laperrière</span>
 </a>
 
 <style>
   .pl-signature {
     display: inline-flex;
-    align-items: baseline;
+    align-items: center;
+    min-height: 44px;
     gap: 0.4em;
     font-family: var(--font-mono);
     font-size: 0.78rem;
