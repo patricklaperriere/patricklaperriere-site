@@ -47,10 +47,10 @@ export const SITE = {
   },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',
-  // ─── TODO_PHOTO ──────────────────────────────────────────────────────────
-  // Personal portrait. Drop the source at `photo-src/patrick.jpg` (any size,
-  // square or portrait) and run `npm run photo` — it writes every derivative
-  // into /public/photo/. Then flip this to true.
+  // Personal portrait. Sources in src/assets/photo/ (a 4:5 crop and a square
+  // face crop, both stripped of metadata); <Picture> serves them on the page,
+  // and `npm run photo` derives the favicons and the JSON-LD square into
+  // /public/photo/. See src/lib/photo.ts.
   //
   // It gates ALL placements at once (about page, article byline, Person
   // schema, favicons), so nothing can ship a broken image reference.

@@ -4,7 +4,8 @@
 // and a way through.
 import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
-import { PHOTO, hasPhoto } from '../lib/photo';
+import { Picture } from 'astro:assets';
+import { PHOTO, PORTRAIT_WIDTHS, hasPhoto } from '../lib/photo';
 import { SITE } from '../config';
 
 interface Props {
@@ -19,13 +20,14 @@ const p = tr.personal;
   <div class="container-wide pi__inner">
     {hasPhoto && (
       <figure class="pi__portrait reveal">
-        <img
+        <Picture
           src={PHOTO.portrait}
-          srcset={`${PHOTO.avatar2x} 256w, ${PHOTO.portrait} 720w`}
+          formats={['avif', 'webp']}
+          widths={PORTRAIT_WIDTHS}
           sizes="(max-width: 860px) 96px, 260px"
           alt={tr.about.portraitAlt}
-          width="720"
-          height="900"
+          width={720}
+          height={900}
           loading="lazy"
           decoding="async"
         />
@@ -63,7 +65,8 @@ const p = tr.personal;
     overflow: hidden;
     background: var(--paper-sunken);
   }
-  .pi__portrait img {
+  .pi__portrait :global(picture) { display: block; }
+  .pi__portrait :global(img) {
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;
@@ -108,6 +111,6 @@ const p = tr.personal;
   @media (max-width: 860px) {
     .pi__inner { grid-template-columns: 1fr; }
     .pi__portrait { width: 96px; }
-    .pi__portrait img { aspect-ratio: 1 / 1; }
+    .pi__portrait :global(img) { aspect-ratio: 1 / 1; }
   }
 </style>

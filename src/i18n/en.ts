@@ -305,7 +305,7 @@ export const en = {
     seoTitle: 'About · bilingual web developer | Patrick Laperrière',
     seoDesc: 'Patrick Laperrière, bilingual web developer. I build fast, well-ranked websites for small businesses across Quebec, Canada and the US.',
     kicker: 'About',
-    portraitAlt: 'Patrick Laperrière, bilingual web developer',
+    portraitAlt: 'Patrick Laperrière smiling, in a blue blazer and a black T-shirt',
     h1: 'Bilingual web developer',
     lead: 'I build fast, well-ranked websites for businesses that want to get found — across Quebec, Canada and the United States.',
     body: [

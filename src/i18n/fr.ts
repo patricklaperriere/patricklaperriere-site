@@ -308,7 +308,7 @@ export const fr = {
     seoTitle: 'À propos · développeur web bilingue | Patrick Laperrière',
     seoDesc: 'Patrick Laperrière, développeur web bilingue. Je construis des sites rapides et bien référencés pour les PME du Québec, du Canada et des États-Unis.',
     kicker: 'À propos',
-    portraitAlt: 'Patrick Laperrière, développeur web bilingue',
+    portraitAlt: 'Patrick Laperrière, souriant, en veston bleu et t-shirt noir',
     h1: 'Développeur web bilingue',
     lead: 'Je construis des sites rapides et bien référencés pour les entreprises qui veulent être trouvées, au Québec, au Canada et aux États-Unis.',
     body: [

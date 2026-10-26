@@ -1,7 +1,8 @@
 ---
 import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
-import { PHOTO, hasPhoto } from '../lib/photo';
+import { Picture } from 'astro:assets';
+import { PHOTO, PORTRAIT_WIDTHS, hasPhoto } from '../lib/photo';
 
 interface Props {
   locale: Locale;
@@ -62,13 +63,14 @@ const meta = [
              so it must not queue behind anything. Intrinsic ratio is locked by
              width/height + aspect-ratio, which keeps CLS at zero. */
           <figure class="hero__portrait">
-            <img
+            <Picture
               src={PHOTO.portrait}
-              srcset={`${PHOTO.avatar2x} 256w, ${PHOTO.portrait} 720w`}
+              formats={['avif', 'webp']}
+              widths={PORTRAIT_WIDTHS}
               sizes="(max-width: 900px) 76px, (max-width: 1200px) 26vw, 320px"
               alt={tr.about.portraitAlt}
-              width="720"
-              height="900"
+              width={720}
+              height={900}
               loading="eager"
               fetchpriority="high"
               decoding="async"
@@ -177,7 +179,8 @@ const meta = [
     overflow: hidden;
     background: var(--ink-raised);
   }
-  .hero__portrait img {
+  .hero__portrait :global(picture) { display: block; }
+  .hero__portrait :global(img) {
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;
@@ -292,7 +295,7 @@ const meta = [
       width: 76px;
       justify-self: start;
     }
-    .hero__portrait img { aspect-ratio: 1 / 1; }
+    .hero__portrait :global(img) { aspect-ratio: 1 / 1; }
     .hero__statement { max-width: 100%; }
   }
 

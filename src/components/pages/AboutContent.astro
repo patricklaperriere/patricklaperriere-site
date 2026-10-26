@@ -9,7 +9,8 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
-import { PHOTO, hasPhoto } from '../../lib/photo';
+import { Picture } from 'astro:assets';
+import { PHOTO, PORTRAIT_WIDTHS, hasPhoto } from '../../lib/photo';
 import { SITE } from '../../config';
 
 interface Props {
@@ -39,13 +40,14 @@ const availability = tr.status.replace('●', '').trim();
 <section class="section-tight container-wide about__top">
   {hasPhoto && (
     <figure class="about__portrait reveal">
-      <img
+      <Picture
         src={PHOTO.portrait}
-        srcset={`${PHOTO.avatar2x} 256w, ${PHOTO.portrait} 720w`}
+        formats={['avif', 'webp']}
+        widths={PORTRAIT_WIDTHS}
         sizes="(max-width: 880px) 100vw, 420px"
         alt={a.portraitAlt}
-        width="720"
-        height="900"
+        width={720}
+        height={900}
         loading="lazy"
         decoding="async"
       />
@@ -102,7 +104,8 @@ const availability = tr.status.replace('●', '').trim();
     margin: 0;
     position: relative;
   }
-  .about__portrait img {
+  .about__portrait :global(picture) { display: block; }
+  .about__portrait :global(img) {
     width: 100%;
     height: auto;
     aspect-ratio: 4 / 5;

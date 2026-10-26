@@ -1,8 +1,14 @@
-// Generates every derivative of the personal portrait into public/photo/.
+// Generates the portrait files that need a fixed public URL: the square JPEG
+// referenced by the Person JSON-LD, and the favicons.
 // Run with: npm run photo
 //
-//   Source: photo-src/patrick.jpg  (or pass a path: npm run photo -- my.jpg)
+//   Source: src/assets/photo/patrick-square.jpg  (or: npm run photo -- my.jpg)
 //   Output: public/photo/*
+//
+// The on-page portraits are not produced here: Astro's <Picture> builds them
+// (AVIF/WebP, responsive widths) from src/assets/photo/ at build time.
+//
+// Outputs carry no metadata: sharp writes none unless asked to.
 //
 // Square crops use sharp's "attention" strategy, which keeps the most salient
 // region — on a headshot that is the face, not the middle of the chest.
@@ -14,7 +20,7 @@
 import sharp from 'sharp';
 import { mkdirSync, existsSync, statSync } from 'node:fs';
 
-const SRC = process.argv[2] || 'photo-src/patrick.jpg';
+const SRC = process.argv[2] || 'src/assets/photo/patrick-square.jpg';
 const OUT = 'public/photo';
 
 if (!existsSync(SRC)) {
@@ -81,30 +87,14 @@ async function square(size, file, opts = {}) {
   return file;
 }
 
-/** 4:5 portrait crop, also salience-centred. */
-async function portrait(width, file) {
-  const height = Math.round((width / 4) * 5);
-  const maxWidth = Math.min(width, meta.width, Math.round((meta.height / 5) * 4));
-  const w = maxWidth;
-  const h = Math.round((w / 4) * 5);
-  if (w < width) warnings.push(`${file} : ${w}×${h} au lieu de ${width}×${height} (source trop petite)`);
-  await sharp(SRC)
-    .resize(w, h, { fit: 'cover', position: sharp.strategy.attention })
-    .webp({ quality: 82 })
-    .toFile(`${OUT}/${file}`);
-  return file;
-}
-
+// The default source is already a face crop, so no `tight` pre-crop here.
 const written = [
-  await portrait(720, 'patrick-720.webp'),
-  await square(128, 'patrick-128.webp', { tight: true }),
-  await square(256, 'patrick-256.webp', { tight: true }),
-  await square(1200, 'patrick-square.jpg', { jpg: true }),
-  await square(32, 'icon-32.png', { png: true, tight: true, round: true }),
+  await square(1080, 'patrick-square.jpg', { jpg: true }),
+  await square(32, 'icon-32.png', { png: true, round: true }),
   // Apple applies its own rounded mask to the home-screen icon and expects an
   // opaque square: a pre-rounded one gets a black wedge in each corner.
-  await square(180, 'apple-touch-icon.png', { png: true, tight: true }),
-  await square(512, 'icon-512.png', { png: true, tight: true, round: true }),
+  await square(180, 'apple-touch-icon.png', { png: true }),
+  await square(512, 'icon-512.png', { png: true, round: true }),
 ];
 
 let total = 0;
@@ -120,4 +110,4 @@ if (warnings.length) {
   for (const w of warnings) console.log(`    · ${w}`);
 }
 
-console.log(`\n  Dernière étape : passe SITE.hasPhoto à true dans src/config.ts\n`);
+console.log(`\n  Vérifie que SITE.hasPhoto vaut true dans src/config.ts\n`);
