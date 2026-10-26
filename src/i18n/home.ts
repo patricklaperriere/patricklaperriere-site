@@ -35,7 +35,13 @@ const fr = {
   inspection: {
     title: 'Un site s’inspecte comme une maison.',
     intro: 'De la toiture aux fondations : trois couches, trois façons de vous aider.',
-    planLabel: 'Plan d’une maison en coupe, en trois couches numérotées : toiture, structure et fondations',
+    planLabel: 'Plan d’une maison en coupe, en trois couches numérotées : toiture, structure et fondations, chacune marquée conforme',
+    // Annotations on the drawing (mono, capitals, decorative).
+    word: 'Inspection',
+    ref: 'Réf. PL-2026-01',
+    ok: 'Conforme',
+    scanning: 'Balayage',
+    stamp: 'Inspecté',
     layers: [
       {
         name: 'Toiture',
@@ -114,7 +120,12 @@ const en: HomeCopy = {
   inspection: {
     title: 'A website gets inspected like a house.',
     intro: 'From the roof down to the foundations: three layers, three ways I can help.',
-    planLabel: 'Section drawing of a house in three numbered layers: roof, structure and foundations',
+    planLabel: 'Section drawing of a house in three numbered layers: roof, structure and foundations, each marked as passing',
+    word: 'Inspection',
+    ref: 'Ref. PL-2026-01',
+    ok: 'Pass',
+    scanning: 'Scanning',
+    stamp: 'Inspected',
     layers: [
       {
         name: 'Roof',

@@ -1,0 +1,254 @@
+---
+// The inspection scene: a house in section, inspected layer by layer.
+//
+// One source for every word: the three layer texts are plain HTML, listed
+// beside (desktop) or under (phones) the drawing. That list is what a visitor
+// without motion reads, with the drawing complete, every layer marked
+// "Conforme" and the "Inspecté" stamp on. home-engine.ts turns the same
+// elements into the pinned sequence: lines traced stroke by stroke, a scan
+// rule sweeping each layer, the exploded view, each text tied to its layer
+// by a leader line, a large outlined word drifting behind, and the stamp at
+// the end. Decoration (word, scan rule, stamp, tags) is aria-hidden; the
+// drawing is one labelled image.
+import type { Locale } from '../../i18n/routes';
+import { routes, workBase } from '../../i18n/routes';
+import { SITE } from '../../config';
+import { homeCopy } from '../../i18n/home';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = homeCopy[locale].inspection;
+
+const hrefs: Record<string, string> = {
+  svcWeb: routes.svcWeb[locale],
+  svcSeo: routes.svcSeo[locale],
+  svcShopify: routes.svcShopify[locale],
+  work: routes.work[locale],
+  habitaCase: `${workBase[locale]}/habita`,
+  habitaSite: SITE.company.url,
+};
+
+// Roof: outer line from (80,240) to the ridge (500,90) and down to (920,240).
+const k = 150 / 420;
+const right = (x: number) => 90 + (x - 500) * k;
+const r = (n: number) => Math.round(n * 10) / 10;
+const win = (x: number, y: number) => `M${x} ${y} H${x + 90} V${y + 46} H${x} Z`;
+
+type Layer = {
+  id: string;
+  fill: string;
+  dots?: boolean;
+  paths: string[];
+  /** Vertical extent, for the dimension line and the scan sweep. */
+  span: [number, number];
+  /** Where the leader line leaves the drawing, toward the text. */
+  anchor: [number, number];
+  /** Where the "Conforme" tag sits. */
+  tag: [number, number];
+};
+
+// Must match EXPLODE in home-engine.ts: the pinned notes sit on their leader
+// line as it is in the exploded view (roof lifted, foundations dropped).
+const EXPLODE = 50;
+const offsets = [-EXPLODE, 0, EXPLODE];
+
+const layers: Layer[] = [
+  {
+    id: 'toiture',
+    fill: 'M80 240 L500 90 L920 240 Z',
+    paths: [
+      'M80 240 L500 90',
+      'M500 90 L920 240',
+      'M120 240 L500 112 L880 240',
+      `M700 ${r(right(700))} V118 H735 V${r(right(735))}`,
+      'M80 240 H920',
+    ],
+    span: [90, 240],
+    anchor: [r(820), r(right(820))],
+    tag: [210, 228],
+  },
+  {
+    id: 'structure',
+    fill: 'M120 240 H880 V430 H120 Z',
+    paths: [
+      'M120 240 V430',
+      'M880 240 V430',
+      'M120 335 H880',
+      win(170, 268),
+      win(330, 268),
+      win(620, 268),
+      win(750, 268),
+      win(170, 362),
+      win(750, 362),
+      'M470 430 V365 H530 V430',
+    ],
+    span: [240, 430],
+    anchor: [880, 300],
+    tag: [210, 322],
+  },
+  {
+    id: 'fondations',
+    fill: 'M120 430 H880 V490 H900 V510 H100 V490 H120 Z',
+    dots: true,
+    paths: ['M40 430 H960', 'M120 430 V490 H880 V430', 'M100 490 H900 V510 H100 Z'],
+    span: [430, 510],
+    anchor: [880, 470],
+    tag: [210, 474],
+  },
+];
+---
+
+<div class="scene__stage st-grid" data-scene style={`--n:${layers.length}`}>
+  <span class="scene__word" aria-hidden="true" data-word>{t.word}</span>
+
+  <div class="scene__draw">
+    <svg class="house" viewBox="0 0 1000 560" role="img" aria-label={t.planLabel} data-house>
+      <defs>
+        <pattern id="house-dots" width="11" height="11" patternUnits="userSpaceOnUse">
+          <circle cx="5.5" cy="5.5" r="1.5" />
+        </pattern>
+      </defs>
+      <text class="house__ref" x="0" y="24" aria-hidden="true">{t.ref}</text>
+      <g data-house-body>
+        {layers.map((l, i) => (
+          <g class="house__layer" data-layer={l.id} data-span={l.span.join(' ')}>
+            <path class:list={['house__fill', l.dots && 'house__fill--dots']} d={l.fill} data-fill />
+            <g class="house__base">{l.paths.map((d) => <path d={d} />)}</g>
+            <g class="house__trace" data-trace>{l.paths.map((d) => <path d={d} />)}</g>
+            <g class="house__cote" aria-hidden="true">
+              <path d={`M50 ${l.span[0] + 4} V${l.span[1] - 4} M42 ${l.span[0]} H58 M42 ${l.span[1]} H58`} />
+              <text x="2" y={(l.span[0] + l.span[1]) / 2}>{String(i + 1).padStart(2, '0')}</text>
+            </g>
+            <g class="house__tag" data-tag aria-hidden="true" transform={`translate(${l.tag[0]} ${l.tag[1]})`}>
+              <rect x="-6" y="-15" width={t.ok.length * 10.4 + 12} height="21" />
+              <text x="0" y="0">{t.ok}</text>
+            </g>
+            <path class="house__leader" data-leader d={`M${l.anchor[0]} ${l.anchor[1]} H1000`} aria-hidden="true" />
+            <circle class="house__anchor" data-anchor cx={l.anchor[0]} cy={l.anchor[1]} r="4" aria-hidden="true" />
+          </g>
+        ))}
+      </g>
+      <g class="house__scan" data-scan aria-hidden="true">
+        <path d="M20 0 H980" />
+        <text x="980" y="-8">{t.scanning}</text>
+      </g>
+      <g class="house__stamp" data-stamp aria-hidden="true" transform="translate(500 300) rotate(-9)">
+        <rect x="-150" y="-38" width="300" height="76" />
+        <rect x="-142" y="-30" width="284" height="60" />
+        <text x="0" y="0">{t.stamp}</text>
+      </g>
+    </svg>
+  </div>
+
+  <ol class="scene__notes">
+    {t.layers.map((l, i) => (
+      <li class="note" data-note style={`--y:${(layers[i].anchor[1] + offsets[i]) / 560}`}>
+        <p class="note__name annot"><span>{String(i + 1).padStart(2, '0')}</span>{l.name}</p>
+        <h3 class="note__title">{l.title}</h3>
+        <p class="note__body">{l.body}</p>
+        <p class="note__links">
+          {l.links.map((k) => (
+            <a href={hrefs[k.key]} rel={k.key === 'habitaSite' ? 'noopener' : undefined}>{k.label}</a>
+          ))}
+        </p>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  /* ---- Static layout (no motion, or before the engine loads) ------------- */
+  .scene__stage { position: relative; row-gap: var(--s5); align-items: start; overflow: clip; }
+  .scene__word {
+    position: absolute;
+    inset: 0 auto auto 0;
+    z-index: 0;
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(5rem, 20vw, 17rem);
+    line-height: 0.8;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--line-strong);
+    white-space: nowrap;
+    text-transform: uppercase;
+    pointer-events: none;
+    user-select: none;
+    will-change: transform;
+  }
+  .scene__draw { position: relative; z-index: 1; grid-column: 1 / -1; width: 100%; max-width: 900px; }
+  .scene__notes {
+    position: relative;
+    z-index: 1;
+    grid-column: 1 / -1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s5);
+  }
+  @media (min-width: 1024px) {
+    .scene__draw { grid-column: 1 / span 8; }
+    .scene__notes { grid-column: 9 / span 4; }
+  }
+
+  .note__name { display: flex; gap: var(--s2); margin: 0 0 var(--s1); }
+  .note__title { font-size: clamp(1.625rem, 2.2vw, 2rem); line-height: 1.05; margin: 0; }
+  .note__body { color: var(--slate); margin: var(--s2) 0 var(--s2); max-width: 46ch; }
+  .note__links { display: flex; flex-wrap: wrap; gap: var(--s1) var(--s3); margin: 0; }
+
+  /* ---- Drawing ---------------------------------------------------------------- */
+  .house { display: block; width: 100%; height: auto; overflow: visible; }
+  .house path, .house rect, .house circle { vector-effect: non-scaling-stroke; }
+  .house path { fill: none; stroke-linecap: square; }
+  .house__fill { fill: var(--plum-wash) !important; stroke: none; }
+  .house__fill--dots { fill: url(#house-dots) !important; }
+  .house pattern circle { fill: var(--plan-line); }
+  .house__base path { stroke: var(--plan-line); stroke-width: 1.25px; }
+  .house__trace path { stroke: var(--bone); stroke-width: 2px; }
+  .house__cote path { stroke: var(--slate-mute); stroke-width: 1px; }
+  .house text { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; }
+  .house__cote text { font-size: 20px; fill: var(--signal); text-anchor: start; dominant-baseline: central; }
+  .house__ref { font-size: 16px; fill: var(--slate); }
+  .house__tag rect { fill: var(--ink); stroke: var(--signal); stroke-width: 1.5px; }
+  .house__tag text { font-size: 15px; fill: var(--signal); }
+  .house__leader, .house__anchor { display: none; }
+  .house__leader { stroke: var(--signal); stroke-width: 1.25px; stroke-dasharray: 5 4; }
+  .house__anchor { fill: var(--signal); }
+  .house__scan { display: none; }
+  .house__scan path { stroke: var(--signal); stroke-width: 1.5px; }
+  .house__scan text { font-size: 14px; fill: var(--signal); text-anchor: end; }
+  .house__stamp rect { fill: none; stroke: var(--signal); stroke-width: 3px; }
+  .house__stamp rect + rect { stroke-width: 1.25px; }
+  .house__stamp text { font-size: 44px; font-weight: 500; letter-spacing: 0.22em; fill: var(--signal); text-anchor: middle; dominant-baseline: central; }
+
+  /* ---- Pinned sequence (class set by the engine) ------------------------------
+     One screen. Desktop: the drawing on columns 1 to 8, the active text on
+     columns 9 to 12 at the height of its layer, tied to it by a leader line.
+     Phones: the drawing, then the active text under it. */
+  .scene__stage:global(.is-live) {
+    height: 100svh;
+    align-content: center;
+    padding-block: calc(72px + var(--s3)) var(--s3);
+  }
+  .scene__stage:global(.is-live) .house__leader,
+  .scene__stage:global(.is-live) .house__anchor,
+  .scene__stage:global(.is-live) .house__scan { display: inline; }
+  .scene__stage:global(.is-live) .scene__notes { display: block; min-height: 15rem; }
+  .scene__stage:global(.is-live) .note { position: absolute; inset: 0 0 auto 0; }
+  @media (max-width: 1023px) {
+    .scene__stage:global(.is-live) .house__leader,
+    .scene__stage:global(.is-live) .house__anchor { display: none; }
+  }
+  @media (min-width: 1024px) {
+    /* The text column spans the drawing's height; each note sits on its
+       leader line (--y is the anchor's height as a fraction of the drawing). */
+    .scene__stage:global(.is-live) { align-items: center; }
+    .scene__stage:global(.is-live) .scene__notes { align-self: stretch; height: auto; min-height: 0; }
+    .scene__stage:global(.is-live) .scene__draw { align-self: center; }
+    .scene__stage:global(.is-live) .note {
+      top: calc(var(--y) * var(--draw-h, 100%) + var(--draw-top, 0px) - 0.6em);
+    }
+  }
+</style>
