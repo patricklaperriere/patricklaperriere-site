@@ -13,7 +13,7 @@ import { join } from 'node:path';
 
 const LIGHTHOUSE = 'lighthouse@12.8.2';
 const RUNS = 3;
-const MAX_ATTEMPTS = 8;
+const MAX_ATTEMPTS = 12;
 const OUT = 'src/data/client-metrics.json';
 const work = mkdtempSync(join(tmpdir(), 'clients-'));
 
