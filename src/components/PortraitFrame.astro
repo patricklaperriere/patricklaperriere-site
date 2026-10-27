@@ -20,8 +20,10 @@ interface Props {
   label?: string;
   sizes?: string;
   class?: string;
+  /** Above the fold (about page): load at once. */
+  eager?: boolean;
 }
-const { src, alt, treatment = 'none', label, sizes = '(min-width: 1024px) 300px, 60vw', class: cls } = Astro.props;
+const { src, alt, treatment = 'none', label, sizes = '(min-width: 1024px) 300px, 60vw', class: cls, eager = false } = Astro.props;
 ---
 
 <figure class:list={['portrait', `portrait--${treatment}`, cls]}>
@@ -35,7 +37,7 @@ const { src, alt, treatment = 'none', label, sizes = '(min-width: 1024px) 300px,
       alt={alt}
       width={720}
       height={900}
-      loading="lazy"
+      loading={eager ? 'eager' : 'lazy'}
       decoding="async"
     />
   </div>

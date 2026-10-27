@@ -338,3 +338,10 @@ html.theme-report.lenis body { height: auto; }
   color-scheme: dark;
 }
 .theme-report [data-surface="ink"] { --bg: var(--ink); }
+
+/* Form fields: the same signal ring as every other control (the older
+   contact styles removed the outline and relied on a border tint only). */
+.theme-report :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}

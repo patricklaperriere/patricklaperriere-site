@@ -6,7 +6,7 @@
 //   lead — full-width media, oversized title underneath
 //   half — one of a two-up pair
 import type { Project } from '../data/projets';
-import { loc, stackLabel } from '../data/projets';
+import { loc, stackLabel, captureSrcset } from '../data/projets';
 import type { Locale } from '../i18n/routes';
 import { workBase } from '../i18n/routes';
 import { useTranslations } from '../i18n';
@@ -16,8 +16,10 @@ interface Props {
   locale: Locale;
   index: number;
   variant?: 'lead' | 'half';
+  /** The first capture of the page is its largest paint: load it at once. */
+  eager?: boolean;
 }
-const { project, locale, index, variant = 'half' } = Astro.props;
+const { project, locale, index, variant = 'half', eager = false } = Astro.props;
 const tr = useTranslations(locale);
 
 const href = `${workBase[locale]}/${project.slug}`;
@@ -47,10 +49,13 @@ const category = categoryLabel[project.category]?.[locale] ?? project.category;
       <div class:list={['pf__media', 'media', 'media--zoom', contain && 'pf__media--contain']}>
         <img
           src={shot}
+          srcset={captureSrcset(shot)}
+          sizes={variant === 'lead' ? '(min-width: 1320px) 1208px, 100vw' : '(min-width: 768px) 50vw, 100vw'}
           alt={shotAlt}
           width={variant === 'lead' ? 1280 : 800}
           height={variant === 'lead' ? 800 : 500}
-          loading="lazy"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchpriority={eager ? 'high' : undefined}
           decoding="async"
         />
       </div>

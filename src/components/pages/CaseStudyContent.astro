@@ -10,7 +10,7 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { workBase } from '../../i18n/routes';
 import type { Project } from '../../data/projets';
-import { loc, sortedProjects, stackLabel } from '../../data/projets';
+import { loc, sortedProjects, stackLabel, captureSrcset } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import LighthouseScores from '../LighthouseScores.astro';
@@ -118,10 +118,10 @@ const specs = [
       <figure class:list={['case__shot', contain && 'case__shot--contain']}>
         {project.live ? (
           <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
-            <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+            <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
           </a>
         ) : (
-          <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+          <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
         )}
       </figure>
     </div>

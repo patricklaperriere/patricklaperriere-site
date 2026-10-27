@@ -11,6 +11,7 @@
 // `astro dev` and is dropped from a build, so a published project can carry a
 // pending section without blocking deploys or leaking the placeholder.
 
+import { existsSync } from 'node:fs';
 import { getCollection, type CollectionEntry } from 'astro:content';
 import type { Locale } from '../i18n/routes';
 
@@ -143,4 +144,11 @@ export async function projectsForService(key: string): Promise<Project[]> {
 /** A stack entry in the page language (tool names are not translated). */
 export function stackLabel(item: string | LocalizedField, locale: Locale): string {
   return typeof item === 'string' ? item : item[locale];
+}
+
+/** srcset for a capture in public/work/: the 640 px variant when it exists
+ *  (generated beside the 1280 px file), else the full file alone. */
+export function captureSrcset(shot: string): string | undefined {
+  const small = shot.replace(/\.webp$/, '-640.webp');
+  return small !== shot && existsSync(`public${small}`) ? `${small} 640w, ${shot} 1280w` : undefined;
 }

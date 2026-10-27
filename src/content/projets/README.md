@@ -22,7 +22,7 @@ Le schéma est validé par `src/content.config.ts` : un champ manquant fait éch
 | `lien` | URL du site en ligne (vide tant que le site n'est pas en ligne) |
 | `enLigne` | `false` : la fiche affiche « Pas encore en ligne », sans bouton ni lien |
 | `aFournir` | Faits manquants : affichés `[À FOURNIR : …]` avec `npm run dev` seulement, jamais dans un build |
-| `image` | Capture 1280×800 en WebP dans `public/work/`. Vide : pas de cadre, la fiche s'affiche sans image |
+| `image` | Capture 1280×800 en WebP dans `public/work/`, plus une variante `-640.webp` à côté pour les téléphones. Vide : pas de cadre, la fiche s'affiche sans image |
 | `ordre` | Position dans la liste (1 = premier) |
 | `publié` | `false` = brouillon : visible seulement avec `npm run dev`, absent du build |
 | `année`, `catégorie` (saas, web, seo, shopify), `vedette`, `accent`, `cadrage` (cover, contain) | Présentation |

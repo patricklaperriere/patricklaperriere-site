@@ -41,7 +41,7 @@ const crumbs = [
 <section class:list={['section-tight container-wide about__top', !(hasPhoto || import.meta.env.DEV) && 'about__top--solo']}>
   {(hasPhoto || import.meta.env.DEV) && (
     <div class="about__portrait reveal">
-      <PortraitSlot alt={a.portraitAlt} sizes="(max-width: 880px) 100vw, 420px" />
+      <PortraitSlot alt={a.portraitAlt} sizes="(max-width: 880px) 100vw, 420px" eager />
     </div>
   )}
 

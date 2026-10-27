@@ -62,12 +62,13 @@ const crumbs = [
     {rows.map((row) => (
       <div class:list={['wx__row', !row.lead && 'wx__row--pair']}>
         {row.items.map((p, j) => (
-          <div class="reveal" data-delay={`${j * 90}ms`}>
+          <div class:list={[row.from + j > 0 && 'reveal']} data-delay={`${j * 90}ms`}>
             <ProjectFeature
               project={p}
               locale={locale}
               index={row.from + j + 1}
               variant={row.lead ? 'lead' : 'half'}
+              eager={row.from + j === 0}
             />
           </div>
         ))}

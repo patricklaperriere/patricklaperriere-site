@@ -11,13 +11,14 @@ interface Props {
   label?: string;
   sizes?: string;
   class?: string;
+  eager?: boolean;
 }
-const { alt, treatment, label, sizes, class: cls } = Astro.props;
+const { alt, treatment, label, sizes, class: cls, eager } = Astro.props;
 const dev = import.meta.env.DEV;
 ---
 
 {hasPhoto && PHOTO.portrait ? (
-  <div class={cls}><PortraitFrame src={PHOTO.portrait} alt={alt} treatment={treatment} label={label} sizes={sizes} /></div>
+  <div class={cls}><PortraitFrame src={PHOTO.portrait} alt={alt} treatment={treatment} label={label} sizes={sizes} eager={eager} /></div>
 ) : dev && (
   <div class:list={['portrait-slot', cls]} role="note">
     <span>[À FOURNIR : portrait 4:5, src/assets/photo/patrick-portrait.jpg]</span>
