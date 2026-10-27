@@ -18,6 +18,7 @@ import ExternalIcon from '../ExternalIcon.astro';
 import { lighthouse } from '../../data/lighthouse';
 import { temoignages } from '../../data/temoignages';
 import Todo from '../Todo.astro';
+import HabitaLoop from '../HabitaLoop.astro';
 
 interface Props {
   locale: Locale;
@@ -116,7 +117,11 @@ const specs = [
   {shot && (
     <div class="container-wide case__media reveal-clip">
       <figure class:list={['case__shot', contain && 'case__shot--contain']}>
-        {project.live ? (
+        {isHabita ? (
+          <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+            <HabitaLoop poster={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} />
+          </a>
+        ) : project.live ? (
           <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
             <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
           </a>

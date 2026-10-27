@@ -1,0 +1,68 @@
+---
+// The Habita loop: the still image is the page's content and shows at once;
+// the video only fades in over it once it is actually playing. Shared by the
+// home page and the Habita case study.
+//
+// The video is never fetched until the frame is at least 30 % on screen
+// (sources sit in data-src until then), and never at all under
+// prefers-reduced-motion or Save-Data. No controls, no sound: it is decoration
+// over an image that already says the same thing, so it is hidden from
+// assistive tech and the image carries the alt text.
+import { HABITA_LOOP } from '../lib/habitaLoop';
+
+interface Props {
+  poster: string;
+  srcset?: string;
+  sizes?: string;
+  alt: string;
+}
+const { poster, srcset, sizes, alt } = Astro.props;
+const { webm, mp4, width, height } = HABITA_LOOP;
+---
+
+<div class="hloop" data-habita-loop>
+  <img class="hloop__poster" src={poster} srcset={srcset} sizes={sizes} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
+  <video class="hloop__video" width={width} height={height} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+    <source data-src={webm} type="video/webm" />
+    <source data-src={mp4} type="video/mp4" />
+  </video>
+</div>
+
+<style>
+  .hloop { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
+  .hloop__poster,
+  .hloop__video { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+  .hloop__video { opacity: 0; transition: opacity 0.4s ease; }
+  .hloop.is-playing .hloop__video { opacity: 1; }
+</style>
+
+<script>
+  const still =
+    matchMedia('(prefers-reduced-motion: reduce)').matches ||
+    (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+
+  if (!still && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const frame = entry.target as HTMLElement;
+          const video = frame.querySelector('video');
+          if (!video) continue;
+          if (entry.isIntersecting) {
+            if (!video.dataset.loaded) {
+              video.querySelectorAll<HTMLSourceElement>('source[data-src]').forEach((s) => (s.src = s.dataset.src!));
+              video.dataset.loaded = '1';
+              video.load();
+            }
+            // A refused play() (autoplay policy, Low Power Mode) leaves the image up.
+            video.play().then(() => frame.classList.add('is-playing'), () => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.3 },
+    );
+    document.querySelectorAll('[data-habita-loop]').forEach((frame) => observer.observe(frame));
+  }
+</script>

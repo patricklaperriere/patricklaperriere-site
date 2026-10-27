@@ -17,6 +17,8 @@ import { hasPhoto } from '../../lib/photo';
 import PortraitSlot from '../PortraitSlot.astro';
 import DossierFrame from '../DossierFrame.astro';
 import { showCapture } from '../../lib/work-media';
+import { captureSrcset } from '../../data/projets';
+import HabitaLoop from '../HabitaLoop.astro';
 import SiteSheet from './SiteSheet.astro';
 import HouseScene from './HouseScene.astro';
 import ExternalIcon from '../ExternalIcon.astro';
@@ -82,7 +84,14 @@ const quote = t.about.testimonial;
           <p class="file__ref annot">{t.work.file} {String(i + 1).padStart(2, '0')} · {w.kind}</p>
           <h3 class="file__title">{w.title}</h3>
           <p class="file__body">{w.body}</p>
-          {w.media.length > 0 && (
+          {w.slug === 'habita' ? (
+            <div class="file__media">
+              <figure class="file__loop">
+                <figcaption class="file__loop-label annot">habita.expert</figcaption>
+                <HabitaLoop poster="/work/habita.webp" srcset={captureSrcset('/work/habita.webp')} sizes="(min-width: 1024px) 600px, (min-width: 768px) 45vw, 100vw" alt={tr.workSection.habitaAlt} />
+              </figure>
+            </div>
+          ) : w.media.length > 0 && (
             <div class:list={['file__media', w.media.length > 1 && 'file__media--pair']}>
               {w.media.map((m) => <DossierFrame file={m.file} label={m.label} alt={m.alt} />)}
             </div>
@@ -239,6 +248,8 @@ const quote = t.about.testimonial;
   .file__body { color: var(--slate); margin: 0; flex: 1; }
   .file__media { display: grid; gap: var(--s1); }
   .file__media--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .file__loop { margin: 0; border: 1px solid var(--line-strong); background: var(--ink-sunken); }
+  .file__loop-label { margin: 0; padding: 6px var(--s1); border-bottom: 1px solid var(--line); font-size: 0.75rem; }
   .file__foot {
     display: flex;
     flex-direction: column;
