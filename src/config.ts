@@ -4,8 +4,12 @@ export const SITE = {
   domain: 'https://www.patricklaperriere.com',
   name: 'Patrick Laperrière',
   jobTitle: {
-    fr: 'Développeur web',
-    en: 'Web Developer',
+    fr: 'Développeur web et concepteur de produits',
+    en: 'Web developer and product builder',
+  },
+  personDescription: {
+    fr: 'Développeur web au Québec, fondateur de Technologies Habita inc. Sites, boutiques Shopify et outils web sur mesure pour les PME, en français et en anglais.',
+    en: 'Web developer in Quebec, founder of Technologies Habita inc. Websites, Shopify stores and custom web tools for small businesses, in English and French.',
   },
   // Public address everywhere (contact page, footer, JSON-LD). The About page
   // alone shows the personal one. Both need the domain's mail routing set up

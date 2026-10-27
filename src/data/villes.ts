@@ -162,7 +162,7 @@ export const villes: Ville[] = [
     nearby: ['Hull', 'Aylmer', 'Buckingham', 'Ottawa', 'Outaouais'],
     order: 4,
     fr: {
-      metaTitle: 'Création de site web à Gatineau (Outaouais) | Patrick Laperrière',
+      metaTitle: 'Création de site web à Gatineau | Patrick Laperrière',
       metaDesc: 'Développeur web pour Gatineau et l’Outaouais. Sites bilingues FR/EN rapides et optimisés SEO, idéals pour le marché transfrontalier Gatineau-Ottawa.',
       h1: 'Création de site web à Gatineau',
       lead: 'Des sites bilingues rapides pour les entreprises de Gatineau et de l’Outaouais, dans un marché où le FR et l’EN comptent autant.',

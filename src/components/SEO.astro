@@ -1,7 +1,7 @@
 ---
 import { SITE } from '../config';
 import type { Locale } from '../i18n/routes';
-import { graph, siteNodes } from '../lib/schema';
+import { graph, siteNodes, webPageSchema } from '../lib/schema';
 
 interface Props {
   title: string;
@@ -15,6 +15,8 @@ interface Props {
   ogType?: 'website' | 'article' | 'profile';
   schema?: object | null;
   noindex?: boolean;
+  /** schema.org type of the page node: WebPage, AboutPage, ContactPage, CollectionPage. */
+  pageType?: string;
 }
 
 const {
@@ -27,6 +29,7 @@ const {
   ogType = 'website',
   schema = null,
   noindex = false,
+  pageType = 'WebPage',
 } = Astro.props;
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
@@ -56,7 +59,11 @@ const own: Node[] = !schema
 const ownIds = new Set(own.map((n) => n['@id']).filter(Boolean));
 const jsonLd = noindex
   ? null
-  : graph([...siteNodes(locale).filter((n) => !ownIds.has(n['@id'])), ...own]);
+  : graph([
+      ...siteNodes(locale).filter((n) => !ownIds.has(n['@id'])),
+      webPageSchema({ type: pageType, url: canonicalPath, name: title, description, locale }),
+      ...own,
+    ]);
 ---
 
 <title>{title}</title>

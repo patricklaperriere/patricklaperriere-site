@@ -4,7 +4,7 @@ titre:
   en: "Envita Wellness"
 titreSeo:
   fr: "Envita Wellness, plateforme Shopify"
-  en: "Envita Wellness, custom Shopify platform"
+  en: "Envita Wellness, Shopify platform"
 accroche:
   fr: "Plateforme Shopify sur mesure pour des expériences de bien-être en direct."
   en: "Custom Shopify platform for live wellness experiences."

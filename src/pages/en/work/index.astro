@@ -8,9 +8,9 @@ import { graph, breadcrumbSchema, itemListSchema } from '../../../lib/schema';
 
 const locale = 'en' as const;
 const tr = useTranslations(locale);
-const title = 'Work · web and e-commerce projects | Patrick Laperrière';
+const title = 'Work and case studies | Patrick Laperrière';
 const description =
-  'Case studies: Habita, my building-inspection SaaS, plus custom Astro sites and Shopify stores built for clients in Quebec and across Canada.';
+  'Case studies: Habita, inspection software by Technologies Habita inc., custom Astro sites and Shopify stores, each with results you can check.';
 
 const schema = graph([
   breadcrumbSchema([
@@ -26,6 +26,6 @@ const schema = graph([
 ]);
 ---
 
-<Layout title={title} description={description} locale={locale} alternates={routes.work} ogImage="/og/work.png" schema={schema}>
+<Layout pageType="CollectionPage" title={title} description={description} locale={locale} alternates={routes.work} ogImage="/og/work.png" schema={schema}>
   <WorkIndexContent locale={locale} />
 </Layout>

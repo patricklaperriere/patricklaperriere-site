@@ -55,8 +55,9 @@ export function personSchema(locale: Locale) {
     '@id': PERSON_ID,
     name: SITE.name,
     jobTitle: SITE.jobTitle[locale],
-    url: SITE.domain,
-    email: `mailto:${SITE.email}`,
+    description: SITE.personDescription[locale],
+    url: `${SITE.domain}/`,
+    email: SITE.email,
     telephone: SITE.phone,
     worksFor: { '@id': COMPANY_ID },
     knowsAbout: [...SITE.stack, 'SEO', 'Core Web Vitals', 'Schema.org'],
@@ -65,11 +66,6 @@ export function personSchema(locale: Locale) {
     // that does not exist yet.
     ...(hasPhoto ? { image: abs(PHOTO.schema) } : {}),
     knowsLanguage: ['fr-CA', 'en-CA'],
-    address: {
-      '@type': 'PostalAddress',
-      addressRegion: SITE.region,
-      addressCountry: SITE.country,
-    },
     sameAs: Object.values(SITE.socials),
   };
 }
@@ -79,7 +75,7 @@ export function webSiteSchema(_locale?: Locale) {
   return {
     '@type': 'WebSite',
     '@id': WEBSITE_ID,
-    url: SITE.domain,
+    url: `${SITE.domain}/`,
     name: SITE.name,
     inLanguage: ['fr-CA', 'en-CA'],
     publisher: { '@id': PERSON_ID },
@@ -107,18 +103,22 @@ export function siteNodes(locale: Locale) {
   return [personSchema(locale), webSiteSchema(locale), companySchema()];
 }
 
-/** ProfessionalService — for home + services pages. */
+export const SERVICE_ID = `${SITE.domain}/#service`;
+
+/** ProfessionalService, in full on the home and contact pages only; every
+ *  other page refers to it by @id. */
 export function professionalServiceSchema(locale: Locale) {
   return {
     '@type': 'ProfessionalService',
-    '@id': `${SITE.domain}/#service`,
+    '@id': SERVICE_ID,
     name: SITE.name,
     description: SITE.serviceDescription[locale],
     image: abs(SITE.ogImage),
-    url: SITE.domain,
-    email: `mailto:${SITE.email}`,
+    url: `${SITE.domain}/`,
+    email: SITE.email,
     telephone: SITE.phone,
     founder: { '@id': PERSON_ID },
+    provider: { '@id': PERSON_ID },
     // No aggregateRating / review here: Google ignores self-serving review
     // markup on a business's own pages and treats it as a spam signal. The
     // reviews stay visible on the page, which is where they earn trust.
@@ -180,11 +180,12 @@ export function serviceSchema(opts: {
 }) {
   return {
     '@type': 'Service',
+    '@id': `${abs(opts.url)}#service`,
     name: opts.name,
     description: opts.description,
     serviceType: opts.serviceType,
     url: abs(opts.url),
-    provider: { '@id': `${SITE.domain}/#person` },
+    provider: { '@id': SERVICE_ID },
     areaServed: areaServed(opts.locale),
     availableLanguage: ['fr-CA', 'en-CA'],
   };
@@ -196,25 +197,25 @@ export function localServiceSchema(opts: {
   region: string;
   url: string;
   description: string;
-  geo: { lat: number; lng: number };
+  geo?: { lat: number; lng: number };
   nearby: string[];
   locale: Locale;
 }) {
   const tr = useTranslations(opts.locale);
   return {
     '@type': 'Service',
+    '@id': `${abs(opts.url)}#service`,
     name: `${tr.services.web.title} · ${opts.cityName}`,
     serviceType: tr.services.web.title,
     description: opts.description,
     url: abs(opts.url),
-    provider: { '@id': `${SITE.domain}/#person` },
+    provider: { '@id': SERVICE_ID },
     availableLanguage: ['fr-CA', 'en-CA'],
     areaServed: [
       {
         '@type': 'City',
         name: opts.cityName,
         ...(opts.region ? { containedInPlace: { '@type': 'AdministrativeArea', name: opts.region } } : {}),
-        geo: { '@type': 'GeoCoordinates', latitude: opts.geo.lat, longitude: opts.geo.lng },
       },
       ...opts.nearby.map((name) => ({ '@type': 'Place', name })),
     ],
@@ -234,17 +235,8 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
   };
 }
 
-/** FAQPage from [{ q, a }]. */
-export function faqSchema(faq: readonly { q: string; a: string }[]) {
-  return {
-    '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  };
-}
+// No FAQPage: Google retired FAQ rich results in May 2026. The questions
+// stay visible on the pages, which is what readers and answer engines use.
 
 /** CreativeWork — one per case study. The work is the delivered site or product. */
 export function creativeWorkSchema(opts: {
@@ -320,9 +312,26 @@ export function articleSchema(opts: {
     ...(opts.image ? { image: abs(opts.image) } : {}),
     inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
     datePublished: opts.datePublished,
-    dateModified: opts.dateModified ?? opts.datePublished,
-    author: { '@id': `${SITE.domain}/#person` },
-    publisher: { '@id': `${SITE.domain}/#person` },
+    ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
+    author: { '@type': 'Person', '@id': PERSON_ID, name: SITE.name, url: `${SITE.domain}/` },
+    publisher: { '@id': PERSON_ID },
+  };
+}
+
+/** The page itself: WebPage or a subtype (AboutPage, ContactPage,
+ *  CollectionPage), added by <SEO> on every indexable page. */
+export function webPageSchema(opts: { type: string; url: string; name: string; description: string; locale: Locale }) {
+  const page = abs(opts.url);
+  return {
+    '@type': opts.type,
+    '@id': `${page}#webpage`,
+    url: page,
+    name: opts.name,
+    description: opts.description,
+    inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
+    isPartOf: { '@id': WEBSITE_ID },
+    ...(opts.type === 'AboutPage' ? { mainEntity: { '@id': PERSON_ID } } : {}),
+    ...(opts.type === 'ContactPage' ? { mainEntity: { '@id': SERVICE_ID } } : {}),
   };
 }
 

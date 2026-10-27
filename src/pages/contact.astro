@@ -17,6 +17,6 @@ const schema = graph([
 ]);
 ---
 
-<Layout title={c.seoTitle} description={c.seoDesc} locale={locale} alternates={routes.contact} ogImage="/og/contact.png" schema={schema}>
+<Layout pageType="ContactPage" title={c.seoTitle} description={c.seoDesc} locale={locale} alternates={routes.contact} ogImage="/og/contact.png" schema={schema}>
   <ContactContent locale={locale} />
 </Layout>

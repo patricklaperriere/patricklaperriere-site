@@ -12,6 +12,6 @@ const description =
 const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale)]);
 ---
 
-<Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} theme="report">
+<Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} ogImage="/og/home-fr.png">
   <HomePage locale={locale} />
 </Layout>

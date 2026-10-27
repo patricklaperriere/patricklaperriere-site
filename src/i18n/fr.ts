@@ -283,7 +283,7 @@ export const fr = {
 
   contact: {
     seoTitle: 'Contact, démarrer un projet | Patrick Laperrière',
-    seoDesc: 'Écrivez à Patrick Laperrière, développeur web, pour un site, une refonte, une boutique Shopify ou un outil sur mesure. Réponse personnelle, en français ou en anglais.',
+    seoDesc: 'Écrivez à Patrick Laperrière pour un site web, une refonte, une boutique Shopify ou un outil sur mesure. Réponse personnelle, en français ou en anglais.',
     kicker: 'Contact',
     // The H1 stays as Patrick approved it.
     h1: 'Démarrons votre projet',

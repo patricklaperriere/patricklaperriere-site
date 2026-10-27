@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import LocalSeoContent from '../../../components/pages/LocalSeoContent.astro';
 import { useTranslations, path } from '../../../i18n';
 import { villes, villeContent, villePath, villesHubPath, villeAlternates } from '../../../data/villes';
-import { graph, breadcrumbSchema, faqSchema, localServiceSchema, professionalServiceSchema } from '../../../lib/schema';
+import { graph, breadcrumbSchema, localServiceSchema } from '../../../lib/schema';
 
 export function getStaticPaths() {
   return villes.map((ville) => ({ params: { ville: ville.slug }, props: { ville } }));
@@ -30,8 +30,6 @@ const schema = graph([
     nearby: ville.nearby,
     locale,
   }),
-  faqSchema(c.faq),
-  professionalServiceSchema(locale),
 ]);
 ---
 

@@ -2,7 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ServiceIndexContent from '../../components/pages/ServiceIndexContent.astro';
 import { useTranslations, routes, path } from '../../i18n';
-import { graph, breadcrumbSchema, professionalServiceSchema } from '../../lib/schema';
+import { graph, breadcrumbSchema } from '../../lib/schema';
 
 const locale = 'fr' as const;
 const tr = useTranslations(locale);
@@ -15,10 +15,9 @@ const schema = graph([
     { name: tr.breadcrumb.home, url: path('home', locale) },
     { name: tr.nav.services, url: path('services', locale) },
   ]),
-  professionalServiceSchema(locale),
 ]);
 ---
 
-<Layout title={title} description={description} locale={locale} alternates={routes.services} schema={schema}>
+<Layout pageType="CollectionPage" title={title} description={description} locale={locale} alternates={routes.services} schema={schema} ogImage="/og/services.png">
   <ServiceIndexContent locale={locale} />
 </Layout>

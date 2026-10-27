@@ -3,8 +3,8 @@ titre:
   fr: "Inspection Habitation Outaouais"
   en: "Inspection Habitation Outaouais"
 titreSeo:
-  fr: "Inspection Habitation Outaouais, site Astro"
-  en: "Inspection Habitation Outaouais, Astro site"
+  fr: "Inspection Habitation Outaouais"
+  en: "Inspection Habitation Outaouais site"
 accroche:
   fr: "Site Astro bilingue et SEO local pour un inspecteur en bâtiment de l’Outaouais."
   en: "Bilingual Astro site with local SEO for an Outaouais building inspector."
