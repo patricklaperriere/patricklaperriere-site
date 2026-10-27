@@ -47,7 +47,7 @@ const crumbs = [
 
   <div class="about__story prose reveal" data-delay="80ms">
     {a.body.map((p) => <p>{p}</p>)}
-    <p><Todo what={a.bioTodo} /></p>
+    {import.meta.env.DEV && <p><Todo what={a.bioTodo} /></p>}
 
     <aside class="about__company" aria-labelledby="about-company">
       <h2 id="about-company" class="label">{a.companyTitle}</h2>

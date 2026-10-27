@@ -108,7 +108,7 @@ const specs = [
         <ExternalIcon />
       </a>
     )}
-    {project.todo.length > 0 && (
+    {import.meta.env.DEV && project.todo.length > 0 && (
       <ul class="case__todo">{project.todo.map((t) => <li><Todo what={t} /></li>)}</ul>
     )}
   </header>

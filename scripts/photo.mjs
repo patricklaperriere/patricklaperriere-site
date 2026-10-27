@@ -110,4 +110,4 @@ if (warnings.length) {
   for (const w of warnings) console.log(`    · ${w}`);
 }
 
-console.log(`\n  Vérifie que SITE.hasPhoto vaut true dans src/config.ts\n`);
+console.log(`\n  Les portraits du site suivent la présence des fichiers dans src/assets/photo/ (voir src/lib/photo.ts).\n`);

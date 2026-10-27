@@ -1,7 +1,11 @@
 // The personal portrait, in one place.
 //
-// The previous portrait looked generated and was withdrawn (October 2026).
-// The site now finds its photos by file presence: drop a 4:5 portrait at
+// Source (27 October 2026): Patrick's original phone photo, unretouched
+// (Downloads/20250402_105602.jpg), cropped to 4:5 and to a square, EXIF and
+// GPS stripped. The previous portrait was a retouched version of the same
+// shot that looked generated; it was withdrawn. To be approved by Patrick.
+//
+// The site finds its photos by file presence: drop a 4:5 portrait at
 // src/assets/photo/patrick-portrait.jpg (and, optionally, a square face crop
 // at patrick-square.jpg), run `npm run photo` for the favicons and the JSON-LD
 // square, and every placement comes back on its own. While the files are
