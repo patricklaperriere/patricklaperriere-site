@@ -315,3 +315,26 @@ html.theme-report.lenis body { height: auto; }
   html.theme-report .footer { padding-top: var(--s3); }
   html.theme-report .footer .footer__list { column-gap: var(--s2); }
 }
+
+/* ---- Inner pages -------------------------------------------------------------
+   The older inner-page templates flip a section to PAPER (bone). The report
+   has one ground: a "paper" section becomes the raised aubergine, so the
+   rhythm survives without breaking the palette. */
+.theme-report [data-surface="paper"],
+.theme-report [data-surface="ink"] {
+  --bg:         var(--ink-raised);
+  --bg-raised:  var(--ink-high);
+  --bg-sunken:  var(--ink-sunken);
+  --fg:         var(--bone);
+  --fg-dim:     var(--slate);
+  --fg-mute:    var(--slate-mute);
+  --accent-fg:  var(--signal);
+  --accent:     var(--plum);
+  --line:        rgba(246, 238, 242, 0.14);
+  --line-soft:   rgba(246, 238, 242, 0.08);
+  --line-strong: rgba(246, 238, 242, 0.3);
+  --btn-fill-bg: var(--mauve);
+  --btn-fill-fg: var(--bone);
+  color-scheme: dark;
+}
+.theme-report [data-surface="ink"] { --bg: var(--ink); }

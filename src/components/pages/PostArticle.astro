@@ -46,7 +46,7 @@ const crumbs = [
 
   <div class="container-wide">
     <aside class="post__author" aria-label={tr.about.kicker}>
-      {hasPhoto ? (
+      {hasPhoto && PHOTO.square ? (
         <Picture
           class="post__author-photo"
           src={PHOTO.square}

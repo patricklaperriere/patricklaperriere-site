@@ -1,4 +1,4 @@
-// Local SEO landing pages — one dataset per city, fully bilingual.
+// Local SEO landing pages: one dataset per city, fully bilingual.
 // Each city has genuinely distinct local content (market notes, served
 // areas, city-specific FAQ) so these are real local pages, not thin
 // doorway duplicates. FR copy follows Québécois usage and avoids tirets.
@@ -18,7 +18,7 @@ export interface VilleContent {
   servedLabel: string;
   faqTitle: string;
   faq: { q: string; a: string }[];
-  /** Optional local proof — links to an existing case study. */
+  /** Optional local proof: links to an existing case study. */
   caseStudy?: { slug: string; label: string; blurb: string };
 }
 
@@ -47,24 +47,24 @@ export const villes: Ville[] = [
       h1: 'Création de site web à Montréal',
       lead: 'Des sites sur mesure, rapides et bilingues pour les entreprises montréalaises qui veulent se démarquer.',
       intro:
-        'Montréal est le marché le plus compétitif au Québec. Pour ressortir, votre site doit charger vite, parler aux deux langues et viser les bons mots-clés. C\'est exactement ce que je construis.',
+        'À Montréal, beaucoup d’entreprises se disputent les mêmes recherches. Pour ressortir, votre site doit charger vite, parler aux deux langues et viser les bons mots-clés : c’est ce que je construis.',
       localTitle: 'Le web pour les entreprises de Montréal',
       local: [
-        'De Griffintown au Plateau, en passant par Rosemont et Villeray, Montréal regorge de commerces, de restaurants, de boutiques et de startups qui se battent pour la même attention. Le bilinguisme y est essentiel : une part de votre clientèle cherche en français, l\'autre en anglais.',
+        'De Griffintown au Plateau, en passant par Rosemont et Villeray, Montréal regorge de commerces, de restaurants, de boutiques et de startups qui se battent pour la même attention. Le bilinguisme y est essentiel : une part de votre clientèle cherche en français, l’autre en anglais.',
         'Je construis des sites vraiment bilingues (FR/EN), avec un référencement propre dans les deux langues, pas une simple traduction de surface. Ajoutez à ça une vitesse de chargement quasi instantanée et un design soigné, et vous avez un site qui convertit les visiteurs montréalais en clients.',
       ],
       whyTitle: 'Pourquoi me confier votre site à Montréal',
       why: [
         'Sites authentiquement bilingues, optimisés séparément en FR et en EN avec hreflang propre.',
         'Performance maximale : un visiteur montréalais pressé ne tolère pas un site lent.',
-        'À distance ou en personne, je m\'adapte à votre rythme et à votre marché.',
+        'À distance ou en personne, je m’adapte à votre rythme et à votre marché.',
       ],
       servedLabel: 'Je dessers aussi les quartiers de',
       faqTitle: 'Questions fréquentes · Montréal',
       faq: [
         { q: 'Mon site doit-il être bilingue à Montréal ?', a: 'Dans la plupart des cas, oui. Une partie importante du marché montréalais cherche en anglais. Un vrai site FR/EN, optimisé dans les deux langues, élargit nettement votre portée.' },
         { q: 'Travaillez-vous avec des restos et commerces de Montréal ?', a: 'Oui : commerces de détail, restaurants, services professionnels, boutiques en ligne. Je construis le site selon votre secteur et votre clientèle.' },
-        { q: 'Êtes-vous à Montréal ?', a: 'Je suis dans le Grand Montréal, donc tout près. Je travaille avec des clients montréalais à distance comme en personne.' },
+        { q: 'Faut-il se rencontrer en personne ?', a: 'Ce n’est pas nécessaire. Je travaille à distance, par appel vidéo et par courriel, avec des clients de Montréal comme d’ailleurs au Québec.' },
       ],
     },
     en: {
@@ -73,7 +73,7 @@ export const villes: Ville[] = [
       h1: 'Web Design & Development in Montreal',
       lead: 'Custom, fast, bilingual websites for Montreal businesses that want to stand out.',
       intro:
-        'Montreal is Quebec\'s most competitive market. To stand out, your site has to load fast, speak both languages and target the right keywords. That\'s exactly what I build.',
+        'In Montreal, many businesses compete for the same searches. To stand out, your site has to load fast, speak both languages and target the right keywords: that’s what I build.',
       localTitle: 'The web for Montreal businesses',
       local: [
         'From Griffintown to the Plateau, through Rosemont and Villeray, Montreal is packed with shops, restaurants, boutiques and startups fighting for the same attention. Bilingualism is essential here: part of your audience searches in French, the other in English.',
@@ -82,15 +82,15 @@ export const villes: Ville[] = [
       whyTitle: 'Why trust me with your Montreal site',
       why: [
         'Truly bilingual sites, optimized separately in FR and EN with clean hreflang.',
-        'Top performance: a busy Montreal visitor won\'t tolerate a slow site.',
+        'Top performance: a busy Montreal visitor won’t tolerate a slow site.',
         'Remote or in person, I adapt to your pace and your market.',
       ],
       servedLabel: 'I also serve the neighbourhoods of',
-      faqTitle: 'Frequently asked questions — Montreal',
+      faqTitle: 'Frequently asked questions · Montreal',
       faq: [
         { q: 'Does my Montreal site need to be bilingual?', a: 'In most cases, yes. A large share of the Montreal market searches in English. A real FR/EN site, optimized in both languages, meaningfully widens your reach.' },
         { q: 'Do you work with Montreal restaurants and shops?', a: 'Yes: retail, restaurants, professional services, online stores. I build the site around your industry and your audience.' },
-        { q: 'Are you in Montreal?', a: 'I\'m in the Greater Montreal area, so very close by. I work with Montreal clients both remotely and in person.' },
+        { q: 'Do we need to meet in person?', a: 'No. I work remotely, over video calls and email, with clients in Montreal and across Quebec.' },
       ],
     },
   },
@@ -107,24 +107,24 @@ export const villes: Ville[] = [
       h1: 'Création de site web à Longueuil',
       lead: 'Des sites rapides et bien référencés pour les entreprises de Longueuil et de la Rive-Sud.',
       intro:
-        'Longueuil et l\'agglomération de la Rive-Sud forment un bassin de PME dynamique. Un site moderne et rapide vous aide à capter les clients de Brossard, Saint-Lambert ou Boucherville avant vos concurrents.',
+        'Longueuil et l’agglomération de la Rive-Sud forment un bassin de PME dynamique. Un site moderne et rapide vous aide à capter les clients de Brossard, Saint-Lambert ou Boucherville avant vos concurrents.',
       localTitle: 'Le web pour les entreprises de la Rive-Sud',
       local: [
-        'L\'agglomération de Longueuil regroupe une clientèle résidentielle et commerciale importante, répartie entre Brossard, Saint-Lambert, Boucherville, Saint-Hubert et Greenfield Park. Beaucoup de commerces de services y misent encore sur le bouche-à-oreille, alors qu\'une bonne présence en ligne fait toute la différence.',
-        'J\'optimise votre site pour les recherches locales propres à la Rive-Sud, avec un référencement géolocalisé et une fiche Google Business soignée. Résultat : quand un résident cherche votre service, c\'est vous qui apparaissez.',
+        'L’agglomération de Longueuil regroupe une clientèle résidentielle et commerciale importante, répartie entre Brossard, Saint-Lambert, Boucherville, Saint-Hubert et Greenfield Park. Beaucoup de commerces de services y misent encore sur le bouche-à-oreille, alors qu’une bonne présence en ligne fait toute la différence.',
+        'J’optimise votre site pour les recherches locales propres à la Rive-Sud, avec un référencement géolocalisé et une fiche Google Business soignée. L’objectif : que les résidents qui cherchent votre service vous trouvent facilement.',
       ],
       whyTitle: 'Pourquoi travailler avec moi sur la Rive-Sud',
       why: [
         'Référencement local ciblé sur Longueuil et les villes voisines.',
         'Sites bilingues FR/EN, utiles pour une clientèle variée de la Rive-Sud.',
-        'Établi tout près, je suis joignable rapidement et dans votre fuseau.',
+        'Joignable facilement, dans votre fuseau horaire, par appel ou par courriel.',
       ],
       servedLabel: 'Je dessers aussi',
       faqTitle: 'Questions fréquentes · Longueuil',
       faq: [
-        { q: 'Couvrez-vous toute la Rive-Sud ?', a: 'Oui : Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert et les environs. J\'optimise le référencement pour la ville qui compte le plus pour votre clientèle.' },
-        { q: 'Faites-vous du SEO local pour Longueuil ?', a: 'Oui. J\'optimise votre fiche Google Business et j\'ajoute des données structurées locales pour que vous soyez trouvé par les clients de la Rive-Sud.' },
-        { q: 'Peut-on se rencontrer ?', a: 'Je suis tout près, dans la région. On peut se rencontrer au besoin, mais l\'essentiel se fait efficacement par appel et courriel.' },
+        { q: 'Couvrez-vous toute la Rive-Sud ?', a: 'Oui : Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert et les environs. J’optimise le référencement pour la ville qui compte le plus pour votre clientèle.' },
+        { q: 'Faites-vous du SEO local pour Longueuil ?', a: 'Oui. J’optimise votre fiche Google Business et j’ajoute des données structurées locales pour que vous soyez trouvé par les clients de la Rive-Sud.' },
+        { q: 'Peut-on se rencontrer ?', a: 'Le travail se fait surtout par appel vidéo et par courriel, ce qui suffit pour la plupart des projets.' },
       ],
     },
     en: {
@@ -137,20 +137,20 @@ export const villes: Ville[] = [
       localTitle: 'The web for South Shore businesses',
       local: [
         'The Longueuil agglomeration covers a large residential and commercial base, spread across Brossard, Saint-Lambert, Boucherville, Saint-Hubert and Greenfield Park. Many service businesses still rely on word of mouth, when a strong online presence makes all the difference.',
-        'I optimize your site for the local searches specific to the South Shore, with geo-targeted SEO and a polished Google Business profile. The result: when a resident searches for your service, you\'re the one who shows up.',
+        'I optimize your site for the local searches specific to the South Shore, with geo-targeted SEO and a polished Google Business profile. The result: when a resident searches for your service, you’re the one who shows up.',
       ],
       whyTitle: 'Why work with me on the South Shore',
       why: [
         'Local SEO targeted at Longueuil and neighbouring towns.',
-        'Bilingual FR/EN sites, useful for the South Shore\'s varied audience.',
-        'Based nearby, quick to reach and in your time zone.',
+        'Bilingual FR/EN sites, useful for the South Shore’s varied audience.',
+        'Easy to reach, in your time zone, by phone or email.',
       ],
       servedLabel: 'I also serve',
-      faqTitle: 'Frequently asked questions — Longueuil',
+      faqTitle: 'Frequently asked questions · Longueuil',
       faq: [
         { q: 'Do you cover the whole South Shore?', a: 'Yes: Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert and nearby. I optimize SEO for the town that matters most to your audience.' },
         { q: 'Do you do local SEO for Longueuil?', a: 'Yes. I optimize your Google Business profile and add local structured data so you get found by South Shore customers.' },
-        { q: 'Can we meet?', a: 'I\'m close by, in the region. We can meet when needed, though most of the work happens efficiently over calls and email.' },
+        { q: 'Can we meet?', a: 'Most of the work happens over video calls and email, which is enough for most projects.' },
       ],
     },
   },
@@ -163,17 +163,17 @@ export const villes: Ville[] = [
     order: 4,
     fr: {
       metaTitle: 'Création de site web à Gatineau (Outaouais) | Patrick Laperrière',
-      metaDesc: 'Développeur web pour Gatineau et l\'Outaouais. Sites bilingues FR/EN rapides et optimisés SEO, idéals pour le marché transfrontalier Gatineau-Ottawa.',
+      metaDesc: 'Développeur web pour Gatineau et l’Outaouais. Sites bilingues FR/EN rapides et optimisés SEO, idéals pour le marché transfrontalier Gatineau-Ottawa.',
       h1: 'Création de site web à Gatineau',
-      lead: 'Des sites bilingues rapides pour les entreprises de Gatineau et de l\'Outaouais, dans un marché où le FR et l\'EN comptent autant.',
+      lead: 'Des sites bilingues rapides pour les entreprises de Gatineau et de l’Outaouais, dans un marché où le FR et l’EN comptent autant.',
       intro:
         'Gatineau est un marché unique : collée à Ottawa, votre clientèle cherche en français comme en anglais. Un vrai site bilingue, bien référencé dans les deux langues, vous ouvre les deux côtés de la rivière.',
-      localTitle: 'Le web pour les entreprises de l\'Outaouais',
+      localTitle: 'Le web pour les entreprises de l’Outaouais',
       local: [
-        'Dans l\'Outaouais, le bilinguisme n\'est pas optionnel. Entre Gatineau, Hull, Aylmer et le voisinage immédiat d\'Ottawa, votre site doit performer en français et en anglais pour capter toute votre clientèle potentielle. Trop d\'entreprises locales se contentent d\'une seule langue et laissent des clients sur la table.',
-        'Je construis des sites authentiquement bilingues, avec un contenu optimisé séparément en FR et en EN et un hreflang propre, pour que Google vous montre dans la bonne langue à la bonne personne. C\'est exactement le travail que j\'ai livré pour un inspecteur en bâtiment de la région.',
+        'Dans l’Outaouais, le bilinguisme n’est pas optionnel. Entre Gatineau, Hull, Aylmer et le voisinage immédiat d’Ottawa, votre site doit performer en français et en anglais pour capter toute votre clientèle potentielle. Un site offert dans une seule langue se prive d’une partie de cette clientèle.',
+        'Je construis des sites authentiquement bilingues, avec un contenu optimisé séparément en FR et en EN et un hreflang propre, pour que Google vous montre dans la bonne langue à la bonne personne. C’est exactement le travail que j’ai livré pour un inspecteur en bâtiment de la région.',
       ],
-      whyTitle: 'Pourquoi un site bilingue pour l\'Outaouais',
+      whyTitle: 'Pourquoi un site bilingue pour l’Outaouais',
       why: [
         'Référencement séparé et propre en français et en anglais, pas une traduction automatique.',
         'Pensé pour le marché transfrontalier Gatineau-Ottawa.',
@@ -182,14 +182,14 @@ export const villes: Ville[] = [
       servedLabel: 'Je dessers aussi',
       faqTitle: 'Questions fréquentes · Gatineau',
       faq: [
-        { q: 'Mon site doit-il viser aussi Ottawa ?', a: 'Souvent, oui. Beaucoup d\'entreprises de Gatineau servent une clientèle des deux côtés de la rivière. Un site bilingue bien référencé vous rend visible à Gatineau comme à Ottawa.' },
+        { q: 'Mon site doit-il viser aussi Ottawa ?', a: 'Souvent, oui. Beaucoup d’entreprises de Gatineau servent une clientèle des deux côtés de la rivière. Un site bilingue bien référencé vous rend visible à Gatineau comme à Ottawa.' },
         { q: 'Faites-vous des sites vraiment bilingues ?', a: 'Oui. Chaque langue a son contenu optimisé et son référencement propre, avec hreflang correct. Pas de bouton de traduction qui nuit au SEO.' },
-        { q: 'Avez-vous déjà travaillé dans l\'Outaouais ?', a: 'Oui. J\'ai conçu un site Astro bilingue avec SEO local pour un inspecteur en bâtiment de l\'Outaouais. Voyez l\'étude de cas pour les détails.' },
+        { q: 'Avez-vous déjà travaillé dans l’Outaouais ?', a: 'Oui. J’ai conçu un site Astro bilingue avec SEO local pour un inspecteur en bâtiment de l’Outaouais. Voyez l’étude de cas pour les détails.' },
       ],
       caseStudy: {
         slug: 'inspection-habitation-outaouais',
-        label: 'Voir l\'étude de cas',
-        blurb: 'Site Astro bilingue et SEO local pour un inspecteur en bâtiment de l\'Outaouais.',
+        label: 'Voir l’étude de cas',
+        blurb: 'Site Astro bilingue et SEO local pour un inspecteur en bâtiment de l’Outaouais.',
       },
     },
     en: {
@@ -201,8 +201,8 @@ export const villes: Ville[] = [
         'Gatineau is a unique market: right next to Ottawa, your customers search in both French and English. A real bilingual site, ranked well in both languages, opens up both sides of the river.',
       localTitle: 'The web for Outaouais businesses',
       local: [
-        'In the Outaouais, bilingualism isn\'t optional. Between Gatineau, Hull, Aylmer and neighbouring Ottawa, your site has to perform in French and English to reach your full audience. Too many local businesses settle for one language and leave customers on the table.',
-        'I build genuinely bilingual sites, with content optimized separately in FR and EN and clean hreflang, so Google shows you in the right language to the right person. That\'s exactly the work I delivered for a building inspector in the region.',
+        'In the Outaouais, bilingualism isn’t optional. Between Gatineau, Hull, Aylmer and neighbouring Ottawa, your site has to perform in French and English to reach your full audience. A site in only one language misses part of that audience.',
+        'I build genuinely bilingual sites, with content optimized separately in FR and EN and clean hreflang, so Google shows you in the right language to the right person. That’s exactly the work I delivered for a building inspector in the region.',
       ],
       whyTitle: 'Why a bilingual site for the Outaouais',
       why: [
@@ -211,7 +211,7 @@ export const villes: Ville[] = [
         'Speed and local SEO to stand out across the whole region.',
       ],
       servedLabel: 'I also serve',
-      faqTitle: 'Frequently asked questions — Gatineau',
+      faqTitle: 'Frequently asked questions · Gatineau',
       faq: [
         { q: 'Should my site target Ottawa too?', a: 'Often, yes. Many Gatineau businesses serve customers on both sides of the river. A well-ranked bilingual site makes you visible in Gatineau and Ottawa alike.' },
         { q: 'Do you build genuinely bilingual sites?', a: 'Yes. Each language has its own optimized content and clean SEO, with correct hreflang. No translation button that hurts your ranking.' },
@@ -240,8 +240,8 @@ export const villes: Ville[] = [
         'La ville de Québec a une identité forte et une clientèle fidèle au local. Un site rapide, élégant et bien référencé vous aide à transformer cette fierté régionale en clients qui vous trouvent et vous choisissent.',
       localTitle: 'Le web pour les entreprises de Québec',
       local: [
-        'De Sainte-Foy à Limoilou, en passant par Charlesbourg et Beauport, la région de Québec mêle tourisme, services, commerces de quartier et secteur public. La clientèle y cherche d\'abord en français et valorise le sérieux et la proximité, deux choses que votre site doit refléter dès la première seconde.',
-        'Je construis des sites au français impeccable, rapides et optimisés pour le référencement local de la Capitale-Nationale. Que vous visiez les résidents, les touristes ou les deux, votre site est structuré pour ressortir sur les bonnes recherches.',
+        'De Sainte-Foy à Limoilou, en passant par Charlesbourg et Beauport, la région de Québec mêle tourisme, services, commerces de quartier et secteur public. La clientèle y cherche d’abord en français et valorise le sérieux et la proximité, deux choses que votre site doit refléter dès la première seconde.',
+        'Je construis des sites rédigés dans un français soigné, rapides et optimisés pour le référencement local de la Capitale-Nationale. Que vous visiez les résidents, les touristes ou les deux, votre site est structuré pour ressortir sur les bonnes recherches.',
       ],
       whyTitle: 'Pourquoi me confier votre site à Québec',
       why: [
@@ -253,8 +253,8 @@ export const villes: Ville[] = [
       faqTitle: 'Questions fréquentes · Québec',
       faq: [
         { q: 'Travaillez-vous à distance avec des clients de Québec ?', a: 'Oui, sans problème. Je collabore par appel et courriel avec des clients de la ville de Québec et de toute la province, avec un suivi clair du début à la fin.' },
-        { q: 'Mon site sera-t-il en français de qualité ?', a: 'Oui. Le français impeccable est la base. Je peux aussi ajouter une version anglaise optimisée si votre clientèle le justifie.' },
-        { q: 'Faites-vous du référencement local pour Québec ?', a: 'Oui. J\'optimise votre fiche Google Business et vos pages pour les recherches locales de la Capitale-Nationale.' },
+        { q: 'Mon site sera-t-il en français de qualité ?', a: 'Oui, c’est la base. Je peux aussi ajouter une version anglaise optimisée si votre clientèle le justifie.' },
+        { q: 'Faites-vous du référencement local pour Québec ?', a: 'Oui. J’optimise votre fiche Google Business et vos pages pour les recherches locales de la Capitale-Nationale.' },
       ],
     },
     en: {
@@ -267,16 +267,16 @@ export const villes: Ville[] = [
       localTitle: 'The web for Quebec City businesses',
       local: [
         'From Sainte-Foy to Limoilou, through Charlesbourg and Beauport, the Quebec City region blends tourism, services, neighbourhood shops and the public sector. Customers search first in French and value seriousness and proximity, two things your site has to convey from the first second.',
-        'I build sites with flawless French, fast and optimized for Capitale-Nationale local SEO. Whether you target residents, tourists or both, your site is structured to surface on the right searches.',
+        'I build sites written in careful French, fast and optimized for Capitale-Nationale local SEO. Whether you target residents, tourists or both, your site is structured to surface on the right searches.',
       ],
       whyTitle: 'Why trust me with your Quebec City site',
       why: [
-        'Polished French content, true to your business\'s tone.',
+        'Polished French content, true to your business’s tone.',
         'Local SEO for Quebec City and its neighbourhoods.',
         'Smooth remote work across the Capitale-Nationale.',
       ],
       servedLabel: 'I also serve',
-      faqTitle: 'Frequently asked questions — Quebec City',
+      faqTitle: 'Frequently asked questions · Quebec City',
       faq: [
         { q: 'Do you work remotely with Quebec City clients?', a: 'Yes, easily. I collaborate over calls and email with clients in Quebec City and across the province, with clear follow-up from start to finish.' },
         { q: 'Will my site have quality French?', a: 'Yes. Flawless French is the baseline. I can also add an optimized English version if your audience warrants it.' },
@@ -287,7 +287,7 @@ export const villes: Ville[] = [
   {
     slug: 'terrebonne',
     name: 'Terrebonne',
-    region: { fr: 'Couronne Nord', en: 'North Shore' },
+    region: { fr: 'Couronne Nord', en: 'Montreal’s North Shore' },
     geo: { lat: 45.7056, lng: -73.648 },
     nearby: ['Mascouche', 'Repentigny', 'Lachenaie', 'La Plaine', 'Bois-des-Filion', 'Lanaudière'],
     order: 6,
@@ -297,15 +297,15 @@ export const villes: Ville[] = [
       h1: 'Création de site web à Terrebonne',
       lead: 'Des sites rapides et bien référencés pour les entreprises de Terrebonne et de la Couronne Nord.',
       intro:
-        'Terrebonne et la Couronne Nord sont en pleine croissance, avec une population et un tissu de PME qui ne cessent de s\'étendre. Un site moderne et rapide vous aide à capter cette clientèle locale avant qu\'elle aille voir ailleurs.',
+        'À Terrebonne et dans la Couronne Nord, les clients cherchent d’abord sur Google les entreprises de leur secteur. Un site rapide et clair vous aide à être de celles qu’ils trouvent.',
       localTitle: 'Le web pour les entreprises de la Couronne Nord',
       local: [
-        'Entre Terrebonne, Mascouche, Repentigny et le secteur de Lanaudière, la demande locale grandit vite. Beaucoup d\'entreprises de services, de construction et de commerce de proximité y ont une présence en ligne dépassée ou inexistante, ce qui laisse un vrai espace pour celles qui soignent leur site.',
-        'J\'optimise votre site pour les recherches locales de la Couronne Nord, avec un référencement géolocalisé et une fiche Google Business bien tenue. Étant établi juste à côté, je connais bien ce marché en expansion.',
+        'Entre Terrebonne, Mascouche, Repentigny et le secteur de Lanaudière, les entreprises de services, de construction et de commerce de proximité gagnent à soigner leur présence en ligne : c’est souvent là que le premier contact se fait.',
+        'J’optimise votre site pour les recherches locales de la Couronne Nord, avec un référencement géolocalisé et une fiche Google Business bien tenue.',
       ],
       whyTitle: 'Pourquoi travailler avec moi sur la Couronne Nord',
       why: [
-        'Établi tout près de Terrebonne et de la Couronne Nord.',
+        'Joignable facilement, par appel ou par courriel.',
         'Référencement local ciblé sur Terrebonne, Mascouche et Repentigny.',
         'Sites rapides et soignés, prêts à grandir avec votre entreprise.',
       ],
@@ -313,8 +313,8 @@ export const villes: Ville[] = [
       faqTitle: 'Questions fréquentes · Terrebonne',
       faq: [
         { q: 'Couvrez-vous Mascouche et Repentigny ?', a: 'Oui. Je dessers toute la Couronne Nord : Terrebonne, Mascouche, Repentigny, Lachenaie et les environs, avec un référencement adapté à votre clientèle.' },
-        { q: 'Êtes-vous proche de Terrebonne ?', a: 'Je suis à quelques minutes seulement. On peut se rencontrer au besoin, mais l\'essentiel se fait efficacement à distance.' },
-        { q: 'Faites-vous du SEO local pour Terrebonne ?', a: 'Oui. J\'optimise votre fiche Google Business et vos pages pour que les clients de la Couronne Nord vous trouvent en premier.' },
+        { q: 'Travaillez-vous à distance ?', a: 'Oui. Le travail se fait par appel vidéo et par courriel, ce qui suffit pour la plupart des projets.' },
+        { q: 'Faites-vous du SEO local pour Terrebonne ?', a: 'Oui. J’optimise votre fiche Google Business et vos pages pour que les clients de la Couronne Nord vous trouvent plus facilement.' },
       ],
     },
     en: {
@@ -323,24 +323,24 @@ export const villes: Ville[] = [
       h1: 'Web Design & Development in Terrebonne',
       lead: 'Fast, well-ranked websites for businesses in Terrebonne and the North Shore.',
       intro:
-        'Terrebonne and the North Shore are growing fast, with an expanding population and a widening base of small businesses. A modern, fast website helps you capture local customers before they look elsewhere.',
+        'In Terrebonne and on Montreal’s North Shore, customers look up local businesses on Google first. A fast, clear website helps you be one of the ones they find.',
       localTitle: 'The web for North Shore businesses',
       local: [
         'Between Terrebonne, Mascouche, Repentigny and the Lanaudière area, local demand is rising quickly. Many service, construction and local retail businesses have an outdated or non-existent online presence, leaving real room for those who invest in their site.',
-        'I optimize your site for North Shore local searches, with geo-targeted SEO and a well-maintained Google Business profile. Based right next door, I know this growing market well.',
+        'I optimize your site for North Shore local searches, with geo-targeted SEO and a well-maintained Google Business profile.',
       ],
       whyTitle: 'Why work with me on the North Shore',
       why: [
-        'Based right next to Terrebonne and the North Shore.',
+        'Easy to reach, by phone or email.',
         'Local SEO targeted at Terrebonne, Mascouche and Repentigny.',
         'Fast, polished sites, ready to grow with your business.',
       ],
       servedLabel: 'I also serve',
-      faqTitle: 'Frequently asked questions — Terrebonne',
+      faqTitle: 'Frequently asked questions · Terrebonne',
       faq: [
         { q: 'Do you cover Mascouche and Repentigny?', a: 'Yes. I serve the whole North Shore: Terrebonne, Mascouche, Repentigny, Lachenaie and nearby, with SEO tailored to your audience.' },
-        { q: 'Are you close to Terrebonne?', a: 'I\'m just minutes away. We can meet when needed, though most of the work happens efficiently remotely.' },
-        { q: 'Do you do local SEO for Terrebonne?', a: 'Yes. I optimize your Google Business profile and pages so North Shore customers find you first.' },
+        { q: 'Do you work remotely?', a: 'Yes. The work happens over video calls and email, which is enough for most projects.' },
+        { q: 'Do you do local SEO for Terrebonne?', a: 'Yes. I optimize your Google Business profile and pages so North Shore customers find you more easily.' },
       ],
     },
   },

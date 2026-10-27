@@ -24,7 +24,7 @@ Vous cherchez votre entreprise et vous ne la trouvez pas ? Vos concurrents, eux,
 
 ## 4. Il a l'air daté
 
-Un design qui sent 2014 envoie un mauvais signal : si le site est négligé, qu'en est il du service ? La première impression se joue en quelques secondes.
+Un design qui sent 2014 envoie un mauvais signal : si le site est négligé, qu'en est-il du service ? La première impression se joue en quelques secondes.
 
 ## 5. Il ne génère aucune demande
 
@@ -36,7 +36,7 @@ Si changer une simple ligne exige d'appeler quelqu'un (ou n'est carrément plus 
 
 ## 7. Il n'est pas bilingue (et vous en avez besoin)
 
-Au Québec et au Canada, parler à un seul marché linguistique, c'est laisser la moitié de vos clients potentiels chez la concurrence.
+Au Québec et au Canada, parler à un seul marché linguistique, c'est laisser une partie de vos clients potentiels à la concurrence.
 
 ## Ce qu'une refonte change
 

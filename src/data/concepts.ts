@@ -29,8 +29,8 @@ export const concepts: Concept[] = [
     accent: '#e8b04a',
     industry: { fr: 'Barbier', en: 'Barbershop' },
     tagline: {
-      fr: 'Réservation en trois taps, choix du barbier et rappels automatiques. La file d’attente, c’est fini.',
-      en: 'Booking in three taps, barber selection and automatic reminders. No more waiting line.',
+      fr: 'Réservation en trois touches, choix du barbier et rappels automatiques.',
+      en: 'Booking in three taps, barber selection and automatic reminders.',
     },
     tags: { fr: ['Réservation', 'Rappels SMS', 'Fidélité'], en: ['Booking', 'SMS reminders', 'Loyalty'] },
   },
@@ -68,7 +68,7 @@ export const concepts: Concept[] = [
       fr: 'Portfolio par artiste, dépôt de référence et prise de rendez-vous, du premier flash au cover-up.',
       en: 'Portfolio by artist, reference upload and booking, from first flash to cover-up.',
     },
-    tags: { fr: ['Portfolio', 'Devis', 'Rendez-vous'], en: ['Portfolio', 'Quotes', 'Booking'] },
+    tags: { fr: ['Portfolio', 'Soumission', 'Rendez-vous'], en: ['Portfolio', 'Quotes', 'Booking'] },
   },
 
   // ---------- Desktop sites ----------
@@ -106,7 +106,7 @@ export const concepts: Concept[] = [
       fr: 'Un sourire plus blanc dès la première séance. Réservation en ligne, résultats visibles et sans douleur.',
       en: 'A whiter smile from the first session. Online booking, visible results and pain-free.',
     },
-    tags: { fr: ['Blanchiment', 'Réservation', 'Sans douleur'], en: ['Whitening', 'Booking', 'Pain-free'] },
+    tags: { fr: ['Blanchiment', 'Réservation', 'Consultation'], en: ['Whitening', 'Booking', 'Consultation'] },
   },
   {
     id: 'ecom',

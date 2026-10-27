@@ -13,8 +13,8 @@ import type { Locale } from '../../i18n/routes';
 import { routes, workBase } from '../../i18n/routes';
 import { homeCopy } from '../../i18n/home';
 import { useTranslations } from '../../i18n';
-import { PHOTO, hasPhoto } from '../../lib/photo';
-import PortraitFrame from '../PortraitFrame.astro';
+import { hasPhoto } from '../../lib/photo';
+import PortraitSlot from '../PortraitSlot.astro';
 import DossierFrame from '../DossierFrame.astro';
 import { showCapture } from '../../lib/work-media';
 import SiteSheet from './SiteSheet.astro';
@@ -34,7 +34,7 @@ const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
 // Captures whose file is not there yet are left out (see lib/work-media.ts).
 const work = t.work.items.map((w) => ({ ...w, media: w.media.filter((m) => showCapture(m.file)) }));
 const proofs = [
-  { k: t.about.proofs.stack, v: t.about.proofs.stackValue },
+  { k: t.about.proofs.stack, v: SITE.stack.join(', ') },
   { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
 ];
 // Shown only once a client has supplied and approved a quote (home.ts).
@@ -111,9 +111,9 @@ const quote = t.about.testimonial;
   <section class="about st-frame" aria-labelledby="about-title">
     <div class="st-grid">
       <h2 id="about-title" class="h2 about__title" data-reveal>{t.about.title}</h2>
-      {hasPhoto && (
+      {(hasPhoto || import.meta.env.DEV) && (
         <div class="about__photo" data-reveal>
-          <PortraitFrame src={PHOTO.portrait} alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 300px, (min-width: 768px) 40vw, 60vw" />
+          <PortraitSlot alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 300px, (min-width: 768px) 40vw, 60vw" />
         </div>
       )}
       <div class="about__text" data-reveal>

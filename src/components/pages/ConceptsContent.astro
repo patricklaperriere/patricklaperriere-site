@@ -95,12 +95,12 @@ const crumbs = [
                     <img src="/concepts/tattoo4.webp" alt="" loading="lazy" decoding="async" width="300" height="300" />
                   </div>
                   <div class="card tat-book"><span class="tat-book__t">{fr ? 'Consultation gratuite' : 'Free consultation'}</span><span class="tat-book__s">{fr ? '30 min · en studio ou en ligne' : '30 min · in studio or online'}</span></div>
-                  <button class="cta">{fr ? 'Demander un devis' : 'Request a quote'}</button>
+                  <button class="cta">{fr ? 'Demander une soumission' : 'Request a quote'}</button>
                 </div>
               )}
             </div>
           </div>
-          <span class="cpt-toast">{cc.id === 'barber' ? (fr ? 'Rendez-vous confirmé' : 'Appointment booked') : cc.id === 'fitness' ? (fr ? 'Place réservée' : 'Spot reserved') : cc.id === 'cafe' ? (fr ? 'Café ajouté' : 'Coffee added') : (fr ? 'Devis envoyé' : 'Quote sent')} ✓</span>
+          <span class="cpt-toast">{cc.id === 'barber' ? (fr ? 'Rendez-vous confirmé' : 'Appointment booked') : cc.id === 'fitness' ? (fr ? 'Place réservée' : 'Spot reserved') : cc.id === 'cafe' ? (fr ? 'Café ajouté' : 'Coffee added') : (fr ? 'Soumission envoyée' : 'Quote sent')} ✓</span>
         </div>
         <div class="cpt-meta">
           <span class="cpt-industry">{loc(cc.industry, locale)}</span>
@@ -139,7 +139,7 @@ const crumbs = [
                     <div class="resto__plate"><img src="/concepts/resto.webp" alt="" loading="lazy" decoding="async" width="380" height="380" /></div>
                     <div class="resto__copy">
                       <span class="resto__kick">{fr ? 'Cuisine du marché · Centre-ville' : 'Market kitchen · Downtown'}</span>
-                      <h4>{fr ? 'Le goût, sans flafla.' : 'Real food, no fuss.'}</h4>
+                      <p class="h4">{fr ? 'Le goût, sans flafla.' : 'Real food, no fuss.'}</p>
                       <p class="resto__sub">{fr ? 'Menu qui change chaque semaine selon les arrivages.' : 'A menu that changes weekly with the market.'}</p>
                       <button class="cta">{fr ? 'Réserver une table' : 'Book a table'}</button>
                     </div>
@@ -184,7 +184,7 @@ const crumbs = [
                       <button class="cta">{fr ? 'Confirmer' : 'Confirm'}</button>
                     </div>
                   </div>
-                  <div class="clinic__badges"><span>✓ {fr ? 'Sans douleur' : 'Pain-free'}</span><span>✓ {fr ? 'Résultats en 1 séance' : 'Results in 1 session'}</span><span>✓ {fr ? 'Émail protégé' : 'Enamel-safe'}</span></div>
+                  <div class="clinic__badges"><span>✓ {fr ? 'Consultation' : 'Consultation'}</span><span>✓ {fr ? 'Rendez-vous en ligne' : 'Online booking'}</span><span>✓ {fr ? 'Soins doux' : 'Gentle care'}</span></div>
                 </div>
               )}
 
@@ -195,7 +195,7 @@ const crumbs = [
                     <div class="ecom__photo"><img src="/concepts/fashion.webp" alt="" loading="lazy" decoding="async" width="360" height="420" /></div>
                     <div class="ecom__copy">
                       <span class="ecom__kick">{fr ? 'Tricot fait main' : 'Hand-knit'}</span>
-                      <h4>{fr ? 'Pull en laine mérinos' : 'Merino wool sweater'}</h4>
+                      <p class="h4">{fr ? 'Pull en laine mérinos' : 'Merino wool sweater'}</p>
                       <div class="ecom__price"><b>148 $</b><span class="ecom__old">185 $</span></div>
                       <div class="ecom__sizes"><span>S</span><span class="on">M</span><span>L</span><span>XL</span></div>
                       <button class="cta">{fr ? 'Ajouter au panier' : 'Add to cart'}</button>
@@ -275,9 +275,9 @@ const crumbs = [
                       <div class="deal deal--warm"><b>Au Levain</b><span>7 k$</span></div>
                     </div></div>
                     <div class="col"><span class="col__h">{fr ? 'Gagnés' : 'Won'} · 5</span><div class="col__cards">
-                      <div class="deal deal--won"><b>HP Addik</b><span>32 k$ ✓</span></div>
-                      <div class="deal deal--won"><b>Envita Wellness</b><span>14 k$ ✓</span></div>
-                      <div class="deal deal--won"><b>Inspection Outaouais</b><span>8 k$ ✓</span></div>
+                      <div class="deal deal--won"><b>Atelier Nordet</b><span>32 k$ ✓</span></div>
+                      <div class="deal deal--won"><b>Café Brûlerie</b><span>14 k$ ✓</span></div>
+                      <div class="deal deal--won"><b>Clinique Rivage</b><span>8 k$ ✓</span></div>
                     </div></div>
                   </div>
                 </div>
@@ -311,7 +311,7 @@ const crumbs = [
                   <header class="dash__bar"><b>Relevé</b><span class="dash__pill">{fr ? 'Ce mois · 18 400 $' : 'This month · $18,400'}</span></header>
                   <div class="dash__body">
                     <div class="rbars"><span style="height:42%"></span><span style="height:58%"></span><span style="height:48%"></span><span style="height:72%"></span><span style="height:64%"></span><span style="height:88%"></span></div>
-                    <div class="inv"><div class="invrow"><b>Envita Wellness</b><span>2 400 $</span><em class="paid">{fr ? 'Payée' : 'Paid'}</em></div><div class="invrow"><b>Brassé</b><span>1 150 $</span><em class="wait">{fr ? 'En attente' : 'Pending'}</em></div><div class="invrow"><b>Domaine Immo</b><span>3 800 $</span><em class="late">{fr ? 'En retard' : 'Overdue'}</em></div></div>
+                    <div class="inv"><div class="invrow"><b>Atelier Nordet</b><span>2 400 $</span><em class="paid">{fr ? 'Payée' : 'Paid'}</em></div><div class="invrow"><b>Brassé</b><span>1 150 $</span><em class="wait">{fr ? 'En attente' : 'Pending'}</em></div><div class="invrow"><b>Domaine Immo</b><span>3 800 $</span><em class="late">{fr ? 'En retard' : 'Overdue'}</em></div></div>
                   </div>
                 </div>
               )}
@@ -489,7 +489,7 @@ const crumbs = [
   .site__nav b { font-size: 1rem; color: var(--c); }
   .site__nav span { color: var(--txt2); }
   .site .cta { color: #fff; margin-top: 0.7rem; }
-  .site h4 { margin: 0.3rem 0 0.5rem; color: var(--txt); line-height: 1.12; font-size: 1.25rem; }
+  .site .h4 { font-weight: 700;  margin: 0.3rem 0 0.5rem; color: var(--txt); line-height: 1.12; font-size: 1.25rem; }
 
   /* Resto */
   .cpt[data-id='resto'] { --bg: #fbf4ec; --surf: #ffffff; --txt: #2a211c; --txt2: #8a7a6c; }

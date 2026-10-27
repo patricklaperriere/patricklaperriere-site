@@ -16,7 +16,7 @@ const { locale, ville } = Astro.props;
 const tr = useTranslations(locale);
 const c = villeContent(ville, locale);
 
-const services = [tr.services.web, tr.services.seo, tr.services.shopify];
+const services = [tr.services.web, tr.services.seo, tr.services.shopify, tr.services.tools];
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -85,7 +85,6 @@ const crumbs = [
   <div class="grid-3">
     {services.map((r, i) => (
       <ServiceCard
-        icon={r.icon}
         title={r.title}
         blurb={r.blurb}
         href={path(r.key, locale)}

@@ -4,10 +4,17 @@ import { useTranslations, routes, path } from '../i18n';
 
 const locale = 'fr' as const;
 const tr = useTranslations(locale);
+// The pages people most often look for, so a dead link is not a dead end.
+const links = [
+  { href: path('services', locale), label: tr.nav.services },
+  { href: path('work', locale), label: tr.nav.work },
+  { href: path('about', locale), label: tr.nav.about },
+  { href: path('contact', locale), label: tr.nav.contact },
+];
 ---
 
 <Layout
-  title="404 · Page introuvable | Patrick Laperrière"
+  title={tr.notFound.seoTitle}
   description={tr.notFound.lead}
   locale={locale}
   alternates={routes.home}
@@ -17,18 +24,20 @@ const tr = useTranslations(locale);
     <p class="label label-rule nf__code">404</p>
     <h1 class="nf__title">{tr.notFound.title}</h1>
     <p class="nf__lead">{tr.notFound.lead}</p>
+    <ul class="nf__links">
+      {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+    </ul>
     <div class="nf__actions">
       <a href={path('home', 'fr')} class="btn btn-accent">
         {tr.notFound.back}
         <span class="btn__arrow" aria-hidden="true">→</span>
       </a>
-      <a href={path('home', 'en')} class="btn btn-ghost">Back to home (EN)</a>
+      <a href={path('home', 'en')} class="btn btn-ghost" lang="en">{tr.notFound.other}</a>
     </div>
   </section>
 
   <style>
-    /* Left-aligned and typographic, like every other close on the site — the
-       old version was a centred gold gradient numeral. */
+    /* Left-aligned and typographic, like every other close on the site. */
     .nf {
       min-height: 52vh;
       display: flex;
@@ -49,6 +58,14 @@ const tr = useTranslations(locale);
       font-size: var(--fs-lead);
       max-width: 48ch;
       margin: 1.25rem 0 0;
+    }
+    .nf__links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin: 1.5rem 0 0;
+      padding: 0;
+      list-style: none;
     }
     .nf__actions {
       display: flex;

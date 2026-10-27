@@ -9,8 +9,10 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
-import { Picture } from 'astro:assets';
-import { PHOTO, PORTRAIT_WIDTHS, hasPhoto } from '../../lib/photo';
+import { hasPhoto } from '../../lib/photo';
+import PortraitSlot from '../PortraitSlot.astro';
+import Todo from '../Todo.astro';
+import ExternalIcon from '../ExternalIcon.astro';
 import { SITE } from '../../config';
 
 interface Props {
@@ -25,7 +27,6 @@ const crumbs = [
   { name: tr.nav.about, url: path('about', locale) },
 ];
 
-const availability = tr.status.replace('●', '').trim();
 ---
 
 <Breadcrumb items={crumbs} />
@@ -37,32 +38,22 @@ const availability = tr.status.replace('●', '').trim();
 </section>
 
 <!-- Portrait + story ------------------------------------------------------ -->
-<section class="section-tight container-wide about__top">
-  {hasPhoto && (
-    <figure class="about__portrait reveal">
-      <Picture
-        src={PHOTO.portrait}
-        formats={['avif', 'webp']}
-        widths={PORTRAIT_WIDTHS}
-        sizes="(max-width: 880px) 100vw, 420px"
-        alt={a.portraitAlt}
-        width={720}
-        height={900}
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption class="about__caption">
-        <span class="about__status">
-          <span class="about__dot" aria-hidden="true"></span>
-          {availability}
-        </span>
-        <span class="about__where">{SITE.regionName}</span>
-      </figcaption>
-    </figure>
+<section class:list={['section-tight container-wide about__top', !(hasPhoto || import.meta.env.DEV) && 'about__top--solo']}>
+  {(hasPhoto || import.meta.env.DEV) && (
+    <div class="about__portrait reveal">
+      <PortraitSlot alt={a.portraitAlt} sizes="(max-width: 880px) 100vw, 420px" />
+    </div>
   )}
 
   <div class="about__story prose reveal" data-delay="80ms">
     {a.body.map((p) => <p>{p}</p>)}
+    <p><Todo what={a.bioTodo} /></p>
+
+    <aside class="about__company" aria-labelledby="about-company">
+      <h2 id="about-company" class="label">{a.companyTitle}</h2>
+      <p>{a.company}</p>
+      <a href={SITE.company.url} target="_blank" rel="noopener">{a.companyLink}<ExternalIcon /></a>
+    </aside>
   </div>
 </section>
 
@@ -84,7 +75,7 @@ const availability = tr.status.replace('●', '').trim();
 
 <!-- Stack ------------------------------------------------------------------ -->
 <section class="section-tight container-wide about__stack-wrap">
-  <h2 class="label label-rule">{tr.marquee.label}</h2>
+  <h2 class="label label-rule">{a.stackTitle}</h2>
   <ul class="about__stack">
     {SITE.stack.map((t) => <li>{t}</li>)}
   </ul>
@@ -201,6 +192,14 @@ const availability = tr.status.replace('●', '').trim();
   }
 
   /* ---- Responsive --------------------------------------------------------- */
+  .about__top--solo { grid-template-columns: minmax(0, 1fr); }
+  .about__company {
+    margin-top: var(--s5, 40px);
+    padding-top: var(--s3, 24px);
+    border-top: 1px solid var(--line);
+  }
+  .about__company p { margin: var(--s1, 8px) 0; }
+  .about__company a { display: inline-flex; align-items: center; gap: 0.35em; }
   @media (max-width: 880px) {
     .about__top { grid-template-columns: 1fr; }
     .about__portrait { max-width: 22rem; }

@@ -28,7 +28,7 @@ Pas de preuves, pas de visages, pas de réalisations ? Le visiteur hésite. Des 
 
 ## 5. L'expérience mobile est mauvaise
 
-La majorité de vos visiteurs sont sur leur téléphone. Si les boutons sont minuscules, le texte illisible ou le formulaire pénible à remplir, vous perdez la moitié de vos clients potentiels avant même qu'ils essaient.
+La majorité de vos visiteurs sont sur leur téléphone. Si les boutons sont minuscules, le texte illisible ou le formulaire pénible à remplir, vous perdez une bonne partie de vos clients potentiels avant même qu'ils essaient.
 
 ## La bonne nouvelle
 

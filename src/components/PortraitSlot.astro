@@ -1,0 +1,40 @@
+---
+// The 4:5 portrait slot. With a portrait in src/assets/photo/ it renders
+// PortraitFrame; without one it renders an empty dashed frame in `astro dev`
+// only, and nothing at all in a build (no empty frame ever ships).
+import PortraitFrame from './PortraitFrame.astro';
+import { PHOTO, hasPhoto } from '../lib/photo';
+
+interface Props {
+  alt: string;
+  treatment?: 'none' | 'duotone' | 'dossier';
+  label?: string;
+  sizes?: string;
+  class?: string;
+}
+const { alt, treatment, label, sizes, class: cls } = Astro.props;
+const dev = import.meta.env.DEV;
+---
+
+{hasPhoto && PHOTO.portrait ? (
+  <div class={cls}><PortraitFrame src={PHOTO.portrait} alt={alt} treatment={treatment} label={label} sizes={sizes} /></div>
+) : dev && (
+  <div class:list={['portrait-slot', cls]} role="note">
+    <span>[À FOURNIR : portrait 4:5, src/assets/photo/patrick-portrait.jpg]</span>
+  </div>
+)}
+
+<style>
+  .portrait-slot {
+    aspect-ratio: 4 / 5;
+    max-width: 300px;
+    display: grid;
+    place-items: center;
+    padding: var(--s2, 16px);
+    border: 1px dashed var(--signal, #FFD23F);
+    color: var(--signal, #FFD23F);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-align: center;
+  }
+</style>

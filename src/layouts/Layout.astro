@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/report.css';
 import SEO from '../components/SEO.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -18,9 +19,8 @@ interface Props {
   ogType?: 'website' | 'article' | 'profile';
   schema?: object | null;
   noindex?: boolean;
-  /** Visual theme. `report` ("le rapport d'inspection") is the new direction,
-   *  applied to the home page first (styles in src/styles/report.css,
-   *  imported by the page itself). */
+  /** Visual theme. `report` ("le rapport d'inspection") is the site's
+   *  direction, on every page (styles in src/styles/report.css). */
   theme?: 'report';
 }
 
@@ -34,7 +34,7 @@ const {
   ogType,
   schema = null,
   noindex = false,
-  theme,
+  theme = 'report',
 } = Astro.props;
 
 const tr = useTranslations(locale);

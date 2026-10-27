@@ -43,21 +43,14 @@ export const SITE = {
   },
   // Technologies, for Person.knowsAbout and the stack list on the site. One
   // list, tools only (no "SEO" or "Performance": those are outcomes, not tools).
-  stack: ['Astro', 'React', 'TypeScript', 'Next.js', 'Supabase', 'Shopify', 'Liquid', 'Tailwind CSS'],
+  // Only tools that appear in the work shown on the site (October 2026).
+  stack: ['Astro', 'React', 'TypeScript', 'Supabase', 'Shopify', 'Liquid', 'Vercel'],
   serviceDescription: {
     fr: 'Conception et développement de sites web sur mesure, de boutiques Shopify et de logiciels SaaS, en français et en anglais.',
     en: 'Design and development of custom websites, Shopify stores and SaaS software, in French and English.',
   },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',
-  // Personal portrait. Sources in src/assets/photo/ (a 4:5 crop and a square
-  // face crop, both stripped of metadata); <Picture> serves them on the page,
-  // and `npm run photo` derives the favicons and the JSON-LD square into
-  // /public/photo/. See src/lib/photo.ts.
-  //
-  // It gates ALL placements at once (about page, article byline, Person
-  // schema, favicons), so nothing can ship a broken image reference.
-  hasPhoto: true,
   // Google Search Console verification (carried over from previous site)
   gscVerification: 'UiVkelv495WDclhAQzL8v8Jv3RhTd4HcNOHdte8VxmU',
   // Contact form endpoint — Web3Forms (see README)

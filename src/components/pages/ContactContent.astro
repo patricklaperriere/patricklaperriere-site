@@ -21,14 +21,14 @@ const crumbs = [
 const subject =
   locale === 'fr'
     ? 'Nouveau projet · patricklaperriere.com'
-    : 'New project — patricklaperriere.com';
+    : 'New project · patricklaperriere.com';
 ---
 
 <Breadcrumb items={crumbs} />
 
 <section class="page-head container-pl">
   <p class="kicker reveal">{c.kicker}</p>
-  <h1 class="reveal" data-delay="80ms"><span class="text-gold-grad">{c.h1}</span></h1>
+  <h1 class="reveal" data-delay="80ms">{c.h1}</h1>
   <p class="lead reveal" data-delay="160ms">{c.lead}</p>
 </section>
 
@@ -94,12 +94,12 @@ const subject =
     <div class="contact__trust">
       <p class="contact__trust-rating">
         <span class="contact__trust-stars" aria-hidden="true">★★★★★</span>
-        <span>{reviewAggregate.ratingValue} · {tr.testimonials.rating}</span>
+        <span>{locale === 'fr' ? reviewAggregate.ratingValue.replace('.', ',') : reviewAggregate.ratingValue} {tr.testimonials.rating} ({reviewAggregate.reviewCount})</span>
       </p>
       <ul class="contact__trust-list">
         {temoignages.map((t) => (
           <li>
-            <span class="contact__trust-quote">“{t.text}”</span>
+            <span class="contact__trust-quote" lang={t.lang === locale ? undefined : t.lang}>{t.lang === 'fr' ? `« ${t.text} »` : `“${t.text}”`}</span>
             <span class="contact__trust-author">{t.author}</span>
           </li>
         ))}

@@ -12,7 +12,7 @@ La vitesse n'est pas un détail technique réservé aux développeurs. C'est une
 
 ## Le coût réel d'un site lent
 
-Les études sont constantes depuis des années : plus un site est lent, plus les gens partent. Au delà de 3 secondes de chargement, une bonne partie de vos visiteurs abandonnent. Sur mobile, où la connexion est souvent moins bonne, c'est encore pire.
+Les études vont toutes dans le même sens : plus un site est lent, plus les gens partent. Selon une étude publiée par Google en 2016 ([Think with Google](https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/)), 53 % des visites sur mobile sont abandonnées quand une page met plus de 3 secondes à charger. Sur mobile, où la connexion est souvent moins bonne, c'est encore pire.
 
 Pour une PME, ça veut dire des demandes de soumission perdues, des paniers abandonnés et des appels qui ne se font jamais. Vous avez payé pour attirer ces gens sur votre site, et la lenteur les renvoie chez votre concurrent.
 
