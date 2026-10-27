@@ -12,7 +12,7 @@ Speed isn't a technical detail reserved for developers. It's a business issue. E
 
 ## The real cost of a slow site
 
-The research has been consistent for years: the slower a site, the more people leave. Past about 3 seconds of load time, a large share of your visitors bail out. On mobile, where connections are often weaker, it's even worse.
+The research points the same way: the slower a site, the more people leave. According to a study published by Google in 2016 ([Think with Google](https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/)), 53% of mobile visits are abandoned when a page takes longer than 3 seconds to load.
 
 For a small business, that means lost quote requests, abandoned carts, and calls that never happen. You paid to bring those people to your site, and the slowness sends them straight to your competitor.
 

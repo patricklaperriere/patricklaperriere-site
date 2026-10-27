@@ -11,8 +11,10 @@ import Breadcrumb from '../Breadcrumb.astro';
 import FaqList from '../FaqList.astro';
 import CtaBand from '../CtaBand.astro';
 import { startingPrice, type PricedService } from '../../data/prix';
+import { projectsForService } from '../../data/projets';
+import { workBase } from '../../i18n/routes';
 
-type ServiceKey = 'web' | 'seo' | 'shopify';
+type ServiceKey = 'web' | 'seo' | 'shopify' | 'tools';
 
 interface Props {
   locale: Locale;
@@ -25,8 +27,11 @@ const s = tr.services[service];
 const price = startingPrice[s.key as PricedService] ?? null;
 
 // The other two services, for cross-linking at the bottom of the page.
-const allKeys: ServiceKey[] = ['web', 'seo', 'shopify'];
+const allKeys: ServiceKey[] = ['web', 'seo', 'shopify', 'tools'];
 const related = allKeys.filter((k) => k !== service).map((k) => tr.services[k]);
+
+// Case studies that show this service in practice (proof next to the promise).
+const work = await projectsForService(s.key);
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -82,6 +87,22 @@ const crumbs = [
   </ul>
 </section>
 
+{work.length > 0 && (
+  <section class="section-tight container-wide">
+    <h2 class="label label-rule sd__sec-label">{tr.workSection.relatedTitle}</h2>
+    <ul class="sd__work">
+      {work.map((p) => (
+        <li class="reveal">
+          <a href={`${workBase[locale]}/${p.slug}`} class="sd__work-link">
+            <span class="sd__work-title">{p.title[locale]}</span>
+            <span class="sd__work-tag">{p.tagline[locale]}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}
+
 <!-- Process (paper chapter) ------------------------------------------------- -->
 <section class="section-tight sd__process-wrap" data-surface="paper">
   <div class="container-wide">
@@ -122,6 +143,14 @@ const crumbs = [
 <CtaBand locale={locale} />
 
 <style>
+  .sd__work { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .sd__work li { border-bottom: 1px solid var(--line); }
+  .sd__work-link { display: grid; gap: 0.25rem; padding: 1rem 0; text-decoration: none; }
+  .sd__work-title { font-family: var(--font-display); font-size: 1.35rem; color: var(--fg); }
+  .sd__work-tag { color: var(--fg-dim); font-size: var(--fs-meta); }
+  @media (min-width: 768px) {
+    .sd__work-link { grid-template-columns: minmax(0, 16rem) minmax(0, 1fr); align-items: baseline; gap: 1.5rem; }
+  }
   .sd__price {
     margin-top: clamp(1.5rem, 3vw, 2rem);
     padding-left: 1.25rem;

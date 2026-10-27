@@ -1,30 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import HomeContent from '../components/pages/HomeContent.astro';
+import HomePage from '../components/home/HomePage.astro';
 import { routes } from '../i18n/routes';
-import { graph, personSchema, webSiteSchema, professionalServiceSchema, faqSchema } from '../lib/schema';
-import { useTranslations } from '../i18n';
+import { graph, personSchema, webSiteSchema, professionalServiceSchema } from '../lib/schema';
 
 const locale = 'fr' as const;
-const tr = useTranslations(locale);
-const title = 'Patrick Laperrière · Développeur web bilingue, Québec et Canada';
+const title = 'Patrick Laperrière · Développeur web au Québec';
 const description =
-  'Développeur web freelance bilingue. Je conçois des sites rapides, élégants et optimisés pour Google. Québec, Canada et États-Unis. Soumission gratuite.';
+  'Développeur web au Québec : sites rapides et bien référencés, refontes, boutiques Shopify et outils sur mesure pour les PME, en français et en anglais.';
 
-const schema = graph([
-  personSchema(locale),
-  webSiteSchema(locale),
-  professionalServiceSchema(locale),
-  faqSchema(tr.homeFaq.items),
-]);
+const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale)]);
 ---
 
-<Layout
-  title={title}
-  description={description}
-  locale={locale}
-  alternates={routes.home}
-  schema={schema}
->
-  <HomeContent locale={locale} />
+<Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} ogImage="/og/home-fr.png">
+  <HomePage locale={locale} />
 </Layout>

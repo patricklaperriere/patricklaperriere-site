@@ -18,18 +18,30 @@ interface Props {
 }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
-const projects = sortedProjects();
+const projects = await sortedProjects();
 
-// Alternate 1, 2, 1, 2 … — a lead, then a pair, then a lead.
+// Alternate 1, 2, 1, 2 … (a lead, then a pair, then a lead) among projects
+// that have a capture. A project without one gets a full row of its own, so
+// a pair never sets an image beside an empty column.
 const rows: { items: Project[]; lead: boolean; from: number }[] = [];
-let i = 0;
 let wantLead = true;
-while (i < projects.length) {
-  const take = wantLead ? 1 : 2;
-  rows.push({ items: projects.slice(i, i + take), lead: wantLead, from: i });
-  i += take;
-  wantLead = !wantLead;
-}
+let pair: Project[] = [];
+let pairFrom = 0;
+projects.forEach((p, i) => {
+  if (!p.image || wantLead) {
+    rows.push({ items: [p], lead: true, from: i });
+    if (p.image) wantLead = false;
+    return;
+  }
+  if (pair.length === 0) pairFrom = i;
+  pair.push(p);
+  if (pair.length === 2) {
+    rows.push({ items: pair, lead: false, from: pairFrom });
+    pair = [];
+    wantLead = true;
+  }
+});
+if (pair.length) rows.push({ items: pair, lead: true, from: pairFrom });
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -50,12 +62,13 @@ const crumbs = [
     {rows.map((row) => (
       <div class:list={['wx__row', !row.lead && 'wx__row--pair']}>
         {row.items.map((p, j) => (
-          <div class="reveal" data-delay={`${j * 90}ms`}>
+          <div class:list={[row.from + j > 0 && 'reveal']} data-delay={`${j * 90}ms`}>
             <ProjectFeature
               project={p}
               locale={locale}
               index={row.from + j + 1}
               variant={row.lead ? 'lead' : 'half'}
+              eager={row.from + j === 0}
             />
           </div>
         ))}

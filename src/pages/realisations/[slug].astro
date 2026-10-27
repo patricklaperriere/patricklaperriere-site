@@ -3,11 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import CaseStudyContent from '../../components/pages/CaseStudyContent.astro';
 import { useTranslations, path } from '../../i18n';
 import { workBase } from '../../i18n/routes';
-import { projects, loc } from '../../data/projets';
-import { graph, breadcrumbSchema, creativeWorkSchema } from '../../lib/schema';
+import { sortedProjects, loc, stackLabel } from '../../data/projets';
+import { graph, breadcrumbSchema, creativeWorkSchema, habitaAppSchema } from '../../lib/schema';
 
-export function getStaticPaths() {
-  return projects.map((project) => ({
+// One page per project in src/content/projets. Drafts only exist under
+// `astro dev` (see data/projets.ts) and are always noindex.
+export async function getStaticPaths() {
+  return (await sortedProjects()).map((project) => ({
     params: { slug: project.slug },
     props: { project },
   }));
@@ -21,9 +23,10 @@ const frPath = `${workBase.fr}/${project.slug}`;
 const enPath = `${workBase.en}/${project.slug}`;
 const alternates = { fr: frPath, en: enPath };
 const ogImage = `/og/project-${project.slug}.png`;
+const isHabita = project.slug === 'habita';
 
-const title = `${loc(project.title, locale)} | Patrick Laperrière`;
-const description = loc(project.tagline, locale) + ' ' + loc(project.challenge, locale).slice(0, 110);
+const title = `${loc(project.seoTitle, locale)} | Patrick Laperrière`;
+const description = loc(project.description, locale);
 
 const schema = graph([
   breadcrumbSchema([
@@ -33,14 +36,29 @@ const schema = graph([
   ]),
   creativeWorkSchema({
     name: loc(project.title, locale),
-    description: loc(project.tagline, locale),
+    description,
     url: frPath,
+    workUrl: project.url,
     image: ogImage,
     locale,
+    client: project.client,
+    year: project.year,
+    keywords: project.stack.map((s) => stackLabel(s, 'fr')),
+    product: isHabita,
   }),
+  ...(isHabita ? [habitaAppSchema({ url: project.url, description: loc(project.tagline, locale), locale })] : []),
 ]);
 ---
 
-<Layout title={title} description={description.slice(0, 160)} locale={locale} alternates={alternates} ogImage={ogImage} schema={schema} ogType="article">
+<Layout
+  title={title}
+  description={description}
+  locale={locale}
+  alternates={alternates}
+  ogImage={ogImage}
+  schema={schema}
+  ogType="article"
+  noindex={project.draft}
+>
   <CaseStudyContent locale={locale} project={project} />
 </Layout>

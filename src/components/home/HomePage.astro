@@ -1,0 +1,318 @@
+---
+// The home page, both languages: "le rapport d'inspection".
+//
+// One grid (4 / 8 / 12 columns, report.css), one 8px rhythm. Column 1 carries
+// the main content and column 9 the secondary column; the inspection sheet
+// closes on the last column. Every word is in the HTML: without JavaScript or
+// with reduced motion, this is the page. home-motion.ts adds soft fade-ins
+// below the fold and one pinned moment: the plan, exploded and inspected
+// layer by layer.
+import '../../styles/report.css';
+import { SITE } from '../../config';
+import type { Locale } from '../../i18n/routes';
+import { routes, workBase } from '../../i18n/routes';
+import { homeCopy } from '../../i18n/home';
+import { useTranslations } from '../../i18n';
+import { hasPhoto } from '../../lib/photo';
+import PortraitSlot from '../PortraitSlot.astro';
+import DossierFrame from '../DossierFrame.astro';
+import { showCapture } from '../../lib/work-media';
+import { captureSrcset } from '../../data/projets';
+import HabitaLoop from '../HabitaLoop.astro';
+import SiteSheet from './SiteSheet.astro';
+import HouseScene from './HouseScene.astro';
+import ExternalIcon from '../ExternalIcon.astro';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = homeCopy[locale];
+const tr = useTranslations(locale);
+
+// The work list is written in home.ts (facts only); 'case' points to the
+// published case study.
+const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
+// Captures whose file is not there yet are left out (see lib/work-media.ts).
+const work = t.work.items.map((w) => ({ ...w, media: w.media.filter((m) => showCapture(m.file)) }));
+const proofs = [
+  { k: t.about.proofs.stack, v: SITE.stack.join(', ') },
+  { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
+];
+// Shown only once a client has supplied and approved a quote (home.ts).
+const quote = t.about.testimonial;
+
+---
+
+<div class="home">
+  {/* ---- Hero ------------------------------------------------------------ */}
+  <section class="hero st-frame" aria-labelledby="hero-title">
+    <div class="st-grid hero__grid">
+      <div class="hero__text">
+        <h1 id="hero-title" class="hero__title">{t.hero.title.map((line) => <span>{line}</span>)}</h1>
+        <p class="hero__lead">{t.hero.lead}</p>
+        <p class="hero__actions">
+          <a class="btn btn-primary" href={routes.contact[locale]}>{tr.cta.primary}</a>
+          <a class="hero__link" href="#travaux">{t.hero.secondary}</a>
+        </p>
+      </div>
+      <div class="hero__sheet">
+        <SiteSheet locale={locale} />
+      </div>
+    </div>
+  </section>
+
+  {/* ---- Inspection: the one pinned moment -------------------------------- */}
+  <section class="insp st-frame" id="inspection" aria-labelledby="insp-title">
+    <HouseScene locale={locale}>
+      <header class="st-grid insp__head">
+        <h2 id="insp-title" class="h2">{t.inspection.title}</h2>
+        <p class="insp__intro">{t.inspection.intro}</p>
+      </header>
+    </HouseScene>
+  </section>
+
+  {/* ---- Work ------------------------------------------------------------------- */}
+  <section class="work st-frame" id="travaux" aria-labelledby="work-title">
+    <header class="st-grid work__head" data-reveal>
+      <h2 id="work-title" class="h2">{t.work.title}</h2>
+      <p class="work__intro">{t.work.intro}</p>
+    </header>
+    <ol class="st-grid work__list">
+      {work.map((w, i) => (
+        <li class="file" data-reveal>
+          <p class="file__ref annot">{t.work.file} {String(i + 1).padStart(2, '0')} · {w.kind}</p>
+          <h3 class="file__title">{w.title}</h3>
+          <p class="file__body">{w.body}</p>
+          {w.slug === 'habita' ? (
+            <div class="file__media">
+              <figure class="file__loop">
+                <figcaption class="file__loop-label annot">habita.expert</figcaption>
+                <HabitaLoop poster="/work/habita.webp" srcset={captureSrcset('/work/habita.webp')} sizes="(min-width: 1024px) 600px, (min-width: 768px) 45vw, 100vw" alt={tr.workSection.habitaAlt} />
+              </figure>
+            </div>
+          ) : w.media.length > 0 && (
+            <div class:list={['file__media', w.media.length > 1 && 'file__media--pair']}>
+              {w.media.map((m) => <DossierFrame file={m.file} label={m.label} alt={m.alt} />)}
+            </div>
+          )}
+          <div class="file__foot">
+            <span class:list={['file__status', w.links.length === 0 && 'file__status--off']}>{w.status}</span>
+            {w.links.length > 0 && (
+            <p class="file__links">
+            {w.links.map((l) =>
+              l.external ? (
+                <a class="file__link" href={l.href} rel="noopener">{l.label}<ExternalIcon /></a>
+              ) : (
+                <a class="file__link" href={caseHref(w.slug)}>{l.label}</a>
+              ),
+            )}
+            </p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="work__all-wrap" data-reveal><a class="work__all" href={routes.work[locale]}>{t.work.all}</a></p>
+  </section>
+
+  {/* ---- About -------------------------------------------------------------------- */}
+  <section class="about st-frame" aria-labelledby="about-title">
+    <div class="st-grid">
+      <h2 id="about-title" class="h2 about__title" data-reveal>{t.about.title}</h2>
+      {(hasPhoto || import.meta.env.DEV) && (
+        <div class="about__photo" data-reveal>
+          <PortraitSlot alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 300px, (min-width: 768px) 40vw, 60vw" />
+        </div>
+      )}
+      <div class="about__text" data-reveal>
+        {t.about.body.map((p) => <p>{p}</p>)}
+        <dl class="proofs">
+          {proofs.map((p) => (
+            <div>
+              <dt>{p.k}</dt>
+              <dd>{p.v}</dd>
+            </div>
+          ))}
+        </dl>
+        {quote && (
+          <figure class="quote">
+            <blockquote><p>{quote.quote}</p></blockquote>
+            <figcaption>{quote.name}, {quote.role}</figcaption>
+          </figure>
+        )}
+        <p><a href={routes.about[locale]}>{t.about.more}</a></p>
+      </div>
+    </div>
+  </section>
+
+  {/* ---- Contact ------------------------------------------------------------------- */}
+  <section class="contact st-frame" aria-labelledby="contact-title">
+    <div class="st-grid">
+      <div class="contact__intro" data-reveal>
+        <h2 id="contact-title" class="contact__title">{t.contact.title}</h2>
+        <p class="contact__lead">{t.contact.lead}</p>
+      </div>
+      <div class="contact__reach" data-reveal>
+        <dl>
+          <div>
+            <dt>{t.contact.email}</dt>
+            <dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+          </div>
+          <div>
+            <dt>{t.contact.phone}</dt>
+            <dd><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></dd>
+          </div>
+        </dl>
+        <a class="btn btn-primary" href={routes.contact[locale]}>{tr.cta.primary}</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+  import '../../scripts/home-motion.ts';
+</script>
+
+<style>
+  /* ---- Shared ---------------------------------------------------------------- */
+  .home section { padding-block: var(--section); }
+  .home section + section { border-top: 1px solid var(--line); }
+  /* Titles take whole columns; their measure comes from the span. */
+  .h2 {
+    grid-column: 1 / -1;
+    font-size: clamp(2.25rem, 4.4vw, 3.75rem);
+    line-height: 1;
+  }
+  @media (min-width: 768px) {
+    .h2 { grid-column: 1 / span 6; }
+  }
+  .home .btn { min-height: 48px; padding-inline: var(--s3); font-size: 1rem; }
+
+  /* ---- Hero ---------------------------------------------------------------- */
+  /* No photo: the headline is the largest paint, and the site's own
+     inspection sheet sits beside it, its top on the headline's top. */
+  .hero__grid { row-gap: var(--head); align-items: start; }
+  .hero__text, .hero__sheet { grid-column: 1 / -1; }
+  /* One sentence per line: the size follows the width so the longest
+     sentence fits on one line from 320px up. */
+  .hero__title {
+    font-size: clamp(1.875rem, 9.2vw, 4.75rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin: 0;
+  }
+  .hero__title span { display: block; }
+  @media (min-width: 1024px) {
+    .hero__title { font-size: clamp(4rem, 6.4vw, 5.75rem); }
+  }
+  .hero__lead {
+    color: var(--slate);
+    font-size: clamp(1.0625rem, 1.4vw, 1.25rem);
+    line-height: 1.6;
+    max-width: 46ch;
+    margin: var(--s4) 0 var(--s5);
+  }
+  .hero__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s4); margin: 0; }
+  @media (min-width: 768px) {
+    .hero__text { grid-column: 1 / span 8; }
+    .hero__sheet { grid-column: 1 / span 5; }
+  }
+  @media (min-width: 1024px) {
+    .hero__text { grid-column: 1 / span 8; }
+    .hero__sheet { grid-column: 9 / span 4; }
+  }
+
+  /* ---- Inspection ---------------------------------------------------------- */
+  .insp__head { row-gap: var(--s1); margin-bottom: var(--head); }
+  .insp__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
+  @media (min-width: 768px) {
+    .insp__intro { grid-column: 1 / span 6; }
+  }
+
+  /* ---- Work: inspection files ----------------------------------------------- */
+  .work__head { row-gap: var(--s2); margin-bottom: var(--head); }
+  .work__intro { grid-column: 1 / -1; color: var(--slate); font-size: 1.125rem; margin: 0; }
+  .work__list { list-style: none; margin: 0; padding: 0; row-gap: var(--gap); }
+  .file {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--s2);
+    padding: var(--s3);
+    border: 1px solid var(--line-strong);
+    background: var(--ink-raised);
+  }
+  .file__ref { margin: 0; }
+  .file__title { font-size: clamp(1.75rem, 2.4vw, 2.25rem); line-height: 1; margin: 0; }
+  .file__body { color: var(--slate); margin: 0; flex: 1; }
+  .file__media { display: grid; gap: var(--s1); }
+  .file__media--pair { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .file__loop { margin: 0; border: 1px solid var(--line-strong); background: var(--ink-sunken); }
+  .file__loop-label { margin: 0; padding: 6px var(--s1); border-bottom: 1px solid var(--line); font-size: 0.75rem; }
+  .file__foot {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--s1);
+    padding-top: var(--s2);
+    border-top: 1px solid var(--line);
+  }
+  .file__links { display: flex; flex-wrap: wrap; column-gap: var(--s3); margin: 0; }
+  /* Same stamp as the sheet, smaller; muted when there is nothing to visit. */
+  .file__status {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--signal);
+    border: 1px solid currentColor;
+    padding: 1px var(--s1);
+  }
+  .file__status--off { color: var(--slate-mute); }
+  .home a.file__link { display: inline-flex; align-items: center; min-height: 44px; }
+  .work__all-wrap { margin: var(--head) 0 0; }
+  @media (min-width: 768px) {
+    .work__intro { grid-column: 1 / span 6; }
+    .file { grid-column: span 4; }
+  }
+  @media (min-width: 1024px) {
+    .file { grid-column: span 6; }
+  }
+
+  /* ---- About ------------------------------------------------------------------- */
+  .about__photo { grid-column: 1 / span 3; margin-top: var(--head); max-width: 300px; }
+  .about__text { grid-column: 1 / -1; margin-top: var(--head); }
+  .quote { margin: var(--s4) 0; padding-left: var(--s3); border-left: 2px solid var(--signal); }
+  .quote blockquote { margin: 0; }
+  .quote blockquote p { color: var(--bone); font-size: 1.25rem; }
+  .quote figcaption { color: var(--slate-mute); font-size: 0.9375rem; margin-top: var(--s1); }
+  .about__text p { color: var(--slate); font-size: 1.125rem; max-width: 52ch; margin: 0 0 var(--s3); }
+  .about__text p:last-child { margin-bottom: 0; }
+  .proofs { margin: var(--s4) 0; border-top: 1px solid var(--line); }
+  .proofs div { display: grid; grid-template-columns: 8rem 1fr; gap: var(--s2); padding-block: var(--s2); border-bottom: 1px solid var(--line); }
+  .proofs dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 0.3em; }
+  .proofs dd { margin: 0; color: var(--bone); }
+  @media (min-width: 1024px) {
+    .about .st-grid { align-content: start; }
+    .about__title { grid-column: 1 / span 4; grid-row: 1; }
+    .about__photo { grid-column: 1 / span 4; grid-row: 2; margin-top: var(--head); }
+    .about__text { grid-column: 7 / span 6; grid-row: 1 / span 2; margin-top: 0; }
+  }
+
+  /* ---- Contact ------------------------------------------------------------------- */
+  .contact__intro, .contact__reach { grid-column: 1 / -1; }
+  .contact__title { font-size: clamp(2.75rem, 6vw, 5.5rem); font-weight: 900; line-height: 0.95; margin: 0; }
+  .contact__lead { color: var(--slate); font-size: 1.125rem; max-width: 42ch; margin: var(--s3) 0 0; }
+  .contact__reach { margin-top: var(--head); }
+  .contact__reach dl { margin: 0 0 var(--s4); border-top: 1px solid var(--line); }
+  .contact__reach dl div { display: grid; grid-template-columns: 7rem 1fr; gap: var(--s2); padding-block: var(--s2); border-bottom: 1px solid var(--line); }
+  .contact__reach dt { color: var(--slate-mute); font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; padding-top: 0.3em; }
+  .contact__reach dd { margin: 0; overflow-wrap: anywhere; }
+  @media (min-width: 1024px) {
+    .contact .st-grid { align-items: end; }
+    .contact__intro { grid-column: 1 / span 6; }
+    .contact__reach { grid-column: 7 / span 6; margin-top: 0; }
+  }
+</style>

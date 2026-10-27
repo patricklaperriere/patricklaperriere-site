@@ -1,0 +1,33 @@
+{
+  "measuredAt": "2026-10-26T20:24:42.410Z",
+  "tool": "Lighthouse 12.8.2",
+  "profile": "mobile, simulated throttling (Slow 4G, 4x CPU)",
+  "command": "npm run measure",
+  "source": "local",
+  "url": "http://127.0.0.1:4391",
+  "pages": {
+    "/": {
+      "performance": 99,
+      "lcpMs": 1802,
+      "fcpMs": 1352,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferBytes": 172345,
+      "runs": 3
+    },
+    "/en": {
+      "performance": 99,
+      "lcpMs": 1876,
+      "fcpMs": 1351,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferBytes": 171810,
+      "runs": 3
+    }
+  },
+  "htmlBytes": {
+    "/": 80459,
+    "/en": 79924
+  },
+  "digest": "517cd7ac05998a8426231d64ce97f006cf78c92500a8cbf0c8f29318110ebc32"
+}

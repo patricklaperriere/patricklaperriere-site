@@ -24,6 +24,10 @@ const links = [
 const home = path('home', locale);
 const contact = path('contact', locale);
 
+// The open menu lists every page, Contact included; its one call to action
+// sits at the bottom, so the bar's own button steps aside while it is open.
+const menuLinks = [...links, { href: contact, label: tr.nav.contact }];
+
 // Normalise both sides before comparing so "/services/" and "/services" match.
 const norm = (p: string) => p.replace(/\/$/, '') || '/';
 const current = norm(Astro.url.pathname);
@@ -96,7 +100,7 @@ const [first, last] = tr.brand.split(' ');
 
   <div class="nav__mobile" id="nav-mobile" hidden>
     <nav class="nav__mobile-links" aria-label={tr.ariaPrimaryNav}>
-      {links.map((l, i) => (
+      {menuLinks.map((l, i) => (
         <a
           href={l.href}
           class:list={['nav__mobile-link', isActive(l.href) && 'is-active']}
@@ -109,7 +113,7 @@ const [first, last] = tr.brand.split(' ');
       ))}
     </nav>
 
-    <div class="nav__mobile-foot" style={`--i:${links.length}`}>
+    <div class="nav__mobile-foot" style={`--i:${menuLinks.length}`}>
       <a href={contact} class="btn btn-accent nav__mobile-cta">{tr.cta.primary}</a>
       <a href={`tel:${SITE.phone}`} class="nav__mobile-phone">{SITE.phoneDisplay}</a>
       <a href={alt} class="nav__mobile-lang" hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'}>
@@ -149,7 +153,8 @@ const [first, last] = tr.brand.split(' ');
   .nav__brand {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 44px;
+    min-width: 44px;
     font-family: var(--font-display);
     font-size: 1.0625rem;
     font-weight: var(--fw-medium);
@@ -180,7 +185,9 @@ const [first, last] = tr.brand.split(' ');
     letter-spacing: 0.13em;
     text-transform: uppercase;
     color: var(--fg-dim);
-    padding-block: 0.65rem;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
     transition: color var(--t-fast) var(--ease);
   }
   .nav__link::after {
@@ -188,7 +195,7 @@ const [first, last] = tr.brand.split(' ');
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 0.15rem;
+    bottom: 0.75rem;
     height: 1px;
     background: currentColor;
     transform: scaleX(0);
@@ -213,7 +220,7 @@ const [first, last] = tr.brand.split(' ');
   .nav__phone {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 44px;
     font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.04em;
@@ -237,8 +244,11 @@ const [first, last] = tr.brand.split(' ');
   .nav__lang a {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
-    padding-inline: 0.15rem;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
+    /* 44px target, without pushing the two codes apart. */
+    margin-inline: -0.6rem;
     color: var(--fg-mute);
     transition: color var(--t-fast) var(--ease);
   }
@@ -246,7 +256,7 @@ const [first, last] = tr.brand.split(' ');
 
   .nav__cta {
     padding: 0.6rem 1.05rem;
-    min-height: 40px;
+    min-height: 44px;
     font-size: 0.85rem;
   }
 
@@ -306,7 +316,7 @@ const [first, last] = tr.brand.split(' ');
   }
   .nav__mobile-link {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 1rem;
     padding: clamp(0.9rem, 3vw, 1.35rem) 0;
     border-bottom: 1px solid var(--line-soft);
@@ -327,13 +337,18 @@ const [first, last] = tr.brand.split(' ');
       transform var(--t-base) var(--ease-out) calc(var(--i) * 45ms + 60ms);
   }
   .nav__mobile-link.is-active { color: var(--vermilion-text); }
+  /* Fixed width, so every label starts on the same line. */
   .nav__mobile-num {
+    flex: none;
+    width: 2.25rem;
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 1rem;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.04em;
+    font-variant-numeric: tabular-nums;
     color: var(--fg-mute);
   }
+  .nav.is-menu-open .nav__cta { visibility: hidden; }
 
   .nav__mobile-foot {
     display: flex;
@@ -364,11 +379,14 @@ const [first, last] = tr.brand.split(' ');
   }
 
   /* ---- Breakpoints ------------------------------------------------------- */
-  @media (max-width: 1080px) {
+  /* Full bar from 1024px; between 1024 and 1279px the phone number steps
+     aside so the links, language and call to action fit (it stays in the
+     footer and the contact section). */
+  @media (max-width: 1023px) {
     .nav__links { display: none; }
     .nav__burger { display: grid; }
   }
-  @media (max-width: 720px) {
+  @media (max-width: 720px), (min-width: 1024px) and (max-width: 1279px) {
     .nav__phone { display: none; }
   }
   @media (max-width: 460px) {
@@ -376,7 +394,7 @@ const [first, last] = tr.brand.split(' ');
     .nav__brand-short { display: inline; }
     .nav__cta { display: none; }
   }
-  @media (min-width: 1081px) {
+  @media (min-width: 1024px) {
     .nav__mobile { display: none !important; }
   }
 </style>
@@ -401,6 +419,7 @@ const [first, last] = tr.brand.split(' ');
     const setOpen = (next: boolean) => {
       open = next;
       burger.setAttribute('aria-expanded', String(open));
+      bar?.classList.toggle('is-menu-open', open);
       // Lock the page behind the sheet without losing the scroll position.
       document.body.style.overflow = open ? 'hidden' : '';
 
@@ -432,7 +451,7 @@ const [first, last] = tr.brand.split(' ');
     });
 
     // Returning to desktop width must not leave the body scroll-locked.
-    window.matchMedia('(min-width: 1081px)').addEventListener('change', (e) => {
+    window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => {
       if (e.matches && open) setOpen(false);
     });
   }

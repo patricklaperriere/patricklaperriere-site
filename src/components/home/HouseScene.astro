@@ -1,0 +1,265 @@
+---
+// The inspection scene: a house in section, inspected layer by layer.
+//
+// One source for every word: the three layer texts are plain HTML, listed
+// beside (desktop) or under (phones) the drawing. That list is what a visitor
+// without motion reads, with the drawing complete, every layer marked
+// "Conforme" and the "Inspecté" stamp on. home-engine.ts turns the same
+// elements into the pinned sequence: lines traced stroke by stroke, a scan
+// rule sweeping each layer, the exploded view, each text tied to its layer
+// by a leader line, and the stamp at
+// the end. Decoration (scan rule, stamp, tags) is aria-hidden; the drawing is
+// one labelled image.
+//
+// The section's heading comes in through the slot, inside the pinned element:
+// once pinned, title, drawing and text share one screen, with no empty band
+// between the heading and the drawing.
+import type { Locale } from '../../i18n/routes';
+import { routes } from '../../i18n/routes';
+import { homeCopy } from '../../i18n/home';
+import type { ServiceKey } from '../../i18n/home';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = homeCopy[locale].inspection;
+const tr = useTranslations(locale);
+
+// Service links: the name is the service's own title, as in the footer.
+const services: Record<ServiceKey, { href: string; label: string }> = {
+  svcWeb: { href: routes.svcWeb[locale], label: tr.services.web.title },
+  svcSeo: { href: routes.svcSeo[locale], label: tr.services.seo.title },
+  svcShopify: { href: routes.svcShopify[locale], label: tr.services.shopify.title },
+  svcTools: { href: routes.svcTools[locale], label: tr.services.tools.title },
+};
+
+// Roof: outer line from (80,240) to the ridge (500,90) and down to (920,240).
+const k = 150 / 420;
+const right = (x: number) => 90 + (x - 500) * k;
+const r = (n: number) => Math.round(n * 10) / 10;
+const win = (x: number, y: number) => `M${x} ${y} H${x + 90} V${y + 46} H${x} Z`;
+
+type Layer = {
+  id: string;
+  fill: string;
+  dots?: boolean;
+  paths: string[];
+  /** Vertical extent, for the dimension line and the scan sweep. */
+  span: [number, number];
+  /** Where the leader line leaves the drawing, toward the text. */
+  anchor: [number, number];
+  /** Height of the "Conforme" tag: every tag is centred on x=520, the middle
+   *  of the gap between the upper windows, so the three read as one aligned
+   *  column, clear of every line. */
+  tag: number;
+};
+
+// Mono label widths, in viewBox units: 15px type, 0.08em tracking.
+const mono = (text: string) => Math.round(text.length * 10.2 + 16);
+const tagW = mono(t.ok);
+const scanW = Math.round(t.scanning.length * 9.6 + 12);
+
+const layers: Layer[] = [
+  {
+    id: 'toiture',
+    fill: 'M80 240 L500 90 L920 240 Z',
+    paths: [
+      'M80 240 L500 90',
+      'M500 90 L920 240',
+      'M120 240 L500 112 L880 240',
+      `M700 ${r(right(700))} V118 H735 V${r(right(735))}`,
+      'M80 240 H920',
+    ],
+    span: [90, 240],
+    anchor: [r(820), r(right(820))],
+    tag: 190,
+  },
+  {
+    id: 'structure',
+    fill: 'M120 240 H880 V430 H120 Z',
+    paths: [
+      'M120 240 V430',
+      'M880 240 V430',
+      'M120 335 H880',
+      win(170, 268),
+      win(330, 268),
+      win(620, 268),
+      win(750, 268),
+      win(170, 362),
+      win(750, 362),
+      'M470 430 V365 H530 V430',
+    ],
+    span: [240, 430],
+    anchor: [880, 300],
+    tag: 300,
+  },
+  {
+    id: 'fondations',
+    fill: 'M120 430 H880 V490 H900 V510 H100 V490 H120 Z',
+    dots: true,
+    paths: ['M40 430 H960', 'M120 430 V490 H880 V430', 'M100 490 H900 V510 H100 Z'],
+    span: [430, 510],
+    anchor: [880, 470],
+    tag: 460,
+  },
+];
+---
+
+<div class="scene" data-scene>
+  <slot />
+  <div class="scene__stage st-grid">
+    <div class="scene__draw">
+      <svg class="house" viewBox="0 0 1000 560" role="img" aria-label={t.planLabel} data-house>
+        <defs>
+          <pattern id="house-dots" width="11" height="11" patternUnits="userSpaceOnUse">
+            <circle cx="5.5" cy="5.5" r="1.5" />
+          </pattern>
+        </defs>
+        <g data-house-body>
+          {layers.map((l, i) => (
+            <g class="house__layer" data-layer={l.id} data-span={l.span.join(' ')}>
+              <path class:list={['house__fill', l.dots && 'house__fill--dots']} d={l.fill} data-fill />
+              <g class="house__base">{l.paths.map((d) => <path d={d} class:list={[d.includes('L') && 'is-diag']} />)}</g>
+              <g class="house__trace" data-trace>{l.paths.map((d) => <path d={d} class:list={[d.includes('L') && 'is-diag']} />)}</g>
+              <g class="house__cote" aria-hidden="true">
+                <path d={`M50 ${l.span[0] + 4} V${l.span[1] - 4} M42 ${l.span[0]} H58 M42 ${l.span[1]} H58`} />
+                <text x="2" y={(l.span[0] + l.span[1]) / 2} class="house__num">{String(i + 1).padStart(2, '0')}</text>
+              </g>
+              <g class="house__tag" data-tag aria-hidden="true" transform={`translate(520 ${l.tag})`}>
+                <g class="house__label">
+                  <rect x={-tagW / 2} y="-11" width={tagW} height="22" />
+                  <text x="0.6" y="0">{t.ok}</text>
+                </g>
+              </g>
+              <path class="house__leader" data-leader d={`M${l.anchor[0]} ${l.anchor[1]} H1000`} aria-hidden="true" />
+              <circle class="house__anchor" data-anchor cx={l.anchor[0]} cy={l.anchor[1]} r="4" aria-hidden="true" />
+            </g>
+          ))}
+        </g>
+        <g class="house__scan" data-scan aria-hidden="true">
+          <path d="M20 0 H980" />
+          <g class="house__label house__label--start">
+            <rect x="64" y="-30" width={scanW} height="22" />
+            <text x={70} y="-19">{t.scanning}</text>
+          </g>
+        </g>
+        <!-- Lower right, on the foundations: clear of the three tags. -->
+        <g class="house__stamp" data-stamp aria-hidden="true" transform="translate(740 468) rotate(-8)">
+          <g>
+            <rect x="-125" y="-31" width="250" height="62" />
+            <rect x="-119" y="-25" width="238" height="50" />
+            <text x="3" y="0">{t.stamp}</text>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <ol class="scene__notes">
+      {t.layers.map((l, i) => (
+        <li class="note" data-note>
+          <p class="note__name annot"><span>{String(i + 1).padStart(2, '0')}</span>{l.name}</p>
+          <h3 class="note__title">{l.title}</h3>
+          <p class="note__body">{l.body}</p>
+          <p class="note__links">
+            {l.links.map((k) => <a href={services[k].href}>{services[k].label}</a>)}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</div>
+
+<style>
+  /* ---- Static layout (no motion, or before the engine loads) -------------
+     Phones and tablets: the drawing, then the three texts. Desktop: the
+     drawing on 7 columns, held in view while the three texts beside it
+     scroll by (sticky, no motion), so each text reads next to its layer. */
+  .scene__stage { position: relative; row-gap: var(--s4); align-items: start; }
+  .scene__draw { position: relative; grid-column: 1 / -1; width: 100%; max-width: 760px; }
+  .scene__notes {
+    position: relative;
+    grid-column: 1 / -1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s5);
+  }
+  @media (min-width: 1024px) {
+    .scene__draw { grid-column: 1 / span 7; position: sticky; top: calc(72px + var(--s4)); }
+    .scene__notes { grid-column: 8 / span 5; }
+  }
+
+  .note__name { display: flex; gap: var(--s2); margin: 0 0 var(--s1); }
+  .note__title { font-size: clamp(1.625rem, 2.2vw, 2rem); line-height: 1.05; margin: 0; }
+  .note__body { color: var(--slate); margin: var(--s2) 0 var(--s1); max-width: 46ch; }
+  .note__links { display: flex; flex-wrap: wrap; gap: 0 var(--s3); margin: 0; }
+  .note__links a { display: inline-flex; align-items: center; min-height: 44px; }
+
+  /* ---- Drawing ----------------------------------------------------------------
+     Sharp lines: every stroke keeps its pixel width whatever the scale
+     (non-scaling), whole pixels only (1px or 2px), and the square lines snap
+     to the pixel grid; only the roof's slopes and the rotated stamp keep
+     anti-aliasing. */
+  .house { display: block; width: 100%; height: auto; overflow: visible; }
+  .house path, .house rect, .house circle { vector-effect: non-scaling-stroke; }
+  .house path, .house rect { shape-rendering: crispEdges; }
+  .house path.is-diag, .house__fill, .house__stamp rect { shape-rendering: geometricPrecision; }
+  .house path { fill: none; stroke-linecap: square; }
+  .house__fill { fill: var(--plum-wash) !important; stroke: none; }
+  .house__fill--dots { fill: url(#house-dots) !important; }
+  .house pattern circle { fill: var(--plan-line); }
+  .house__base path { stroke: var(--plan-line); stroke-width: 1px; }
+  .house__trace path { stroke: var(--bone); stroke-width: 2px; }
+  .house__cote path { stroke: var(--slate-mute); stroke-width: 1px; }
+  .house text { font-family: var(--font-mono); font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; dominant-baseline: central; }
+  .house__num { font-size: 20px; fill: var(--signal); }
+  .house__tag rect, .house__scan rect { fill: var(--ink); stroke: var(--signal); stroke-width: 1px; }
+  .house__tag text { font-size: 15px; fill: var(--signal); text-anchor: middle; }
+  .house__leader, .house__anchor { display: none; }
+  .house__leader { stroke: var(--signal); stroke-width: 1px; stroke-dasharray: 5 4; }
+  .house__anchor { fill: var(--signal); }
+  .house__scan { display: none; }
+  .house__scan path { stroke: var(--signal); stroke-width: 2px; }
+  .house__scan text { font-size: 14px; fill: var(--signal); }
+  .house__stamp rect { fill: none; stroke: var(--signal); stroke-width: 3px; }
+  .house__stamp rect + rect { stroke-width: 1px; }
+  .house__stamp text { font-size: 28px; letter-spacing: 0.22em; fill: var(--signal); text-anchor: middle; }
+  /* Below 768px the drawing is drawn at about a third of its size: the mono
+     labels grow around their own centre (numbers from their left edge) so
+     they stay at least 9px tall. */
+  @media (max-width: 767px) {
+    .house__label, .house__num { transform-box: fill-box; transform-origin: center; transform: scale(1.6); }
+    .house__num, .house__label--start { transform-origin: left center; }
+  }
+
+  /* ---- Pinned sequence (class set by the engine) ------------------------------
+     Desktop: the whole scene is pinned, heading included, centred under the
+     header; the drawing (its width set by the engine from the room left)
+     and the active text right beside it, at the height of its layer, tied
+     to it by a leader line. Phones and tablets: the heading scrolls by as
+     usual; only the drawing and the active text under it are pinned. */
+  .scene:global(.is-live) .scene__stage { row-gap: var(--s2); }
+  .scene:global(.is-live) .house__leader,
+  .scene:global(.is-live) .house__anchor,
+  .scene:global(.is-live) .house__scan { display: inline; }
+  /* The notes overlap; the box keeps the tallest one's height (set by the
+     engine), so none is ever clipped. */
+  .scene:global(.is-live) .scene__notes { display: block; min-height: var(--notes-h, 15rem); }
+  .scene:global(.is-live) .note { position: absolute; inset: 0 0 auto 0; }
+  @media (max-width: 1023px) {
+    .scene:global(.is-live) .house__leader,
+    .scene:global(.is-live) .house__anchor { display: none; }
+  }
+  @media (min-width: 1024px) {
+    /* Drawing and text side by side, one gap apart (NOTE_GAP in the engine). */
+    .scene:global(.is-live) .scene__stage {
+      grid-template-columns: var(--draw-w, 700px) minmax(0, 26rem);
+      column-gap: var(--s5);
+    }
+    .scene:global(.is-live) .scene__draw { grid-column: 1; position: relative; top: auto; max-width: none; }
+    .scene:global(.is-live) .scene__notes { grid-column: 2; align-self: stretch; }
+  }
+</style>

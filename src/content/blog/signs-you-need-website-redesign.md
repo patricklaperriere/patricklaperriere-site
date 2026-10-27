@@ -12,7 +12,7 @@ A website doesn't last forever. Yours might be working against you right now, qu
 
 ## 1. It's slow to load
 
-If your site takes more than 3 seconds to appear, you lose visitors before they ever see your offer. Speed means sales and search ranking.
+If your site takes more than 3 seconds to appear on a phone, many visitors leave before they ever see your offer ([Think with Google, 2016](https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/)). Speed matters for sales and for search ranking.
 
 ## 2. It's not mobile-friendly
 
@@ -36,7 +36,7 @@ If changing a single line means calling someone (or isn't possible at all), your
 
 ## 7. It's not bilingual (and you need it to be)
 
-In Quebec and Canada, speaking to a single language market means leaving half your potential customers with the competition.
+In Quebec and Canada, speaking to a single language market means leaving part of your potential customers to the competition.
 
 ## What a redesign changes
 

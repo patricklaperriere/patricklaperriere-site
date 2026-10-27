@@ -6,19 +6,19 @@
 // the narrative in a two-column editorial grid — mono label in the margin, prose
 // on a readable measure — and a link through to the next project.
 //
-// Habita gets the running product frame instead of a screenshot, because it is
-// software I operate rather than a site I delivered.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { workBase } from '../../i18n/routes';
 import type { Project } from '../../data/projets';
-import { loc, sortedProjects } from '../../data/projets';
+import { loc, sortedProjects, stackLabel, captureSrcset } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import LighthouseScores from '../LighthouseScores.astro';
-import ProductFrame from '../ProductFrame.astro';
+import ExternalIcon from '../ExternalIcon.astro';
 import { lighthouse } from '../../data/lighthouse';
-import { HABITA_LOOP } from '../../lib/habitaLoop';
+import { temoignages } from '../../data/temoignages';
+import Todo from '../Todo.astro';
+import HabitaLoop from '../HabitaLoop.astro';
 
 interface Props {
   locale: Locale;
@@ -33,19 +33,16 @@ const score = lighthouse[project.slug] ?? null;
 
 // Next case study, wrapping around — a dead end at the bottom of a case study
 // is a wasted exit.
-const all = sortedProjects();
+const all = await sortedProjects();
 const idx = all.findIndex((p) => p.slug === project.slug);
 const next = all[(idx + 1) % all.length];
 const others = all.filter((p) => p.slug !== project.slug && p.slug !== next.slug);
 
-const shot = `/work/${project.slug}.webp`;
+const shot = project.image;
 const contain = project.fit === 'contain';
-const shotAlt =
-  locale === 'fr'
-    ? `Capture d’écran du site ${loc(project.title, locale)}`
-    : `Screenshot of the ${loc(project.title, locale)} website`;
-
 const isHabita = project.slug === 'habita';
+const shotAlt = isHabita ? ws.habitaAlt : ws.shotAlt(loc(project.title, locale));
+
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -56,13 +53,20 @@ const crumbs = [
 const blocks = [
   { label: ws.challenge, body: loc(project.challenge, locale) },
   { label: ws.built, body: loc(project.built, locale) },
+  ...(project.field ? [{ label: ws.field, body: loc(project.field, locale) }] : []),
   { label: ws.result, body: loc(project.result, locale) },
 ];
+// The client's own words: an approved quote from the project file, or else
+// their public Google review, verbatim, when one is tied to this project.
+const review = temoignages.find((t) => t.project === project.slug);
+const quote = project.testimonial ?? (review
+  ? { quote: { fr: review.text, en: review.text }, author: review.author, title: { fr: 'Avis Google', en: 'Google review' }, lang: review.lang }
+  : null);
 
 const specs = [
-  { k: ws.client, v: project.client },
   { k: ws.role, v: loc(project.role, locale) },
   { k: ws.year, v: project.year },
+  ...(project.live ? [] : [{ k: ws.status, v: ws.notLive }]),
 ];
 ---
 
@@ -70,11 +74,34 @@ const specs = [
 
 <article class="case" style={`--accent:${project.accent}`}>
   <header class="case__head container-wide">
+    {project.draft && (
+      <p class="case__draft" role="note">
+        {locale === 'fr'
+          ? 'Brouillon : visible seulement en local (npm run dev), jamais publié tant que « publié » vaut false.'
+          : 'Draft: local preview only (npm run dev). Never built while “publié” is false.'}
+      </p>
+    )}
     <p class="label label-rule">{project.client} · {project.year}</p>
     <h1 class="case__title">{loc(project.title, locale)}</h1>
     <p class="case__tagline">{loc(project.tagline, locale)}</p>
 
     <dl class="case__specs">
+      <div class="case__spec">
+        <dt>{ws.client}</dt>
+        <dd>
+          {project.logo && project.live ? (
+            <a href={project.url} class="case__client" target="_blank" rel="noopener">
+              <img src={project.logo} alt="" class="case__logo" height="40" decoding="async" />
+              <span>{project.client}</span>
+            </a>
+          ) : project.logo ? (
+            <span class="case__client">
+              <img src={project.logo} alt="" class="case__logo" height="40" decoding="async" />
+              <span>{project.client}</span>
+            </span>
+          ) : project.client}
+        </dd>
+      </div>
       {specs.map((s) => (
         <div class="case__spec">
           <dt>{s.k}</dt>
@@ -85,45 +112,40 @@ const specs = [
         <dt>{ws.stack}</dt>
         <dd>
           <ul class="case__stack">
-            {project.stack.map((s) => <li>{s}</li>)}
+            {project.stack.map((s) => <li>{stackLabel(s, locale)}</li>)}
           </ul>
         </dd>
       </div>
     </dl>
 
-    <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
-      {tr.cta.visitSite}
-      <span aria-hidden="true">↗</span>
-    </a>
+    {project.live && (
+      <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
+        {tr.cta.visitSite}
+        <ExternalIcon />
+      </a>
+    )}
+    {import.meta.env.DEV && project.todo.length > 0 && (
+      <ul class="case__todo">{project.todo.map((t) => <li><Todo what={t} /></li>)}</ul>
+    )}
   </header>
 
-  <div class="container-wide case__media reveal-clip">
-    {isHabita ? (
-      <ProductFrame
-        host={new URL(project.url).host}
-        liveLabel={locale === 'fr' ? 'En production' : 'In production'}
-        poster={HABITA_LOOP.poster}
-        webm={HABITA_LOOP.webm}
-        mp4={HABITA_LOOP.mp4}
-        width={HABITA_LOOP.width}
-        height={HABITA_LOOP.height}
-        posterAlt={tr.habitaSpotlight.posterAlt}
-        playLabel={tr.habitaSpotlight.videoPlay}
-        pauseLabel={tr.habitaSpotlight.videoPause}
-        fallbackSrc={shot}
-        fallbackAlt={`${tr.cta.visitSite} — ${project.client}`}
-        fallbackHref={project.url}
-        external
-        fit={project.fit ?? 'cover'}
-      />
-    ) : (
+  {shot && (
+    <div class="container-wide case__media reveal-clip">
       <figure class:list={['case__shot', contain && 'case__shot--contain']}>
-        <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
-          <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
-        </a>
+        {isHabita ? (
+          <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+            <HabitaLoop poster={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} />
+          </a>
+        ) : project.live ? (
+          <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+            <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+          </a>
+        ) : (
+          <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+        )}
       </figure>
-    )}
-  </div>
+    </div>
+  )}
 
   {score && (
     <section class="container-wide case__bench">
@@ -146,11 +168,29 @@ const specs = [
     ))}
   </div>
 
+  {quote && (
+    <section class="container-wide case__quote reveal" aria-labelledby="case-quote-label">
+      <h2 class="label label-rule" id="case-quote-label">{ws.testimonial}</h2>
+      <figure>
+        <blockquote class="case__quote-text">
+          <p lang={'lang' in quote && quote.lang !== locale ? quote.lang : undefined}>{loc(quote.quote, locale)}</p>
+        </blockquote>
+        <figcaption class="case__quote-by">
+          <span>{quote.author}</span>
+          <span class="case__quote-title">{loc(quote.title, locale)}</span>
+          {'original' in quote && quote.original && quote.original !== locale && (
+            <span class="case__quote-note">{ws.translatedFrom[quote.original]}</span>
+          )}
+        </figcaption>
+      </figure>
+    </section>
+  )}
+
   <nav class="container-wide case__next" aria-label={tr.nav.work}>
     <div class="case__next-row">
       <a href={`${workBase[locale]}/${next.slug}`} class="case__next-link">
         <span class="label case__next-label">
-          {locale === 'fr' ? 'Projet suivant' : 'Next project'}
+          {ws.next}
         </span>
         <span class="case__next-title">{loc(next.title, locale)}</span>
         <span class="case__next-arrow" aria-hidden="true">→</span>
@@ -176,7 +216,40 @@ const specs = [
 <CtaBand locale={locale} />
 
 <style>
+  .case__todo { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.4rem; }
   /* ---- Masthead ----------------------------------------------------------- */
+  .case__quote {
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+  .case__quote figure { margin: 1.5rem 0 0; max-width: 60ch; }
+  .case__quote-text {
+    margin: 0;
+    font-size: var(--fs-lead);
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+  .case__quote-text p { margin: 0; }
+  .case__quote-by {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 0.75rem;
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
+  .case__quote-title { color: var(--fg-mute); }
+  .case__quote-note { flex-basis: 100%; color: var(--fg-mute); font-style: italic; }
+  .case__client { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; color: inherit; }
+  a.case__client:hover span, a.case__client:focus-visible span { text-decoration: underline; }
+  .case__logo { display: block; height: 40px; width: auto; max-width: 100%; }
+  .case__draft {
+    margin: 0 0 1.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px dashed var(--vermilion);
+    color: var(--vermilion-text);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
   .case__head {
     padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
   }

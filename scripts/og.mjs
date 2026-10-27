@@ -1,8 +1,8 @@
 // Generates branded Open Graph images (1200×630) into public/og/.
 // Run with: npm run og
 //
-// One default image + one per service + one per case study. Text uses a
-// system font with full accent coverage (Segoe UI / Arial) so accents render.
+// One default image + one per section, service, published case study and post. Text uses a
+// system font with full accent coverage so accents render.
 
 import sharp from 'sharp';
 import { mkdirSync, readdirSync, readFileSync } from 'node:fs';
@@ -54,38 +54,59 @@ function wrap(text, max = 18) {
   return lines.slice(0, 2);
 }
 
+// Matches the report theme: aubergine ground, bone type, signal-yellow
+// annotations, a plum block for the monogram, hairline rules. System fonts only (sharp renders through librsvg), with
+// fallbacks that carry French accents on Windows, macOS and Linux.
+const SANS = "'Segoe UI', 'Helvetica Neue', Ubuntu, Arial, sans-serif";
+const MONO = "Consolas, 'SFMono-Regular', 'Ubuntu Mono', 'DejaVu Sans Mono', monospace";
+
 function template({ kicker, title, subtitle }) {
-  const lines = wrap(title);
+  const lines = wrap(title, 22);
+  const size = lines.some((l) => l.length > 16) ? 88 : 104;
   const titleSvg = lines
     .map(
       (ln, i) =>
-        `<text x="96" y="${330 + i * 118}" font-family="Segoe UI, Arial, Helvetica, sans-serif" font-weight="700" font-size="104" letter-spacing="-3" fill="${
-          i === lines.length - 1 ? 'url(#gold)' : '#eef1f6'
-        }">${esc(ln)}</text>`,
+        `<text x="96" y="${300 + i * (size + 14)}" font-family="${SANS}" font-weight="600" font-size="${size}" letter-spacing="-3" fill="#F6EEF2">${esc(ln)}</text>`,
     )
     .join('');
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
-  <defs>
-    <radialGradient id="bg" cx="50%" cy="-10%" r="120%">
-      <stop offset="0%" stop-color="#0a1320"/><stop offset="60%" stop-color="#060b14"/>
-    </radialGradient>
-    <radialGradient id="blob" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#e8c79a" stop-opacity="0.35"/><stop offset="100%" stop-color="#e8c79a" stop-opacity="0"/>
-    </radialGradient>
-    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#f4d9b0"/><stop offset="60%" stop-color="#e8c79a"/><stop offset="100%" stop-color="#c9a878"/>
-    </linearGradient>
-  </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="1050" cy="120" r="360" fill="url(#blob)"/>
-  <circle cx="120" cy="560" r="280" fill="#6fd8e0" opacity="0.08"/>
-  <rect x="64" y="64" width="1072" height="502" rx="24" fill="none" stroke="#eef1f6" stroke-opacity="0.10"/>
-  <text x="100" y="180" font-family="Consolas, 'Courier New', monospace" font-size="24" letter-spacing="5" fill="#e8c79a">${esc(kicker)}</text>
+  <rect width="1200" height="630" fill="#300A24"/>
+  <rect x="96" y="150" width="56" height="3" fill="#FFD23F"/>
+  <text x="172" y="160" font-family="${MONO}" font-size="22" letter-spacing="5" fill="#FFD23F">${esc(kicker)}</text>
+  <rect x="1048" y="112" width="56" height="56" fill="#77216F"/>
+  <text x="1076" y="150" text-anchor="middle" font-family="Georgia, 'DejaVu Serif', serif" font-weight="700" font-size="26" fill="#F6EEF2">PL</text>
   ${titleSvg}
-  <text x="100" y="535" font-family="Segoe UI, Arial, sans-serif" font-size="28" fill="#8a97ad">${esc(subtitle)}</text>
-  <text x="1136" y="535" text-anchor="end" font-family="Consolas, monospace" font-size="22" fill="#6b7689">patricklaperriere.com</text>
+  <line x1="96" y1="500" x2="1104" y2="500" stroke="#F6EEF2" stroke-opacity="0.16"/>
+  ${wrap(subtitle, 64)
+    .map((ln, i) => `<text x="96" y="${548 + i * 36}" font-family="${SANS}" font-size="28" fill="#D5C3CE">${esc(ln)}</text>`)
+    .join('')}
+  <text x="1104" y="478" text-anchor="end" font-family="${MONO}" font-size="20" fill="#B9A2B1">patricklaperriere.com</text>
 </svg>`;
+}
+
+// Published projects, read from the content collection files so a new
+// project gets its card without editing this script. Values in those files
+// are JSON-quoted strings, which keeps this frontmatter read trivial.
+function projectOgImages() {
+  const dir = 'src/content/projets';
+  return readdirSync(dir)
+    .filter((f) => f.endsWith('.md') && f !== 'README.md')
+    .map((f) => {
+      const fm = readFileSync(`${dir}/${f}`, 'utf8').split('---')[1] ?? '';
+      const fr = (key) => {
+        const m = fm.match(new RegExp(`^${key}:\\n  fr: (".*")$`, 'm'));
+        return m ? JSON.parse(m[1]) : '';
+      };
+      return {
+        published: /^publié: true$/m.test(fm),
+        file: `project-${f.replace(/\.md$/, '')}.png`,
+        kicker: 'ÉTUDE DE CAS · CASE STUDY',
+        title: fr('titre'),
+        subtitle: fr('accroche').split(/\. /)[0].replace(/\.$/, ''),
+      };
+    })
+    .filter((p) => p.published && !p.subtitle.includes('À CONFIRMER'));
 }
 
 const images = [
@@ -93,99 +114,129 @@ const images = [
     file: 'default.png',
     kicker: 'DÉVELOPPEUR WEB · WEB DEVELOPER',
     title: 'Patrick Laperrière',
-    subtitle: 'Sites web rapides, élégants et optimisés pour Google',
+    subtitle: 'Sites web, boutiques Shopify et outils sur mesure',
+  },
+  {
+    file: 'home-fr.png',
+    kicker: 'DÉVELOPPEUR WEB · QUÉBEC',
+    title: 'Des sites rapides. Des outils sur mesure.',
+    subtitle: 'Patrick Laperrière, sites et outils web pour les PME',
+  },
+  {
+    file: 'home-en.png',
+    kicker: 'WEB DEVELOPER · QUEBEC',
+    title: 'Fast websites. Custom tools.',
+    subtitle: 'Patrick Laperrière, websites and web tools for small businesses',
   },
   // Services
+  {
+    file: 'services.png',
+    kicker: 'SERVICES',
+    title: 'Quatre services, un interlocuteur',
+    subtitle: 'Site web, refonte et SEO, boutique Shopify, outils sur mesure',
+  },
   {
     file: 'service-web.png',
     kicker: 'SERVICE',
     title: 'Création de site web',
-    subtitle: 'Sites sur mesure, rapides et pensés pour convertir',
+    subtitle: 'Un site rapide, clair et bien référencé',
   },
   {
     file: 'service-seo.png',
     kicker: 'SERVICE',
-    title: 'Refonte + SEO',
-    subtitle: 'Transformer un site lent en machine à leads',
+    title: 'Refonte et SEO',
+    subtitle: 'Mesurer d’abord, corriger dans le bon ordre',
   },
   {
     file: 'service-shopify.png',
     kicker: 'SERVICE',
-    title: 'E-commerce Shopify',
-    subtitle: 'Boutiques Shopify sur mesure en Liquid',
-  },
-  // Projects
-  {
-    file: 'project-habita.png',
-    kicker: 'RÉALISATION · CASE STUDY',
-    title: 'Habita',
-    subtitle: 'Logiciel SaaS d’inspection en bâtiment · Québec',
+    title: 'Boutique Shopify',
+    subtitle: 'Une boutique sur mesure en Liquid',
   },
   {
-    file: 'project-inspection-habitation-outaouais.png',
-    kicker: 'RÉALISATION · CASE STUDY',
-    title: 'Inspection Habitation Outaouais',
-    subtitle: 'Site Astro bilingue + SEO local · Outaouais',
+    file: 'service-tools.png',
+    kicker: 'SERVICE',
+    title: 'Outils sur mesure',
+    subtitle: 'Applications web en React et Supabase',
+  },
+  // Section pages
+  {
+    file: 'about.png',
+    kicker: 'À PROPOS · ABOUT',
+    title: 'Patrick Laperrière',
+    subtitle: 'Développeur web, fondateur de Technologies Habita inc.',
   },
   {
-    file: 'project-hp-addik.png',
-    kicker: 'RÉALISATION · CASE STUDY',
-    title: 'HP Addik',
-    subtitle: 'Boutique Shopify sur mesure · powersports',
+    file: 'work.png',
+    kicker: 'RÉALISATIONS · WORK',
+    title: 'Réalisations',
+    subtitle: 'Un logiciel, des sites et des boutiques, avec des faits vérifiables',
   },
   {
-    file: 'project-envita-wellness.png',
-    kicker: 'RÉALISATION · CASE STUDY',
-    title: 'Envita Wellness',
-    subtitle: 'Plateforme Shopify custom · bien-être en direct',
+    file: 'blog.png',
+    kicker: 'BLOGUE · BLOG',
+    title: 'Le web, le SEO et la vitesse',
+    subtitle: 'Des articles concrets pour les PME',
+  },
+  {
+    file: 'contact.png',
+    kicker: 'CONTACT',
+    title: 'Démarrons votre projet',
+    subtitle: 'Une réponse personnelle, en français ou en anglais',
+  },
+  {
+    file: 'privacy.png',
+    kicker: 'CONFIDENTIALITÉ · PRIVACY',
+    title: 'Confidentialité',
+    subtitle: 'Ce que le site recueille, et vos droits selon la Loi 25',
+  },
+  {
+    file: 'regions.png',
+    kicker: 'RÉGIONS · REGIONS',
+    title: 'Création de site web au Québec',
+    subtitle: 'Montréal, Québec, Longueuil, Gatineau, Terrebonne',
   },
   // Concepts showcase
   {
     file: 'concepts.png',
-    kicker: 'STUDIO · CONCEPTS',
-    title: 'Imaginez-le. Je le construis.',
-    subtitle: 'Des concepts d’interfaces sur mesure, par industrie',
+    kicker: 'CONCEPTS',
+    title: 'Concepts d’interfaces',
+    subtitle: 'Des maquettes codées pour des entreprises fictives',
   },
   // Local SEO city pages
   {
-    file: 'ville-laval.png',
-    kicker: 'SEO LOCAL · CRÉATION DE SITE WEB',
-    title: 'Site web à Laval',
-    subtitle: 'Rapide, bilingue et optimisé pour Google',
-  },
-  {
     file: 'ville-montreal.png',
-    kicker: 'SEO LOCAL · CRÉATION DE SITE WEB',
+    kicker: 'CRÉATION DE SITE WEB',
     title: 'Site web à Montréal',
-    subtitle: 'Sur mesure, bilingue et pensé pour convertir',
+    subtitle: 'Sur mesure, bilingue et bien référencé',
   },
   {
     file: 'ville-longueuil.png',
-    kicker: 'SEO LOCAL · RIVE-SUD',
+    kicker: 'CRÉATION DE SITE WEB · RIVE-SUD',
     title: 'Site web à Longueuil',
     subtitle: 'Référencement local pour la Rive-Sud',
   },
   {
     file: 'ville-gatineau.png',
-    kicker: 'SEO LOCAL · OUTAOUAIS',
+    kicker: 'CRÉATION DE SITE WEB · OUTAOUAIS',
     title: 'Site web à Gatineau',
-    subtitle: 'Bilingue FR/EN · marché Gatineau-Ottawa',
+    subtitle: 'Bilingue FR et EN, marché Gatineau-Ottawa',
   },
   {
     file: 'ville-quebec.png',
-    kicker: 'SEO LOCAL · CAPITALE-NATIONALE',
+    kicker: 'CRÉATION DE SITE WEB · CAPITALE-NATIONALE',
     title: 'Site web à Québec',
     subtitle: 'Rapide, soigné et bien référencé',
   },
   {
     file: 'ville-terrebonne.png',
-    kicker: 'SEO LOCAL · COURONNE NORD',
+    kicker: 'CRÉATION DE SITE WEB · COURONNE NORD',
     title: 'Site web à Terrebonne',
     subtitle: 'Référencement local pour la Couronne Nord',
   },
 ];
 
-const allImages = [...images, ...blogOgImages()];
+const allImages = [...images, ...projectOgImages(), ...blogOgImages()];
 for (const img of allImages) {
   const svg = template(img);
   await sharp(Buffer.from(svg)).png().toFile(`public/og/${img.file}`);

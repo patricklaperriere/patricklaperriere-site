@@ -29,8 +29,8 @@ export const concepts: Concept[] = [
     accent: '#e8b04a',
     industry: { fr: 'Barbier', en: 'Barbershop' },
     tagline: {
-      fr: 'Réservation en trois taps, choix du barbier et rappels automatiques. La file d’attente, c’est fini.',
-      en: 'Booking in three taps, barber selection and automatic reminders. No more waiting line.',
+      fr: 'Réservation en trois touches, choix du barbier et rappels automatiques.',
+      en: 'Booking in three taps, barber selection and automatic reminders.',
     },
     tags: { fr: ['Réservation', 'Rappels SMS', 'Fidélité'], en: ['Booking', 'SMS reminders', 'Loyalty'] },
   },
@@ -68,7 +68,7 @@ export const concepts: Concept[] = [
       fr: 'Portfolio par artiste, dépôt de référence et prise de rendez-vous, du premier flash au cover-up.',
       en: 'Portfolio by artist, reference upload and booking, from first flash to cover-up.',
     },
-    tags: { fr: ['Portfolio', 'Devis', 'Rendez-vous'], en: ['Portfolio', 'Quotes', 'Booking'] },
+    tags: { fr: ['Portfolio', 'Soumission', 'Rendez-vous'], en: ['Portfolio', 'Quotes', 'Booking'] },
   },
 
   // ---------- Desktop sites ----------
@@ -82,7 +82,7 @@ export const concepts: Concept[] = [
       fr: 'Un menu qui donne faim, des photos appétissantes et la réservation de table sans friction.',
       en: 'A menu that makes you hungry, mouthwatering photos and frictionless table booking.',
     },
-    tags: { fr: ['Menu', 'Réservation', 'Local SEO'], en: ['Menu', 'Reservations', 'Local SEO'] },
+    tags: { fr: ['Menu', 'Réservation', 'SEO local'], en: ['Menu', 'Reservations', 'Local SEO'] },
   },
   {
     id: 'immobilier',
@@ -103,10 +103,10 @@ export const concepts: Concept[] = [
     accent: '#2bc4b4',
     industry: { fr: 'Blanchiment dentaire', en: 'Teeth whitening' },
     tagline: {
-      fr: 'Un sourire plus blanc dès la première séance. Réservation en ligne, résultats visibles et sans douleur.',
-      en: 'A whiter smile from the first session. Online booking, visible results and pain-free.',
+      fr: 'Blanchiment dentaire : réservation en ligne, consultation et suivi.',
+      en: 'Teeth whitening: online booking, consultation and follow-up.',
     },
-    tags: { fr: ['Blanchiment', 'Réservation', 'Sans douleur'], en: ['Whitening', 'Booking', 'Pain-free'] },
+    tags: { fr: ['Blanchiment', 'Réservation', 'Consultation'], en: ['Whitening', 'Booking', 'Consultation'] },
   },
   {
     id: 'ecom',
@@ -115,10 +115,10 @@ export const concepts: Concept[] = [
     accent: '#cf8aa0',
     industry: { fr: 'Boutique en ligne', en: 'Online store' },
     tagline: {
-      fr: 'Boutique Shopify sur mesure : fiches produits soignées, panier rapide et tunnel d’achat optimisé.',
+      fr: 'Boutique Shopify sur mesure : fiches produits soignées, panier rapide et parcours d’achat simple.',
       en: 'Custom Shopify store: polished product pages, a fast cart and an optimized checkout.',
     },
-    tags: { fr: ['Shopify', 'Panier', 'Conversion'], en: ['Shopify', 'Cart', 'Conversion'] },
+    tags: { fr: ['Shopify', 'Panier', 'Paiement'], en: ['Shopify', 'Cart', 'Checkout'] },
   },
   // ---------- SaaS / software dashboards ----------
   {

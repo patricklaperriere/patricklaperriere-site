@@ -26,6 +26,8 @@ Thumbs.db
 # Claude local settings (personal)
 .claude/settings.local.json
 
-# capture de démo (sortie locale, jamais committée)
-capture-out/
 photo-src/
+
+# Chrome profiles that chrome-launcher (Lighthouse) creates under WSL, named
+# after a Windows temp path, in whatever directory it is started from.
+C:*

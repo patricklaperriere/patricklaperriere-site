@@ -12,6 +12,7 @@ export type RouteKey =
   | 'svcWeb'
   | 'svcSeo'
   | 'svcShopify'
+  | 'svcTools'
   | 'work'
   | 'about'
   | 'contact'
@@ -20,11 +21,12 @@ export type RouteKey =
   | 'privacy';
 
 export const routes: Record<RouteKey, Record<Locale, string>> = {
-  home:       { fr: '/',                                en: '/en/' },
+  home:       { fr: '/',                                en: '/en' },
   services:   { fr: '/services',                        en: '/en/services' },
   svcWeb:     { fr: '/services/creation-site-web',      en: '/en/services/web-design-development' },
   svcSeo:     { fr: '/services/refonte-seo',            en: '/en/services/website-redesign-seo' },
   svcShopify: { fr: '/services/site-ecommerce-shopify', en: '/en/services/shopify-ecommerce' },
+  svcTools:   { fr: '/services/outils-sur-mesure',      en: '/en/services/custom-tools' },
   work:       { fr: '/realisations',                    en: '/en/work' },
   about:      { fr: '/a-propos',                         en: '/en/about' },
   contact:    { fr: '/contact',                          en: '/en/contact' },

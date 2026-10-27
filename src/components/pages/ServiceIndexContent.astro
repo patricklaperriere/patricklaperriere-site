@@ -17,7 +17,7 @@ interface Props {
 }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
-const services = [tr.services.web, tr.services.seo, tr.services.shopify];
+const services = [tr.services.web, tr.services.seo, tr.services.shopify, tr.services.tools];
 const cities = [...villes].sort((a, b) => a.order - b.order);
 
 const crumbs = [

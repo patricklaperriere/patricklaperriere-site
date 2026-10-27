@@ -1,0 +1,12 @@
+---
+// A missing fact, made visible. In `astro dev` it shows the reminder
+// "[À FOURNIR : …]" in signal yellow; a build renders nothing, so a
+// placeholder can never reach a visitor. Every one is listed in NUIT_RAPPORT.md.
+interface Props { what: string }
+const { what } = Astro.props;
+---
+{import.meta.env.DEV && <mark class="todo">[À FOURNIR : {what}]</mark>}
+
+<style>
+  .todo { background: none; color: var(--signal, #FFD23F); border: 1px dashed currentColor; padding: 0 0.3em; font-family: var(--font-mono); font-size: 0.8em; }
+</style>

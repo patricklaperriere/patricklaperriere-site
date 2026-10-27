@@ -25,12 +25,12 @@ const schema = graph([
       title: p.data.title,
       description: p.data.description,
       url: blogPostPath(locale, p.data.slug),
-      datePublished: p.data.pubDate.toISOString(),
+      datePublished: p.data.pubDate.toISOString().slice(0, 10),
     })),
   ),
 ]);
 ---
 
-<Layout title={b.seoTitle} description={b.seoDesc} locale={locale} alternates={routes.blog} schema={schema}>
+<Layout pageType="CollectionPage" title={b.seoTitle} description={b.seoDesc} locale={locale} alternates={routes.blog} ogImage="/og/blog.png" schema={schema}>
   <BlogContent locale={locale} posts={posts} />
 </Layout>

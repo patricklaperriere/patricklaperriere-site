@@ -41,8 +41,8 @@ const schema = graph([
     url: selfPath,
     image: ogImage,
     locale,
-    datePublished: post.data.pubDate.toISOString(),
-    dateModified: post.data.updatedDate?.toISOString(),
+    datePublished: post.data.pubDate.toISOString().slice(0, 10),
+    dateModified: post.data.updatedDate?.toISOString().slice(0, 10),
   }),
 ]);
 ---

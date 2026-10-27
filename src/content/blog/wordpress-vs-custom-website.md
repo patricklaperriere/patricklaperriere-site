@@ -1,5 +1,5 @@
 ---
-title: "WordPress or a custom website: which is right for your business?"
+title: "WordPress or a custom website: which is right for you?"
 description: "WordPress is everywhere, but is it the right call for your business? An honest comparison of speed, SEO, security and real costs."
 lang: "en"
 slug: "wordpress-vs-custom-website"

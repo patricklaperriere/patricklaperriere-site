@@ -6,6 +6,7 @@ import type { Locale } from '../../i18n/routes';
 import { type Post, blogPostPath } from '../../lib/blog';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
+import { Picture } from 'astro:assets';
 import { PHOTO, hasPhoto } from '../../lib/photo';
 
 interface Props {
@@ -45,14 +46,15 @@ const crumbs = [
 
   <div class="container-wide">
     <aside class="post__author" aria-label={tr.about.kicker}>
-      {hasPhoto ? (
-        <img
+      {hasPhoto && PHOTO.square ? (
+        <Picture
           class="post__author-photo"
-          src={PHOTO.avatar}
-          srcset={`${PHOTO.avatar} 1x, ${PHOTO.avatar2x} 2x`}
+          src={PHOTO.square}
+          formats={['avif', 'webp']}
+          densities={[1, 2]}
           alt={tr.about.portraitAlt}
-          width="56"
-          height="56"
+          width={56}
+          height={56}
           loading="lazy"
           decoding="async"
         />
@@ -267,7 +269,10 @@ const crumbs = [
     padding-top: 1.5rem;
     border-top: 1px solid var(--line);
   }
-  .post__author-photo {
+  /* <Picture> wraps the photo: the <picture> is the flex item, so it is the
+     one that must not shrink. */
+  .post__author :global(picture) { display: block; flex: none; }
+  .post__author :global(.post__author-photo) {
     width: 56px;
     height: 56px;
     border-radius: 50%;

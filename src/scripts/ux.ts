@@ -30,8 +30,7 @@ function initReveals() {
 
   // A .reveal-clip starts at `clip-path: inset(0 0 100% 0)`. Chromium measures
   // intersection AFTER the element's own clip-path, so a fully clipped target
-  // never reports as visible and never reveals (and the Habita video inside it
-  // never starts). We therefore watch its parent, which is not clipped, and
+  // never reports as visible and never reveals. We therefore watch its parent, which is not clipped, and
   // reveal the clip element when the parent enters the viewport.
   // One watched element can stand for several reveals (a parent with two clip
   // children, or a parent that is itself a .reveal), hence a list.
@@ -103,55 +102,6 @@ function initCounters() {
   els.forEach((el) => io.observe(el));
 }
 
-/* ---- Habita loop video -----------------------------------------------------
-   The video never starts on load: it waits until the section is nearly in
-   view, so it cannot compete with the hero for bandwidth or become the LCP.
-   Under prefers-reduced-motion nothing autoplays — the poster stays up and the
-   button is the only way in. That is also why `autoplay` is absent from the
-   markup: the attribute would start playback before this code could decide. */
-function initHabitaVideo() {
-  const wrap = document.querySelector<HTMLElement>('[data-habita-video]');
-  if (!wrap) return;
-  const video = wrap.querySelector('video');
-  if (!video) return;
-  const btn = wrap.querySelector<HTMLButtonElement>('[data-habita-play]');
-
-  const sync = () => {
-    wrap.classList.toggle('is-playing', !video.paused);
-    if (!btn) return;
-    const label = video.paused ? btn.dataset.labelPlay : btn.dataset.labelPause;
-    if (label) btn.setAttribute('aria-label', label);
-  };
-
-  // play() rejects when the browser blocks it (low-power mode, data saver).
-  // Swallow it: the poster and the button are still there, so we degrade to
-  // click-to-play instead of throwing.
-  const play = () => video.play().then(sync).catch(() => sync());
-
-  video.addEventListener('play', sync);
-  video.addEventListener('pause', sync);
-
-  btn?.addEventListener('click', () => {
-    if (video.paused) play();
-    else video.pause();
-  });
-
-  if (reduceMotion || !('IntersectionObserver' in window)) return;
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        play();
-        io.unobserve(e.target);
-      }
-    },
-    { rootMargin: '200px 0px', threshold: 0.25 },
-  );
-  io.observe(wrap);
-}
-
 /* ---- Boot ---------------------------------------------------------------- */
 initReveals();
 initCounters();
-initHabitaVideo();

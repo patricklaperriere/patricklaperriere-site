@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import RegionsHubContent from '../../../components/pages/RegionsHubContent.astro';
 import { useTranslations, path } from '../../../i18n';
 import { villes, villePath, villesHubPath } from '../../../data/villes';
-import { graph, breadcrumbSchema, itemListSchema, professionalServiceSchema } from '../../../lib/schema';
+import { graph, breadcrumbSchema, itemListSchema } from '../../../lib/schema';
 
 const locale = 'en' as const;
 const tr = useTranslations(locale);
@@ -14,11 +14,12 @@ const schema = graph([
     { name: tr.regions.crumb, url: villesHubPath(locale) },
   ]),
   itemListSchema(villes.map((v) => ({ name: `${tr.regions.crumb} · ${v.name}`, url: villePath(locale, v.slug) }))),
-  professionalServiceSchema(locale),
 ]);
 ---
 
 <Layout
+  pageType="CollectionPage"
+  ogImage="/og/regions.png"
   title={tr.regions.seoTitle}
   description={tr.regions.seoDesc}
   locale={locale}

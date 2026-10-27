@@ -5,18 +5,18 @@ import { SITE } from '../config';
 import type { Locale } from '../i18n/routes';
 import { path } from '../i18n/routes';
 import { useTranslations } from '../i18n';
-import { temoignages, reviewAggregate } from '../data/temoignages';
 import { PHOTO, hasPhoto } from './photo';
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
 
-/** OfferCatalog of the three services, language-aware. */
+/** OfferCatalog of the services, language-aware. */
 function offerCatalog(locale: Locale) {
   const tr = useTranslations(locale);
   const services = [
     { svc: tr.services.web, key: 'svcWeb' as const },
     { svc: tr.services.seo, key: 'svcSeo' as const },
     { svc: tr.services.shopify, key: 'svcShopify' as const },
+    { svc: tr.services.tools, key: 'svcTools' as const },
   ];
   return {
     '@type': 'OfferCatalog',
@@ -33,81 +33,102 @@ function offerCatalog(locale: Locale) {
   };
 }
 
-/** Person — Patrick Laperrière. Used site-wide. */
+export const PERSON_ID = `${SITE.domain}/#person`;
+export const WEBSITE_ID = `${SITE.domain}/#website`;
+export const COMPANY_ID = `${SITE.domain}/#technologies-habita`;
+export const HABITA_APP_ID = `${SITE.domain}/#habita`;
+
+/** Areas served, typed: countries as Country, the rest as AdministrativeArea. */
+function areaServed(locale: Locale) {
+  const countries = new Set(['Canada', 'États-Unis', 'United States']);
+  // 'Québec' / 'Quebec' is the province here, hence AdministrativeArea.
+  return SITE.areaServed[locale].map((name) => ({
+    '@type': countries.has(name) ? 'Country' : 'AdministrativeArea',
+    name,
+  }));
+}
+
+/** Person — Patrick Laperrière. Emitted on every page by <SEO>. */
 export function personSchema(locale: Locale) {
   return {
     '@type': 'Person',
-    '@id': `${SITE.domain}/#person`,
+    '@id': PERSON_ID,
     name: SITE.name,
     jobTitle: SITE.jobTitle[locale],
-    url: SITE.domain,
-    email: `mailto:${SITE.email}`,
+    description: SITE.personDescription[locale],
+    url: `${SITE.domain}/`,
+    email: SITE.email,
     telephone: SITE.phone,
+    knowsAbout: [...SITE.stack, 'SEO', 'Core Web Vitals', 'Schema.org'],
     // A real photo on the Person node is what lets Google attach a face to the
     // author entity (E-E-A-T). Omitted entirely rather than pointing at a file
     // that does not exist yet.
     ...(hasPhoto ? { image: abs(PHOTO.schema) } : {}),
     knowsLanguage: ['fr-CA', 'en-CA'],
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: SITE.city,
-      addressRegion: SITE.region,
-      addressCountry: SITE.country,
-    },
     sameAs: Object.values(SITE.socials),
   };
 }
 
-/** WebSite node, language-aware. */
-export function webSiteSchema(locale: Locale) {
+/** WebSite node. One bilingual site, so one entity with both languages. */
+export function webSiteSchema(_locale?: Locale) {
   return {
     '@type': 'WebSite',
-    '@id': `${SITE.domain}/#website`,
-    url: SITE.domain,
+    '@id': WEBSITE_ID,
+    url: `${SITE.domain}/`,
     name: SITE.name,
-    inLanguage: locale === 'fr' ? 'fr-CA' : 'en-CA',
-    publisher: { '@id': `${SITE.domain}/#person` },
+    inLanguage: ['fr-CA', 'en-CA'],
+    publisher: { '@id': PERSON_ID },
   };
 }
 
-/** ProfessionalService — for home + services pages. */
+/** Technologies Habita inc. — the company behind Habita, founded by Patrick. */
+export function companySchema() {
+  return {
+    '@type': 'Organization',
+    '@id': COMPANY_ID,
+    name: SITE.company.name,
+    legalName: SITE.company.legalName,
+    url: SITE.company.url,
+    founder: { '@id': PERSON_ID },
+    brand: { '@type': 'Brand', name: 'Habita' },
+    ...(SITE.company.neq
+      ? { identifier: { '@type': 'PropertyValue', propertyID: 'NEQ', value: SITE.company.neq } }
+      : {}),
+  };
+}
+
+/** Nodes every page carries, so each @id reference resolves on the page itself. */
+export function siteNodes(locale: Locale) {
+  return [personSchema(locale), webSiteSchema(locale), companySchema()];
+}
+
+export const SERVICE_ID = `${SITE.domain}/#service`;
+
+/** ProfessionalService, in full on the home and contact pages only; every
+ *  other page refers to it by @id. */
 export function professionalServiceSchema(locale: Locale) {
   return {
     '@type': 'ProfessionalService',
-    '@id': `${SITE.domain}/#service`,
+    '@id': SERVICE_ID,
     name: SITE.name,
+    description: SITE.serviceDescription[locale],
     image: abs(SITE.ogImage),
-    url: SITE.domain,
-    email: `mailto:${SITE.email}`,
+    url: `${SITE.domain}/`,
+    email: SITE.email,
     telephone: SITE.phone,
-    priceRange: '$$',
-    founder: { '@id': `${SITE.domain}/#person` },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: reviewAggregate.ratingValue,
-      reviewCount: reviewAggregate.reviewCount,
-      bestRating: reviewAggregate.bestRating,
-      worstRating: reviewAggregate.worstRating,
-    },
-    review: temoignages.map((t) => ({
-      '@type': 'Review',
-      reviewRating: { '@type': 'Rating', ratingValue: t.rating, bestRating: 5, worstRating: 1 },
-      author: { '@type': 'Person', name: t.author },
-      reviewBody: t.text,
-      inLanguage: t.lang === 'fr' ? 'fr-CA' : 'en-CA',
-    })),
+    founder: { '@id': PERSON_ID },
+    provider: { '@id': PERSON_ID },
+    // No aggregateRating / review here: Google ignores self-serving review
+    // markup on a business's own pages and treats it as a spam signal. The
+    // reviews stay visible on the page, which is where they earn trust.
+    // No geo / priceRange either: this is a service-area business with no
+    // storefront, and both values were approximations.
     knowsLanguage: ['fr-CA', 'en-CA'],
-    areaServed: SITE.areaServed[locale].map((name) => ({ '@type': 'AdministrativeArea', name })),
+    areaServed: areaServed(locale),
     address: {
       '@type': 'PostalAddress',
-      addressLocality: SITE.city,
       addressRegion: SITE.region,
       addressCountry: SITE.country,
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: 45.6066,
-      longitude: -73.7124,
     },
     hasOfferCatalog: offerCatalog(locale),
     sameAs: Object.values(SITE.socials),
@@ -158,12 +179,13 @@ export function serviceSchema(opts: {
 }) {
   return {
     '@type': 'Service',
+    '@id': `${abs(opts.url)}#service`,
     name: opts.name,
     description: opts.description,
     serviceType: opts.serviceType,
     url: abs(opts.url),
-    provider: { '@id': `${SITE.domain}/#person` },
-    areaServed: SITE.areaServed[opts.locale].map((name) => ({ '@type': 'AdministrativeArea', name })),
+    provider: { '@id': PERSON_ID },
+    areaServed: areaServed(opts.locale),
     availableLanguage: ['fr-CA', 'en-CA'],
   };
 }
@@ -174,25 +196,25 @@ export function localServiceSchema(opts: {
   region: string;
   url: string;
   description: string;
-  geo: { lat: number; lng: number };
+  geo?: { lat: number; lng: number };
   nearby: string[];
   locale: Locale;
 }) {
   const tr = useTranslations(opts.locale);
   return {
     '@type': 'Service',
+    '@id': `${abs(opts.url)}#service`,
     name: `${tr.services.web.title} · ${opts.cityName}`,
     serviceType: tr.services.web.title,
     description: opts.description,
     url: abs(opts.url),
-    provider: { '@id': `${SITE.domain}/#person` },
+    provider: { '@id': PERSON_ID },
     availableLanguage: ['fr-CA', 'en-CA'],
     areaServed: [
       {
         '@type': 'City',
         name: opts.cityName,
         ...(opts.region ? { containedInPlace: { '@type': 'AdministrativeArea', name: opts.region } } : {}),
-        geo: { '@type': 'GeoCoordinates', latitude: opts.geo.lat, longitude: opts.geo.lng },
       },
       ...opts.nearby.map((name) => ({ '@type': 'Place', name })),
     ],
@@ -212,36 +234,61 @@ export function breadcrumbSchema(items: { name: string; url: string }[]) {
   };
 }
 
-/** FAQPage from [{ q, a }]. */
-export function faqSchema(faq: readonly { q: string; a: string }[]) {
-  return {
-    '@type': 'FAQPage',
-    mainEntity: faq.map((f) => ({
-      '@type': 'Question',
-      name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
-    })),
-  };
-}
+// No FAQPage: Google retired FAQ rich results in May 2026. The questions
+// stay visible on the pages, which is what readers and answer engines use.
 
-/** CreativeWork — for case studies. */
+/** CreativeWork — one per case study. The work is the delivered site or product. */
 export function creativeWorkSchema(opts: {
   name: string;
   description: string;
+  /** The case-study page. */
   url: string;
+  /** The live site or product the case study is about. */
+  workUrl?: string;
   image?: string;
   locale: Locale;
-  datePublished?: string;
+  client?: string;
+  year?: string;
+  keywords?: string[];
+  /** Set for Habita: the work is a product of Technologies Habita inc. */
+  product?: boolean;
 }) {
+  const page = abs(opts.url);
   return {
     '@type': 'CreativeWork',
+    '@id': `${page}#work`,
     name: opts.name,
     description: opts.description,
-    url: abs(opts.url),
+    url: page,
+    mainEntityOfPage: { '@id': `${page}#webpage` },
+    ...(opts.workUrl ? { sameAs: opts.workUrl } : {}),
     ...(opts.image ? { image: abs(opts.image) } : {}),
     inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
-    ...(opts.datePublished ? { datePublished: opts.datePublished } : {}),
-    creator: { '@id': `${SITE.domain}/#person` },
+    ...(opts.year ? { dateCreated: opts.year } : {}),
+    ...(opts.keywords?.length ? { keywords: opts.keywords.join(', ') } : {}),
+    creator: { '@id': PERSON_ID },
+    isPartOf: { '@id': WEBSITE_ID },
+    ...(opts.product
+      ? { about: { '@id': HABITA_APP_ID }, publisher: { '@id': COMPANY_ID } }
+      : opts.client
+        ? { sourceOrganization: { '@type': 'Organization', name: opts.client } }
+        : {}),
+  };
+}
+
+/** Habita as a software product, published by Technologies Habita inc. */
+export function habitaAppSchema(opts: { url: string; description: string; locale: Locale }) {
+  return {
+    '@type': 'SoftwareApplication',
+    '@id': HABITA_APP_ID,
+    name: 'Habita',
+    url: opts.url,
+    description: opts.description,
+    applicationCategory: 'BusinessApplication',
+    operatingSystem: 'Web',
+    inLanguage: ['fr-CA', 'en-CA'],
+    publisher: { '@id': COMPANY_ID },
+    creator: { '@id': PERSON_ID },
   };
 }
 
@@ -257,16 +304,34 @@ export function articleSchema(opts: {
 }) {
   return {
     '@type': 'BlogPosting',
+    '@id': `${abs(opts.url)}#article`,
     headline: opts.title,
     description: opts.description,
     url: abs(opts.url),
-    mainEntityOfPage: abs(opts.url),
+    mainEntityOfPage: { '@id': `${abs(opts.url)}#webpage` },
     ...(opts.image ? { image: abs(opts.image) } : {}),
     inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
     datePublished: opts.datePublished,
-    dateModified: opts.dateModified ?? opts.datePublished,
-    author: { '@id': `${SITE.domain}/#person` },
-    publisher: { '@id': `${SITE.domain}/#person` },
+    ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
+    author: { '@id': PERSON_ID },
+    publisher: { '@id': PERSON_ID },
+  };
+}
+
+/** The page itself: WebPage or a subtype (AboutPage, ContactPage,
+ *  CollectionPage), added by <SEO> on every indexable page. */
+export function webPageSchema(opts: { type: string; url: string; name: string; description: string; locale: Locale }) {
+  const page = abs(opts.url);
+  return {
+    '@type': opts.type,
+    '@id': `${page}#webpage`,
+    url: page,
+    name: opts.name,
+    description: opts.description,
+    inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
+    isPartOf: { '@id': WEBSITE_ID },
+    ...(opts.type === 'AboutPage' ? { mainEntity: { '@id': PERSON_ID } } : {}),
+    ...(opts.type === 'ContactPage' ? { mainEntity: { '@id': SERVICE_ID } } : {}),
   };
 }
 

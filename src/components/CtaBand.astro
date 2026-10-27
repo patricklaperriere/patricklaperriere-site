@@ -8,8 +8,10 @@ import { SITE } from '../config';
 
 interface Props {
   locale: Locale;
+  /** Address shown under the button. The About page passes the personal one. */
+  email?: string;
 }
-const { locale } = Astro.props;
+const { locale, email = SITE.email } = Astro.props;
 const tr = useTranslations(locale);
 ---
 
@@ -31,7 +33,7 @@ const tr = useTranslations(locale);
           <a href={`tel:${SITE.phone}`} class="link">{SITE.phoneDisplay}</a>
         </li>
         <li>
-          <a href={`mailto:${SITE.email}`} class="link">{SITE.email}</a>
+          <a href={`mailto:${email}`} class="link">{email}</a>
         </li>
       </ul>
     </div>

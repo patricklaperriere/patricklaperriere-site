@@ -1,0 +1,60 @@
+---
+// A straight 4:5 portrait slot, responsive AVIF/WebP with its dimensions,
+// lazy loaded. The frame is cropped to 4:5 whatever the source, so a new
+// photo can replace src/assets/photo/patrick-portrait.jpg without any edit.
+//
+// treatment:
+//   · 'none'     the photo as is, a thin border;
+//   · 'duotone'  plum duotone, in CSS only (blend modes over the theme's
+//                colours): no second image file;
+//   · 'dossier'  the inspection-file frame: thin border and a mono label.
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { PORTRAIT_WIDTHS } from '../lib/photo';
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  treatment?: 'none' | 'duotone' | 'dossier';
+  /** Label for the 'dossier' treatment. */
+  label?: string;
+  sizes?: string;
+  class?: string;
+  /** Above the fold (about page): load at once. */
+  eager?: boolean;
+}
+const { src, alt, treatment = 'none', label, sizes = '(min-width: 1024px) 300px, 60vw', class: cls, eager = false } = Astro.props;
+---
+
+<figure class:list={['portrait', `portrait--${treatment}`, cls]}>
+  {treatment === 'dossier' && label && <figcaption class="portrait__label annot">{label}</figcaption>}
+  <div class="portrait__img">
+    <Picture
+      src={src}
+      formats={['avif', 'webp']}
+      widths={PORTRAIT_WIDTHS}
+      sizes={sizes}
+      alt={alt}
+      width={720}
+      height={900}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
+      decoding="async"
+    />
+  </div>
+</figure>
+
+<style>
+  .portrait { margin: 0; border: 1px solid var(--line-strong); }
+  .portrait__img { aspect-ratio: 4 / 5; overflow: hidden; }
+  .portrait__img :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .portrait__label { margin: 0; padding: 6px var(--s1); border-bottom: 1px solid var(--line); font-size: 0.75rem; }
+  .portrait--dossier { background: var(--ink-sunken); padding: 0 0 var(--s1); }
+  .portrait--dossier .portrait__img { margin: var(--s1) var(--s1) 0; }
+  /* Duotone: the greyscale photo multiplied over pale mauve gives the
+     highlights; a layer of the ground, blended with "lighten", lifts the
+     shadows to aubergine. */
+  .portrait--duotone .portrait__img { position: relative; background: var(--mauve-hover); isolation: isolate; }
+  .portrait--duotone .portrait__img :global(img) { filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; }
+  .portrait--duotone .portrait__img::after { content: ""; position: absolute; inset: 0; background: var(--ink); mix-blend-mode: lighten; }
+</style>

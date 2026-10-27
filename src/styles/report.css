@@ -1,0 +1,347 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Report theme — "le rapport d'inspection". Scoped to html.theme-report (the
+   home page first; the other pages move over lot by lot).
+   ───────────────────────────────────────────────────────────────────────────
+   Colour: the aubergine of the Ubuntu terminal (#300A24) as the ground, with
+   two lighter derivatives for surfaces; plum (#77216F) as the one accent, for
+   buttons and the active layer's wash; signal yellow (#FFD23F) reserved for
+   annotations and active states (outlines, traces, focus). Plum is a fill
+   only: as a bare line on the ground it would fall under 3:1.
+
+   Type: Big Shoulders Display for titles (H1, H2, H3 in sentence case), Red
+   Hat Text for reading, Red Hat Mono for annotations, which alone are set in
+   capitals. Self-hosted woff2, real weights.
+
+   Every pairing below is checked by `npm run contrast` (scripts/
+   check-contrast.mjs), which reads this file.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Big Shoulders Display";
+  src: url("/fonts/big-shoulders-display.woff2") format("woff2");
+  font-weight: 500 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Red Hat Text";
+  src: url("/fonts/red-hat-text.woff2") format("woff2");
+  font-weight: 400 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Red Hat Text";
+  src: url("/fonts/red-hat-text-italic.woff2") format("woff2");
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Red Hat Mono";
+  src: url("/fonts/red-hat-mono.woff2") format("woff2");
+  font-weight: 400 500;
+  font-display: swap;
+}
+
+/* ---- Tokens ----------------------------------------------------------------
+   Contrast (WCAG 2.2), checked by scripts/check-contrast.mjs:
+     text on ink 15.4, on raised 13.8, on high 12.2, on plum 8.3
+     dim  on ink 10.5, on raised 9.4,  on high 8.3,  on plum 5.6
+     mute on ink 7.4,  on raised 6.6,  on high 5.8   (never on plum: 3.97)
+     signal on ink 12.2, on raised 10.9, on high 9.6, on plum 6.5
+     plan line on ink 4.8, on raised 4.3, on high 3.8  (graphics need 3:1)
+   The old token names (--bone, --slate, --vermilion…) are mapped onto these,
+   so the shared nav, footer and buttons follow without edits. */
+html.theme-report {
+  /* Ground and surfaces: Ubuntu aubergine and two lighter steps. */
+  --ink:          #300A24;
+  --ink-raised:   #3D1331;
+  --ink-high:     #4A1B3E;
+  --ink-sunken:   #26081D;
+
+  /* Type. */
+  --bone:         #F6EEF2;
+  --slate:        #D5C3CE;
+  --slate-mute:   #B9A2B1;
+
+  /* Accent: plum, a fill (active wash). On buttons it was too faint against
+     the ground (1.9:1), so they take a paler mauve that stands out from it
+     (3.1:1, the bar for a control) and keeps light text (5.0:1); on hover
+     they turn paler still, with dark text. */
+  --plum:         #77216F;
+  --plum-wash:    rgba(119, 33, 111, 0.55);
+  --mauve:        #A33E9A;
+  --mauve-hover:  #D08BC9;
+
+  /* Signal yellow: annotations and active states only. */
+  --signal:       #FFD23F;
+
+  /* Drawing lines on the ground. */
+  --plan-line:    #9E7B92;
+  --plan-grid:    rgba(246, 238, 242, 0.035);
+
+  --vermilion:      var(--mauve);
+  --vermilion-text: var(--signal);
+  --vermilion-deep: var(--mauve);
+  --accent:         var(--plum);
+  --accent-fg:      var(--signal);
+
+  --line:        rgba(246, 238, 242, 0.14);
+  --line-soft:   rgba(246, 238, 242, 0.08);
+  --line-strong: rgba(246, 238, 242, 0.3);
+  --btn-fill-bg: var(--mauve);
+  --btn-fill-fg: var(--bone);
+
+  --font-display: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --font-serif:   var(--font-display);
+  --font-sans:    "Red Hat Text", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono:    "Red Hat Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Declared on the root itself, not only on body: otherwise <html> keeps the
+     browser default (Times New Roman), which audits report as a serif
+     fallback. */
+  font-family: var(--font-sans);
+
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+
+  /* ---- Grid: 4 / 8 / 12 columns, one margin, one gutter ----------------- */
+  --cols:   4;
+  --gap:    16px;
+  --margin: 20px;
+  --maxw:   1320px;
+
+  /* ---- Vertical rhythm: an 8px base ---------------------------------------- */
+  --s1: 8px;
+  --s2: 16px;
+  --s3: 24px;
+  --s4: 32px;
+  --s5: 40px;
+  --s6: 48px;
+  --s8: 64px;
+  --s10: 80px;
+  --s12: 96px;
+  --s16: 128px;
+  /* Page rhythm, two steps only: --section above and below each section's
+     content (so two sections sit 2 × --section apart), --head between a
+     section's heading and what follows it. */
+  --section: var(--s5);
+  --head: var(--s4);
+}
+@media (min-width: 768px) {
+  html.theme-report { --cols: 8; --gap: 24px; --margin: 40px; --section: var(--s6); }
+}
+@media (min-width: 1024px) {
+  html.theme-report { --cols: 12; --gap: 24px; --margin: 56px; --section: var(--s8); --head: var(--s5); }
+}
+
+/* The content frame and its grid. */
+.theme-report .st-frame {
+  width: 100%;
+  max-width: calc(var(--maxw) + 2 * var(--margin));
+  margin-inline: auto;
+  padding-inline: var(--margin);
+}
+.theme-report .st-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+  column-gap: var(--gap);
+}
+
+/* ---- Base ------------------------------------------------------------------ */
+.theme-report body {
+  background-color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  font-synthesis: none;
+}
+.theme-report h1,
+.theme-report h2,
+.theme-report h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: 0;
+  /* Sentence case for every title level: capitals belong to annotations. */
+  text-transform: none;
+}
+
+/* Annotations: the inspector's marks. Mono, capitals, a little tracking, in
+   signal yellow unless a component says otherwise. The only capitals on the
+   page. */
+.theme-report .annot {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+/* Plan grid: a faint 24px drafting grid on the ground, two static gradients
+   (no image, nothing repainted on scroll). */
+.theme-report body {
+  background-image:
+    linear-gradient(var(--plan-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--plan-grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.theme-report ::selection { background: var(--signal); color: var(--ink); }
+.theme-report :focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 0; }
+.theme-report .grain { display: none; }
+
+/* ---- Links: one style for every link in the content ------------------------
+   Underlined, light; the rule and the text turn signal yellow on hover. */
+.theme-report main a:not(.btn) {
+  color: var(--bone);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color 0.2s ease, color 0.2s ease;
+}
+.theme-report main a:not(.btn):hover { text-decoration-color: var(--signal); color: var(--signal); }
+
+/* ---- Buttons: mauve filled, light text; paler with dark text on hover ------- */
+.theme-report .btn-primary,
+.theme-report .btn-accent {
+  background: var(--mauve);
+  border-color: var(--mauve);
+  color: var(--bone);
+  font-weight: 600;
+}
+.theme-report .btn-primary:hover,
+.theme-report .btn-accent:hover {
+  background: var(--mauve-hover);
+  border-color: var(--mauve-hover);
+  color: var(--ink);
+}
+.theme-report .btn-ghost { border-color: var(--line-strong); }
+
+/* ---- Shared chrome: nav and footer ----------------------------------------------
+   Their small labels use the mono face in capitals with wide tracking. Here
+   they take the text face, in sentence case. */
+.theme-report .nav,
+.theme-report .footer {
+  --font-mono: var(--font-sans);
+}
+.theme-report .nav *,
+.theme-report .footer * {
+  text-transform: none !important;
+  letter-spacing: 0 !important;
+}
+.theme-report .nav,
+.theme-report .nav.is-stuck {
+  background: var(--ink);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.theme-report .nav.is-stuck { border-bottom-color: var(--line); }
+.theme-report .nav__brand { font-family: var(--font-display); font-weight: 800; font-size: 1.375rem; }
+.theme-report .nav__brand-dot { color: var(--signal); }
+.theme-report .nav__mobile { background: var(--ink); }
+.theme-report .label {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--slate-mute);
+}
+.theme-report .label-rule::before { background: var(--line-strong); }
+
+/* Nav and footer share the page frame, so their edges line up with the
+   content's first and last columns. */
+.theme-report .nav .container-wide,
+.theme-report .footer .container-wide {
+  max-width: calc(var(--maxw) + 2 * var(--margin));
+  padding-inline: var(--margin);
+}
+/* The 22px icon is centred in a 44px tap target: pull the target out by half
+   the difference so the visible lines end on the frame. */
+.theme-report .nav__burger { margin-right: -11px; }
+
+/* ---- Compact footer -------------------------------------------------------------
+   The home page ends on its own contact section, so the footer's contact block
+   would repeat it; the link lists become wrapped rows. Under 400px tall on a
+   phone. Prefixed with html and .footer to outrank the component's own rules. */
+html.theme-report .footer .footer__top { display: none; }
+html.theme-report .footer { padding-block: var(--s5) var(--s3); }
+html.theme-report .footer .footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s2);
+  padding: 0;
+  border: 0;
+}
+html.theme-report .footer .footer__col { padding: 0; border: 0; }
+html.theme-report .footer .footer__title { font-family: var(--font-sans); font-size: 0.8125rem; line-height: 1.5; color: var(--slate-mute); margin: 0 0 4px; font-weight: 600; }
+html.theme-report .footer .footer__list { display: flex; flex-direction: row; flex-wrap: wrap; gap: 0 var(--s3); margin: 0; }
+html.theme-report .footer .footer__list li { margin: 0; }
+html.theme-report .footer .footer__link { font-size: 0.9375rem; line-height: 1.5; min-height: 44px; padding: 0; }
+html.theme-report .footer .footer__bottom { margin-top: var(--s3); padding-top: var(--s2); }
+html.theme-report .footer .footer__legal,
+html.theme-report .footer .footer__legal-link { font-size: 0.8125rem; line-height: 1.5; }
+html.theme-report .footer .footer__bottom { gap: 4px var(--s3); }
+html.theme-report .footer .footer__ext { margin-left: 0; }
+/* Phones: the column titles go to screen readers only (each list is still a
+   labelled nav landmark), and the groups sit 8px apart. */
+@media (max-width: 1023px) {
+  html.theme-report .footer { padding-block: var(--s4) var(--s3); }
+  html.theme-report .footer .footer__grid { gap: var(--s1); }
+  html.theme-report .footer .footer__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+  html.theme-report .footer .footer__bottom { margin-top: var(--s2); }
+  html.theme-report .footer .footer__legal,
+  html.theme-report .footer .footer__legal-link { font-size: 0.75rem; }
+  html.theme-report .footer .footer__made { display: none; }
+}
+@media (min-width: 1024px) {
+  html.theme-report .footer .footer__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); }
+  html.theme-report .footer .footer__list { display: block; }
+}
+
+/* Lenis (home only) takes over wheel scrolling while it runs. */
+html.theme-report.lenis,
+html.theme-report.lenis body { height: auto; }
+.theme-report.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.theme-report.lenis.lenis-stopped { overflow: hidden; }
+
+/* Smallest phones: tighter link spacing keeps more links per row. */
+@media (max-width: 400px) {
+  html.theme-report .footer { padding-top: var(--s3); }
+  html.theme-report .footer .footer__list { column-gap: var(--s2); }
+}
+
+/* ---- Inner pages -------------------------------------------------------------
+   The older inner-page templates flip a section to PAPER (bone). The report
+   has one ground: a "paper" section becomes the raised aubergine, so the
+   rhythm survives without breaking the palette. */
+.theme-report [data-surface="paper"],
+.theme-report [data-surface="ink"] {
+  --bg:         var(--ink-raised);
+  --bg-raised:  var(--ink-high);
+  --bg-sunken:  var(--ink-sunken);
+  --fg:         var(--bone);
+  --fg-dim:     var(--slate);
+  --fg-mute:    var(--slate-mute);
+  --accent-fg:  var(--signal);
+  --accent:     var(--plum);
+  --line:        rgba(246, 238, 242, 0.14);
+  --line-soft:   rgba(246, 238, 242, 0.08);
+  --line-strong: rgba(246, 238, 242, 0.3);
+  --btn-fill-bg: var(--mauve);
+  --btn-fill-fg: var(--bone);
+  color-scheme: dark;
+}
+.theme-report [data-surface="ink"] { --bg: var(--ink); }
+
+/* Form fields: the same signal ring as every other control (the older
+   contact styles removed the outline and relied on a border tint only). */
+.theme-report :is(input, select, textarea):focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}

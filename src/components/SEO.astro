@@ -1,6 +1,7 @@
 ---
 import { SITE } from '../config';
 import type { Locale } from '../i18n/routes';
+import { graph, siteNodes, webPageSchema } from '../lib/schema';
 
 interface Props {
   title: string;
@@ -14,6 +15,8 @@ interface Props {
   ogType?: 'website' | 'article' | 'profile';
   schema?: object | null;
   noindex?: boolean;
+  /** schema.org type of the page node: WebPage, AboutPage, ContactPage, CollectionPage. */
+  pageType?: string;
 }
 
 const {
@@ -26,6 +29,7 @@ const {
   ogType = 'website',
   schema = null,
   noindex = false,
+  pageType = 'WebPage',
 } = Astro.props;
 
 const abs = (p: string) => (p.startsWith('http') ? p : SITE.domain + p);
@@ -41,11 +45,30 @@ const frUrl = abs(norm(alternates.fr));
 const enUrl = abs(norm(alternates.en));
 const ogLocale = locale === 'fr' ? 'fr_CA' : 'en_CA';
 const altLocale = locale === 'fr' ? 'en_CA' : 'fr_CA';
+
+// JSON-LD: every page carries the site-wide entities (Person, WebSite,
+// Technologies Habita inc.) so each `@id` reference resolves on the page that
+// makes it. A page's own nodes win when they share an @id (e.g. the richer
+// Person on the about page). Noindex pages get no structured data at all.
+type Node = { '@id'?: string } & Record<string, unknown>;
+const own: Node[] = !schema
+  ? []
+  : '@graph' in (schema as Record<string, unknown>)
+    ? ((schema as { '@graph': Node[] })['@graph'])
+    : [schema as Node];
+const ownIds = new Set(own.map((n) => n['@id']).filter(Boolean));
+const jsonLd = noindex
+  ? null
+  : graph([
+      ...siteNodes(locale).filter((n) => !ownIds.has(n['@id'])),
+      webPageSchema({ type: pageType, url: canonicalPath, name: title, description, locale }),
+      ...own,
+    ]);
 ---
 
 <title>{title}</title>
 <meta name="description" content={description} />
-<link rel="canonical" href={canonical} />
+{!noindex && <link rel="canonical" href={canonical} />}
 
 {noindex
   ? <meta name="robots" content="noindex,nofollow" />
@@ -54,10 +77,14 @@ const altLocale = locale === 'fr' ? 'en_CA' : 'fr_CA';
 <meta name="author" content={SITE.name} />
 {SITE.gscVerification && <meta name="google-site-verification" content={SITE.gscVerification} />}
 
-{/* hreflang — every page links its FR/EN equivalents + x-default */}
-<link rel="alternate" hreflang="fr-CA" href={frUrl} />
-<link rel="alternate" hreflang="en-CA" href={enUrl} />
-<link rel="alternate" hreflang="x-default" href={frUrl} />
+{/* hreflang — every indexable page links its FR/EN equivalents + x-default */}
+{!noindex && (
+  <>
+    <link rel="alternate" hreflang="fr-CA" href={frUrl} />
+    <link rel="alternate" hreflang="en-CA" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={frUrl} />
+  </>
+)}
 
 {/* Open Graph */}
 <meta property="og:type" content={ogType} />
@@ -83,8 +110,8 @@ const altLocale = locale === 'fr' ? 'en_CA' : 'fr_CA';
 <link
   rel="alternate"
   type="application/rss+xml"
-  title={`Patrick Laperrière — ${locale === 'fr' ? 'Blogue' : 'Blog'}`}
+  title={`Patrick Laperrière · ${locale === 'fr' ? 'Blogue' : 'Blog'}`}
   href={locale === 'fr' ? '/rss.xml' : '/en/rss.xml'}
 />
 
-{schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+{jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}

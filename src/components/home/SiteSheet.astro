@@ -1,0 +1,106 @@
+---
+// The site's own inspection sheet, in the hero. Every number comes from
+// src/data/site-metrics.json, written by `npm run measure` (scripts/
+// measure-site.mjs): Lighthouse, mobile profile, median of several valid
+// runs. Nothing is typed by hand (the build checks the file's fingerprint).
+// The sheet says where the numbers come from: the live site (`npm run
+// measure -- --prod`) or a local build. Without a measurement, it says so.
+//
+// Status: "Conforme" when the page meets Google's "good" thresholds (score 90
+// or more, LCP 2.5 s or less, CLS 0.1 or less), "À corriger" otherwise.
+import metrics from '../../data/site-metrics.json';
+import type { Locale } from '../../i18n/routes';
+import { homeCopy } from '../../i18n/home';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const t = homeCopy[locale].sheet;
+const lang = locale === 'fr' ? 'fr-CA' : 'en-CA';
+
+type PageMetrics = { performance: number; lcpMs: number; cls: number; transferBytes: number };
+const page = (metrics.pages as Record<string, PageMetrics>)[locale === 'fr' ? '/' : '/en'];
+
+const num = (n: number, digits = 0) =>
+  new Intl.NumberFormat(lang, { minimumFractionDigits: digits, maximumFractionDigits: digits }).format(n);
+const date = metrics.measuredAt
+  ? new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(metrics.measuredAt))
+  : null;
+
+const pass = page ? page.performance >= 90 && page.lcpMs <= 2500 && page.cls <= 0.1 : false;
+const rows = page
+  ? [
+      { k: t.performance, v: `${page.performance} / 100` },
+      { k: t.lcp, v: `${num(page.lcpMs / 1000, 1)} s` },
+      { k: t.cls, v: num(page.cls, page.cls ? 2 : 0) },
+      { k: t.weight, v: `${num(page.transferBytes / 1024)} ${t.kb}` },
+    ]
+  : [];
+---
+
+<aside class="sheet" aria-labelledby="sheet-title">
+  <p class="sheet__ref annot">{t.ref}</p>
+  <h2 id="sheet-title" class="sheet__title">{t.title}</h2>
+  {page ? (
+    <>
+      <dl class="sheet__rows">
+        {rows.map((r) => (
+          <div>
+            <dt>{r.k}</dt>
+            <dd>{r.v}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="sheet__status">
+        <span class="annot sheet__status-k">{t.status}</span>
+        <strong class:list={['sheet__stamp', !pass && 'sheet__stamp--fix']}>{pass ? t.pass : t.fix}</strong>
+      </p>
+      <p class="sheet__meta">{t.measured(date ?? '', metrics.tool ?? '', (metrics as { source?: string }).source === 'production')}</p>
+    </>
+  ) : (
+    <p class="sheet__meta">{t.notMeasured}</p>
+  )}
+</aside>
+
+<style>
+  .sheet {
+    border: 1px solid var(--line-strong);
+    background: var(--ink-raised);
+    padding: var(--s3);
+  }
+  .sheet__ref { margin: 0 0 var(--s1); }
+  .sheet__title { font-size: 1.5rem; line-height: 1.1; margin: 0 0 var(--s2); }
+  .sheet__rows { margin: 0; border-top: 1px solid var(--line); }
+  .sheet__rows div {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s2);
+    padding-block: var(--s1);
+    border-bottom: 1px solid var(--line);
+  }
+  .sheet__rows dt { color: var(--slate); font-size: 0.9375rem; }
+  .sheet__rows dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+    color: var(--bone);
+    white-space: nowrap;
+  }
+  .sheet__status { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); margin: var(--s2) 0 var(--s1); }
+  /* The stamp: a signal-yellow box, set like an inspector's rubber stamp. */
+  .sheet__stamp {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 0.875rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--signal);
+    border: 2px solid var(--signal);
+    padding: 2px var(--s1);
+    transform: rotate(-3deg);
+  }
+  .sheet__meta { color: var(--slate-mute); font-size: 0.8125rem; line-height: 1.5; margin: 0; }
+</style>

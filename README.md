@@ -3,16 +3,21 @@
 Bilingual (FR-CA / EN-CA) marketing site for **Patrick Laperrière**, freelance web
 developer serving Québec, Canada and the United States.
 
-> **Positioning rule — do not undo this.** The site is deliberately *not*
-> positioned as local-to-Laval. "Laval" may appear in exactly two places:
-> the `/creation-site-web/laval` + `/en/web-design/laval` city pages, and the
-> `LocalBusiness` structured data (`SITE.city` for address/geo, and
-> `SITE.areaServed`, which tells Google where I operate). Anywhere else —
-> titles, meta descriptions, H1s, the footer, other city pages, the concepts
-> mockups — the scope is **Québec / Canada / United States**. No city page may
-> name a city other than its own (regional designations such as "Rive-Sud de
+> **Positioning rule — do not undo this.** The site names no home town: the
+> scope is **Québec / Canada / United States** everywhere, structured data
+> included (no `addressLocality`). The former Laval city pages are removed and
+> 308-redirected to the regions hub (`vercel.json`). A client's own territory
+> in a case study is fine (Bâti-Conseil serves Laval). No city page may name a
+> city other than its own (regional designations such as "Rive-Sud de
 > Montréal" are fine). When generating copy from this README, carry that rule
 > forward.
+>
+> **Email.** Public address: `info@patricklaperriere.com` (contact page,
+> footer, JSON-LD). The About page alone shows `pl@patricklaperriere.com`. The
+> contact form posts to Web3Forms, which forwards to the inbox configured in
+> that account; no personal address is printed anywhere. **Before launch,
+> configure mail routing for the domain** so both addresses actually receive
+> mail.
 
 Built SEO-first: static HTML at first paint, animations layered on top as
 progressive enhancement. Targets Lighthouse 100 across the board.
@@ -29,7 +34,7 @@ progressive enhancement. Targets Lighthouse 100 across the board.
 | Fonts | Self-hosted (Bricolage Grotesque, Instrument Serif, JetBrains Mono) in `public/fonts/` |
 | Animation | CSS only; one IntersectionObserver for scroll reveals. No animation library |
 | Sitemap | `@astrojs/sitemap` with i18n alternates |
-| Hosting | **Cloudflare Pages** (static `dist/`) |
+| Hosting | **Vercel** (static `dist/`), DNS proxied by Cloudflare |
 
 > **Note on styling:** Tailwind was removed during the 2026 redesign. It was
 > shipping Preflight plus ~180 unused custom properties on the universal
@@ -58,6 +63,9 @@ npm install        # install dependencies
 npm run dev        # local dev server (http://localhost:4321)
 npm run build      # production build → dist/
 npm run preview    # preview the built site locally
+npm run contrast   # WCAG AA check of the report theme's colour pairings
+npm run measure    # Lighthouse (mobile, median of 3 valid runs) on / and /en → src/data/site-metrics.json
+                   # needs Chrome/Chromium; set CHROME_PATH if chrome-launcher cannot find it
 ```
 
 ---
@@ -69,7 +77,8 @@ public/
   fonts/                 self-hosted woff2
   og/default.png         default Open Graph image
   signature/             standalone "Design by" snippet for client sites
-  robots.txt  _headers
+  robots.txt
+vercel.json              security + cache headers, trailing-slash redirect
 src/
   config.ts              site identity, email, socials, Web3Forms key
   i18n/
@@ -78,7 +87,8 @@ src/
     index.ts             useTranslations() helper
   lib/schema.ts          JSON-LD builders (Person, WebSite, ProfessionalService,
                          BreadcrumbList, FAQPage, CreativeWork)
-  data/projets.ts        portfolio data (bilingual), drives case-study pages
+  content/projets/*.md   portfolio, one Markdown file per project
+  data/projets.ts        loads the projets collection for components
   components/            SEO, Nav, Footer, Hero, cards, SignaturePL, …
     pages/               per-page content components (kept DRY across FR/EN)
   layouts/Layout.astro   <html>, <head>, SEO, atmosphere, nav, footer
@@ -99,10 +109,14 @@ copy. Edit those two files and both languages stay in sync structurally.
 
 ### Adding a portfolio project
 
-Add an entry to `src/data/projets.ts` (each field has `fr` + `en`). A case-study
-page is generated automatically at `/realisations/<slug>` and `/en/work/<slug>`.
-Drop a screenshot at `public/work/<slug>.webp` (1280×800) — it appears on the
-card and the case-study hero.
+Add one Markdown file to `src/content/projets/` (see the README in that folder
+for every field). The file name is the slug: a case-study page is generated at
+`/realisations/<slug>` and `/en/work/<slug>`. Drop a screenshot at the path given
+in `image` (1280×800 WebP) and run `npm run og` for its share image.
+
+`publié: false` keeps a project as a draft: it shows (flagged) under `npm run dev`
+and is absent from every build. The build fails if a published project still
+contains an `À CONFIRMER` placeholder.
 
 ### Adding a blog article
 
@@ -134,16 +148,35 @@ frontmatter: `title`, `description`, `lang` (`fr`|`en`), `slug`, `translationKey
 
 ---
 
+## The home page's inspection sheet
+
+The hero shows a sheet with this site's own numbers: mobile performance
+score, LCP, CLS and bytes transferred. They come only from
+`src/data/site-metrics.json`, written by `npm run measure`
+(`scripts/measure-site.mjs`): build, serve `dist/`, Lighthouse 12.8.2 mobile
+until 3 valid runs per page, median kept. A run is rejected when headless
+Chrome stalls (no score, or Speed Index over 10 s). The status reads
+"Conforme" when the page meets Google's "good" thresholds (score 90+, LCP
+2.5 s or less, CLS 0.1 or less).
+
+Every build compares the built pages with the sizes recorded at measurement
+time and warns (`[site-metrics-freshness]`) when one has moved by more than
+10%: re-run `npm run measure` and commit the JSON. Vercel cannot run
+Lighthouse during its build, so measuring is a local step.
+
 ## SEO
 
 - One `<SEO>` component (`src/components/SEO.astro`) renders title, description,
   canonical, hreflang (FR/EN/x-default), Open Graph, Twitter cards, and JSON-LD.
 - Each page passes `alternates={{ fr, en }}` so language links + hreflang always
   point at the *equivalent* page, never the home.
-- JSON-LD: `Person` + `WebSite` site-wide; `ProfessionalService` on home/services/
-  contact; `BreadcrumbList` on inner pages; `FAQPage` on service pages;
-  `CreativeWork` on case studies.
-- `robots.txt` → `sitemap-index.xml` (generated by `@astrojs/sitemap`).
+- JSON-LD: `Person`, `WebSite` and `Organization` (Technologies Habita inc.) on every
+  page, injected by `<SEO>`; `ProfessionalService` on home/services/contact (no
+  self-serving `aggregateRating`); `BreadcrumbList` on inner pages; `FAQPage` on
+  service pages; `CreativeWork` per case study (+ `SoftwareApplication` for Habita).
+- `robots.txt` → `sitemap-index.xml` (generated by `@astrojs/sitemap`; hreflang pairs and
+  `lastmod` are read from each built page's own `<head>`, see `astro.config.mjs`).
+- `/llms.txt` is generated at build time from the projects, services and posts (`src/pages/llms.txt.js`).
 - RSS feeds per language (`/rss.xml`, `/en/rss.xml`) via `@astrojs/rss`, linked in `<head>` + footer.
 - Per-page OG images (default, per service, per project, per article) via `npm run og`.
 - Structured data also includes `OfferCatalog`, `Service`, `ItemList`, `Blog`, `BlogPosting`, and `GeoCoordinates`.
@@ -180,40 +213,24 @@ every language, never translated. The link is intentionally **dofollow**.
 
 ---
 
-## Deployment — Cloudflare Pages
+## Deployment — Vercel
 
-### Option A — Git integration (recommended)
+The Vercel project builds `main` on every push (production) and every other
+branch as a preview deployment. Build command `npm run build`, output `dist`.
 
-1. Push this repo to GitHub.
-2. Cloudflare dashboard → **Workers & Pages → Create → Pages → Connect to Git**.
-3. Build settings:
-   - **Framework preset:** Astro
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
-   - **Node version:** 20 or later (set env var `NODE_VERSION=20` if needed)
-4. Add your custom domain `patricklaperriere.com` under **Custom domains**
-   (Cloudflare will set the DNS records).
+`vercel.json` carries the security headers, the cache rules (`/_astro` and
+`/fonts` immutable, images one week) and `trailingSlash: false`, which 308s
+`/foo/` to the canonical `/foo`.
 
-Every push to `main` triggers a build and deploy. `public/_headers` is applied
-automatically (long-cache for assets/fonts, security headers).
+Two settings live in the dashboards, not in the repo:
 
-### Option B — Direct upload via Wrangler CLI
+- **Vercel → Domains:** the apex `patricklaperriere.com` should redirect to
+  `www` with a **308** (permanent), not the default 307.
+- **Cloudflare:** "Block AI bots" returns 403 to ClaudeBot, CCBot and others
+  even though `robots.txt` allows them; Email Address Obfuscation rewrites
+  every `mailto:` link and injects a script. Turn either off if unwanted.
 
-```bash
-npm install -g wrangler        # or: npm i -D wrangler
-wrangler login
-npm run build
-wrangler pages deploy dist --project-name=patricklaperriere
-```
-
-### Migrating off Vercel
-
-The previous site was on Vercel. After the Cloudflare Pages project serves the
-build correctly on its `*.pages.dev` URL, move the `patricklaperriere.com`
-custom domain to Cloudflare Pages and remove the Vercel domain assignment so
-DNS points at one place only.
-
----
+`wrangler.jsonc` is left from an earlier Cloudflare setup and is not used by Vercel.
 
 ## Accessibility & performance notes
 

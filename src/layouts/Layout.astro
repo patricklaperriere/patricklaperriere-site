@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/report.css';
 import SEO from '../components/SEO.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -18,6 +19,11 @@ interface Props {
   ogType?: 'website' | 'article' | 'profile';
   schema?: object | null;
   noindex?: boolean;
+  /** schema.org page type, passed to <SEO>. */
+  pageType?: string;
+  /** Visual theme. `report` ("le rapport d'inspection") is the site's
+   *  direction, on every page (styles in src/styles/report.css). */
+  theme?: 'report';
 }
 
 const {
@@ -30,6 +36,8 @@ const {
   ogType,
   schema = null,
   noindex = false,
+  pageType,
+  theme = 'report',
 } = Astro.props;
 
 const tr = useTranslations(locale);
@@ -38,15 +46,15 @@ const altPath = alternates[otherLocale(locale)];
 
 // Monogram favicon, used only when no portrait is available.
 const favicon =
-  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%230a0a0c'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23d4543a' letter-spacing='-2'%3EPL%3C/text%3E%3C/svg%3E";
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23300A24'/%3E%3Ctext x='32' y='43' text-anchor='middle' font-family='Georgia,serif' font-size='32' font-weight='700' fill='%23FFD23F' letter-spacing='-2'%3EPL%3C/text%3E%3C/svg%3E";
 ---
 
 <!doctype html>
-<html lang={htmlLang}>
+<html lang={htmlLang} class:list={[theme && `theme-${theme}`]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0a0a0c" />
+    <meta name="theme-color" content="#300A24" />
 
     {/* Marks the document as scripted BEFORE first paint. Scroll-reveal start
         states are scoped to `.js`, so without this one line the page would
@@ -68,14 +76,15 @@ const favicon =
       <link rel="icon" type="image/svg+xml" href={favicon} />
     )}
 
-    {/* Preload the display font used by the hero (LCP) */}
-    <link
-      rel="preload"
-      href="/fonts/bricolage-grotesque.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+    {/* Preload the faces the first screen paints with. */}
+    {theme === 'report' ? (
+      <>
+        <link rel="preload" href="/fonts/big-shoulders-display.woff2" as="font" type="font/woff2" crossorigin />
+        <link rel="preload" href="/fonts/red-hat-text.woff2" as="font" type="font/woff2" crossorigin />
+      </>
+    ) : (
+      <link rel="preload" href="/fonts/bricolage-grotesque.woff2" as="font" type="font/woff2" crossorigin />
+    )}
 
     <SEO
       title={title}
@@ -87,6 +96,7 @@ const favicon =
       ogType={ogType}
       schema={schema}
       noindex={noindex}
+      pageType={pageType}
     />
   </head>
   <body>

@@ -3,7 +3,7 @@ import { useTranslations, path } from '../i18n';
 import type { Locale } from '../i18n/routes';
 import { SITE, SOCIAL_LIST } from '../config';
 import { villesHubPath } from '../data/villes';
-import SignaturePL from './SignaturePL.astro';
+import ExternalIcon from './ExternalIcon.astro';
 
 interface Props {
   locale: Locale;
@@ -25,6 +25,7 @@ const serviceLinks = [
   { href: path('svcWeb', locale), label: tr.services.web.title },
   { href: path('svcSeo', locale), label: tr.services.seo.title },
   { href: path('svcShopify', locale), label: tr.services.shopify.title },
+  { href: path('svcTools', locale), label: tr.services.tools.title },
   { href: villesHubPath(locale), label: tr.regions.citiesTitle },
 ];
 ---
@@ -67,7 +68,7 @@ const serviceLinks = [
             <li>
               <a href={s.url} class="footer__link" target="_blank" rel="me noopener">
                 {s.label}
-                <span class="footer__ext" aria-hidden="true">↗</span>
+                <ExternalIcon class="footer__ext" />
               </a>
             </li>
           ))}
@@ -76,16 +77,12 @@ const serviceLinks = [
           </li>
         </ul>
       </div>
-
-      <div class="footer__col footer__col--sign">
-        <SignaturePL variant="card" />
-      </div>
     </div>
 
     <div class="footer__bottom">
       <p class="footer__legal">
         © {year} Patrick Laperrière. {tr.footer.rights}
-        <span class="footer__sep" aria-hidden="true">·</span> {tr.footer.madeIn}
+        <span class="footer__made"><span class="footer__sep" aria-hidden="true">·</span> {tr.footer.madeIn}</span>
       </p>
       <a href={path('privacy', locale)} class="footer__legal-link">{tr.footer.privacy}</a>
     </div>
@@ -112,7 +109,7 @@ const serviceLinks = [
   .footer__mail {
     display: inline-flex;
     align-items: center;
-    min-height: 32px;
+    min-height: 44px;
     font-family: var(--font-display);
     font-size: clamp(1.35rem, 3.6vw, 2.6rem);
     font-weight: var(--fw-thin);
@@ -128,7 +125,7 @@ const serviceLinks = [
     font-size: var(--fs-sm);
     letter-spacing: 0.04em;
     color: var(--fg-dim);
-    min-height: 32px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     transition: color var(--t-fast) var(--ease);
@@ -144,7 +141,7 @@ const serviceLinks = [
   /* ---- Columns ----------------------------------------------------------- */
   .footer__grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(1.75rem, 4vw, 3rem);
     padding-block: clamp(2rem, 4vw, 3rem);
     border-top: 1px solid var(--line);
@@ -167,19 +164,13 @@ const serviceLinks = [
     display: inline-flex;
     align-items: center;
     gap: 0.4rem;
-    min-height: 32px;
+    min-height: 44px;
     font-size: var(--fs-sm);
     color: var(--fg-dim);
     transition: color var(--t-fast) var(--ease);
   }
   .footer__link:hover { color: var(--fg); }
-  .footer__ext { font-size: 0.7em; opacity: 0.6; }
-
-  .footer__col--sign {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-end;
-  }
+  .footer__ext { opacity: 0.7; }
 
   /* ---- Legal ------------------------------------------------------------- */
   .footer__bottom {
@@ -200,7 +191,7 @@ const serviceLinks = [
     margin: 0;
   }
   .footer__legal-link {
-    min-height: 32px;
+    min-height: 44px;
     display: inline-flex;
     align-items: center;
     transition: color var(--t-fast) var(--ease);
@@ -210,10 +201,6 @@ const serviceLinks = [
 
   @media (max-width: 860px) {
     .footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .footer__col--sign {
-      grid-column: 1 / -1;
-      justify-content: flex-start;
-    }
   }
   @media (max-width: 460px) {
     .footer__grid { grid-template-columns: 1fr; }

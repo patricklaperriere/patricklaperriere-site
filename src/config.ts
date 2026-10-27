@@ -4,14 +4,21 @@ export const SITE = {
   domain: 'https://www.patricklaperriere.com',
   name: 'Patrick Laperrière',
   jobTitle: {
-    fr: 'Développeur web',
-    en: 'Web Developer',
+    fr: 'Développeur web et concepteur de produits',
+    en: 'Web developer and product builder',
   },
-  email: 'patricklaperriere819@gmail.com',
+  personDescription: {
+    fr: 'Développeur web au Québec, fondateur de Technologies Habita inc. Sites, boutiques Shopify et outils web sur mesure pour les PME, en français et en anglais.',
+    en: 'Web developer in Quebec, founder of Technologies Habita inc. Websites, Shopify stores and custom web tools for small businesses, in English and French.',
+  },
+  // Public address everywhere (contact page, footer, JSON-LD). The About page
+  // alone shows the personal one. Both need the domain's mail routing set up
+  // before launch (see README).
+  email: 'info@patricklaperriere.com',
+  emailPersonal: 'pl@patricklaperriere.com',
   // Phone — E.164 for tel: links + schema; display for the UI.
   phone: '+18193283101',
   phoneDisplay: '819 328-3101',
-  city: 'Laval',
   region: 'QC',
   regionName: 'Québec',
   country: 'CA',
@@ -25,19 +32,29 @@ export const SITE = {
   // widest-relevant first: Schema.org ignores the order, but humans and LLMs
   // reading the JSON-LD take the first entry as the headline market.
   areaServed: {
-    fr: ['Grand Montréal', 'Laval', 'Québec', 'Canada', 'États-Unis'],
-    en: ['Greater Montreal', 'Laval', 'Quebec', 'Canada', 'United States'],
+    fr: ['Québec', 'Canada', 'États-Unis'],
+    en: ['Quebec', 'Canada', 'United States'],
+  },
+  // The company behind Habita. Patrick is its founder; it appears in the
+  // Organization JSON-LD on every page and in the about page copy.
+  company: {
+    name: 'Technologies Habita inc.',
+    legalName: 'Technologies Habita inc.',
+    url: 'https://habita.expert',
+    // Québec enterprise number. Left null until Patrick supplies it: an
+    // identifier is a factual claim, never a guess.
+    neq: null as string | null,
+  },
+  // Technologies, for Person.knowsAbout and the stack list on the site. One
+  // list, tools only (no "SEO" or "Performance": those are outcomes, not tools).
+  // Only tools that appear in the work shown on the site (October 2026).
+  stack: ['Astro', 'React', 'TypeScript', 'Supabase', 'Shopify', 'Liquid', 'Vercel'],
+  serviceDescription: {
+    fr: 'Conception et développement de sites web sur mesure, de boutiques Shopify et d’outils web sur mesure, en français et en anglais.',
+    en: 'Design and development of custom websites, Shopify stores and custom web tools, in English and French.',
   },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',
-  // ─── TODO_PHOTO ──────────────────────────────────────────────────────────
-  // Personal portrait. Drop the source at `photo-src/patrick.jpg` (any size,
-  // square or portrait) and run `npm run photo` — it writes every derivative
-  // into /public/photo/. Then flip this to true.
-  //
-  // It gates ALL placements at once (about page, article byline, Person
-  // schema, favicons), so nothing can ship a broken image reference.
-  hasPhoto: true,
   // Google Search Console verification (carried over from previous site)
   gscVerification: 'UiVkelv495WDclhAQzL8v8Jv3RhTd4HcNOHdte8VxmU',
   // Contact form endpoint — Web3Forms (see README)
