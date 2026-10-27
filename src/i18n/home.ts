@@ -112,7 +112,10 @@ const fr = {
           { file: 'beauregard-avant.png', label: 'Avant · Wix', alt: 'L’ancien site d’Inspection BeauRegard, sur Wix' },
           { file: 'beauregard-apres.png', label: 'Après · Astro', alt: 'Le nouveau site d’Inspection BeauRegard, en Astro' },
         ],
-        links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
+        links: [
+          { href: 'case', label: 'L’étude de cas' },
+          { href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true },
+        ],
       },
     ] as WorkItem[],
   },
@@ -124,7 +127,6 @@ const fr = {
     ],
     proofs: {
       stack: 'Outils',
-      stackValue: 'Astro, React, Supabase, Vercel',
       languages: 'Langues',
       languagesValue: 'Français et anglais',
     },
@@ -219,7 +221,10 @@ const en: HomeCopy = {
           { file: 'beauregard-avant.png', label: 'Before · Wix', alt: 'The former Inspection BeauRegard site, on Wix' },
           { file: 'beauregard-apres.png', label: 'After · Astro', alt: 'The new Inspection BeauRegard site, in Astro' },
         ],
-        links: [{ href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true }],
+        links: [
+          { href: 'case', label: 'The case study' },
+          { href: 'https://www.inspectionbeauregard.com', label: 'inspectionbeauregard.com', external: true },
+        ],
       },
     ],
   },
@@ -231,7 +236,6 @@ const en: HomeCopy = {
     ],
     proofs: {
       stack: 'Tools',
-      stackValue: 'Astro, React, Supabase, Vercel',
       languages: 'Languages',
       languagesValue: 'French and English',
     },

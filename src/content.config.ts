@@ -37,7 +37,8 @@ const projets = defineCollection({
     description: z.object({ fr: z.string().max(160), en: z.string().max(160) }),
     client: z.string(),
     rôle: bilingue,
-    stack: z.array(z.string()).min(1),
+    /** Tools or key points; a point that needs translating is { fr, en }. */
+    stack: z.array(z.union([z.string(), bilingue])).min(1),
     défi: bilingue,
     réalisation: bilingue,
     résultat: bilingue,
@@ -51,9 +52,14 @@ const projets = defineCollection({
         fonction: bilingue,
       })
       .optional(),
+    /** Live URL. Empty while the site is not online yet. */
     lien: z.string(),
-    /** Screenshot under public/, 1280×800 WebP. */
+    /** False while the site is built but not online yet (shown as such). */
+    enLigne: z.boolean().default(true),
+    /** Screenshot under public/, 1280×800 WebP. Empty: no capture yet, no frame. */
     image: z.string(),
+    /** Facts still missing, shown as [À FOURNIR : …] in `astro dev` only. */
+    aFournir: z.array(z.string()).default([]),
     ordre: z.number().int(),
     publié: z.boolean().default(false),
     année: z.string(),

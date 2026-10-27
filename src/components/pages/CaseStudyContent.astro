@@ -10,12 +10,14 @@ import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
 import { workBase } from '../../i18n/routes';
 import type { Project } from '../../data/projets';
-import { loc, sortedProjects } from '../../data/projets';
+import { loc, sortedProjects, stackLabel } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import LighthouseScores from '../LighthouseScores.astro';
 import ExternalIcon from '../ExternalIcon.astro';
 import { lighthouse } from '../../data/lighthouse';
+import { temoignages } from '../../data/temoignages';
+import Todo from '../Todo.astro';
 
 interface Props {
   locale: Locale;
@@ -38,11 +40,7 @@ const others = all.filter((p) => p.slug !== project.slug && p.slug !== next.slug
 const shot = project.image;
 const contain = project.fit === 'contain';
 const isHabita = project.slug === 'habita';
-const shotAlt = isHabita
-  ? tr.habitaSpotlight.shotAlt
-  : locale === 'fr'
-    ? `Capture d’écran du site ${loc(project.title, locale)}`
-    : `Screenshot of the ${loc(project.title, locale)} website`;
+const shotAlt = isHabita ? ws.habitaAlt : ws.shotAlt(loc(project.title, locale));
 
 
 const crumbs = [
@@ -57,12 +55,18 @@ const blocks = [
   ...(project.field ? [{ label: ws.field, body: loc(project.field, locale) }] : []),
   { label: ws.result, body: loc(project.result, locale) },
 ];
-const quote = project.testimonial;
+// The client's own words: an approved quote from the project file, or else
+// their public Google review, verbatim, when one is tied to this project.
+const review = temoignages.find((t) => t.project === project.slug);
+const quote = project.testimonial ?? (review
+  ? { quote: { fr: review.text, en: review.text }, author: review.author, title: { fr: 'Avis Google', en: 'Google review' }, lang: review.lang }
+  : null);
 
 const specs = [
   { k: ws.client, v: project.client },
   { k: ws.role, v: loc(project.role, locale) },
   { k: ws.year, v: project.year },
+  ...(project.live ? [] : [{ k: ws.status, v: ws.notLive }]),
 ];
 ---
 
@@ -92,25 +96,36 @@ const specs = [
         <dt>{ws.stack}</dt>
         <dd>
           <ul class="case__stack">
-            {project.stack.map((s) => <li>{s}</li>)}
+            {project.stack.map((s) => <li>{stackLabel(s, locale)}</li>)}
           </ul>
         </dd>
       </div>
     </dl>
 
-    <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
-      {tr.cta.visitSite}
-      <ExternalIcon />
-    </a>
+    {project.live && (
+      <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
+        {tr.cta.visitSite}
+        <ExternalIcon />
+      </a>
+    )}
+    {project.todo.length > 0 && (
+      <ul class="case__todo">{project.todo.map((t) => <li><Todo what={t} /></li>)}</ul>
+    )}
   </header>
 
-  <div class="container-wide case__media reveal-clip">
-    <figure class:list={['case__shot', contain && 'case__shot--contain']}>
-      <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
-        <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
-      </a>
-    </figure>
-  </div>
+  {shot && (
+    <div class="container-wide case__media reveal-clip">
+      <figure class:list={['case__shot', contain && 'case__shot--contain']}>
+        {project.live ? (
+          <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+            <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+          </a>
+        ) : (
+          <img src={shot} alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
+        )}
+      </figure>
+    </div>
+  )}
 
   {score && (
     <section class="container-wide case__bench">
@@ -138,7 +153,7 @@ const specs = [
       <h2 class="label label-rule" id="case-quote-label">{ws.testimonial}</h2>
       <figure>
         <blockquote class="case__quote-text">
-          <p>{loc(quote.quote, locale)}</p>
+          <p lang={'lang' in quote && quote.lang !== locale ? quote.lang : undefined}>{loc(quote.quote, locale)}</p>
         </blockquote>
         <figcaption class="case__quote-by">
           <span>{quote.author}</span>
@@ -152,7 +167,7 @@ const specs = [
     <div class="case__next-row">
       <a href={`${workBase[locale]}/${next.slug}`} class="case__next-link">
         <span class="label case__next-label">
-          {locale === 'fr' ? 'Projet suivant' : 'Next project'}
+          {ws.next}
         </span>
         <span class="case__next-title">{loc(next.title, locale)}</span>
         <span class="case__next-arrow" aria-hidden="true">→</span>
@@ -178,6 +193,7 @@ const specs = [
 <CtaBand locale={locale} />
 
 <style>
+  .case__todo { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.4rem; }
   /* ---- Masthead ----------------------------------------------------------- */
   .case__quote {
     padding-block: clamp(2rem, 5vw, 3.5rem);

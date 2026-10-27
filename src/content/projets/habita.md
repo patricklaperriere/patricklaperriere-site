@@ -3,33 +3,40 @@ titre:
   fr: "Habita"
   en: "Habita"
 titreSeo:
-  fr: "Habita, SaaS d’inspection en bâtiment"
-  en: "Habita, building-inspection SaaS"
+  fr: "Habita, logiciel d’inspection"
+  en: "Habita, building inspection software"
 accroche:
-  fr: "Mon logiciel SaaS d’inspection en bâtiment pour les inspecteurs du Québec."
-  en: "My SaaS building-inspection software for Quebec home inspectors."
+  fr: "Le logiciel d’inspection en bâtiment de Technologies Habita inc., l’entreprise que j’ai fondée. J’en conçois le produit et j’en écris le code."
+  en: "The building inspection software of Technologies Habita inc., the company I founded. I design the product and write its code."
 description:
-  fr: "Habita, le logiciel SaaS d’inspection en bâtiment que je conçois et développe : rapports web et PDF, IA de rédaction des constats, mode hors ligne, bilingue."
-  en: "Habita, the building-inspection SaaS I design and build: web and PDF reports, AI-assisted findings, offline mode, fully bilingual FR/EN."
+  fr: "Étude de cas : Habita, logiciel d’inspection en bâtiment de Technologies Habita inc. Rapports web et PDF, mode hors ligne, interface bilingue."
+  en: "Case study: Habita, building inspection software by Technologies Habita inc. Web and PDF reports, offline mode, a bilingual interface."
 client: "Technologies Habita inc."
 rôle:
-  fr: "Produit, design et développement de A à Z"
-  en: "Product, design and development, end to end"
-stack: ["SaaS","Infonuagique (Canada)","IA","Hors ligne","Bilingue FR/EN"]
+  fr: "Fondateur ; produit, design et développement"
+  en: "Founder; product, design and development"
+stack:
+  - { fr: "Application web", en: "Web application" }
+  - { fr: "Mode hors ligne", en: "Offline mode" }
+  - { fr: "Rapports web et PDF", en: "Web and PDF reports" }
+  - { fr: "Bilingue FR et EN", en: "Bilingual FR and EN" }
 défi:
-  fr: "Au Québec, beaucoup d’inspecteurs en bâtiment travaillent encore avec des logiciels de bureau lourds, locaux et datés. Je voulais bâtir l’outil que j’aurais voulu avoir : moderne, infonuagique, bilingue, utilisable hors ligne sur le terrain, conforme à la norme BNQ 3009-500 et assez intelligent pour aider à rédiger les constats. Tout ça, conçu et développé seul, de l’idée jusqu’à la mise en marché, face à des joueurs établis comme Vesta, Lumos, UData et Enzo Solution."
-  en: "In Quebec, many building inspectors still work with heavy, local, dated desktop software. I wanted to build the tool I wish I had: modern, cloud-based, bilingual, usable offline in the field, compliant with the BNQ 3009-500 standard and smart enough to help write findings. All designed and developed solo, from idea to market, against established players like Vesta, Lumos, UData and Enzo Solution."
+  fr: "Un rapport d’inspection en bâtiment est un document long et très structuré, rédigé à partir de dizaines de photos prises sur place, souvent là où le réseau cellulaire est faible. Technologies Habita inc. voulait un outil infonuagique et bilingue qui suit l’inspecteur du terrain jusqu’au bureau, et qui livre au client un rapport clair."
+  en: "A building inspection report is a long, highly structured document, written from dozens of photos taken on site, often where the cell signal is weak. Technologies Habita inc. wanted a cloud-based, bilingual tool that follows the inspector from the field to the office and gives the client a clear report."
 réalisation:
-  fr: "Habita est une plateforme SaaS complète : données sur infonuagique canadienne avec sauvegardes gérées, IA de rédaction de constats incluse sans plafond, rapports web interactifs partageables par lien sécurisé en plus du PDF, mode hors ligne pour inspecter sans réseau, organisation des photos, espace de travail multivolets et interface pensée mobile d’abord, le tout vraiment bilingue FR et EN. J’ai aussi bâti tout le site marketing : pages de fonctionnalités, tarif, un hub de ressources pour les inspecteurs (BNQ 3009-500, certificat RBQ catégorie 1, devenir inspecteur, assurances) et des pages de comparaison face à chaque concurrent."
-  en: "Habita is a full SaaS platform: data on Canadian cloud with managed backups, AI finding-writing included with no cap, interactive web reports shareable via secure link on top of PDF, an offline mode to inspect without a connection, photo organization, a multi-panel workspace and a mobile-first interface, all genuinely bilingual FR and EN. I also built the entire marketing site: feature pages, pricing, a resource hub for inspectors (BNQ 3009-500, RBQ category 1 certificate, becoming an inspector, insurance) and comparison pages against each competitor."
+  fr: "J’ai conçu le produit et j’en écris le code : rédaction du rapport par sections, organisation des photos, mode hors ligne pour inspecter sans réseau, rapport web partagé par lien sécurisé en plus du PDF, aide à la rédaction des constats par IA et interface entièrement bilingue. J’ai aussi conçu et développé le site de présentation, habita.expert."
+  en: "I designed the product and write its code: section-by-section report writing, photo organization, an offline mode to inspect without a connection, a web report shared by secure link on top of the PDF, AI help to write findings, and a fully bilingual interface. I also designed and built the product site, habita.expert."
 résultat:
-  fr: "Un produit que je conçois et fais évoluer en continu, positionné comme l’alternative moderne et bilingue aux logiciels d’inspection traditionnels du Québec, soutenu par une vraie stratégie de contenu et de comparaison pour attirer les inspecteurs en recherche d’un meilleur outil. C’est ma plus grande fierté."
-  en: "A product I design and keep evolving, positioned as the modern, bilingual alternative to Quebec’s traditional inspection software, backed by a real content and comparison strategy to attract inspectors looking for a better tool. It’s what I’m proudest of."
+  fr: "Le site de présentation est en ligne à habita.expert et décrit les fonctionnalités du logiciel. La mesure Lighthouse de ce site, prise sur mobile, figure sur cette page."
+  en: "The product site is live at habita.expert and describes the software’s features. The Lighthouse measurement of that site, taken on mobile, is shown on this page."
 terrain:
   fr: "Éric Beauregard, d’Inspection BeauRegard, utilise Habita pour ses inspections : il prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau. <!-- À CONFIRMER : citation et accord d'Éric -->"
   en: "Éric Beauregard, of Inspection BeauRegard, uses Habita for his inspections: he shoots his photos in the field with his own camera, then writes the report back at the office. <!-- À CONFIRMER : citation et accord d'Éric -->"
 lien: "https://habita.expert"
 image: "/work/habita.webp"
+aFournir:
+  - "statut public de Habita (en production ou bêta sur invitation) avant de l’écrire sur le site"
+  - "un résultat mesurable de Habita : nombre d’inspecteurs, de rapports produits ou temps gagné par rapport"
 ordre: 1
 publié: true
 année: "2026"
@@ -41,8 +48,6 @@ cadrage: contain
 
 Notes internes (jamais publiées : seul le frontmatter alimente les pages).
 
-- Habita est publié depuis la refonte précédente : la fiche reste `publié: true` pour ne pas casser /realisations/habita ni le lien de l'accueil.
-- <!-- À CONFIRMER PATRICK --> Statut réel du produit : le site affiche « En production » et l'accueil dit que des inspecteurs s'en servent chaque jour, mais le README du dépôt Habita parle d'une bêta sur invitation.
-- <!-- À CONFIRMER PATRICK --> Un résultat mesurable à ajouter au champ `résultat` (nombre d'inspecteurs, de rapports produits, temps gagné par rapport). Rien n'est inventé ici.
-- <!-- À CONFIRMER : citation et accord d'Éric --> Section « Utilisé sur le terrain » (champ `terrain`) : visible avec npm run dev seulement, retirée du build tant que le marqueur reste. Éric doit approuver le texte et le fait d'être nommé.
+- Réécrit la nuit du 27 octobre 2026 : Habita est présenté comme le produit de Technologies Habita inc., pas comme « mon logiciel ». Retirés : noms de concurrents, conformité BNQ, « IA sans plafond », « ma plus grande fierté » (affirmations commerciales ou invérifiables).
+- `stack` liste des caractéristiques, pas des outils : le libellé de la section est « En bref ». <!-- À CONFIRMER PATRICK --> Les vrais outils de Habita si tu veux les afficher.
 - <!-- À CONFIRMER PATRICK --> NEQ de Technologies Habita inc., si tu veux qu'il apparaisse sur le site et dans les données structurées.

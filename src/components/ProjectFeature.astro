@@ -6,7 +6,7 @@
 //   lead — full-width media, oversized title underneath
 //   half — one of a two-up pair
 import type { Project } from '../data/projets';
-import { loc } from '../data/projets';
+import { loc, stackLabel } from '../data/projets';
 import type { Locale } from '../i18n/routes';
 import { workBase } from '../i18n/routes';
 import { useTranslations } from '../i18n';
@@ -32,26 +32,29 @@ const shotAlt =
 
 // Category reads better as a human word than as the raw data key.
 const categoryLabel: Record<string, { fr: string; en: string }> = {
-  saas: { fr: 'Logiciel SaaS', en: 'SaaS product' },
+  saas: { fr: 'Logiciel', en: 'Software' },
   web: { fr: 'Site sur mesure', en: 'Custom site' },
-  seo: { fr: 'Site + SEO local', en: 'Site + local SEO' },
-  shopify: { fr: 'E-commerce Shopify', en: 'Shopify e-commerce' },
+  seo: { fr: 'Refonte et SEO', en: 'Redesign and SEO' },
+  shopify: { fr: 'Boutique Shopify', en: 'Shopify store' },
 };
 const category = categoryLabel[project.category]?.[locale] ?? project.category;
 ---
 
 <article class:list={['pf', `pf--${variant}`]} style={`--accent:${project.accent}`}>
   <a href={href} class="pf__link">
-    <div class:list={['pf__media', 'media', 'media--zoom', contain && 'pf__media--contain']}>
-      <img
-        src={shot}
-        alt={shotAlt}
-        width={variant === 'lead' ? 1280 : 800}
-        height={variant === 'lead' ? 800 : 500}
-        loading="lazy"
-        decoding="async"
-      />
-    </div>
+    {/* No capture yet: the entry shows without an empty frame. */}
+    {shot && (
+      <div class:list={['pf__media', 'media', 'media--zoom', contain && 'pf__media--contain']}>
+        <img
+          src={shot}
+          alt={shotAlt}
+          width={variant === 'lead' ? 1280 : 800}
+          height={variant === 'lead' ? 800 : 500}
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+    )}
 
     <div class="pf__info">
       <div class="pf__meta">
@@ -59,14 +62,15 @@ const category = categoryLabel[project.category]?.[locale] ?? project.category;
         <span class="pf__rule" aria-hidden="true"></span>
         <span class="pf__cat">{category}</span>
         {project.draft && <span class="pf__draft">{locale === 'fr' ? 'Brouillon' : 'Draft'}</span>}
+        {!project.live && <span class="pf__draft">{tr.workSection.notLive}</span>}
         <span class="pf__year">{project.year}</span>
       </div>
 
-      <h3 class="pf__title">{loc(project.title, locale)}</h3>
+      <h2 class="pf__title">{loc(project.title, locale)}</h2>
       <p class="pf__tagline">{loc(project.tagline, locale)}</p>
 
       <ul class="pf__stack" aria-hidden="true">
-        {project.stack.slice(0, 4).map((s) => <li>{s}</li>)}
+        {project.stack.slice(0, 4).map((s) => <li>{stackLabel(s, locale)}</li>)}
       </ul>
 
       <span class="cta-mono pf__cta">

@@ -15,12 +15,14 @@ Le schéma est validé par `src/content.config.ts` : un champ manquant fait éch
 | `description` (fr, en) | Meta description écrite à la main, 160 caractères au plus |
 | `client` | Nom du client affiché |
 | `rôle` (fr, en) | Ce que j'ai fait |
-| `stack` | Technologies, dans l'ordre d'importance |
+| `stack` | Outils ou points clés (section « En bref »). Un point à traduire s'écrit `{ fr: "…", en: "…" }` |
 | `défi`, `réalisation`, `résultat` (fr, en) | Les trois sections de l'étude de cas |
 | `terrain` (fr, en), facultatif | Section « Utilisé sur le terrain » |
 | `témoignage`, facultatif | `citation` (fr, en), `auteur`, `fonction` (fr, en). Seulement avec l'accord écrit du client |
-| `lien` | URL du site en ligne |
-| `image` | Capture 1280×800 en WebP dans `public/work/` |
+| `lien` | URL du site en ligne (vide tant que le site n'est pas en ligne) |
+| `enLigne` | `false` : la fiche affiche « Pas encore en ligne », sans bouton ni lien |
+| `aFournir` | Faits manquants : affichés `[À FOURNIR : …]` avec `npm run dev` seulement, jamais dans un build |
+| `image` | Capture 1280×800 en WebP dans `public/work/`. Vide : pas de cadre, la fiche s'affiche sans image |
 | `ordre` | Position dans la liste (1 = premier) |
 | `publié` | `false` = brouillon : visible seulement avec `npm run dev`, absent du build |
 | `année`, `catégorie` (saas, web, seo, shopify), `vedette`, `accent`, `cadrage` (cover, contain) | Présentation |

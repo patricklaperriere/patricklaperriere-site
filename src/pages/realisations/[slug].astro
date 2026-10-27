@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import CaseStudyContent from '../../components/pages/CaseStudyContent.astro';
 import { useTranslations, path } from '../../i18n';
 import { workBase } from '../../i18n/routes';
-import { sortedProjects, loc } from '../../data/projets';
+import { sortedProjects, loc, stackLabel } from '../../data/projets';
 import { graph, breadcrumbSchema, creativeWorkSchema, habitaAppSchema } from '../../lib/schema';
 
 // One page per project in src/content/projets. Drafts only exist under
@@ -43,7 +43,7 @@ const schema = graph([
     locale,
     client: project.client,
     year: project.year,
-    keywords: project.stack,
+    keywords: project.stack.map((s) => stackLabel(s, 'fr')),
     product: isHabita,
   }),
   ...(isHabita ? [habitaAppSchema({ url: project.url, description: loc(project.tagline, locale), locale })] : []),

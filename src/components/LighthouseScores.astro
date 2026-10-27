@@ -2,9 +2,9 @@
 // Measured Lighthouse scores, presented as an instrument readout rather than
 // marketing counters: tabular mono figures and a scale bar per metric.
 //
-// No date is shown. A dated score reads as stale within weeks; the method is
-// stated instead, so anyone can re-run it. The dates stay in data/lighthouse.ts
-// as an internal record of when each number was taken.
+// The date, the URL measured and the method are printed under the numbers:
+// a score without its date is a claim, with it, a measurement anyone can
+// re-run.
 //
 // Every value comes from src/data/lighthouse.ts, which is filled from real
 // runs — a null renders nothing rather than a zero or a placeholder, so an
@@ -71,7 +71,7 @@ const vitals = [
       </ul>
     )}
 
-    <p class="bench__meta">{l.method}</p>
+    <p class="bench__meta">{l.method(new Date(score.measured).toLocaleDateString(tr.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Toronto' }), score.url.replace(/^https?:\/\//, '').replace(/\/$/, ''), score.tool)}</p>
   </div>
 )}
 

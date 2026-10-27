@@ -27,7 +27,7 @@ résultat:
   en: "<!-- À CONFIRMER PATRICK -->"
 lien: "<!-- À CONFIRMER PATRICK : domaine pas encore acheté par le client -->"
 image: "/work/turbofix-mecanique.webp <!-- À CONFIRMER PATRICK : capture 1280×800 à produire -->"
-ordre: 6
+ordre: 7
 publié: false
 année: "2026"
 catégorie: web

@@ -1,68 +1,45 @@
-// Real, measured Lighthouse scores. NOTHING here is hand-written or estimated.
+// Measured Lighthouse scores of the client sites shown in the case studies.
+// NOTHING here is typed by hand: scripts/measure-clients.mjs runs Lighthouse
+// on each live site (mobile profile, median of three valid runs) and writes
+// src/data/client-metrics.json. The case study shows the date, the URL and
+// the method next to the numbers, so a reader can re-run the test.
 //
-// How these were produced (re-run before quoting them again — a stale speed
-// claim is worse than no claim, and this site's whole argument is speed):
-//
-//   npx lighthouse https://<site> --preset=desktop \
-//     --output=json --output-path=./lh.json --chrome-flags="--headless=new"
-//
-// `bestPractices` is stored but NOT displayed. On three client sites it is
-// dragged down by third-party cookies from analytics/tracking the client
-// installed, plus Chrome DevTools "Issues" from those same scripts — none of
-// which reflect how the site was built. Showing it would misreport the work.
-// The number is kept here so the decision stays visible instead of looking
-// like the category was quietly dropped.
+// A site absent from the file renders no scores: an unmeasured site never
+// looks like a bad one, and an old number is never shown without its date.
+// (The previous desktop scores of August 2026 were retired in October 2026.)
+import data from './client-metrics.json';
 
 export interface LighthouseScore {
   performance: number | null;
   accessibility: number | null;
   seo: number | null;
-  /** Measured, deliberately not rendered — see note above. */
-  bestPractices: number | null;
   /** Largest Contentful Paint, seconds. */
   lcp: number | null;
   /** Cumulative Layout Shift. */
   cls: number | null;
   /** ISO date of the measurement. */
   measured: string;
+  /** The URL actually measured. */
+  url: string;
+  tool: string;
 }
 
-/** Keyed by project slug. A slug absent here simply renders no scores. */
-export const lighthouse: Record<string, LighthouseScore> = {
-  habita: {
-    performance: 94,
-    accessibility: 96,
-    seo: 100,
-    bestPractices: 100,
-    lcp: 1.3,
-    cls: 0.071,
-    measured: '2026-08-15',
-  },
-  'inspection-habitation-outaouais': {
-    performance: 100,
-    accessibility: 100,
-    seo: 100,
-    bestPractices: 77,
-    lcp: 0.7,
-    cls: 0.0,
-    measured: '2026-08-15',
-  },
-  'hp-addik': {
-    performance: 97,
-    accessibility: 94,
-    seo: 100,
-    bestPractices: 73,
-    lcp: 1.1,
-    cls: 0.003,
-    measured: '2026-08-15',
-  },
-  'envita-wellness': {
-    performance: 91,
-    accessibility: 98,
-    seo: 100,
-    bestPractices: 77,
-    lcp: 1.7,
-    cls: 0.003,
-    measured: '2026-08-15',
-  },
-};
+type Raw = { url: string; performance: number; accessibility: number; seo: number; lcpMs: number; cls: number };
+const sites = (data.sites ?? {}) as Record<string, Raw>;
+
+/** Keyed by project slug. */
+export const lighthouse: Record<string, LighthouseScore> = Object.fromEntries(
+  Object.entries(sites).map(([slug, s]) => [
+    slug,
+    {
+      performance: s.performance,
+      accessibility: s.accessibility,
+      seo: s.seo,
+      lcp: Math.round(s.lcpMs / 100) / 10,
+      cls: s.cls,
+      measured: data.measuredAt,
+      url: s.url,
+      tool: data.tool,
+    },
+  ]),
+);

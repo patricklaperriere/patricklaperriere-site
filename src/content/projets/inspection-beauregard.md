@@ -6,25 +6,25 @@ titreSeo:
   fr: "Inspection BeauRegard, de Wix à Astro"
   en: "Inspection BeauRegard, Wix to Astro"
 accroche:
-  fr: "Migration de Wix vers un site Astro sur mesure pour un inspecteur en bâtiment, aussi client d’Habita."
-  en: "A move from Wix to a custom Astro site for a building inspector who also runs his reports on Habita."
+  fr: "Un inspecteur en bâtiment de Sherbrooke, qui rédige ses rapports dans Habita. J’ai fait passer son site de Wix à un site Astro sur mesure."
+  en: "A building inspector in Sherbrooke who writes his reports in Habita. I moved his site from Wix to a custom Astro site."
 description:
-  fr: "Étude de cas : migration de Wix vers un site Astro sur mesure pour Inspection BeauRegard, inspecteur en bâtiment et client d’Habita."
-  en: "Case study: migrating Inspection BeauRegard, a building inspector and Habita client, from Wix to a custom Astro site."
-client: "Inspection BeauRegard <!-- À CONFIRMER : accord d'Éric pour être nommé -->"
+  fr: "Étude de cas : le site d’Inspection BeauRegard, inspecteur en bâtiment à Sherbrooke, passé de Wix à un site Astro sur mesure, rapide et bien structuré."
+  en: "Case study: Inspection BeauRegard, a building inspector in Sherbrooke, moved from Wix to a custom Astro site, fast and well structured."
+client: "Inspection BeauRegard"
 rôle:
-  fr: "Migration, conception et développement Astro <!-- À CONFIRMER PATRICK -->"
-  en: "Migration, design and Astro development <!-- À CONFIRMER PATRICK -->"
-stack: ["Astro", "Migration Wix", "Schema.org"]
+  fr: "Migration, conception et développement"
+  en: "Migration, design and development"
+stack: ["Astro", { fr: "Migration depuis Wix", en: "Migration from Wix" }, "Schema.org"]
 défi:
-  fr: "<!-- À CONFIRMER PATRICK : ce qui n’allait plus avec le site Wix (vitesse, coût, référencement, contrôle) et ce qu’Éric voulait obtenir. -->"
-  en: "<!-- À CONFIRMER PATRICK -->"
+  fr: "Le site d’Inspection BeauRegard était construit sur Wix, une plateforme pratique pour démarrer, mais qui laisse peu de contrôle sur la vitesse, la structure des pages et le référencement."
+  en: "Inspection BeauRegard’s site was built on Wix, a convenient platform to start with, but one that leaves little control over speed, page structure and search."
 réalisation:
-  fr: "Un site Astro sur mesure qui remplace l’ancien site Wix. <!-- À CONFIRMER PATRICK : pages livrées, formulaire, SEO, redirections des anciennes URL Wix. -->"
-  en: "A custom Astro site replacing the former Wix site. <!-- À CONFIRMER PATRICK -->"
+  fr: "J’ai remplacé le site Wix par un site Astro sur mesure : des pages légères rendues d’avance, une structure pensée pour Google et des données structurées qui décrivent l’entreprise et ses services."
+  en: "I replaced the Wix site with a custom Astro site: light, pre-rendered pages, a structure designed for Google and structured data describing the business and its services."
 résultat:
-  fr: "<!-- À CONFIRMER PATRICK : aucun résultat n’est connu. Ne rien publier sans chiffre ou fait vérifiable. -->"
-  en: "<!-- À CONFIRMER PATRICK -->"
+  fr: "Le nouveau site est en ligne à inspectionbeauregard.com. Sa mesure Lighthouse, prise sur mobile, figure sur cette page."
+  en: "The new site is live at inspectionbeauregard.com. Its Lighthouse measurement, taken on mobile, is shown on this page."
 témoignage:
   citation:
     fr: "<!-- À CONFIRMER : citation et accord d'Éric -->"
@@ -33,22 +33,28 @@ témoignage:
   fonction:
     fr: "Inspection BeauRegard <!-- À CONFIRMER : titre exact d'Éric -->"
     en: "Inspection BeauRegard <!-- À CONFIRMER : titre exact d'Éric -->"
-lien: "https://inspectionbeauregard.com"
-image: "/work/inspection-beauregard.webp <!-- À CONFIRMER PATRICK : capture 1280×800 à produire -->"
-ordre: 7
-publié: false
-année: "2026 <!-- À CONFIRMER PATRICK -->"
-catégorie: web
-vedette: false
+lien: "https://www.inspectionbeauregard.com"
+image: ""
+aFournir:
+  - "accord écrit d’Éric Beauregard pour être nommé au portfolio"
+  - "pages livrées, formulaire et redirections des anciennes adresses Wix"
+  - "captures avant (Wix) et après (Astro), une fois l’accord d’Éric obtenu"
+  - "année de la mise en ligne"
+ordre: 2
+publié: true
+année: "2026"
+catégorie: seo
+vedette: true
 accent: "#8fb3a0"
 cadrage: cover
 ---
 
 Notes internes (jamais publiées).
 
-Faits fournis par Patrick : site Astro réalisé par Patrick, migration depuis Wix, Éric Beauregard est client d'Habita.
-Le dépôt ~/projets/inspection-beauregard n'a pas été consulté (une autre session y travaille) : tout le reste est à confirmer.
+Faits fournis par Patrick (déjà publiés à l'accueil) : site Astro réalisé par Patrick, migration depuis Wix,
+inspecteur de Sherbrooke, Éric Beauregard rédige ses rapports dans Habita.
+Le dépôt ~/projets/inspection-beauregard n'a pas été consulté (une autre session y travaille).
 
-- <!-- À CONFIRMER : citation et accord d'Éric --> Témoignage : Éric l'envoie demain. Le coller dans `témoignage.citation` (FR, et EN si fourni), avec son accord écrit pour être nommé.
-- <!-- À CONFIRMER PATRICK --> Défi, réalisation, résultat (FR et EN), rôle, année.
-- <!-- À CONFIRMER PATRICK --> Capture public/work/inspection-beauregard.webp, puis npm run og une fois publié.
+Publié la nuit du 27 octobre 2026, aligné sur l'accueil qui nomme déjà le projet. <!-- À CONFIRMER PATRICK -->
+Repasser `publié: false` si Éric n'a pas encore donné son accord. Le témoignage reste en dev seulement tant
+que le marqueur À CONFIRMER y est.
