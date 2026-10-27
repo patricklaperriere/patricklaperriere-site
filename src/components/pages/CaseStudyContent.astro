@@ -64,7 +64,6 @@ const quote = project.testimonial ?? (review
   : null);
 
 const specs = [
-  { k: ws.client, v: project.client },
   { k: ws.role, v: loc(project.role, locale) },
   { k: ws.year, v: project.year },
   ...(project.live ? [] : [{ k: ws.status, v: ws.notLive }]),
@@ -87,6 +86,22 @@ const specs = [
     <p class="case__tagline">{loc(project.tagline, locale)}</p>
 
     <dl class="case__specs">
+      <div class="case__spec">
+        <dt>{ws.client}</dt>
+        <dd>
+          {project.logo && project.live ? (
+            <a href={project.url} class="case__client" target="_blank" rel="noopener">
+              <img src={project.logo} alt="" class="case__logo" height="40" decoding="async" />
+              <span>{project.client}</span>
+            </a>
+          ) : project.logo ? (
+            <span class="case__client">
+              <img src={project.logo} alt="" class="case__logo" height="40" decoding="async" />
+              <span>{project.client}</span>
+            </span>
+          ) : project.client}
+        </dd>
+      </div>
       {specs.map((s) => (
         <div class="case__spec">
           <dt>{s.k}</dt>
@@ -163,6 +178,9 @@ const specs = [
         <figcaption class="case__quote-by">
           <span>{quote.author}</span>
           <span class="case__quote-title">{loc(quote.title, locale)}</span>
+          {'original' in quote && quote.original && quote.original !== locale && (
+            <span class="case__quote-note">{ws.translatedFrom[quote.original]}</span>
+          )}
         </figcaption>
       </figure>
     </section>
@@ -220,6 +238,10 @@ const specs = [
     font-size: var(--fs-meta);
   }
   .case__quote-title { color: var(--fg-mute); }
+  .case__quote-note { flex-basis: 100%; color: var(--fg-mute); font-style: italic; }
+  .case__client { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; color: inherit; }
+  a.case__client:hover span, a.case__client:focus-visible span { text-decoration: underline; }
+  .case__logo { display: block; height: 40px; width: auto; max-width: 100%; }
   .case__draft {
     margin: 0 0 1.5rem;
     padding: 0.75rem 1rem;

@@ -233,6 +233,7 @@ export const fr = {
     result: 'Ce qu’on peut vérifier',
     field: 'Utilisé sur le terrain',
     testimonial: 'Témoignage',
+    translatedFrom: { fr: 'Traduit du français', en: 'Traduit de l’anglais' },
     role: 'Rôle',
     year: 'Année',
     status: 'Statut',

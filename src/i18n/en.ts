@@ -221,6 +221,7 @@ export const en: Widen<Dict> = {
     result: 'What you can check',
     field: 'In the field',
     testimonial: 'Testimonial',
+    translatedFrom: { fr: 'Translated from French', en: 'Translated from English' },
     role: 'Role',
     year: 'Year',
     status: 'Status',

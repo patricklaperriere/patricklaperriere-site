@@ -46,7 +46,9 @@ export interface Project {
   result: LocalizedField;
   /** Optional section, null when absent or still awaiting confirmation. */
   field: LocalizedField | null;
-  testimonial: { quote: LocalizedField; author: string; title: LocalizedField } | null;
+  testimonial: { quote: LocalizedField; author: string; title: LocalizedField; original?: 'fr' | 'en' } | null;
+  /** Client logo under public/, or null. */
+  logo: string | null;
   stack: (string | LocalizedField)[];
   /** Missing facts, rendered as dev-only reminders. */
   todo: string[];
@@ -87,7 +89,8 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     built: d.réalisation,
     result: d.résultat,
     field: pending(d.terrain),
-    testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction } : null,
+    testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction, original: t.langue } : null,
+    logo: d.logo ?? null,
     stack: d.stack,
     todo: d.aFournir,
   };

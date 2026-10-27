@@ -50,8 +50,12 @@ const projets = defineCollection({
         citation: bilingue,
         auteur: z.string(),
         fonction: bilingue,
+        /** Language the client wrote in; the other version is a translation, labelled as such. */
+        langue: z.enum(['fr', 'en']).optional(),
       })
       .optional(),
+    /** Optional client logo under public/work/logos/, shown with the client name (only with their OK). */
+    logo: z.string().optional(),
     /** Live URL. Empty while the site is not online yet. */
     lien: z.string(),
     /** False while the site is built but not online yet (shown as such). */

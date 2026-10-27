@@ -30,8 +30,17 @@ résultat:
   fr: "Le site de présentation est en ligne à habita.expert et décrit les fonctionnalités du logiciel."
   en: "The product site is live at habita.expert and describes the software’s features."
 terrain:
-  fr: "Éric Beauregard, d’Inspection BeauRegard, utilise Habita pour ses inspections : il prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau. <!-- À CONFIRMER : citation et accord d'Éric -->"
-  en: "Éric Beauregard, of Inspection BeauRegard, uses Habita for his inspections: he shoots his photos in the field with his own camera, then writes the report back at the office. <!-- À CONFIRMER : citation et accord d'Éric -->"
+  fr: "Éric Beauregard, d’Inspection BeauRegard, utilise Habita pour ses inspections : il prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau."
+  en: "Éric Beauregard, of Inspection BeauRegard, uses Habita for his inspections: he shoots his photos in the field with his own camera, then writes the report back at the office."
+témoignage:
+  citation:
+    fr: "Un logiciel d’inspection moderne, parfaitement adapté aux besoins d’aujourd’hui. Sa conception intuitive fait sauver un temps précieux à la rédaction, et la version tactile et navigable du rapport se démarque vraiment. Le soutien est omniprésent : on ne se sent jamais laissé à nous-mêmes."
+    en: "A modern inspection software, perfectly suited to today’s needs. Its intuitive design saves precious time when writing, and the touch-friendly, navigable version of the report really stands out. Support is always there: you never feel left on your own."
+  auteur: "Éric Beauregard"
+  fonction:
+    fr: "Inspection de bâtiment BeauRegard"
+    en: "Inspection de bâtiment BeauRegard"
+  langue: fr
 lien: "https://habita.expert"
 image: "/work/habita.webp"
 aFournir:
@@ -51,3 +60,7 @@ Notes internes (jamais publiées : seul le frontmatter alimente les pages).
 - Réécrit la nuit du 27 octobre 2026 : Habita est présenté comme le produit de Technologies Habita inc., pas comme « mon logiciel ». Retirés : noms de concurrents, conformité BNQ, « IA sans plafond », « ma plus grande fierté » (affirmations commerciales ou invérifiables).
 - `stack` liste des caractéristiques, pas des outils : le libellé de la section est « En bref ». <!-- À CONFIRMER PATRICK --> Les vrais outils de Habita si tu veux les afficher.
 - <!-- À CONFIRMER PATRICK --> NEQ de Technologies Habita inc., si tu veux qu'il apparaisse sur le site et dans les données structurées.
+
+Témoignage d'Éric : version courte approuvée par Éric (« C'est parfait »), courriel « Petite faveur : ton avis sur
+Habita », octobre 2026. La version anglaise est une traduction. Éric a aussi donné son accord pour être nommé
+comme client d'Habita et du site Web, avec son logo et le lien.
