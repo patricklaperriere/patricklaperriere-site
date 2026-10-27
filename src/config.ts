@@ -50,8 +50,8 @@ export const SITE = {
   // Only tools that appear in the work shown on the site (October 2026).
   stack: ['Astro', 'React', 'TypeScript', 'Supabase', 'Shopify', 'Liquid', 'Vercel'],
   serviceDescription: {
-    fr: 'Conception et développement de sites web sur mesure, de boutiques Shopify et de logiciels SaaS, en français et en anglais.',
-    en: 'Design and development of custom websites, Shopify stores and SaaS software, in French and English.',
+    fr: 'Conception et développement de sites web sur mesure, de boutiques Shopify et d’outils web sur mesure, en français et en anglais.',
+    en: 'Design and development of custom websites, Shopify stores and custom web tools, in English and French.',
   },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',

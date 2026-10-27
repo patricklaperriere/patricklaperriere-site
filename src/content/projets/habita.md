@@ -27,8 +27,8 @@ réalisation:
   fr: "J’ai conçu le produit et j’en écris le code : rédaction du rapport par sections, organisation des photos, mode hors ligne pour inspecter sans réseau, rapport web partagé par lien sécurisé en plus du PDF, aide à la rédaction des constats par IA et interface entièrement bilingue. J’ai aussi conçu et développé le site de présentation, habita.expert."
   en: "I designed the product and write its code: section-by-section report writing, photo organization, an offline mode to inspect without a connection, a web report shared by secure link on top of the PDF, AI help to write findings, and a fully bilingual interface. I also designed and built the product site, habita.expert."
 résultat:
-  fr: "Le site de présentation est en ligne à habita.expert et décrit les fonctionnalités du logiciel. La mesure Lighthouse de ce site, prise sur mobile, figure sur cette page."
-  en: "The product site is live at habita.expert and describes the software’s features. The Lighthouse measurement of that site, taken on mobile, is shown on this page."
+  fr: "Le site de présentation est en ligne à habita.expert et décrit les fonctionnalités du logiciel."
+  en: "The product site is live at habita.expert and describes the software’s features."
 terrain:
   fr: "Éric Beauregard, d’Inspection BeauRegard, utilise Habita pour ses inspections : il prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau. <!-- À CONFIRMER : citation et accord d'Éric -->"
   en: "Éric Beauregard, of Inspection BeauRegard, uses Habita for his inspections: he shoots his photos in the field with his own camera, then writes the report back at the office. <!-- À CONFIRMER : citation et accord d'Éric -->"

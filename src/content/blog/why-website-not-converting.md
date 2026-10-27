@@ -28,7 +28,7 @@ No proof, no faces, no work to show? The visitor hesitates. Testimonials, projec
 
 ## 5. The mobile experience is poor
 
-Most of your visitors are on their phone. If the buttons are tiny, the text unreadable or the form painful to fill out, you lose half your potential customers before they even try.
+Most of your visitors are on their phone. If the buttons are tiny, the text unreadable or the form painful to fill out, you lose many potential customers before they even try.
 
 ## The good news
 

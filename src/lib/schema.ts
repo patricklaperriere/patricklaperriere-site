@@ -59,7 +59,6 @@ export function personSchema(locale: Locale) {
     url: `${SITE.domain}/`,
     email: SITE.email,
     telephone: SITE.phone,
-    worksFor: { '@id': COMPANY_ID },
     knowsAbout: [...SITE.stack, 'SEO', 'Core Web Vitals', 'Schema.org'],
     // A real photo on the Person node is what lets Google attach a face to the
     // author entity (E-E-A-T). Omitted entirely rather than pointing at a file
@@ -185,7 +184,7 @@ export function serviceSchema(opts: {
     description: opts.description,
     serviceType: opts.serviceType,
     url: abs(opts.url),
-    provider: { '@id': SERVICE_ID },
+    provider: { '@id': PERSON_ID },
     areaServed: areaServed(opts.locale),
     availableLanguage: ['fr-CA', 'en-CA'],
   };
@@ -209,7 +208,7 @@ export function localServiceSchema(opts: {
     serviceType: tr.services.web.title,
     description: opts.description,
     url: abs(opts.url),
-    provider: { '@id': SERVICE_ID },
+    provider: { '@id': PERSON_ID },
     availableLanguage: ['fr-CA', 'en-CA'],
     areaServed: [
       {
@@ -261,7 +260,7 @@ export function creativeWorkSchema(opts: {
     name: opts.name,
     description: opts.description,
     url: page,
-    mainEntityOfPage: { '@type': 'WebPage', '@id': page },
+    mainEntityOfPage: { '@id': `${page}#webpage` },
     ...(opts.workUrl ? { sameAs: opts.workUrl } : {}),
     ...(opts.image ? { image: abs(opts.image) } : {}),
     inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
@@ -305,15 +304,16 @@ export function articleSchema(opts: {
 }) {
   return {
     '@type': 'BlogPosting',
+    '@id': `${abs(opts.url)}#article`,
     headline: opts.title,
     description: opts.description,
     url: abs(opts.url),
-    mainEntityOfPage: { '@type': 'WebPage', '@id': abs(opts.url) },
+    mainEntityOfPage: { '@id': `${abs(opts.url)}#webpage` },
     ...(opts.image ? { image: abs(opts.image) } : {}),
     inLanguage: opts.locale === 'fr' ? 'fr-CA' : 'en-CA',
     datePublished: opts.datePublished,
     ...(opts.dateModified ? { dateModified: opts.dateModified } : {}),
-    author: { '@type': 'Person', '@id': PERSON_ID, name: SITE.name, url: `${SITE.domain}/` },
+    author: { '@id': PERSON_ID },
     publisher: { '@id': PERSON_ID },
   };
 }

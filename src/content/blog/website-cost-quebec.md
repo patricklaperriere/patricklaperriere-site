@@ -1,5 +1,5 @@
 ---
-title: "How much does a website cost in 2026?"
+title: "How much does a website cost in Quebec?"
 description: "An honest pricing guide for a professional website: realistic ranges, what drives the price up or down, and how to avoid paying for nothing."
 lang: "en"
 slug: "website-cost-quebec"

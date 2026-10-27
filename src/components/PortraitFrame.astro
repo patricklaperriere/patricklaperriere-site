@@ -38,6 +38,7 @@ const { src, alt, treatment = 'none', label, sizes = '(min-width: 1024px) 300px,
       width={720}
       height={900}
       loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
       decoding="async"
     />
   </div>

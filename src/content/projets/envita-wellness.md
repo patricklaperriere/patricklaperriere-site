@@ -20,11 +20,11 @@ défi:
   fr: "Envita Wellness, mené par la facilitatrice Chrissy Papageorgopoulos, offre des expériences de respiration (breathwork), de mouvement et de bien-être corporatif, en ligne comme en personne. Son programme phare, le « 21-Day Breath Camp », est pensé pour la vraie vie, pas pour les athlètes ou les puristes du bien-être. Il fallait un site calme et clair pour présenter le programme, recevoir les inscriptions aux cohortes en direct et gérer une liste d’attente."
   en: "Envita Wellness, led by facilitator Chrissy Papageorgopoulos, offers breathwork, movement and corporate wellness experiences, online and in person. Its flagship program, the “21-Day Breath Camp,” is built for real life, not for athletes or wellness purists. It needed a calm, clear site to present the program, take sign-ups for live cohorts and manage a waitlist."
 réalisation:
-  fr: "Une plateforme Shopify entièrement personnalisée en Liquid : présentation du programme phare, gestion des cohortes et des inscriptions, sections pour les offres à venir (sessions privées, classes à la carte), capture de liste d’attente et une direction visuelle apaisante, fidèle à l’esprit de la marque."
+  fr: "Une plateforme Shopify entièrement personnalisée en Liquid : présentation du programme phare, gestion des cohortes et des inscriptions, sections pour les offres à venir (sessions privées, cours à la carte), capture de liste d’attente et une direction visuelle apaisante, fidèle à l’esprit de la marque."
   en: "A fully custom Shopify platform in Liquid: flagship program presentation, cohort and registration handling, sections for upcoming offerings (private sessions, drop-in classes), waitlist capture, and a calm visual direction true to the brand’s spirit."
 résultat:
-  fr: "La boutique est en ligne à envita-wellness.com. Chrissy Papageorgopoulos a laissé un avis public sur Google, cité sur cette page. La mesure Lighthouse du site, prise sur mobile, y figure aussi."
-  en: "The store is live at envita-wellness.com. Chrissy Papageorgopoulos left a public Google review, quoted on this page. The site’s Lighthouse measurement, taken on mobile, is shown here too."
+  fr: "La boutique est en ligne à envita-wellness.com. Chrissy Papageorgopoulos a laissé un avis public sur Google, cité sur cette page."
+  en: "The store is live at envita-wellness.com. Chrissy Papageorgopoulos left a public Google review, quoted on this page."
 lien: "https://envita-wellness.com"
 image: "/work/envita-wellness.webp"
 ordre: 6

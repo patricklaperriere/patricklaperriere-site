@@ -263,7 +263,7 @@ export const fr = {
     lead: 'Je conçois et je développe des sites et des outils web pour les PME, au Québec et ailleurs, en français et en anglais.',
     body: [
       'Je m’appelle Patrick Laperrière. Je travaille directement avec mes clients : la personne qui vous écoute au premier appel est celle qui conçoit, écrit le code et met votre projet en ligne.',
-      'J’ai aussi fondé Technologies Habita inc., une entreprise distincte qui publie Habita, un logiciel d’inspection en bâtiment. J’en conçois le produit et j’en écris le code. Faire évoluer un logiciel dont des inspecteurs se servent pour leur travail m’oblige à penser à long terme : sécurité, sauvegardes, performance, entretien.',
+      'J’ai aussi fondé Technologies Habita inc., une entreprise distincte qui publie Habita, un logiciel d’inspection en bâtiment. J’en conçois le produit et j’en écris le code. Faire évoluer un logiciel destiné aux inspecteurs en bâtiment m’oblige à penser à long terme : sécurité, sauvegardes, performance, entretien.',
       'J’applique la même exigence aux projets de mes clients : comprendre l’entreprise avant de choisir une technologie, livrer un code propre et mesurer le résultat plutôt que de le promettre.',
       'Je travaille en français et en anglais, avec des clients du Québec, du reste du Canada et des États-Unis.',
     ],

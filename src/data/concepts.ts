@@ -82,7 +82,7 @@ export const concepts: Concept[] = [
       fr: 'Un menu qui donne faim, des photos appétissantes et la réservation de table sans friction.',
       en: 'A menu that makes you hungry, mouthwatering photos and frictionless table booking.',
     },
-    tags: { fr: ['Menu', 'Réservation', 'Local SEO'], en: ['Menu', 'Reservations', 'Local SEO'] },
+    tags: { fr: ['Menu', 'Réservation', 'SEO local'], en: ['Menu', 'Reservations', 'Local SEO'] },
   },
   {
     id: 'immobilier',
@@ -103,8 +103,8 @@ export const concepts: Concept[] = [
     accent: '#2bc4b4',
     industry: { fr: 'Blanchiment dentaire', en: 'Teeth whitening' },
     tagline: {
-      fr: 'Un sourire plus blanc dès la première séance. Réservation en ligne, résultats visibles et sans douleur.',
-      en: 'A whiter smile from the first session. Online booking, visible results and pain-free.',
+      fr: 'Blanchiment dentaire : réservation en ligne, consultation et suivi.',
+      en: 'Teeth whitening: online booking, consultation and follow-up.',
     },
     tags: { fr: ['Blanchiment', 'Réservation', 'Consultation'], en: ['Whitening', 'Booking', 'Consultation'] },
   },
@@ -115,10 +115,10 @@ export const concepts: Concept[] = [
     accent: '#cf8aa0',
     industry: { fr: 'Boutique en ligne', en: 'Online store' },
     tagline: {
-      fr: 'Boutique Shopify sur mesure : fiches produits soignées, panier rapide et tunnel d’achat optimisé.',
+      fr: 'Boutique Shopify sur mesure : fiches produits soignées, panier rapide et parcours d’achat simple.',
       en: 'Custom Shopify store: polished product pages, a fast cart and an optimized checkout.',
     },
-    tags: { fr: ['Shopify', 'Panier', 'Conversion'], en: ['Shopify', 'Cart', 'Conversion'] },
+    tags: { fr: ['Shopify', 'Panier', 'Paiement'], en: ['Shopify', 'Cart', 'Checkout'] },
   },
   // ---------- SaaS / software dashboards ----------
   {

@@ -14,7 +14,7 @@ You need a website and you're torn: go with an agency or hire a freelance develo
 
 An agency carries heavy fixed costs: offices, account managers, sales teams. Those costs end up on your invoice. For the same brochure site, you often pay a premium just for the agency's structure.
 
-A freelancer doesn't carry that overhead. You pay for the work, not the org chart. For most small businesses, that means an equivalent-quality site for a fraction of the price. If you want benchmarks, read my [website pricing guide](/en/blog/website-cost-quebec).
+A freelancer doesn't carry that overhead. You pay for the work, not the org chart. For most small businesses, that often means a comparable site at a lower price. If you want benchmarks, read my [website pricing guide](/en/blog/website-cost-quebec).
 
 ## Who you actually talk to
 
@@ -26,7 +26,7 @@ With a freelancer, you talk directly to the person designing and building your s
 
 Agencies juggle several large accounts and heavy internal processes. A small project can sit behind bigger mandates.
 
-A freelancer takes on fewer projects at once and can often start sooner. Most brochure sites I deliver go live in 2 to 4 weeks.
+A freelancer takes on fewer projects at once and can often start sooner.
 
 ## When an agency makes sense
 

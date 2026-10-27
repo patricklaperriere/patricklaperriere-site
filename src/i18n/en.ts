@@ -250,7 +250,7 @@ export const en: Widen<Dict> = {
     lead: 'I design and develop websites and web tools for small businesses, in Quebec and beyond, in English and French.',
     body: [
       'My name is Patrick Laperrière. I work with my clients directly: the person who listens on the first call is the one who designs, writes the code and puts your project online.',
-      'I also founded Technologies Habita inc., a separate company that publishes Habita, building inspection software. I design the product and write its code. Growing software that inspectors rely on for their work makes me think long term: security, backups, performance, maintenance.',
+      'I also founded Technologies Habita inc., a separate company that publishes Habita, building inspection software. I design the product and write its code. Growing software built for building inspectors makes me think long term: security, backups, performance, maintenance.',
       'I bring the same standard to client projects: understand the business before choosing a technology, deliver clean code, and measure the result instead of promising it.',
       'I work in English and French, with clients in Quebec, the rest of Canada and the United States.',
     ],

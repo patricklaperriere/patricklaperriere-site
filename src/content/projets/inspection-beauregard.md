@@ -9,8 +9,8 @@ accroche:
   fr: "Un inspecteur en bâtiment de Sherbrooke, qui rédige ses rapports dans Habita. J’ai fait passer son site de Wix à un site Astro sur mesure."
   en: "A building inspector in Sherbrooke who writes his reports in Habita. I moved his site from Wix to a custom Astro site."
 description:
-  fr: "Étude de cas : le site d’Inspection BeauRegard, inspecteur en bâtiment à Sherbrooke, passé de Wix à un site Astro sur mesure, rapide et bien structuré."
-  en: "Case study: Inspection BeauRegard, a building inspector in Sherbrooke, moved from Wix to a custom Astro site, fast and well structured."
+  fr: "Étude de cas : le site d’Inspection BeauRegard, inspecteur en bâtiment à Sherbrooke, passé de Wix à un site Astro sur mesure, structuré pour Google."
+  en: "Case study: Inspection BeauRegard, a building inspector in Sherbrooke, moved from Wix to a custom Astro site, with a structure designed for Google."
 client: "Inspection BeauRegard"
 rôle:
   fr: "Migration, conception et développement"
@@ -23,8 +23,8 @@ réalisation:
   fr: "J’ai remplacé le site Wix par un site Astro sur mesure : des pages légères rendues d’avance, une structure pensée pour Google et des données structurées qui décrivent l’entreprise et ses services."
   en: "I replaced the Wix site with a custom Astro site: light, pre-rendered pages, a structure designed for Google and structured data describing the business and its services."
 résultat:
-  fr: "Le nouveau site est en ligne à inspectionbeauregard.com. Sa mesure Lighthouse, prise sur mobile, figure sur cette page."
-  en: "The new site is live at inspectionbeauregard.com. Its Lighthouse measurement, taken on mobile, is shown on this page."
+  fr: "Le nouveau site est en ligne à inspectionbeauregard.com."
+  en: "The new site is live at inspectionbeauregard.com."
 témoignage:
   citation:
     fr: "<!-- À CONFIRMER : citation et accord d'Éric -->"

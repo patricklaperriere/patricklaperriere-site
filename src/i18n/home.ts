@@ -84,7 +84,7 @@ const fr = {
   // <!-- À CONFIRMER PATRICK : accord d'Éric Beauregard pour être nommé à l'accueil -->
   work: {
     title: 'Réalisations',
-    intro: 'Mon propre logiciel et un site pour un inspecteur en bâtiment.',
+    intro: 'Le logiciel de Technologies Habita inc. et un site pour un inspecteur en bâtiment.',
     all: 'Toutes les réalisations',
     file: 'Dossier',
     items: [
@@ -92,7 +92,7 @@ const fr = {
         slug: 'habita',
         kind: 'Logiciel SaaS',
         title: 'Habita',
-        body: 'Le logiciel d’inspection en bâtiment que je conçois et développe : rapports web et PDF, IA de rédaction des constats, mode hors ligne, bilingue.',
+        body: 'Le logiciel d’inspection en bâtiment de Technologies Habita inc., que je conçois et développe : rapports web et PDF, IA de rédaction des constats, mode hors ligne, bilingue.',
         status: 'En ligne',
         // <!-- À CONFIRMER PATRICK : capture à plat d'un rapport web, données de démo -->
         media: [{ file: 'habita-rapport-web.png', label: 'Rapport web', alt: 'Un rapport d’inspection Habita affiché dans le navigateur' }],
@@ -123,7 +123,7 @@ const fr = {
     title: 'Qui je suis',
     body: [
       'Développeur web au Québec, je travaille directement avec vous : un seul interlocuteur, du premier appel à la mise en ligne.',
-      'Je développe aussi Habita, le logiciel de l’entreprise que j’ai fondée, Technologies Habita inc. Faire évoluer mon propre logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
+      'Je développe aussi Habita, le logiciel de l’entreprise que j’ai fondée, Technologies Habita inc. Faire évoluer ce logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
     ],
     proofs: {
       stack: 'Outils',
@@ -132,7 +132,7 @@ const fr = {
     },
     // <!-- À CONFIRMER PATRICK : vraie citation d'un client, avec son accord -->
     testimonial: null as Testimonial,
-    more: 'Mon parcours',
+    more: 'En savoir plus',
   },
   contact: {
     title: 'Un site à bâtir, un outil à concevoir ?',
@@ -195,7 +195,7 @@ const en: HomeCopy = {
   },
   work: {
     title: 'Work',
-    intro: 'My own software and a website for a building inspector.',
+    intro: 'Technologies Habita’s software and a website for a building inspector.',
     all: 'All work',
     file: 'File',
     items: [
@@ -203,7 +203,7 @@ const en: HomeCopy = {
         slug: 'habita',
         kind: 'SaaS product',
         title: 'Habita',
-        body: 'The building inspection software I design and build: web and PDF reports, AI-assisted findings, offline mode, fully bilingual.',
+        body: 'The building inspection software of Technologies Habita inc., which I design and build: web and PDF reports, AI-assisted findings, offline mode, fully bilingual.',
         status: 'Live',
         media: [{ file: 'habita-rapport-web.png', label: 'Web report', alt: 'A Habita inspection report shown in the browser' }],
         links: [
@@ -232,7 +232,7 @@ const en: HomeCopy = {
     title: 'Who I am',
     body: [
       'A web developer in Quebec, I work with you directly: one contact, from the first call to launch day.',
-      'I also develop Habita, the software of the company I founded, Technologies Habita inc. Growing my own software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
+      'I also develop Habita, the software of the company I founded, Technologies Habita inc. Growing that software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
     ],
     proofs: {
       stack: 'Tools',

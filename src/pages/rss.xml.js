@@ -8,6 +8,7 @@ export async function GET(context) {
   const all = await getCollection('blog');
   const posts = postsFor(all, 'fr');
   return rss({
+    trailingSlash: false,
     title: `${tr.brand} · ${tr.blog.kicker}`,
     description: tr.blog.lead,
     site: context.site,

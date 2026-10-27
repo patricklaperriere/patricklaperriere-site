@@ -43,47 +43,47 @@ export const villes: Ville[] = [
     order: 2,
     fr: {
       metaTitle: 'Création de site web à Montréal | Patrick Laperrière',
-      metaDesc: 'Développeur web pour Montréal. Sites sur mesure, rapides et bilingues, optimisés pour Google. Pour commerces, restos et PME montréalaises. Soumission gratuite.',
+      metaDesc: 'Développeur web pour Montréal. Sites sur mesure, rapides et bilingues, optimisés pour Google. Pour commerces, restaurants et PME de Montréal.',
       h1: 'Création de site web à Montréal',
       lead: 'Des sites sur mesure, rapides et bilingues pour les entreprises montréalaises qui veulent se démarquer.',
       intro:
         'À Montréal, beaucoup d’entreprises se disputent les mêmes recherches. Pour ressortir, votre site doit charger vite, parler aux deux langues et viser les bons mots-clés : c’est ce que je construis.',
       localTitle: 'Le web pour les entreprises de Montréal',
       local: [
-        'De Griffintown au Plateau, en passant par Rosemont et Villeray, Montréal regorge de commerces, de restaurants, de boutiques et de startups qui se battent pour la même attention. Le bilinguisme y est essentiel : une part de votre clientèle cherche en français, l’autre en anglais.',
-        'Je construis des sites vraiment bilingues (FR/EN), avec un référencement propre dans les deux langues, pas une simple traduction de surface. Ajoutez à ça une vitesse de chargement quasi instantanée et un design soigné, et vous avez un site qui convertit les visiteurs montréalais en clients.',
+        'De Griffintown au Plateau, en passant par Rosemont et Villeray, Montréal regorge de commerces, de restaurants, de boutiques et de jeunes entreprises qui se battent pour la même attention. Le bilinguisme y est essentiel : une part de votre clientèle cherche en français, l’autre en anglais.',
+        'Je construis des sites vraiment bilingues (FR/EN), avec un référencement propre dans les deux langues, pas une simple traduction de surface. Ajoutez à ça des pages rapides et un design soigné, pour donner aux visiteurs montréalais une bonne raison de vous écrire.',
       ],
       whyTitle: 'Pourquoi me confier votre site à Montréal',
       why: [
         'Sites authentiquement bilingues, optimisés séparément en FR et en EN avec hreflang propre.',
-        'Performance maximale : un visiteur montréalais pressé ne tolère pas un site lent.',
-        'À distance ou en personne, je m’adapte à votre rythme et à votre marché.',
+        'Des pages rapides : un visiteur pressé quitte vite un site lent.',
+        'À distance, par appel vidéo et par courriel, à votre rythme.',
       ],
       servedLabel: 'Je dessers aussi les quartiers de',
       faqTitle: 'Questions fréquentes · Montréal',
       faq: [
         { q: 'Mon site doit-il être bilingue à Montréal ?', a: 'Dans la plupart des cas, oui. Une partie importante du marché montréalais cherche en anglais. Un vrai site FR/EN, optimisé dans les deux langues, élargit nettement votre portée.' },
-        { q: 'Travaillez-vous avec des restos et commerces de Montréal ?', a: 'Oui : commerces de détail, restaurants, services professionnels, boutiques en ligne. Je construis le site selon votre secteur et votre clientèle.' },
+        { q: 'Travaillez-vous avec des restaurants et des commerces de Montréal ?', a: 'Oui : commerces de détail, restaurants, services professionnels, boutiques en ligne. Je construis le site selon votre secteur et votre clientèle.' },
         { q: 'Faut-il se rencontrer en personne ?', a: 'Ce n’est pas nécessaire. Je travaille à distance, par appel vidéo et par courriel, avec des clients de Montréal comme d’ailleurs au Québec.' },
       ],
     },
     en: {
       metaTitle: 'Web Design in Montreal | Patrick Laperrière',
       metaDesc: 'Web developer for Montreal. Custom, fast, bilingual websites optimized for Google. For shops, restaurants and small businesses. Free quote.',
-      h1: 'Web Design & Development in Montreal',
+      h1: 'Web design and development in Montreal',
       lead: 'Custom, fast, bilingual websites for Montreal businesses that want to stand out.',
       intro:
         'In Montreal, many businesses compete for the same searches. To stand out, your site has to load fast, speak both languages and target the right keywords: that’s what I build.',
       localTitle: 'The web for Montreal businesses',
       local: [
-        'From Griffintown to the Plateau, through Rosemont and Villeray, Montreal is packed with shops, restaurants, boutiques and startups fighting for the same attention. Bilingualism is essential here: part of your audience searches in French, the other in English.',
-        'I build genuinely bilingual sites (FR/EN), with clean SEO in both languages, not a surface-level translation. Add near-instant load times and a polished design, and you have a site that turns Montreal visitors into customers.',
+        'From Griffintown to the Plateau, through Rosemont and Villeray, Montreal is packed with shops, restaurants, boutiques and young companies fighting for the same attention. Bilingualism is essential here: part of your audience searches in French, the other in English.',
+        'I build genuinely bilingual sites (FR/EN), with clean SEO in both languages, not a surface-level translation. Add fast pages and a polished design, to give Montreal visitors a good reason to get in touch.',
       ],
       whyTitle: 'Why trust me with your Montreal site',
       why: [
         'Truly bilingual sites, optimized separately in FR and EN with clean hreflang.',
-        'Top performance: a busy Montreal visitor won’t tolerate a slow site.',
-        'Remote or in person, I adapt to your pace and your market.',
+        'Fast pages: a busy visitor quickly leaves a slow site.',
+        'Remotely, over video calls and email, at your pace.',
       ],
       servedLabel: 'I also serve the neighbourhoods of',
       faqTitle: 'Frequently asked questions · Montreal',
@@ -107,49 +107,49 @@ export const villes: Ville[] = [
       h1: 'Création de site web à Longueuil',
       lead: 'Des sites rapides et bien référencés pour les entreprises de Longueuil et de la Rive-Sud.',
       intro:
-        'Longueuil et l’agglomération de la Rive-Sud forment un bassin de PME dynamique. Un site moderne et rapide vous aide à capter les clients de Brossard, Saint-Lambert ou Boucherville avant vos concurrents.',
+        'Longueuil et l’agglomération de la Rive-Sud forment un bassin de PME dynamique. Un site moderne et rapide aide les clients de Brossard, Saint-Lambert ou Boucherville à vous trouver.',
       localTitle: 'Le web pour les entreprises de la Rive-Sud',
       local: [
-        'L’agglomération de Longueuil regroupe une clientèle résidentielle et commerciale importante, répartie entre Brossard, Saint-Lambert, Boucherville, Saint-Hubert et Greenfield Park. Beaucoup de commerces de services y misent encore sur le bouche-à-oreille, alors qu’une bonne présence en ligne fait toute la différence.',
-        'J’optimise votre site pour les recherches locales propres à la Rive-Sud, avec un référencement géolocalisé et une fiche Google Business soignée. L’objectif : que les résidents qui cherchent votre service vous trouvent facilement.',
+        'L’agglomération de Longueuil regroupe une clientèle résidentielle et commerciale importante, répartie entre Brossard, Saint-Lambert, Boucherville, Saint-Hubert et Greenfield Park. Beaucoup de commerces de services y misent encore sur le bouche-à-oreille, alors qu’une bonne présence en ligne aide à être trouvé.',
+        'J’optimise votre site pour les recherches locales propres à la Rive-Sud, avec un référencement géolocalisé et un Profil d’entreprise Google soigné. L’objectif : que les résidents qui cherchent votre service vous trouvent facilement.',
       ],
       whyTitle: 'Pourquoi travailler avec moi sur la Rive-Sud',
       why: [
         'Référencement local ciblé sur Longueuil et les villes voisines.',
         'Sites bilingues FR/EN, utiles pour une clientèle variée de la Rive-Sud.',
-        'Joignable facilement, dans votre fuseau horaire, par appel ou par courriel.',
+        'Joignable par appel ou par courriel.',
       ],
       servedLabel: 'Je dessers aussi',
       faqTitle: 'Questions fréquentes · Longueuil',
       faq: [
         { q: 'Couvrez-vous toute la Rive-Sud ?', a: 'Oui : Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert et les environs. J’optimise le référencement pour la ville qui compte le plus pour votre clientèle.' },
-        { q: 'Faites-vous du SEO local pour Longueuil ?', a: 'Oui. J’optimise votre fiche Google Business et j’ajoute des données structurées locales pour que vous soyez trouvé par les clients de la Rive-Sud.' },
+        { q: 'Faites-vous du SEO local pour Longueuil ?', a: 'Oui. J’optimise votre Profil d’entreprise Google et j’ajoute des données structurées locales pour que vous soyez trouvé par les clients de la Rive-Sud.' },
         { q: 'Peut-on se rencontrer ?', a: 'Le travail se fait surtout par appel vidéo et par courriel, ce qui suffit pour la plupart des projets.' },
       ],
     },
     en: {
       metaTitle: 'Web Design in Longueuil | Patrick Laperrière',
       metaDesc: 'Web developer for Longueuil and the South Shore. Fast, bilingual, SEO-optimized websites for businesses in Brossard, Saint-Lambert, Boucherville and nearby.',
-      h1: 'Web Design & Development in Longueuil',
+      h1: 'Web design and development in Longueuil',
       lead: 'Fast, well-ranked websites for businesses in Longueuil and the South Shore.',
       intro:
         'Longueuil and the South Shore agglomeration form a dynamic pool of small businesses. A modern, fast website helps you capture customers in Brossard, Saint-Lambert or Boucherville before your competitors.',
       localTitle: 'The web for South Shore businesses',
       local: [
         'The Longueuil agglomeration covers a large residential and commercial base, spread across Brossard, Saint-Lambert, Boucherville, Saint-Hubert and Greenfield Park. Many service businesses still rely on word of mouth, when a strong online presence makes all the difference.',
-        'I optimize your site for the local searches specific to the South Shore, with geo-targeted SEO and a polished Google Business profile. The result: when a resident searches for your service, you’re the one who shows up.',
+        'I optimize your site for the local searches specific to the South Shore, with geo-targeted SEO and a polished Google Business Profile. The goal: residents who search for your service find you easily.',
       ],
       whyTitle: 'Why work with me on the South Shore',
       why: [
         'Local SEO targeted at Longueuil and neighbouring towns.',
         'Bilingual FR/EN sites, useful for the South Shore’s varied audience.',
-        'Easy to reach, in your time zone, by phone or email.',
+        'Easy to reach by phone or email.',
       ],
       servedLabel: 'I also serve',
       faqTitle: 'Frequently asked questions · Longueuil',
       faq: [
         { q: 'Do you cover the whole South Shore?', a: 'Yes: Longueuil, Brossard, Saint-Lambert, Boucherville, Saint-Hubert and nearby. I optimize SEO for the town that matters most to your audience.' },
-        { q: 'Do you do local SEO for Longueuil?', a: 'Yes. I optimize your Google Business profile and add local structured data so you get found by South Shore customers.' },
+        { q: 'Do you do local SEO for Longueuil?', a: 'Yes. I optimize your Google Business Profile and add local structured data so you get found by South Shore customers.' },
         { q: 'Can we meet?', a: 'Most of the work happens over video calls and email, which is enough for most projects.' },
       ],
     },
@@ -170,7 +170,7 @@ export const villes: Ville[] = [
         'Gatineau est un marché unique : collée à Ottawa, votre clientèle cherche en français comme en anglais. Un vrai site bilingue, bien référencé dans les deux langues, vous ouvre les deux côtés de la rivière.',
       localTitle: 'Le web pour les entreprises de l’Outaouais',
       local: [
-        'Dans l’Outaouais, le bilinguisme n’est pas optionnel. Entre Gatineau, Hull, Aylmer et le voisinage immédiat d’Ottawa, votre site doit performer en français et en anglais pour capter toute votre clientèle potentielle. Un site offert dans une seule langue se prive d’une partie de cette clientèle.',
+        'Dans l’Outaouais, le bilinguisme n’est pas optionnel. Entre Gatineau, Hull, Aylmer et le voisinage immédiat d’Ottawa, votre site doit bien fonctionner en français et en anglais pour capter toute votre clientèle potentielle. Un site offert dans une seule langue se prive d’une partie de cette clientèle.',
         'Je construis des sites authentiquement bilingues, avec un contenu optimisé séparément en FR et en EN et un hreflang propre, pour que Google vous montre dans la bonne langue à la bonne personne. C’est exactement le travail que j’ai livré pour un inspecteur en bâtiment de la région.',
       ],
       whyTitle: 'Pourquoi un site bilingue pour l’Outaouais',
@@ -195,7 +195,7 @@ export const villes: Ville[] = [
     en: {
       metaTitle: 'Web Design in Gatineau (Outaouais) | Patrick Laperrière',
       metaDesc: 'Web developer for Gatineau and the Outaouais. Fast bilingual FR/EN websites optimized for SEO, ideal for the Gatineau-Ottawa cross-river market.',
-      h1: 'Web Design & Development in Gatineau',
+      h1: 'Web design and development in Gatineau',
       lead: 'Fast bilingual websites for businesses in Gatineau and the Outaouais, where FR and EN matter equally.',
       intro:
         'Gatineau is a unique market: right next to Ottawa, your customers search in both French and English. A real bilingual site, ranked well in both languages, opens up both sides of the river.',
@@ -254,13 +254,13 @@ export const villes: Ville[] = [
       faq: [
         { q: 'Travaillez-vous à distance avec des clients de Québec ?', a: 'Oui, sans problème. Je collabore par appel et courriel avec des clients de la ville de Québec et de toute la province, avec un suivi clair du début à la fin.' },
         { q: 'Mon site sera-t-il en français de qualité ?', a: 'Oui, c’est la base. Je peux aussi ajouter une version anglaise optimisée si votre clientèle le justifie.' },
-        { q: 'Faites-vous du référencement local pour Québec ?', a: 'Oui. J’optimise votre fiche Google Business et vos pages pour les recherches locales de la Capitale-Nationale.' },
+        { q: 'Faites-vous du référencement local pour Québec ?', a: 'Oui. J’optimise votre Profil d’entreprise Google et vos pages pour les recherches locales de la Capitale-Nationale.' },
       ],
     },
     en: {
       metaTitle: 'Web Design in Quebec City | Patrick Laperrière',
       metaDesc: 'Web developer for Quebec City. Fast, polished, Google-optimized websites built for businesses across the Capitale-Nationale region.',
-      h1: 'Web Design & Development in Quebec City',
+      h1: 'Web design and development in Quebec City',
       lead: 'Fast, polished websites for businesses in Quebec City and the Capitale-Nationale region.',
       intro:
         'Quebec City has a strong identity and a customer base loyal to local businesses. A fast, elegant, well-ranked website helps turn that regional pride into customers who find you and choose you.',
@@ -279,8 +279,8 @@ export const villes: Ville[] = [
       faqTitle: 'Frequently asked questions · Quebec City',
       faq: [
         { q: 'Do you work remotely with Quebec City clients?', a: 'Yes, easily. I collaborate over calls and email with clients in Quebec City and across the province, with clear follow-up from start to finish.' },
-        { q: 'Will my site have quality French?', a: 'Yes. Flawless French is the baseline. I can also add an optimized English version if your audience warrants it.' },
-        { q: 'Do you do local SEO for Quebec City?', a: 'Yes. I optimize your Google Business profile and pages for Capitale-Nationale local searches.' },
+        { q: 'Will my site have quality French?', a: 'Yes, that’s the baseline. I can also add an optimized English version if your audience warrants it.' },
+        { q: 'Do you do local SEO for Quebec City?', a: 'Yes. I optimize your Google Business Profile and pages for Capitale-Nationale local searches.' },
       ],
     },
   },
@@ -301,7 +301,7 @@ export const villes: Ville[] = [
       localTitle: 'Le web pour les entreprises de la Couronne Nord',
       local: [
         'Entre Terrebonne, Mascouche, Repentigny et le secteur de Lanaudière, les entreprises de services, de construction et de commerce de proximité gagnent à soigner leur présence en ligne : c’est souvent là que le premier contact se fait.',
-        'J’optimise votre site pour les recherches locales de la Couronne Nord, avec un référencement géolocalisé et une fiche Google Business bien tenue.',
+        'J’optimise votre site pour les recherches locales de la Couronne Nord, avec un référencement géolocalisé et un Profil d’entreprise Google bien tenu.',
       ],
       whyTitle: 'Pourquoi travailler avec moi sur la Couronne Nord',
       why: [
@@ -314,20 +314,20 @@ export const villes: Ville[] = [
       faq: [
         { q: 'Couvrez-vous Mascouche et Repentigny ?', a: 'Oui. Je dessers toute la Couronne Nord : Terrebonne, Mascouche, Repentigny, Lachenaie et les environs, avec un référencement adapté à votre clientèle.' },
         { q: 'Travaillez-vous à distance ?', a: 'Oui. Le travail se fait par appel vidéo et par courriel, ce qui suffit pour la plupart des projets.' },
-        { q: 'Faites-vous du SEO local pour Terrebonne ?', a: 'Oui. J’optimise votre fiche Google Business et vos pages pour que les clients de la Couronne Nord vous trouvent plus facilement.' },
+        { q: 'Faites-vous du SEO local pour Terrebonne ?', a: 'Oui. J’optimise votre Profil d’entreprise Google et vos pages pour que les clients de la Couronne Nord vous trouvent plus facilement.' },
       ],
     },
     en: {
       metaTitle: 'Web Design in Terrebonne | Patrick Laperrière',
-      metaDesc: 'Web developer for Terrebonne and the North Shore. Fast, SEO-optimized websites for businesses in Mascouche, Repentigny and Lanaudière. Free quote.',
-      h1: 'Web Design & Development in Terrebonne',
-      lead: 'Fast, well-ranked websites for businesses in Terrebonne and the North Shore.',
+      metaDesc: 'Web developer for Terrebonne and Montreal’s North Shore. Fast, SEO-optimized websites for businesses in Mascouche, Repentigny and Lanaudière. Free quote.',
+      h1: 'Web design and development in Terrebonne',
+      lead: 'Fast, well-ranked websites for businesses in Terrebonne and Montreal’s North Shore.',
       intro:
         'In Terrebonne and on Montreal’s North Shore, customers look up local businesses on Google first. A fast, clear website helps you be one of the ones they find.',
       localTitle: 'The web for North Shore businesses',
       local: [
-        'Between Terrebonne, Mascouche, Repentigny and the Lanaudière area, local demand is rising quickly. Many service, construction and local retail businesses have an outdated or non-existent online presence, leaving real room for those who invest in their site.',
-        'I optimize your site for North Shore local searches, with geo-targeted SEO and a well-maintained Google Business profile.',
+        'Between Terrebonne, Mascouche, Repentigny and the Lanaudière area, service, construction and local retail businesses gain from a well-kept online presence: that is often where first contact happens.',
+        'I optimize your site for North Shore local searches, with geo-targeted SEO and a well-maintained Google Business Profile.',
       ],
       whyTitle: 'Why work with me on the North Shore',
       why: [
@@ -340,7 +340,7 @@ export const villes: Ville[] = [
       faq: [
         { q: 'Do you cover Mascouche and Repentigny?', a: 'Yes. I serve the whole North Shore: Terrebonne, Mascouche, Repentigny, Lachenaie and nearby, with SEO tailored to your audience.' },
         { q: 'Do you work remotely?', a: 'Yes. The work happens over video calls and email, which is enough for most projects.' },
-        { q: 'Do you do local SEO for Terrebonne?', a: 'Yes. I optimize your Google Business profile and pages so North Shore customers find you more easily.' },
+        { q: 'Do you do local SEO for Terrebonne?', a: 'Yes. I optimize your Google Business Profile and pages so North Shore customers find you more easily.' },
       ],
     },
   },
