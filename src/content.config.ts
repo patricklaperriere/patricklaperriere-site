@@ -15,6 +15,8 @@ const blog = defineCollection({
     pubDate: z.coerce.date(),
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
+    /** Service the article leads to, shown as the closing call to action. */
+    service: z.enum(['svcWeb', 'svcSeo', 'svcShopify', 'svcTools']).optional(),
     draft: z.boolean().default(false),
   }),
 });

@@ -312,6 +312,8 @@ export const en: Widen<Dict> = {
     aboutLink: 'More about me',
     related: 'Related articles',
     readMore: 'Read',
+    serviceLabel: 'The service behind this article',
+    serviceCta: 'Request a quote',
     updated: 'Updated',
   },
 

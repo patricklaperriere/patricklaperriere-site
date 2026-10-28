@@ -6,6 +6,7 @@ slug: "why-website-not-converting"
 translationKey: "site-convertit"
 pubDate: 2026-05-06
 tags: ["Conversion", "Small business", "Guides"]
+service: "svcSeo"
 ---
 
 Having a website is one thing. Having a website that turns visitors into customers is another. If yours brings in people but no calls or emails, here are the usual culprits.
@@ -20,11 +21,11 @@ Many sites forget to tell the visitor what to do next. Every page should push to
 
 ## 3. The site is too slow
 
-A visitor won't wait. If the page takes more than a few seconds to load, they're already gone. Speed isn't a technical luxury, it's a baseline requirement for converting.
+A visitor won't wait. If the page takes more than a few seconds to load, they're already gone. Speed isn't a technical luxury, it's a baseline requirement for converting. I explain why in [how speed affects a small business's sales](/en/blog/fast-website-small-business).
 
 ## 4. It doesn't build trust
 
-No proof, no faces, no work to show? The visitor hesitates. Testimonials, project examples, your credentials and a real About page reassure them and make them want to reach out.
+No proof, no faces, no work to show? The visitor hesitates. Testimonials, [project examples](/en/work), your credentials and a real About page reassure them and make them want to reach out.
 
 ## 5. The mobile experience is poor
 
@@ -32,6 +33,6 @@ Most of your visitors are on their phone. If the buttons are tiny, the text unre
 
 ## The good news
 
-None of these problems are permanent. A site built to convert guides the visitor, loads fast, builds trust and works flawlessly on mobile. That's exactly what I build.
+None of these problems are permanent, and a [website redesign with SEO](/en/services/website-redesign-seo) can fix them without starting from scratch. A site built to convert guides the visitor, loads fast, builds trust and works flawlessly on mobile. That's exactly what I build.
 
 Is your site getting traffic but not converting? [Let's see how to turn it into a lead machine](/en/services/web-design-development), or [talk to me directly about your project](/en/contact).

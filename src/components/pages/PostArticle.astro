@@ -2,7 +2,7 @@
 // Article template. The whole job here is reading comfort: one narrow measure,
 // a clear heading hierarchy, and metadata that stays out of the way.
 import { useTranslations, path } from '../../i18n';
-import type { Locale } from '../../i18n/routes';
+import type { Locale, RouteKey } from '../../i18n/routes';
 import { type Post, blogPostPath } from '../../lib/blog';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
@@ -16,6 +16,10 @@ interface Props {
 }
 const { locale, post, related = [] } = Astro.props;
 const tr = useTranslations(locale);
+
+// The service this article leads to, as a closing call to action.
+const svcKey = post.data.service;
+const svc = svcKey ? Object.values(tr.services).find((s) => s.key === svcKey) : undefined;
 
 // Only the update date is shown, and only when the article declares one
 // (`updatedDate`). It also feeds dateModified in the JSON-LD and the sitemap's
@@ -50,6 +54,15 @@ const crumbs = [
   <div class="post__body container-wide">
     <slot />
   </div>
+
+  {svc && (
+    <aside class="post__service container-wide" aria-label={tr.blog.serviceLabel}>
+      <p class="label">{tr.blog.serviceLabel}</p>
+      <p class="post__service-title"><a href={path(svc.key as RouteKey, locale)} class="link">{svc.title}</a></p>
+      <p class="post__service-blurb">{svc.blurb}</p>
+      <a href={path('contact', locale)} class="btn btn-accent">{tr.blog.serviceCta}<span class="btn__arrow" aria-hidden="true">→</span></a>
+    </aside>
+  )}
 
   <div class="container-wide">
     <aside class="post__author" aria-label={tr.about.kicker}>
@@ -102,6 +115,10 @@ const crumbs = [
 <CtaBand locale={locale} />
 
 <style>
+  .post__service { margin-block: clamp(2rem, 5vw, 3rem); padding-block: 1.5rem; border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft); max-width: 72ch; }
+  .post__service .label { margin: 0; }
+  .post__service-title { margin: 0.5rem 0 0; font-size: var(--fs-lead); }
+  .post__service-blurb { margin: 0.5rem 0 1.25rem; color: var(--fg-dim); line-height: 1.6; }
   /* ---- Masthead -----------------------------------------------------------
      The article column is narrower than the site container; centring it here
      rather than on a wrapper keeps the breadcrumb and CTA full width. */

@@ -6,6 +6,7 @@ slug: "pourquoi-site-web-ne-convertit-pas"
 translationKey: "site-convertit"
 pubDate: 2026-05-06
 tags: ["Conversion", "PME", "Conseils"]
+service: "svcSeo"
 ---
 
 Avoir un site, c’est bien. Avoir un site qui transforme les visiteurs en clients, c’est tout autre chose. Si le vôtre attire du monde sans générer d’appels ni de courriels, voici les coupables habituels.
@@ -20,11 +21,11 @@ Beaucoup de sites oublient de dire au visiteur quoi faire ensuite. Chaque page d
 
 ## 3. Le site est trop lent
 
-Un visiteur n’attend pas. Si la page met plus de quelques secondes à charger, il est déjà parti. La vitesse n’est pas un luxe technique, c’est une condition de base pour convertir.
+Un visiteur n’attend pas. Si la page met plus de quelques secondes à charger, il est déjà parti. La vitesse n’est pas un luxe technique, c’est une condition de base pour convertir. J’explique pourquoi dans [l’impact de la vitesse sur les ventes d’une PME](/blogue/vitesse-site-web-pme).
 
 ## 4. Il n’inspire pas confiance
 
-Pas de preuves, pas de visages, pas de réalisations ? Le visiteur hésite. Des témoignages, des exemples de projets, vos accréditations et une vraie page À propos rassurent et donnent envie de vous contacter.
+Pas de preuves, pas de visages, pas de réalisations ? Le visiteur hésite. Des témoignages, des [exemples de projets](/realisations), vos accréditations et une vraie page À propos rassurent et donnent envie de vous contacter.
 
 ## 5. L’expérience mobile est mauvaise
 
@@ -32,6 +33,6 @@ La majorité de vos visiteurs sont sur leur téléphone. Si les boutons sont min
 
 ## La bonne nouvelle
 
-Aucun de ces problèmes n’est une fatalité. Un site pensé pour la conversion guide le visiteur, charge vite, inspire confiance et fonctionne parfaitement sur mobile. C’est exactement ce que je construis.
+Aucun de ces problèmes n’est une fatalité, et une [refonte du site et du SEO](/services/refonte-seo) peut les régler sans repartir de zéro. Un site pensé pour la conversion guide le visiteur, charge vite, inspire confiance et fonctionne parfaitement sur mobile. C’est exactement ce que je construis.
 
 Votre site attire du trafic mais ne convertit pas ? [Voyons comment le transformer en source de clients](/services/creation-site-web), ou [parlons directement de votre projet](/contact).
