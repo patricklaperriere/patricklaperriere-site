@@ -86,8 +86,8 @@ const specs = [
     {project.draft && (
       <p class="case__draft" role="note">
         {locale === 'fr'
-          ? 'Brouillon : visible seulement en local (npm run dev), jamais publié tant que « publié » vaut false.'
-          : 'Draft: local preview only (npm run dev). Never built while “publié” is false.'}
+          ? 'Brouillon : visible seulement en local (npm run dev), jamais publié tant que « statut » vaut brouillon.'
+          : 'Draft: local preview only (npm run dev). Never built while “statut” is brouillon.'}
       </p>
     )}
     <p class="label label-rule">{project.client} · {project.year}</p>

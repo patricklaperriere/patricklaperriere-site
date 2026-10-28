@@ -1,0 +1,41 @@
+---
+// Stand-in for a project without a capture yet: a prune panel, the project's
+// name set large over the background grid. Decorative only: the card's H2
+// already names the project.
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<div class="ph" aria-hidden="true">
+  <span class="ph__name">{name}</span>
+</div>
+
+<style>
+  .ph {
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 100%;
+    aspect-ratio: var(--ratio, 16 / 10);
+    padding: clamp(1rem, 4vw, 2.5rem);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background:
+      linear-gradient(var(--line-soft) 1px, transparent 1px) 0 0 / 32px 32px,
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px) 0 0 / 32px 32px,
+      var(--bg-raised);
+  }
+  .ph__name {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 6vw, 4.5rem);
+    font-weight: var(--fw-bold);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-align: center;
+    color: var(--fg-dim);
+    overflow-wrap: anywhere;
+  }
+</style>

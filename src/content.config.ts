@@ -72,7 +72,14 @@ const projets = defineCollection({
     /** Facts still missing, shown as [À FOURNIR : …] in `astro dev` only. */
     aFournir: z.array(z.string()).default([]),
     ordre: z.number().int(),
-    publié: z.boolean().default(false),
+    /** brouillon: `astro dev` only, never built. en_cours: built, with an « En cours » badge. */
+    statut: z.enum(['publié', 'brouillon', 'en_cours']).default('brouillon'),
+    /** 1 to 3 short, checkable facts shown on the work index (« Preuve »). */
+    preuve: z.array(bilingue).max(3).default([]),
+    /** Work-index card: column span on the 12-column grid and media ratio (CSS, e.g. "16 / 10"). */
+    grille: z
+      .object({ colonnes: z.number().int().min(3).max(12), ratio: z.string().optional() })
+      .optional(),
     année: z.string(),
     catégorie: z.enum(['saas', 'web', 'seo', 'shopify']),
     /** Shown in the home-page selection. */

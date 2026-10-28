@@ -3,7 +3,7 @@ import Layout from '../../../layouts/Layout.astro';
 import WorkIndexContent from '../../../components/pages/WorkIndexContent.astro';
 import { useTranslations, routes, path } from '../../../i18n';
 import { workBase } from '../../../i18n/routes';
-import { sortedProjects, loc } from '../../../data/projets';
+import { sortedProjects, loc, CATEGORY_LABEL } from '../../../data/projets';
 import { graph, breadcrumbSchema, itemListSchema } from '../../../lib/schema';
 
 const locale = 'en' as const;
@@ -21,6 +21,8 @@ const schema = graph([
     (await sortedProjects()).map((p) => ({
       name: loc(p.title, locale),
       url: `${workBase[locale]}/${p.slug}`,
+      dateCreated: p.year,
+      about: CATEGORY_LABEL[p.category][locale],
     })),
   ),
 ]);

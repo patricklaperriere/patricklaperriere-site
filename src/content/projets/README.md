@@ -24,7 +24,9 @@ Le schéma est validé par `src/content.config.ts` : un champ manquant fait éch
 | `aFournir` | Faits manquants : affichés `[À FOURNIR : …]` avec `npm run dev` seulement, jamais dans un build |
 | `image` | Capture 1280×800 en WebP dans `public/work/`, plus une variante `-640.webp` à côté pour les téléphones. Vide : pas de cadre, la fiche s'affiche sans image |
 | `ordre` | Position dans la liste (1 = premier) |
-| `publié` | `false` = brouillon : visible seulement avec `npm run dev`, absent du build |
+| `statut` | `brouillon` : visible seulement avec `npm run dev`, absent du build. `publié` : en ligne. `en_cours` : en ligne avec un badge « En cours » |
+| `preuve` | 1 à 3 faits courts et vérifiables (fr, en), affichés sur la page Réalisations avec une coche |
+| `grille` | Carte de la page Réalisations : `colonnes` (sur 12) et `ratio` du média (ex. `"21 / 9"`). Une rangée incomplète est complétée par sa dernière carte |
 | `année`, `catégorie` (saas, web, seo, shopify), `vedette`, `accent`, `cadrage` (cover, contain) | Présentation |
 
 Le corps du fichier (sous le frontmatter) sert aux notes internes. Il n'est jamais affiché.
@@ -32,7 +34,7 @@ Le corps du fichier (sous le frontmatter) sert aux notes internes. Il n'est jama
 ## Garde-fou
 
 Tant qu'un champ contient `À CONFIRMER`, le projet ne peut pas être publié : la compilation échoue
-si `publié: true` et qu'une valeur affichée contient encore ce marqueur.
+si `statut` n'est pas `brouillon` et qu'une valeur affichée contient encore ce marqueur.
 
 Exception : `terrain` et `témoignage` peuvent garder le marqueur sur un projet publié. Ils s'affichent
 alors avec `npm run dev` seulement et sont retirés du build jusqu'à confirmation.

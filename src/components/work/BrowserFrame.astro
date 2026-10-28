@@ -1,0 +1,75 @@
+---
+// A capture in a minimal browser frame: three dots and the address in mono, on
+// a prune panel. The frame keeps every capture on the work index looking like
+// the same kind of object, whatever its own colours.
+import { captureSrcset } from '../../data/projets';
+
+interface Props {
+  src: string;
+  alt: string;
+  /** Address shown in the bar (host only, no scheme). */
+  address: string;
+  sizes: string;
+  eager?: boolean;
+}
+const { src, alt, address, sizes, eager = false } = Astro.props;
+---
+
+<div class="bf">
+  <div class="bf__bar" aria-hidden="true">
+    <span class="bf__dots"><i></i><i></i><i></i></span>
+    <span class="bf__url">{address}</span>
+  </div>
+  <div class="bf__shot">
+    <img
+      src={src}
+      srcset={captureSrcset(src)}
+      sizes={sizes}
+      alt={alt}
+      width="1280"
+      height="800"
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
+      decoding="async"
+    />
+  </div>
+</div>
+
+<style>
+  .bf {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--bg-raised);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  .bf__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    color: var(--fg-mute);
+    min-width: 0;
+  }
+  .bf__dots { display: inline-flex; gap: 0.3rem; flex: none; }
+  .bf__dots i { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--line-strong); }
+  .bf__url { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .bf__shot {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--ratio, 16 / 10);
+  }
+  .bf__shot img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus, top center);
+    transition: transform var(--t-slow) var(--ease-out);
+  }
+</style>

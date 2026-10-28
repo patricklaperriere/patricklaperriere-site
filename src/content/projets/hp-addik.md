@@ -37,7 +37,16 @@ aFournir:
   - "résultats depuis la mise en ligne (ventes, commandes US), si le client accepte de les publier"
   - "2 à 3 captures supplémentaires (fiche produit, sélecteur de pays, mobile)"
 ordre: 5
-publié: true
+statut: publié
+preuve:
+  - fr: "Vente au Canada et aux États-Unis"
+    en: "Sells in Canada and the US"
+  - fr: "Magasinage par marque"
+    en: "Shop by brand"
+  - fr: "Thème Liquid sur mesure"
+    en: "Custom Liquid theme"
+grille:
+  colonnes: 8
 année: "2025"
 catégorie: shopify
 vedette: true

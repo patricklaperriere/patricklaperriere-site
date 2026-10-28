@@ -26,9 +26,12 @@ résultat:
   fr: "<!-- À CONFIRMER PATRICK : aucun résultat n’est connu. Ne rien publier sans chiffre ou fait vérifiable. -->"
   en: "<!-- À CONFIRMER PATRICK -->"
 lien: "<!-- À CONFIRMER PATRICK : domaine pas encore acheté par le client -->"
-image: "/work/turbofix-mecanique.webp <!-- À CONFIRMER PATRICK : capture 1280×800 à produire -->"
+image: ""
 ordre: 7
-publié: false
+statut: brouillon
+grille:
+  colonnes: 12
+  ratio: "21 / 9"
 année: "2026"
 catégorie: web
 vedette: false

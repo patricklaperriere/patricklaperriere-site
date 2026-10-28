@@ -1,47 +1,60 @@
 ---
 // Work index.
 //
-// Not a uniform 3-up card grid: projects alternate between a full-width lead
-// and a two-up pair, so the page has rhythm and the imagery carries it. The
-// chunking is derived rather than hard-coded, so adding a fifth project keeps
-// the pattern instead of breaking it.
+// Header with a few figures read from the projects, a sticky filter bar, the
+// lead project full width, then a 12-column bento grid. Each project's span
+// and media ratio come from its file (`grille`); a row that does not reach 12
+// columns is completed by its last card, so the grid never shows a hole
+// whatever is published.
 import { useTranslations, path } from '../../i18n';
 import type { Locale } from '../../i18n/routes';
-import type { Project } from '../../data/projets';
-import { sortedProjects } from '../../data/projets';
+import { sortedProjects, yearSpan, FILTER_OF, type WorkFilter } from '../../data/projets';
 import Breadcrumb from '../Breadcrumb.astro';
-import ProjectFeature from '../ProjectFeature.astro';
 import CtaBand from '../CtaBand.astro';
+import WorkFeatured from '../work/WorkFeatured.astro';
+import WorkCard from '../work/WorkCard.astro';
+import WorkFilters from '../work/WorkFilters.astro';
 
 interface Props {
   locale: Locale;
 }
 const { locale } = Astro.props;
 const tr = useTranslations(locale);
-const projects = await sortedProjects();
+const ws = tr.workSection;
 
-// Alternate 1, 2, 1, 2 … (a lead, then a pair, then a lead) among projects
-// that have a capture. A project without one gets a full row of its own, so
-// a pair never sets an image beside an empty column.
-const rows: { items: Project[]; lead: boolean; from: number }[] = [];
-let wantLead = true;
-let pair: Project[] = [];
-let pairFrom = 0;
-projects.forEach((p, i) => {
-  if (!p.image || wantLead) {
-    rows.push({ items: [p], lead: true, from: i });
-    if (p.image) wantLead = false;
-    return;
+// Off for now (Patrick's call): flip to true to show the project count in the
+// mono line and in the figures.
+const SHOW_PROJECT_COUNT = false;
+
+const projects = await sortedProjects();
+const [lead, ...rest] = projects;
+
+const years = yearSpan(projects);
+const groups = new Set(projects.map((p) => FILTER_OF[p.category]));
+const stats = [
+  ...(SHOW_PROJECT_COUNT ? [{ k: ws.statProjects, v: String(projects.length).padStart(2, '0') }] : []),
+  { k: ws.statCategories, v: String(groups.size).padStart(2, '0') },
+  { k: ws.statYears, v: years },
+];
+const counter = [SHOW_PROJECT_COUNT ? ws.projectsCount(projects.length) : null, years].filter(Boolean).join(' · ');
+
+const counts: Record<'all' | WorkFilter, number> = { all: projects.length, logiciel: 0, web: 0, shopify: 0 };
+for (const p of projects) counts[FILTER_OF[p.category]]++;
+
+// Fill rows of 12: when the next card would overflow, the previous row's last
+// card takes the remaining columns.
+const cells: { project: (typeof rest)[number]; span: number }[] = [];
+let used = 0;
+for (const p of rest) {
+  const want = Math.min(12, p.grid?.span ?? 6);
+  if (used + want > 12 && cells.length) {
+    cells[cells.length - 1].span += 12 - used;
+    used = 0;
   }
-  if (pair.length === 0) pairFrom = i;
-  pair.push(p);
-  if (pair.length === 2) {
-    rows.push({ items: pair, lead: false, from: pairFrom });
-    pair = [];
-    wantLead = true;
-  }
-});
-if (pair.length) rows.push({ items: pair, lead: true, from: pairFrom });
+  cells.push({ project: p, span: want });
+  used = (used + want) % 12;
+}
+if (used && cells.length) cells[cells.length - 1].span += 12 - used;
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -51,51 +64,113 @@ const crumbs = [
 
 <Breadcrumb items={crumbs} />
 
-<section class="page-head container-wide">
-  <p class="label label-rule">{tr.workSection.kicker}</p>
-  <h1>{tr.workSection.title}</h1>
-  <p class="lead">{tr.workSection.lead}</p>
-</section>
-
-<section class="section-tight container-wide" aria-label={tr.workSection.title}>
-  <div class="wx">
-    {rows.map((row) => (
-      <div class:list={['wx__row', !row.lead && 'wx__row--pair']}>
-        {row.items.map((p, j) => (
-          <div class:list={[row.from + j > 0 && 'reveal']} data-delay={`${j * 90}ms`}>
-            <ProjectFeature
-              project={p}
-              locale={locale}
-              index={row.from + j + 1}
-              variant={row.lead ? 'lead' : 'half'}
-              eager={row.from + j === 0}
-            />
-          </div>
-        ))}
+<section class="page-head container-wide wi-head">
+  <div class="wi-head__text">
+    <p class="wi-count">{counter}</p>
+    <h1>{ws.title}</h1>
+    <p class="lead">{ws.lead}</p>
+  </div>
+  <dl class="wi-stats" aria-label={ws.statsLabel}>
+    {stats.map((s) => (
+      <div class="wi-stat">
+        <dt>{s.k}</dt>
+        <dd>{s.v}</dd>
       </div>
     ))}
-  </div>
+  </dl>
+</section>
+
+<WorkFilters locale={locale} counts={counts} />
+
+<section class="container-wide wi-list" aria-label={ws.title} data-work-list>
+  {lead && (
+    <div class="wi-lead" data-work-entry data-filter={FILTER_OF[lead.category]}>
+      <WorkFeatured project={lead} locale={locale} index={1} />
+    </div>
+  )}
+
+  {cells.length > 0 && (
+    <div class="wi-grid" data-work-grid>
+      {cells.map((c, i) => (
+        <div class="wi-cell" style={`--span:${c.span}`} data-wide={c.span >= 8 ? '' : undefined} data-work-entry data-filter={FILTER_OF[c.project.category]}>
+          <WorkCard project={c.project} locale={locale} index={i + 2} span={c.span} />
+        </div>
+      ))}
+    </div>
+  )}
 </section>
 
 <CtaBand locale={locale} />
 
 <style>
-  .wx {
-    display: flex;
-    flex-direction: column;
+  .wi-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+    gap: 2rem;
   }
-  .wx__row + .wx__row {
-    margin-top: clamp(2.5rem, 5vw, 4rem);
-    padding-top: clamp(2.5rem, 5vw, 4rem);
+  .wi-count {
+    margin: 0 0 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    letter-spacing: 0.08em;
+    color: var(--accent-fg);
+    font-variant-numeric: tabular-nums;
+  }
+  .wi-stats {
+    display: flex;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+    margin: 0;
+    padding: 1rem 0 0.25rem;
     border-top: 1px solid var(--line);
   }
-  .wx__row--pair {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2rem, 4vw, 3.5rem);
+  .wi-stat dt {
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .wi-stat dd {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-lg);
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
   }
 
-  @media (max-width: 760px) {
-    .wx__row--pair { grid-template-columns: 1fr; }
+  .wi-list {
+    display: grid;
+    gap: clamp(1rem, 2vw, 1.5rem);
+    padding-block: clamp(1.5rem, 4vw, 3rem) var(--sp-section);
+  }
+  .wi-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+  .wi-cell { grid-column: span var(--span); display: flex; }
+  .wi-cell > :global(*) { flex: 1; min-width: 0; }
+  .wi-grid[data-filtered] .wi-cell { grid-column: span 6; }
+  .wi-grid[data-single] .wi-cell { grid-column: span 12; }
+  [data-work-entry][hidden] { display: none; }
+
+  /* Only after a filter click (never on load: the lead image is the LCP). */
+  @media (prefers-reduced-motion: no-preference) {
+    .wi-list[data-animate] [data-work-entry] { animation: wi-in var(--t-base) var(--ease-out); }
+    @keyframes wi-in { from { opacity: 0; transform: translateY(6px); } }
+  }
+
+  @media (max-width: 1023px) {
+    .wi-head { grid-template-columns: minmax(0, 1fr); align-items: start; }
+    .wi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .wi-cell, .wi-grid[data-filtered] .wi-cell { grid-column: span 1; }
+    .wi-cell[data-wide], .wi-grid[data-single] .wi-cell { grid-column: span 2; }
+  }
+  @media (max-width: 639px) {
+    /* 16 px side padding on phones, for this page's own sections. */
+    .wi-head, .wi-list, :global(.wfl .container-wide) { padding-inline: 16px; }
+    .wi-grid { grid-template-columns: minmax(0, 1fr); }
+    .wi-cell, .wi-cell[data-wide], .wi-grid[data-filtered] .wi-cell { grid-column: span 1; }
   }
 </style>

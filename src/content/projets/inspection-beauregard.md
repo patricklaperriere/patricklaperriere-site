@@ -37,7 +37,16 @@ aFournir:
   - "résultats depuis la mise en ligne (demandes reçues, trafic), si Éric accepte de les publier"
   - "2 à 3 captures supplémentaires (page de service, formulaire, mobile)"
 ordre: 2
-publié: true
+statut: publié
+preuve:
+  - fr: "Migré de Wix vers Astro"
+    en: "Moved from Wix to Astro"
+  - fr: "5 anciennes adresses en 301"
+    en: "5 old URLs redirected (301)"
+  - fr: "Formulaire anti-spam"
+    en: "Spam-protected form"
+grille:
+  colonnes: 6
 année: "2026"
 catégorie: seo
 vedette: true

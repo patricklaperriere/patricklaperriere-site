@@ -58,7 +58,14 @@ aFournir:
   - "statut public de Habita (en production ou bêta sur invitation) avant de l’écrire sur le site"
   - "un résultat mesurable de Habita : nombre d’inspecteurs, de rapports produits ou temps gagné par rapport"
 ordre: 1
-publié: true
+statut: publié
+preuve:
+  - fr: "Mode hors ligne"
+    en: "Offline mode"
+  - fr: "Rapport web + PDF"
+    en: "Web report + PDF"
+  - fr: "Interface bilingue"
+    en: "Bilingual interface"
 année: "2026"
 catégorie: saas
 vedette: true

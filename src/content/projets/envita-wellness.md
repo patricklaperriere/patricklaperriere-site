@@ -28,7 +28,10 @@ résultat:
 lien: "https://envita-wellness.com"
 image: ""
 ordre: 6
-publié: false
+statut: brouillon
+grille:
+  colonnes: 4
+  ratio: "4 / 5"
 année: "2026"
 catégorie: shopify
 vedette: true
@@ -37,4 +40,4 @@ cadrage: cover
 ---
 
 Retiré du site public le 27 octobre 2026, à la demande de Patrick : le site sera refait plus tard.
-Garder `publié: false`. Les captures et l'image OG ont été supprimées de public/.
+Garder `statut: brouillon`. Les captures et l'image OG ont été supprimées de public/.
