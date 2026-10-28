@@ -6,6 +6,7 @@ slug: "wordpress-vs-custom-website"
 translationKey: "wordpress-vs-custom"
 pubDate: 2026-06-02
 tags: ["Guides", "Performance", "SEO"]
+service: "svcWeb"
 ---
 
 WordPress powers a huge share of the web, so it's often the first option you're offered. But popular doesn't mean optimal for you. Here's a straight comparison between WordPress and a custom website, so you can make an informed choice.
@@ -36,8 +37,8 @@ A custom site asks for a more deliberate upfront investment, but it's a stable a
 
 ## When WordPress still makes sense
 
-To be fair: if you publish content every day and several non-technical people manage the site daily, the WordPress ecosystem can fit. For a very active blog with a large team, it's a valid tool.
+To be fair: if you publish content every day and several non-technical people manage the site daily, the WordPress ecosystem can fit. For a very active blog with a large team, it's a valid tool. And if your need goes beyond the site itself (online requests, booking, a client portal), what you want is a [custom web tool](/en/services/custom-tools).
 
-For most small businesses, shops and professionals who want a fast, secure, well-ranked site, custom delivers a much better long-term result. That's what I build with modern technologies like Astro and Shopify.
+For most small businesses, shops and professionals who want a fast, secure, well-ranked site, custom delivers a much better long-term result. That's what I build: [custom Astro websites](/en/services/web-design-development) and [custom Shopify stores](/en/services/shopify-ecommerce).
 
 Not sure what fits your case? [Let's talk](/en/contact). I'll give you an honest take and a free quote. You can also see [my services](/en/services) or the [signs you need a redesign](/en/blog/signs-you-need-website-redesign).

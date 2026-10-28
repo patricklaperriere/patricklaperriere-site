@@ -6,6 +6,7 @@ slug: "bilingual-website-seo"
 translationKey: "site-bilingue-seo"
 pubDate: 2026-05-28
 tags: ["Bilingual", "SEO", "Quebec"]
+service: "svcWeb"
 ---
 
 In Quebec, and across Canada more broadly, a bilingual website isn't a luxury: it's often the condition for reaching your whole market. But there's a right way and a wrong way to do it, and the wrong way can hurt your search ranking instead of helping it.
@@ -22,7 +23,7 @@ A well-built bilingual site rests on three principles:
 
 1. **A distinct address per language.** French at the root, English under a dedicated section (for example `/en/`). Each page truly exists, at its own address, indexable separately.
 2. **hreflang tags.** These tags tell Google which page matches which language, and keep it from treating your two versions as duplicate content.
-3. **Content optimized separately.** You don't just translate word for word. The right keywords aren't the same in French and English. Each version deserves its own SEO work.
+3. **Content optimized separately.** You don't just translate word for word. The right keywords aren't the same in French and English. Each version deserves its own SEO work. Example: the [bilingual website for Inspection Habitation Outaouais in Gatineau](/en/work/inspection-habitation-outaouais), with one page per service in French and English.
 
 ## Why hreflang changes everything
 
@@ -32,10 +33,10 @@ It's invisible to your visitors, but decisive for your visibility.
 
 ## Keep the user on the same page
 
-A small detail that makes a big difference: when someone switches language, they should stay on the equivalent page, not get sent back to the home page. A visitor on your French services page who clicks "FR" should land on the English services page. Otherwise, you lose them.
+A small detail that makes a big difference: when someone switches language, they should stay on the equivalent page, not get sent back to the home page. A visitor on your French services page who clicks "EN" should land on the English services page. Otherwise, you lose them.
 
 ## Bottom line
 
 A truly bilingual site means two complete page trees, cleanly linked, each optimized for its language. It's more work than a simple button, but it's the difference between looking bilingual and actually being bilingual in Google's eyes.
 
-Targeting both French and English markets? [Let's talk about your project](/en/contact). And if you want a well-ranked site in your area, see [web design by region](/en/web-design).
+Targeting both French and English markets? See [bilingual website design](/en/services/web-design-development) or [let's talk about your project](/en/contact). And if you want a well-ranked site in your area, see [web design by region](/en/web-design).

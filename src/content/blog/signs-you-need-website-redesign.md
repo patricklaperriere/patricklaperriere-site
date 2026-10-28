@@ -6,13 +6,14 @@ slug: "signs-you-need-website-redesign"
 translationKey: "signes-refonte"
 pubDate: 2026-05-14
 tags: ["Redesign", "SEO", "Guides"]
+service: "svcSeo"
 ---
 
 A website doesn't last forever. Yours might be working against you right now, quietly driving customers away. Here are seven signs that don't lie.
 
 ## 1. It's slow to load
 
-If your site takes more than 3 seconds to appear on a phone, many visitors leave before they ever see your offer ([Think with Google, 2016](https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/)). Speed matters for sales and for search ranking.
+If your site takes more than 3 seconds to appear on a phone, many visitors leave before they ever see your offer ([Think with Google, 2016](https://www.thinkwithgoogle.com/consumer-insights/consumer-trends/mobile-site-load-time-statistics/)). Speed matters [for sales and for search ranking](/en/blog/fast-website-small-business).
 
 ## 2. It's not mobile-friendly
 
@@ -28,7 +29,7 @@ A design that screams 2014 sends the wrong signal: if the site is neglected, wha
 
 ## 5. It generates no inquiries
 
-Traffic but no calls or emails? That's often a structure and call-to-action problem. A good site guides the visitor toward one clear action.
+Traffic but no calls or emails? That's often a structure and call-to-action problem (see [why a website doesn't convert](/en/blog/why-website-not-converting)). A good site guides the visitor toward one clear action.
 
 ## 6. You can't edit it
 
@@ -36,10 +37,10 @@ If changing a single line means calling someone (or isn't possible at all), your
 
 ## 7. It's not bilingual (and you need it to be)
 
-In Quebec and Canada, speaking to a single language market means leaving part of your potential customers to the competition.
+In Quebec and Canada, speaking to a single language market means leaving part of your potential customers to the competition. See [how to build a bilingual website for SEO](/en/blog/bilingual-website-seo).
 
 ## What a redesign changes
 
-A proper redesign isn't just "freshening up the look." It fixes the foundations: speed, structure, SEO, conversion. The result is a site that loads fast, ranks, and turns visitors into customers.
+A proper redesign isn't just "freshening up the look." It fixes the foundations: speed, structure, SEO, conversion. That's what I did for [Inspection BeauRegard, moved from Wix to a custom Astro site](/en/work/inspection-beauregard). The result is a site that loads fast, ranks, and turns visitors into customers.
 
 Recognize two or more of these signs? It's probably time to act. See [my redesign + SEO service](/en/services/website-redesign-seo), or [let's talk about your site](/en/contact) directly.

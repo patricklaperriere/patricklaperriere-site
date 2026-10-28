@@ -6,15 +6,16 @@ slug: "prix-site-web-quebec"
 translationKey: "prix-site-web"
 pubDate: 2026-06-01
 tags: ["Prix", "PME", "Conseils"]
+service: "svcWeb"
 ---
 
 C’est la première question que tout le monde se pose, et la plus difficile à obtenir clairement : combien coûte un site web ? La vérité, c’est que le prix dépend de ce que vous voulez accomplir. Voici des fourchettes honnêtes et ce qui les fait bouger.
 
 ## Les fourchettes réalistes
 
-- **Site vitrine simple (3 à 6 pages)** : pour une PME qui veut une présence professionnelle, rapide et bien référencée. C’est le point de départ le plus courant.
-- **Site avec contenu sur mesure et SEO local** : plusieurs pages de services, blogue, optimisation pour Google dans votre région. L’investissement monte, mais le retour aussi.
-- **Boutique e-commerce (Shopify sur mesure)** : fiches produits, paiement, intégrations. Le prix reflète la complexité du catalogue et des fonctions.
+- **Site vitrine simple (3 à 6 pages)** : pour une PME qui veut une présence professionnelle, rapide et bien référencée. C’est le point de départ le plus courant : voyez ce que comprend la [création d’un site web sur mesure](/services/creation-site-web).
+- **Site avec contenu sur mesure et SEO local** : plusieurs pages de services, blogue, [optimisation pour Google dans votre région](/creation-site-web). L’investissement monte, mais le retour aussi.
+- **Boutique e-commerce ([Shopify sur mesure](/services/site-ecommerce-shopify))** : fiches produits, paiement, intégrations. Le prix reflète la complexité du catalogue et des fonctions.
 
 Méfiez-vous des deux extrêmes : le « site à 300 $ » qui finit lent, générique et invisible sur Google, et le « site à 25 000 $ » bourré de fonctions dont vous n’aurez jamais besoin.
 
@@ -23,7 +24,7 @@ Méfiez-vous des deux extrêmes : le « site à 300 $ » qui finit lent, génér
 1. **Le nombre de pages et la quantité de contenu.** Plus il y a de pages et de textes à rédiger, plus ça prend de temps.
 2. **Le sur mesure vs le gabarit.** Un design unique coûte plus qu’un thème générique, mais il vous distingue et convertit mieux.
 3. **Le SEO.** Un site simplement « en ligne » et un site réellement optimisé pour être trouvé, ce ne sont pas le même travail.
-4. **Le bilinguisme.** Un vrai site FR/EN, c’est deux versions optimisées, pas une traduction automatique.
+4. **Le bilinguisme.** Un vrai site FR/EN, c’est deux versions optimisées, pas une traduction automatique (voyez [comment réussir un site bilingue pour le SEO](/blogue/site-bilingue-seo-quebec)).
 5. **Le e-commerce et les intégrations.** Paiement, livraison, inventaire : chaque connexion ajoute du travail.
 
 ## Pourquoi le moins cher coûte souvent plus cher

@@ -326,6 +326,8 @@ export const fr = {
     aboutLink: 'En savoir plus sur moi',
     related: 'Articles connexes',
     readMore: 'Lire',
+    serviceLabel: 'Le service lié à cet article',
+    serviceCta: 'Demander une soumission',
   },
 
   privacy: {

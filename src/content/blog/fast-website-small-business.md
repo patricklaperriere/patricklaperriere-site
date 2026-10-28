@@ -6,6 +6,7 @@ slug: "fast-website-small-business"
 translationKey: "site-rapide-pme"
 pubDate: 2026-05-20
 tags: ["Performance", "SEO", "Small business"]
+service: "svcSeo"
 ---
 
 Speed isn't a technical detail reserved for developers. It's a business issue. Every extra second of load time means visitors closing the tab before they ever see what you offer.
@@ -26,7 +27,7 @@ In other words: a slow site costs you twice. It drives away the people who arriv
 
 Most slow sites are slow for the same reasons:
 
-- A generic theme bloated with features you don't use.
+- A generic theme bloated with features you don't use (see [WordPress vs. a custom website](/en/blog/wordpress-vs-custom-website)).
 - A pile of plugins stacking up and slowing each other down.
 - Huge images shipped with no optimization.
 - Code that blocks the content from showing while the browser waits.
@@ -37,7 +38,7 @@ None of these are inevitable. They're technical choices, and they can be made di
 
 Here's the approach I apply on every project:
 
-1. **Static HTML on first paint.** The important content shows up immediately, without waiting for JavaScript.
+1. **Static HTML on first paint.** The important content shows up immediately, without waiting for JavaScript. It's the baseline of every [custom website](/en/services/web-design-development) I build.
 2. **Optimized images.** Modern formats (WebP, AVIF), explicit dimensions, lazy loading for anything lower on the page.
 3. **Minimal JavaScript.** Animations and effects load only when needed, never at the expense of content.
 4. **Preloaded fonts.** No text flashing or jumping as the page loads.
@@ -46,6 +47,6 @@ The result is a site that targets a perfect Lighthouse score and Core Web Vitals
 
 ## Bottom line
 
-A beautiful site that loads slowly is a poor investment. Speed should be a baseline, not an option. If your current site drags, that's exactly the kind of problem that gets fixed, and that changes your results.
+A beautiful site that loads slowly is a poor investment. Speed should be a baseline, not an option. If your current site drags, that's exactly the kind of problem a [speed- and SEO-focused redesign](/en/services/website-redesign-seo) fixes, and that changes your results.
 
 Want to know where your site stands? [Let's talk about your project](/en/contact) and I'll give it to you straight.

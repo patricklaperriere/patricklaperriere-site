@@ -6,15 +6,16 @@ slug: "website-cost-quebec"
 translationKey: "prix-site-web"
 pubDate: 2026-06-01
 tags: ["Pricing", "Small business", "Guides"]
+service: "svcWeb"
 ---
 
 It's the first question everyone asks, and the hardest to get a straight answer to: how much does a website cost? The truth is that the price depends on what you're trying to accomplish. Here are honest ranges and what moves them.
 
 ## The realistic ranges
 
-- **Simple marketing site (3 to 6 pages):** for a small business that wants a professional, fast, well-ranked presence. This is the most common starting point.
-- **Custom-content site with local SEO:** several service pages, a blog, optimization to get found on Google in your area. The investment goes up, but so does the return.
-- **E-commerce store (custom Shopify):** product pages, checkout, integrations. The price reflects the complexity of your catalog and features.
+- **Simple marketing site (3 to 6 pages):** for a small business that wants a professional, fast, well-ranked presence. This is the most common starting point: see what goes into [custom website design and development](/en/services/web-design-development).
+- **Custom-content site with local SEO:** several service pages, a blog, [optimization to get found on Google in your area](/en/web-design). The investment goes up, but so does the return.
+- **E-commerce store ([custom Shopify](/en/services/shopify-ecommerce)):** product pages, checkout, integrations. The price reflects the complexity of your catalog and features.
 
 Be wary of both extremes: the "$300 site" that ends up slow, generic and invisible on Google, and the "$25,000 site" stuffed with features you'll never use.
 
@@ -23,7 +24,7 @@ Be wary of both extremes: the "$300 site" that ends up slow, generic and invisib
 1. **Page count and amount of content.** More pages and copy to write means more time.
 2. **Custom vs. template.** A unique design costs more than a generic theme, but it sets you apart and converts better.
 3. **SEO.** A site that's merely "online" and a site truly optimized to be found are not the same job.
-4. **Bilingual content.** A real FR/EN site means two optimized versions, not machine translation.
+4. **Bilingual content.** A real FR/EN site means two optimized versions, not machine translation (see [how to build a bilingual website for SEO](/en/blog/bilingual-website-seo)).
 5. **E-commerce and integrations.** Payment, shipping, inventory: every connection adds work.
 
 ## Why the cheapest often costs more
