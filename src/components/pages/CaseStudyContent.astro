@@ -55,7 +55,7 @@ const blocks = [
   { label: ws.challenge, body: loc(project.challenge, locale) },
   { label: ws.built, body: loc(project.built, locale) },
   ...(project.field ? [{ label: ws.field, body: loc(project.field, locale) }] : []),
-  { label: ws.result, body: loc(project.result, locale) },
+  { label: ws.result, body: loc(project.result, locale) + (project.measured ? ` ${loc(project.measured, locale)}` : '') },
 ];
 // The client's own words: an approved quote from the project file, or else
 // their public Google review, verbatim, when one is tied to this project.
@@ -75,6 +75,7 @@ const seeAlso = [
 const specs = [
   { k: ws.role, v: loc(project.role, locale) },
   { k: ws.year, v: project.year },
+  ...(project.delivery ? [{ k: ws.delivery, v: loc(project.delivery, locale) }] : []),
   ...(project.live ? [] : [{ k: ws.status, v: ws.notLive }]),
 ];
 ---
@@ -179,6 +180,31 @@ const specs = [
     ))}
   </div>
 
+  {project.gallery.length > 0 && (
+    <section class="container-wide case__gallery" aria-labelledby="case-gallery-label">
+      <h2 class="label label-rule" id="case-gallery-label">{ws.gallery}</h2>
+      <div class="case__gallery-grid">
+        {project.gallery.map((g) => {
+          const phone = g.height > g.width;
+          return (
+            <figure class:list={['case__gallery-item', phone && 'case__gallery-item--phone']}>
+              <img
+                src={g.src}
+                srcset={phone ? undefined : captureSrcset(g.src)}
+                sizes={phone ? undefined : '(min-width: 1024px) 560px, 100vw'}
+                alt={loc(g.alt, locale)}
+                width={g.width}
+                height={g.height}
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          );
+        })}
+      </div>
+    </section>
+  )}
+
   <nav class="container-wide case__see" aria-labelledby="case-see-label">
     <h2 class="label label-rule" id="case-see-label">{ws.seeAlso}</h2>
     <ul class="case__see-list">
@@ -258,6 +284,18 @@ const specs = [
     font-size: var(--fs-meta);
   }
   .case__quote-title { color: var(--fg-mute); }
+  .case__gallery { padding-block: clamp(1.5rem, 4vw, 2.5rem) 0; }
+  .case__gallery-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.45fr); gap: clamp(0.75rem, 2vw, 1.5rem); align-items: start; margin-top: 1.25rem; }
+  .case__gallery-item { margin: 0; border: 1px solid var(--line); border-radius: var(--r-md); overflow: hidden; background: var(--bg-raised); }
+  .case__gallery-item img { display: block; width: 100%; height: auto; }
+  .case__gallery-item--phone { border-radius: 18px; }
+  @media (max-width: 1023px) {
+    .case__gallery-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .case__gallery-item--phone { grid-column: 1 / -1; justify-self: center; width: min(100%, 260px); }
+  }
+  @media (max-width: 639px) {
+    .case__gallery-grid { grid-template-columns: minmax(0, 1fr); }
+  }
   .case__see { padding-block: clamp(1.5rem, 4vw, 2.5rem); }
   .case__see-list { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
   .case__quote-note { flex-basis: 100%; color: var(--fg-mute); font-style: italic; }

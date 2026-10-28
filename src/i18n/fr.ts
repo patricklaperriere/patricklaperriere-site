@@ -245,6 +245,8 @@ export const fr = {
     result: 'Ce qu’on peut vérifier',
     field: 'Utilisé sur le terrain',
     testimonial: 'Témoignage',
+    delivery: 'Délai',
+    gallery: 'Autres captures du site en ligne',
     seeAlso: 'Voir aussi',
     seeAlsoService: (t: string) => `Le service : ${t}`,
     seeAlsoCity: (n: string) => `Création de site web à ${n}`,
