@@ -63,6 +63,10 @@ const projets = defineCollection({
     titreH1: bilingue.optional(),
     /** Optional city page slug (src/data/villes.ts) where the client works. */
     ville: z.string().optional(),
+    /** Optional span of years shown on the lead card (e.g. "2025–2026"); `année` stays the data year. */
+    période: z.string().optional(),
+    /** Optional one-line role shown on the lead card, under the pitch. */
+    rôleCourt: bilingue.optional(),
     /** Optional client logo under public/work/logos/, shown with the client name (only with their OK). */
     logo: z.string().optional(),
     /** Live URL. Empty while the site is not online yet. */
@@ -74,7 +78,14 @@ const projets = defineCollection({
     /** Facts still missing, shown as [À FOURNIR : …] in `astro dev` only. */
     aFournir: z.array(z.string()).default([]),
     ordre: z.number().int(),
-    publié: z.boolean().default(false),
+    /** brouillon: `astro dev` only, never built. en_cours: built, with an « En cours » badge. */
+    statut: z.enum(['publié', 'brouillon', 'en_cours']).default('brouillon'),
+    /** 1 to 4 short, checkable facts shown on the work index (« Preuve »). */
+    preuve: z.array(bilingue).max(4).default([]),
+    /** Work-index card: column span on the 12-column grid and media ratio (CSS, e.g. "16 / 10"). */
+    grille: z
+      .object({ colonnes: z.number().int().min(3).max(12), ratio: z.string().optional() })
+      .optional(),
     année: z.string(),
     catégorie: z.enum(['saas', 'web', 'seo', 'shopify']),
     /** Shown in the home-page selection. */

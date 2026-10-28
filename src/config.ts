@@ -8,14 +8,13 @@ export const SITE = {
     en: 'Web developer and product builder',
   },
   personDescription: {
-    fr: 'Développeur web au Québec, fondateur de Technologies Habita inc. Sites, boutiques Shopify et outils web sur mesure pour les PME, en français et en anglais.',
-    en: 'Web developer in Quebec, founder of Technologies Habita inc. Websites, Shopify stores and custom web tools for small businesses, in English and French.',
+    fr: 'Développeur web au Québec, cofondateur de Technologies Habita inc. Sites, boutiques Shopify et outils web sur mesure pour les PME, en français et en anglais.',
+    en: 'Web developer in Quebec, co-founder of Technologies Habita inc. Websites, Shopify stores and custom web tools for small businesses, in English and French.',
   },
   // Public address everywhere (contact page, footer, JSON-LD). The About page
   // alone shows the personal one. Both need the domain's mail routing set up
   // before launch (see README).
   email: 'info@patricklaperriere.com',
-  emailPersonal: 'pl@patricklaperriere.com',
   // Phone — E.164 for tel: links + schema; display for the UI.
   phone: '+18193283101',
   phoneDisplay: '819 328-3101',
@@ -35,7 +34,7 @@ export const SITE = {
     fr: ['Québec', 'Canada', 'États-Unis'],
     en: ['Quebec', 'Canada', 'United States'],
   },
-  // The company behind Habita. Patrick is its founder; it appears in the
+  // The company behind Habita. Patrick is a co-founder; it appears in the
   // Organization JSON-LD on every page and in the about page copy.
   company: {
     name: 'Technologies Habita inc.',

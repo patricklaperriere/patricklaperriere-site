@@ -1,0 +1,124 @@
+---
+// Sticky filter bar for the work index. Plain buttons with counts; a small
+// vanilla script hides the entries that do not match, keeps the choice in the
+// URL (?type=shopify) and announces the result to screen readers. Without
+// JavaScript the bar is hidden and every project stays listed.
+import type { Locale } from '../../i18n/routes';
+import type { WorkFilter } from '../../data/projets';
+import { useTranslations } from '../../i18n';
+
+interface Props {
+  locale: Locale;
+  counts: Record<'all' | WorkFilter, number>;
+}
+const { locale, counts } = Astro.props;
+const ws = useTranslations(locale).workSection;
+const keys = (['all', 'logiciel', 'web', 'shopify'] as const).filter((k) => k === 'all' || counts[k] > 0);
+---
+
+<div class="wfl" data-work-filters hidden>
+  <div class="container-wide">
+    <div class="wfl__bar" role="group" aria-label={ws.filtersLabel}>
+      {keys.map((k) => (
+        <button type="button" class="wfl__btn" data-type={k} aria-pressed={k === 'all' ? 'true' : 'false'}>
+          {ws.filters[k]} <span class="wfl__count">({counts[k]})</span>
+        </button>
+      ))}
+    </div>
+    <p class="sr-only" aria-live="polite" data-work-results data-one={ws.results(1)} data-many={ws.results(2)}></p>
+  </div>
+</div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-work-filters]');
+  const entries = [...document.querySelectorAll<HTMLElement>('[data-work-entry]')];
+  const grid = document.querySelector<HTMLElement>('[data-work-grid]');
+  const live = document.querySelector<HTMLElement>('[data-work-results]');
+  if (bar && entries.length) {
+    bar.hidden = false;
+    const buttons = [...bar.querySelectorAll<HTMLButtonElement>('button[data-type]')];
+    const types = buttons.map((b) => b.dataset.type);
+
+    const apply = (type: string, announce: boolean) => {
+      let shown = 0;
+      for (const el of entries) {
+        const match = type === 'all' || el.dataset.filter === type;
+        el.hidden = !match;
+        if (match) shown++;
+      }
+      // Hand-tuned spans only make sense for the full list; a filtered list
+      // falls back to an even grid (and a single result takes the full row).
+      if (grid) {
+        grid.toggleAttribute('data-filtered', type !== 'all');
+        grid.toggleAttribute('data-single', type !== 'all' && grid.querySelectorAll(':scope > :not([hidden])').length === 1);
+      }
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.type === type)));
+      if (announce && live) {
+        const tpl = shown > 1 ? live.dataset.many! : live.dataset.one!;
+        live.textContent = tpl.replace(/\d+/, String(shown));
+      }
+    };
+
+    const fromUrl = new URLSearchParams(location.search).get('type') ?? 'all';
+    apply(types.includes(fromUrl) ? fromUrl : 'all', false);
+
+    bar.addEventListener('click', (e) => {
+      const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-type]');
+      if (!btn) return;
+      const type = btn.dataset.type!;
+      // Restart the entry fade (CSS, motion-safe only) for the new selection.
+      const list = document.querySelector<HTMLElement>('[data-work-list]');
+      list?.removeAttribute('data-animate');
+      void list?.offsetWidth;
+      list?.setAttribute('data-animate', '');
+      apply(type, true);
+      const url = new URL(location.href);
+      if (type === 'all') url.searchParams.delete('type');
+      else url.searchParams.set('type', type);
+      history.replaceState(null, '', url);
+    });
+  }
+</script>
+
+<style>
+  .wfl {
+    position: sticky;
+    top: 72px;
+    z-index: 20;
+    padding-block: 0.75rem;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .wfl[hidden] { display: none; }
+  .wfl__bar {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .wfl__bar::-webkit-scrollbar { display: none; }
+  .wfl__btn {
+    flex: none;
+    min-height: 44px;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--fg-dim);
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: border-color var(--t-fast) var(--ease), color var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+  }
+  .wfl__btn:hover { border-color: var(--line-strong); color: var(--fg); }
+  .wfl__btn:focus-visible { outline: 2px solid var(--accent-fg); outline-offset: 2px; }
+  .wfl__btn[aria-pressed='true'] { border-color: var(--accent-fg); color: var(--accent-fg); }
+  .wfl__count { opacity: 0.75; }
+  @media (prefers-reduced-motion: reduce) {
+    .wfl__btn { transition: none; }
+  }
+</style>

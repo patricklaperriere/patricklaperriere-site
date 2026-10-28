@@ -19,7 +19,7 @@ import ExternalIcon from '../ExternalIcon.astro';
 import { lighthouse } from '../../data/lighthouse';
 import { temoignages } from '../../data/temoignages';
 import Todo from '../Todo.astro';
-import HabitaLoop from '../HabitaLoop.astro';
+import HabitaShowcase from '../work/HabitaShowcase.astro';
 
 interface Props {
   locale: Locale;
@@ -42,7 +42,7 @@ const others = all.filter((p) => p.slug !== project.slug && p.slug !== next.slug
 const shot = project.image;
 const contain = project.fit === 'contain';
 const isHabita = project.slug === 'habita';
-const shotAlt = isHabita ? ws.habitaAlt : ws.shotAlt(loc(project.title, locale));
+const shotAlt = ws.shotAlt(loc(project.title, locale));
 
 
 const crumbs = [
@@ -86,8 +86,8 @@ const specs = [
     {project.draft && (
       <p class="case__draft" role="note">
         {locale === 'fr'
-          ? 'Brouillon : visible seulement en local (npm run dev), jamais publié tant que « publié » vaut false.'
-          : 'Draft: local preview only (npm run dev). Never built while “publié” is false.'}
+          ? 'Brouillon : visible seulement en local (npm run dev), jamais publié tant que « statut » vaut brouillon.'
+          : 'Draft: local preview only (npm run dev). Never built while “statut” is brouillon.'}
       </p>
     )}
     <p class="label label-rule">{project.client} · {project.year}</p>
@@ -138,14 +138,16 @@ const specs = [
     )}
   </header>
 
+  {isHabita && (
+    <div class="container-wide case__media case__media--demo">
+      <HabitaShowcase locale={locale} />
+    </div>
+  )}
+
   {shot && (
     <div class="container-wide case__media reveal-clip">
       <figure class:list={['case__shot', contain && 'case__shot--contain']}>
-        {isHabita ? (
-          <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
-            <HabitaLoop poster={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} />
-          </a>
-        ) : project.live ? (
+        {project.live ? (
           <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
             <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
           </a>

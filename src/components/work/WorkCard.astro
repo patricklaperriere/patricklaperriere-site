@@ -1,0 +1,165 @@
+---
+// One project on the work index's bento grid.
+//
+// The whole card is clickable through a stretched link: the link sits on the
+// H2 and its ::after covers the card. Nothing wraps the card in an <a>, so
+// the text keeps its own styling, and « Voir le site ↗ » stays a separate
+// link stacked above the stretched one.
+import type { Project } from '../../data/projets';
+import { loc, stackLabel, CATEGORY_LABEL, FILTER_OF } from '../../data/projets';
+import type { Locale } from '../../i18n/routes';
+import { workBase } from '../../i18n/routes';
+import { useTranslations } from '../../i18n';
+import BrowserFrame from './BrowserFrame.astro';
+import ProjectPlaceholder from './ProjectPlaceholder.astro';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+  index: number;
+  /** Columns of 12 at ≥1024 px, after the row has been filled. */
+  span: number;
+}
+const { project, locale, index, span } = Astro.props;
+const tr = useTranslations(locale);
+const ws = tr.workSection;
+
+const href = `${workBase[locale]}/${project.slug}`;
+const title = loc(project.title, locale);
+const num = String(index).padStart(2, '0');
+const category = CATEGORY_LABEL[project.category][locale];
+const address = project.url ? project.url.replace(/^https?:\/\//, '').replace(/\/$/, '') : '';
+const ratio = project.grid?.ratio ?? '16 / 10';
+// The image is laid out at the card's width: its share of the 1208 px column
+// on desktop, half or full width in two columns, full width on phones.
+const sizes = `(min-width: 1024px) ${Math.round((1208 * span) / 12)}px, (min-width: 640px) ${span >= 8 ? '100vw' : '50vw'}, 100vw`;
+---
+
+<article
+  class="wc"
+  data-filter={FILTER_OF[project.category]}
+  style={`--span:${span};--ratio:${ratio};--accent:${project.accent}${project.grid?.ratio ? ";--focus:center" : ""}`}
+>
+  <div class="wc__media">
+    {project.image ? (
+      <BrowserFrame src={project.image} alt={ws.shotAlt(title)} address={address || project.slug} sizes={sizes} />
+    ) : (
+      <ProjectPlaceholder name={title} />
+    )}
+  </div>
+
+  <div class="wc__body">
+    <p class="wc__meta">
+      <span class="index-num">{num}</span>
+      <span>{category}</span>
+      {project.inProgress && <span class="wc__badge">{ws.inProgress}</span>}
+      {project.draft && <span class="wc__badge wc__badge--draft">{locale === 'fr' ? 'Brouillon' : 'Draft'}</span>}
+      <span class="wc__year">{project.year}</span>
+    </p>
+
+    <h2 class="wc__title"><a href={href} class="wc__link">{title}</a></h2>
+    <p class="wc__tagline">{loc(project.tagline, locale)}</p>
+
+    <ul class="wc__tags">
+      {project.stack.slice(0, 4).map((s) => <li>{stackLabel(s, locale)}</li>)}
+    </ul>
+
+    {project.proof.length > 0 && (
+      <ul class="wc__proof" aria-label={ws.proof}>
+        {project.proof.map((p) => (
+          <li>
+            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+            {p[locale]}
+          </li>
+        ))}
+      </ul>
+    )}
+
+    <div class="wc__ctas">
+      <span class="cta-mono wc__cta" aria-hidden="true">{tr.cta.viewProject} <span class="wc__arrow">→</span></span>
+      {project.live && (
+        <a href={project.url} class="cta-mono wc__live" target="_blank" rel="noopener">
+          {ws.viewSite} <span aria-hidden="true">↗</span>
+        </a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .wc {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: clamp(0.75rem, 1.5vw, 1rem);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--r-md);
+    background: color-mix(in srgb, var(--bg-raised) 55%, transparent);
+    transition: border-color var(--t-base) var(--ease);
+  }
+  .wc:hover,
+  .wc:has(:focus-visible) {
+    border-color: var(--accent-fg);
+  }
+  .wc:hover :global(.bf__shot img),
+  .wc:has(:focus-visible) :global(.bf__shot img) {
+    transform: scale(1.03);
+  }
+
+  .wc__body { display: flex; flex-direction: column; flex: 1; padding: 0 0.25rem 0.25rem; }
+
+  .wc__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.8rem;
+    margin: 0 0 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--fg-mute);
+  }
+  .wc__year { margin-left: auto; }
+  .wc__badge { padding: 0.1rem 0.45rem; border: 1px solid var(--accent-fg); color: var(--accent-fg); }
+  .wc__badge--draft { border-style: dashed; }
+
+  .wc__title {
+    margin: 0 0 0.5rem;
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-weight: var(--fw-light);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+  /* Beats the theme's « main a:not(.btn) » underline: only the CTA is underlined. */
+  .wc__title > a.wc__link,
+  .wc__title > a.wc__link:hover { color: inherit; text-decoration: none; }
+  .wc__link::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+  .wc__link:focus-visible { outline: none; }
+  .wc:has(.wc__link:focus-visible) { outline: 2px solid var(--accent-fg); outline-offset: 3px; }
+
+  .wc__tagline { margin: 0 0 1rem; color: var(--fg-dim); font-size: var(--fs-sm); line-height: 1.55; max-width: 52ch; }
+
+  .wc__tags { display: flex; flex-wrap: wrap; gap: 0.35rem 0.8rem; margin: 0 0 1rem; padding: 0; list-style: none; }
+  .wc__tags li { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.06em; color: var(--fg-mute); }
+  .wc__tags li + li::before { content: "/"; margin-right: 0.8rem; opacity: 0.45; }
+
+  .wc__proof { display: grid; gap: 0.4rem; margin: 0 0 1.25rem; padding: 0; list-style: none; }
+  .wc__proof li { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--fg); }
+  .wc__proof svg { flex: none; color: var(--accent-fg); }
+
+  .wc__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.5rem; margin-top: auto; }
+  .wc__cta { text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: 1px; }
+  .wc__arrow { display: inline-block; transition: transform var(--t-base) var(--ease-out); }
+  .wc:hover .wc__arrow,
+  .wc:has(:focus-visible) .wc__arrow { transform: translateX(4px); }
+  .wc__ctas > a.wc__live { position: relative; z-index: 2; color: var(--fg-dim); text-decoration: none; }
+  .wc__ctas > a.wc__live:hover,
+  .wc__ctas > a.wc__live:focus-visible { color: var(--fg); text-decoration: underline; text-underline-offset: 0.3em; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wc, .wc__arrow, .wc :global(.bf__shot img) { transition: none; }
+    .wc:hover :global(.bf__shot img), .wc:has(:focus-visible) :global(.bf__shot img) { transform: none; }
+  }
+</style>

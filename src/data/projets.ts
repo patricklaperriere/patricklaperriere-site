@@ -2,7 +2,7 @@
 // (src/content/projets/*.md, one file per project). Components keep consuming
 // the `Project` shape below, so the French frontmatter keys are mapped here once.
 //
-// Drafts (`publié: false`) exist only under `astro dev`, flagged `draft`, so a
+// Drafts (`statut: brouillon`) exist only under `astro dev`, flagged `draft`, so a
 // project can be previewed locally before it is approved. A production build
 // never sees them: no page, no card, no sitemap entry.
 //
@@ -25,6 +25,12 @@ export interface LocalizedField {
 export interface Project {
   slug: string;
   draft: boolean;
+  /** `statut: en_cours`: built and listed, with an « En cours » badge. */
+  inProgress: boolean;
+  /** Short checkable facts for the work index (« Preuve »), 0 to 4. */
+  proof: LocalizedField[];
+  /** Work-index grid span (of 12) and media ratio; null: the defaults. */
+  grid: { span: number; ratio: string | null } | null;
   featured: boolean;
   order: number;
   url: string;
@@ -49,6 +55,10 @@ export interface Project {
   testimonial: { quote: LocalizedField; author: string; title: LocalizedField; original?: 'fr' | 'en'; heading?: LocalizedField; intro?: LocalizedField } | null;
   /** Client logo under public/, or null. */
   logo: string | null;
+  /** Years shown on the lead card; falls back to `year`. */
+  period: string;
+  /** One-line role for the lead card, or null. */
+  roleLine: LocalizedField | null;
   /** H1 of the case study: descriptive, with the service keyword. */
   h1: LocalizedField;
   /** City page slug for the client's area, or null. */
@@ -73,7 +83,10 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
   const t = pending(d.témoignage);
   return {
     slug: entry.id,
-    draft: !d.publié,
+    draft: d.statut === 'brouillon',
+    inProgress: d.statut === 'en_cours',
+    proof: d.preuve,
+    grid: d.grille ? { span: d.grille.colonnes, ratio: d.grille.ratio ?? null } : null,
     featured: d.vedette,
     order: d.ordre,
     url: d.lien,
@@ -95,6 +108,8 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     field: pending(d.terrain),
     testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction, original: t.langue, heading: t.rubrique, intro: t.présentation } : null,
     logo: d.logo ?? null,
+    period: d.période ?? d.année,
+    roleLine: d.rôleCourt ?? null,
     h1: d.titreH1 ?? d.titre,
     city: d.ville ?? null,
     stack: d.stack,
@@ -104,7 +119,7 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
 
 /** Every visible project, sorted by `ordre`. */
 export async function sortedProjects(): Promise<Project[]> {
-  const entries = await getCollection('projets', (e) => import.meta.env.DEV || e.data.publié);
+  const entries = await getCollection('projets', (e) => import.meta.env.DEV || e.data.statut !== 'brouillon');
   const list = entries.map(toProject);
 
   // A published project must not carry an unanswered placeholder: fail the
@@ -114,9 +129,10 @@ export async function sortedProjects(): Promise<Project[]> {
     // `field` and `testimonial` are left out: `pending()` already drops them
     // from a build while they hold the placeholder.
     const { slug, draft, featured, order, field, testimonial, todo, ...shown } = p;
+    void draft;
     if (JSON.stringify(shown).includes(TO_CONFIRM)) {
       throw new Error(
-        `Projet « ${slug} » : publié: true alors qu’un champ contient encore « ${TO_CONFIRM} ».`,
+        `Projet « ${slug} » : statut ${draft ? 'brouillon' : 'publié ou en_cours'} alors qu’un champ contient encore « ${TO_CONFIRM} ».`,
       );
     }
   }
@@ -168,4 +184,30 @@ export function stackLabel(item: string | LocalizedField, locale: Locale): strin
 export function captureSrcset(shot: string): string | undefined {
   const small = shot.replace(/\.webp$/, '-640.webp');
   return small !== shot && existsSync(`public${small}`) ? `${small} 640w, ${shot} 1280w` : undefined;
+}
+
+/** Category as a human word (cards, filters, JSON-LD `about`). */
+export const CATEGORY_LABEL: Record<ProjectCategory, LocalizedField> = {
+  saas: { fr: 'Logiciel', en: 'Software' },
+  web: { fr: 'Site sur mesure', en: 'Custom site' },
+  seo: { fr: 'Refonte et SEO', en: 'Redesign and SEO' },
+  shopify: { fr: 'Boutique Shopify', en: 'Shopify store' },
+};
+
+/** Work-index filter a project belongs to: redesigns count as websites. */
+export type WorkFilter = 'logiciel' | 'web' | 'shopify';
+export const FILTER_OF: Record<ProjectCategory, WorkFilter> = {
+  saas: 'logiciel',
+  web: 'web',
+  seo: 'web',
+  shopify: 'shopify',
+};
+
+/** Year span of a list of projects, e.g. "2025–2026" (or "2026" alone). */
+export function yearSpan(list: Project[]): string {
+  const years = list.map((p) => Number(p.year)).filter(Number.isFinite);
+  if (!years.length) return '';
+  const lo = Math.min(...years);
+  const hi = Math.max(...years);
+  return lo === hi ? String(lo) : `${lo}–${hi}`;
 }

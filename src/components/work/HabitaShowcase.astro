@@ -1,0 +1,301 @@
+---
+// Habita, played rather than pictured: a coded mini-demo in three beats (in
+// the field, writing, report sent), looping in about 18 s. Used by the lead
+// project of the work index and by the hero of the Habita case study.
+//
+// Inside the frame: Habita's own identity (Inter, navy #060B14, blue #1D4ED8,
+// its logo). Around it: the portfolio's. Every name, address and photo is
+// demo data (photos copied from habita.expert, client is fictional).
+//
+// The frame is one role="img" with a description of the whole sequence; the
+// step buttons and Replay sit outside it so they stay focusable. Without JS
+// the frame is replaced by a still of beat 2 (<noscript>). Under
+// prefers-reduced-motion beat 2 shows, finished and still. Below 640 px the
+// frame becomes a phone and plays beat 1 only. The timeline lives in
+// src/scripts/habitaShowcase.ts.
+import type { Locale } from '../../i18n/routes';
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+const fr = locale === 'fr';
+
+const D = '/work/habita-demo';
+// Column order on screen; `order` is the order the photos slide in.
+const columns = [
+  { key: 'elec', name: fr ? 'Électricité' : 'Electrical', photos: [{ f: 'demo-electricite-1', order: 0 }, { f: 'demo-electricite-2', order: 4 }] },
+  { key: 'int', name: fr ? 'Intérieur' : 'Interior', photos: [{ f: 'demo-escalier-1', order: 3 }, { f: 'demo-fenetres-1', order: 5 }] },
+  { key: 'plomb', name: fr ? 'Plomberie' : 'Plumbing', photos: [{ f: 'demo-plomberie-1', order: 1 }, { f: 'demo-plomberie-2', order: 6 }] },
+  { key: 'secu', name: fr ? 'Sécurité' : 'Safety', photos: [{ f: 'demo-securite-1', order: 2 }, { f: 'demo-securite-2', order: 7 }] },
+];
+
+const t = fr
+  ? {
+      label:
+        'Démonstration accélérée de Habita en trois temps. Au terrain, huit photos se classent en quatre sections : électricité, intérieur, plomberie et sécurité. À la rédaction, la note « prise sans terre, cuisine » devient un constat avec observation, impact et recommandation, validé par l’inspecteur. Enfin, le rapport est envoyé au client, qui signe, le reçoit et paie dans son portail.',
+      tabs: ['Terrain', 'Rédaction', 'Rapport'],
+      inspection: 'Inspection préachat',
+      note: 'Note du terrain',
+      noteText: 'prise sans terre, cuisine',
+      finding: 'Constat',
+      obs: 'Observation',
+      obsText: 'Prise de courant sans mise à la terre au comptoir de la cuisine.',
+      impact: 'Impact',
+      impactText: 'Risque de choc électrique et protection réduite des appareils branchés.',
+      reco: 'Recommandation',
+      recoText: 'Faire évaluer et corriger par un maître électricien.',
+      toReview: 'À réviser',
+      validated: 'Validé par l’inspecteur',
+      portal: 'Portail client',
+      steps: ['Signature', 'Rapport livré', 'Paiement reçu'],
+      done: 'Rapport envoyé au client',
+      controls: 'Étapes de la démonstration',
+      beats: ['Au terrain', 'La rédaction', 'Le rapport envoyé'],
+      show: (n: number, s: string) => `Afficher l’étape ${n} : ${s}`,
+      replay: 'Rejouer',
+      caption: 'Reconstitution accélérée. L’interface réelle est plus dense.',
+      still: 'Habita, étape de rédaction : une note du terrain devient un constat validé par l’inspecteur (reconstitution).',
+    }
+  : {
+      label:
+        'Sped-up demo of Habita in three beats. In the field, eight photos sort themselves into four sections: electrical, interior, plumbing and safety. While writing, the note “ungrounded outlet, kitchen” becomes a finding with an observation, impact and recommendation, validated by the inspector. Finally, the report is sent to the client, who signs, receives it and pays in their portal.',
+      tabs: ['Field', 'Writing', 'Report'],
+      inspection: 'Pre-purchase inspection',
+      note: 'Field note',
+      noteText: 'ungrounded outlet, kitchen',
+      finding: 'Finding',
+      obs: 'Observation',
+      obsText: 'Ungrounded receptacle at the kitchen counter.',
+      impact: 'Impact',
+      impactText: 'Risk of electric shock and reduced protection for plugged-in appliances.',
+      reco: 'Recommendation',
+      recoText: 'Have it assessed and corrected by a master electrician.',
+      toReview: 'To review',
+      validated: 'Validated by the inspector',
+      portal: 'Client portal',
+      steps: ['Signature', 'Report delivered', 'Payment received'],
+      done: 'Report sent to the client',
+      controls: 'Demo steps',
+      beats: ['In the field', 'Writing', 'Report sent'],
+      show: (n: number, s: string) => `Show step ${n}: ${s}`,
+      replay: 'Replay',
+      caption: 'Sped-up reconstruction. The real interface is denser.',
+      still: 'Habita, writing step: a field note becomes a finding validated by the inspector (reconstruction).',
+    };
+---
+
+<figure class="hs" data-habita-showcase data-scene="b">
+  <div class="hs__frame" role="img" aria-label={t.label}>
+    <div class="hs__app" aria-hidden="true">
+      <div class="hs__bar">
+        <img class="hs__logo" src={`${D}/habita-logo-dark-bg.svg`} alt="" width="92" height="24" />
+        <ol class="hs__tabs">
+          {t.tabs.map((tab, i) => <li data-tab={['a', 'b', 'c'][i]}>{tab}</li>)}
+        </ol>
+        <span class="hs__file">{t.inspection}</span>
+      </div>
+
+      <div class="hs__stage">
+        {/* a. In the field */}
+        <section class="hs__scene hs__scene--a" data-beat="a">
+          {columns.map((c) => (
+            <div class="hs__col">
+              <p class="hs__col-head"><span>{c.name}</span><span class="hs__count" data-hs-count={c.key}>{c.photos.length}</span></p>
+              {c.photos.map((p) => (
+                <img
+                  class="hs__photo is-in"
+                  data-photo={p.order}
+                  data-col={c.key}
+                  src={`${D}/${p.f}.webp`}
+                  alt=""
+                  width="360"
+                  height="270"
+                  loading={p.order === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                />
+              ))}
+            </div>
+          ))}
+        </section>
+
+        {/* b. Writing */}
+        <section class="hs__scene hs__scene--b" data-beat="b">
+          <div class="hs__note">
+            <p class="hs__kicker">{t.note}</p>
+            <p class="hs__note-text">{fr ? `« ${t.noteText} »` : `“${t.noteText}”`}</p>
+          </div>
+          <div class="hs__finding">
+            <p class="hs__kicker">{t.finding} <span class="hs__badge is-ok" data-badge data-review={t.toReview} data-ok={t.validated}>{t.validated}</span></p>
+            <dl>
+              <dt>{t.obs}</dt><dd data-type={t.obsText}>{t.obsText}</dd>
+              <dt>{t.impact}</dt><dd data-type={t.impactText}>{t.impactText}</dd>
+              <dt>{t.reco}</dt><dd data-type={t.recoText}>{t.recoText}</dd>
+            </dl>
+          </div>
+        </section>
+
+        {/* c. Report sent */}
+        <section class="hs__scene hs__scene--c" data-beat="c">
+          <div class="hs__portal">
+            <p class="hs__kicker">{t.portal}</p>
+            <p class="hs__client">c.dube@exemple.ca</p>
+            <ul class="hs__steps">
+              {t.steps.map((s, i) => <li class="is-done" data-step={i}><span class="hs__check"></span>{s}</li>)}
+            </ul>
+          </div>
+          <div class="hs__end" data-end>
+            <span class="hs__end-check"></span>
+            <p>{t.done}</p>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <noscript>
+    <img class="hs__still" src={`${D}/temps-b-${locale}.webp`} alt={t.still} width="1280" height="800" loading="lazy" decoding="async" />
+  </noscript>
+
+  <div class="hs__controls" role="group" aria-label={t.controls}>
+    {t.beats.map((b, i) => (
+      <button type="button" class="hs__ctl" data-go={['a', 'b', 'c'][i]} aria-label={t.show(i + 1, b)} aria-pressed={i === 1 ? 'true' : 'false'}>
+        <span class="hs__ctl-n">{i + 1}</span><span class="hs__ctl-l">{b}</span>
+      </button>
+    ))}
+    <button type="button" class="hs__ctl hs__ctl--replay" data-replay>{t.replay} <span aria-hidden="true">↺</span></button>
+  </div>
+
+  <figcaption class="hs__caption">{t.caption}</figcaption>
+</figure>
+
+<script>
+  import { initHabitaShowcase } from '../../scripts/habitaShowcase';
+  document.querySelectorAll<HTMLElement>('[data-habita-showcase]').forEach(initHabitaShowcase);
+</script>
+
+<style>
+  @font-face {
+    font-family: 'Inter Habita';
+    src: url('/work/habita-demo/inter-latin.woff2') format('woff2');
+    font-weight: 100 900;
+    font-display: swap;
+  }
+
+  /* No z-index here: on the lead card the frame stays under the stretched link
+     (a click opens the case study); only the controls rise above it. */
+  .hs { position: relative; margin: 0; display: grid; gap: 0.75rem; container-type: inline-size; }
+
+  /* ---- The app frame (Habita's identity) ------------------------------------ */
+  .hs__frame {
+    --h-navy: #060b14;
+    --h-panel: #0d1626;
+    --h-line: rgba(255, 255, 255, 0.09);
+    --h-blue: #1d4ed8;
+    --h-blue-soft: #93b4ff;
+    --h-text: #e6ebf5;
+    --h-mute: #9aa6bd;
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: 14px;
+    border: 1px solid rgba(147, 180, 255, 0.18);
+    background: var(--h-navy);
+    color: var(--h-text);
+    font-family: 'Inter Habita', Inter, ui-sans-serif, system-ui, sans-serif;
+    /* Text follows the figure's width (lead card ≈ 710 px, case hero ≈ 1340 px):
+       the figure is the size container, so 1cqi is 1 % of the frame. */
+    font-size: clamp(9px, 1.45cqi, 18px);
+    line-height: 1.4;
+    box-shadow: 0 0 0 1px rgba(29, 78, 216, 0.12), 0 24px 80px -20px rgba(29, 78, 216, 0.45);
+  }
+  :global(html:not(.js)) .hs__frame { display: none; }
+  .hs__still { display: block; width: 100%; height: auto; border-radius: 14px; }
+
+  .hs__app { display: grid; grid-template-rows: auto 1fr; height: 100%; }
+  .hs__bar {
+    display: flex; align-items: center; gap: 1.25em;
+    padding: 0.8em 1.2em; border-bottom: 1px solid var(--h-line);
+  }
+  .hs__logo { display: block; height: 1.8em; width: auto; }
+  .hs__tabs { display: flex; gap: 0.4em; margin: 0; padding: 0; list-style: none; }
+  .hs__tabs li { padding: 0.35em 0.8em; border-radius: 999px; color: var(--h-mute); font-weight: 500; }
+  .hs[data-scene='a'] [data-tab='a'], .hs[data-scene='b'] [data-tab='b'], .hs[data-scene='c'] [data-tab='c'] {
+    background: rgba(29, 78, 216, 0.22); color: var(--h-text);
+  }
+  .hs__file { margin-left: auto; color: var(--h-mute); }
+
+  .hs__stage { position: relative; min-height: 0; }
+  .hs__scene { position: absolute; inset: 0; padding: 1.2em; opacity: 0; visibility: hidden; transition: opacity 0.35s ease, visibility 0s linear 0.35s; }
+  .hs[data-scene='a'] .hs__scene--a, .hs[data-scene='b'] .hs__scene--b, .hs[data-scene='c'] .hs__scene--c {
+    opacity: 1; visibility: visible; transition: opacity 0.35s ease;
+  }
+  .hs__kicker { margin: 0 0 0.7em; font-size: 0.85em; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--h-mute); display: flex; align-items: center; gap: 0.8em; }
+
+  /* a. Field: four columns of photos */
+  .hs__scene--a { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.9em; }
+  .hs__col { display: flex; flex-direction: column; gap: 0.6em; padding: 0.7em; border: 1px solid var(--h-line); border-radius: 10px; background: var(--h-panel); min-width: 0; }
+  .hs__col-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.4em; margin: 0 0 0.2em; font-weight: 600; }
+  .hs__count { min-width: 1.6em; padding: 0.1em 0.45em; border-radius: 999px; background: rgba(29, 78, 216, 0.25); color: #bcd0ff; font-size: 0.85em; font-weight: 600; text-align: center; font-variant-numeric: tabular-nums; }
+  .hs__photo { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; opacity: 0; transform: translateY(-14px) scale(0.97); transition: opacity 0.4s ease, transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1); }
+  .hs__photo.is-in { opacity: 1; transform: none; }
+
+  /* b. Writing: raw note → finding */
+  .hs__scene--b { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 1.2em; align-items: start; align-content: center; }
+  .hs__note, .hs__finding { padding: 1em; border: 1px solid var(--h-line); border-radius: 10px; background: var(--h-panel); min-width: 0; }
+  .hs__note-text { margin: 0; padding: 1em; border-left: 3px solid var(--h-blue); background: rgba(29, 78, 216, 0.1); border-radius: 0 8px 8px 0; font-style: italic; color: var(--h-text); font-size: 1.35em; }
+  .hs__finding dl { margin: 0; display: grid; gap: 0.25em; }
+  .hs__finding dt { font-size: 0.8em; font-weight: 600; color: var(--h-blue-soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.5em; }
+  .hs__finding dd { margin: 0; min-height: 2.8em; }
+  .hs__badge { margin-left: auto; padding: 0.25em 0.7em; border-radius: 999px; font-size: 0.95em; letter-spacing: 0; text-transform: none; font-weight: 600; background: rgba(234, 179, 8, 0.16); color: #facc15; transition: background-color 0.3s ease, color 0.3s ease; }
+  .hs__badge.is-ok { background: rgba(29, 78, 216, 0.25); color: #bcd0ff; }
+  .hs__typing::after { content: '▍'; color: var(--h-blue-soft); }
+
+  /* c. Report sent: client portal, then the end screen */
+  .hs__scene--c { display: grid; place-items: center; }
+  .hs__portal { width: min(100%, 30em); padding: 1.4em; border: 1px solid var(--h-line); border-radius: 12px; background: var(--h-panel); }
+  .hs__client { margin: 0 0 1em; font-size: 1.15em; font-weight: 600; }
+  .hs__steps { display: grid; gap: 0.7em; margin: 0; padding: 0; list-style: none; }
+  .hs__steps li { display: flex; align-items: center; gap: 0.7em; color: var(--h-mute); transition: color 0.3s ease; }
+  .hs__steps li.is-done { color: var(--h-text); }
+  .hs__check { width: 1.3em; height: 1.3em; border-radius: 50%; border: 1.5px solid var(--h-line); flex: none; transition: background-color 0.3s ease, border-color 0.3s ease; }
+  .hs__steps li.is-done .hs__check { background: var(--h-blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 75% no-repeat; border-color: var(--h-blue); }
+  .hs__end { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 0.8em; background: var(--h-navy); opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0s linear 0.4s; }
+  .hs__end.is-on { opacity: 1; visibility: visible; transition: opacity 0.4s ease; }
+  .hs__end p { margin: 0; font-size: 1.4em; font-weight: 600; }
+  .hs__end-check { width: 3em; height: 3em; border-radius: 50%; background: var(--h-blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 60% no-repeat; }
+
+  /* ---- Controls and caption (portfolio identity) ---------------------------- */
+  .hs__controls { position: relative; z-index: 3; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  :global(html:not(.js)) .hs__controls { display: none; }
+  .hs__ctl {
+    display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding: 0.4rem 0.8rem;
+    border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--fg-dim);
+    font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.06em; cursor: pointer;
+  }
+  .hs__ctl:hover { color: var(--fg); border-color: var(--line-strong); }
+  .hs__ctl:focus-visible { outline: 2px solid var(--accent-fg); outline-offset: 2px; }
+  .hs__ctl[aria-pressed='true'] { color: var(--accent-fg); border-color: var(--accent-fg); }
+  .hs__ctl-n { font-weight: 600; }
+  .hs__ctl--replay { margin-left: auto; }
+  .hs__caption { font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--fg-mute); }
+
+  /* ---- Phone (< 640 px): beat a only, as a phone screen --------------------- */
+  @media (max-width: 639px) {
+    .hs__frame { aspect-ratio: 9 / 16; width: min(100%, 300px); justify-self: center; border-radius: 28px; font-size: 12px; }
+    .hs__frame { font-size: clamp(10px, 4cqi, 12px); }
+    .hs__file, .hs__tabs { display: none; }
+    .hs__scene--a { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: min-content; align-content: start; overflow: hidden; }
+    .hs__scene--b, .hs__scene--c { display: none; }
+    .hs .hs__scene--a { opacity: 1; visibility: visible; }
+    .hs__ctl:not(.hs__ctl--replay) { display: none; }
+    .hs__ctl--replay { margin-left: 0; }
+    .hs__controls { justify-content: center; }
+    .hs__caption { text-align: center; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hs__scene, .hs__photo, .hs__badge, .hs__steps li, .hs__check, .hs__end { transition: none; }
+    .hs__ctl--replay { display: none; }
+  }
+</style>

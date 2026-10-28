@@ -1,0 +1,148 @@
+---
+// The lead project of the work index, full width: the product on the left
+// (7 of 12 columns), the story on the right (5), stacked below 1024 px.
+// Habita plays its coded demo (HabitaShowcase); any other lead project shows
+// its capture. Same stretched-link pattern as WorkCard; the two CTAs and the
+// demo controls sit above it.
+import type { Project } from '../../data/projets';
+import { loc, stackLabel, captureSrcset, CATEGORY_LABEL, FILTER_OF } from '../../data/projets';
+import type { Locale } from '../../i18n/routes';
+import { workBase } from '../../i18n/routes';
+import { useTranslations } from '../../i18n';
+import sharp from 'sharp';
+import HabitaShowcase from './HabitaShowcase.astro';
+
+interface Props {
+  project: Project;
+  locale: Locale;
+  index: number;
+}
+const { project, locale, index } = Astro.props;
+const tr = useTranslations(locale);
+const ws = tr.workSection;
+
+const href = `${workBase[locale]}/${project.slug}`;
+const title = loc(project.title, locale);
+const host = project.url.replace(/^https?:\/\//, '').replace(/\/$/, '');
+const isHabita = project.slug === 'habita';
+const alt = ws.shotAlt(title);
+// The lead image is the page's LCP: give it its real dimensions (the Habita
+// mockup is not 1280 × 800) so nothing shifts while it loads.
+const dims = project.image ? await sharp(`public${project.image}`).metadata() : null;
+---
+
+<article class="wf" data-filter={FILTER_OF[project.category]} data-showcase-host={isHabita ? '' : undefined} style={`--accent:${project.accent}`}>
+  <div class="wf__media">
+    {isHabita ? (
+      <HabitaShowcase locale={locale} />
+    ) : project.image && (
+      <img
+        src={project.image}
+        srcset={captureSrcset(project.image)}
+        sizes="(min-width: 1024px) 705px, 100vw"
+        alt={alt}
+        width={dims?.width ?? 1280}
+        height={dims?.height ?? 800}
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    )}
+  </div>
+
+  <div class="wf__body">
+    <p class="wf__meta">
+      <span class="index-num">{String(index).padStart(2, '0')}</span>
+      <span>{CATEGORY_LABEL[project.category][locale]}</span>
+      {project.inProgress && <span class="wf__badge">{ws.inProgress}</span>}
+      <span class="wf__year">{project.period}</span>
+    </p>
+    <h2 class="wf__title"><a href={href} class="wf__link">{title}</a></h2>
+    <p class="wf__desc">{loc(project.tagline, locale)}</p>
+    {project.roleLine && <p class="wf__role">{loc(project.roleLine, locale)}</p>}
+
+    {project.proof.length > 0 && (
+      <div class="wf__proof">
+        <p class="label">{ws.proof}</p>
+        <ul>
+          {project.proof.map((p) => (
+            <li>
+              <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              {p[locale]}
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <ul class="wf__tags">
+      {project.stack.slice(0, 5).map((s) => <li>{stackLabel(s, locale)}</li>)}
+    </ul>
+
+    <div class="wf__ctas">
+      <a href={href} class="btn btn-accent wf__btn">{tr.cta.viewProject} <span class="wf__arrow" aria-hidden="true">→</span></a>
+      {project.live && (
+        <a href={project.url} class="cta-mono wf__live" target="_blank" rel="noopener">{host} <span aria-hidden="true">↗</span></a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .wf {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: center;
+    padding: clamp(1rem, 2.5vw, 2rem);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--r-lg);
+    background: color-mix(in srgb, var(--bg-raised) 55%, transparent);
+    transition: border-color var(--t-base) var(--ease);
+  }
+  .wf:hover, .wf:has(:focus-visible) { border-color: var(--accent-fg); }
+  .wf__media > img { display: block; width: 100%; height: auto; transition: transform var(--t-slow) var(--ease-out); }
+  .wf:hover .wf__media > img { transform: scale(1.03); }
+
+  .wf__meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.8rem; margin: 0 0 1rem;
+    font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-mute);
+  }
+  .wf__year { margin-left: auto; }
+  .wf__badge { padding: 0.1rem 0.45rem; border: 1px solid var(--accent-fg); color: var(--accent-fg); }
+
+  .wf__title { margin: 0 0 0.75rem; font-size: var(--fs-xxl); font-weight: var(--fw-light); letter-spacing: -0.03em; line-height: 0.95; }
+  .wf__title > a.wf__link,
+  .wf__title > a.wf__link:hover { color: inherit; text-decoration: none; }
+  .wf__link::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+  .wf__link:focus-visible { outline: none; }
+  .wf:has(.wf__link:focus-visible) { outline: 2px solid var(--accent-fg); outline-offset: 3px; }
+
+  .wf__role { margin: -0.5rem 0 1.25rem; color: var(--fg); font-size: var(--fs-sm); }
+  .wf__desc { margin: 0 0 1.25rem; color: var(--fg-dim); font-size: var(--fs-lead); line-height: 1.5; }
+  .wf__tags { display: flex; flex-wrap: wrap; gap: 0.35rem 0.8rem; margin: 0 0 1.75rem; padding: 0; list-style: none; }
+  .wf__tags li { font-family: var(--font-mono); font-size: var(--fs-micro); letter-spacing: 0.06em; color: var(--fg-mute); }
+  .wf__tags li + li::before { content: "/"; margin-right: 0.8rem; opacity: 0.45; }
+
+  .wf__proof { margin: 0 0 1.25rem; padding-top: 1rem; border-top: 1px solid var(--line-soft); }
+  .wf__proof ul { display: grid; gap: 0.45rem; margin: 0.75rem 0 0; padding: 0; list-style: none; }
+  .wf__proof li { display: flex; align-items: center; gap: 0.5rem; font-family: var(--font-mono); font-size: var(--fs-micro); color: var(--fg); }
+  .wf__proof svg { flex: none; color: var(--accent-fg); }
+
+  .wf__ctas { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.5rem; }
+  .wf__btn, .wf__live { position: relative; z-index: 2; }
+  .wf__ctas > a.wf__live { color: var(--fg-dim); text-decoration: none; }
+  .wf__ctas > a.wf__live:hover,
+  .wf__ctas > a.wf__live:focus-visible { color: var(--fg); text-decoration: underline; text-underline-offset: 0.3em; }
+  .wf__arrow { display: inline-block; transition: transform var(--t-base) var(--ease-out); }
+  .wf:hover .wf__arrow { transform: translateX(4px); }
+
+  @media (max-width: 1023px) {
+    .wf { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wf, .wf__arrow, .wf__media img { transition: none; }
+    .wf:hover .wf__media img, .wf:hover .wf__arrow { transform: none; }
+  }
+</style>

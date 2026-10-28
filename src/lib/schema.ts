@@ -84,7 +84,8 @@ export function webSiteSchema(_locale?: Locale) {
   };
 }
 
-/** Technologies Habita inc. — the company behind Habita, founded by Patrick. */
+/** Technologies Habita inc. — the company behind Habita, co-founded by Patrick (schema.org has
+ *  no co-founder property: `founder` lists one of its founders). */
 export function companySchema() {
   return {
     '@type': 'Organization',
@@ -139,14 +140,26 @@ export function professionalServiceSchema(locale: Locale) {
 }
 
 /** ItemList from an ordered list of { name, url }. */
-export function itemListSchema(items: { name: string; url: string }[]) {
+export function itemListSchema(
+  items: { name: string; url: string; dateCreated?: string; about?: string }[],
+) {
   return {
     '@type': 'ItemList',
     itemListElement: items.map((it, i) => ({
       '@type': 'ListItem',
       position: i + 1,
-      name: it.name,
-      url: abs(it.url),
+      // A case study is described as the work itself when its year is known.
+      ...(it.dateCreated
+        ? {
+            item: {
+              '@type': 'CreativeWork',
+              name: it.name,
+              url: abs(it.url),
+              dateCreated: it.dateCreated,
+              ...(it.about ? { about: { '@type': 'Thing', name: it.about } } : {}),
+            },
+          }
+        : { name: it.name, url: abs(it.url) }),
     })),
   };
 }

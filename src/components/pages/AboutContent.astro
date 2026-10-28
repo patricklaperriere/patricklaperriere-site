@@ -11,7 +11,6 @@ import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import { hasPhoto } from '../../lib/photo';
 import PortraitSlot from '../PortraitSlot.astro';
-import Todo from '../Todo.astro';
 import ExternalIcon from '../ExternalIcon.astro';
 import { SITE } from '../../config';
 
@@ -47,7 +46,7 @@ const crumbs = [
 
   <div class="about__story prose reveal" data-delay="80ms">
     {a.body.map((p) => <p>{p}</p>)}
-    {import.meta.env.DEV && <p><Todo what={a.bioTodo} /></p>}
+    <p>{a.bio}</p>
 
     <aside class="about__company" aria-labelledby="about-company">
       <h2 id="about-company" class="label">{a.companyTitle}</h2>
@@ -81,7 +80,7 @@ const crumbs = [
   </ul>
 </section>
 
-<CtaBand locale={locale} email={SITE.emailPersonal} />
+<CtaBand locale={locale} />
 
 <style>
   /* ---- Masthead ----------------------------------------------------------- */

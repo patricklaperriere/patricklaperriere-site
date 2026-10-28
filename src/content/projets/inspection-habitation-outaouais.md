@@ -37,7 +37,16 @@ aFournir:
   - "résultats depuis la mise en ligne (demandes reçues, trafic), si le client accepte de les publier"
   - "2 à 3 captures supplémentaires (page de service, mobile)"
 ordre: 4
-publié: true
+statut: publié
+preuve:
+  - fr: "Bilingue FR/EN"
+    en: "Bilingual FR/EN"
+  - fr: "Une page par service"
+    en: "One page per service"
+  - fr: "Données structurées"
+    en: "Structured data"
+grille:
+  colonnes: 6
 année: "2025"
 catégorie: web
 vedette: true
