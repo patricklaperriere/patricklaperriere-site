@@ -44,12 +44,14 @@ export const en: Widen<Dict> = {
 
   lighthouse: {
     caseTitle: 'Live site, measured',
+    caseTitlePreview: 'Measurement of the new version',
     labels: {
       performance: 'Performance',
       accessibility: 'Accessibility',
       seo: 'SEO',
     },
     method: (date: string, url: string, tool: string) => `Measured on ${date} on ${url} with ${tool}, mobile profile, median of three runs.`,
+    methodPreview: (date: string, url: string, tool: string) => `Preview, measured on ${date} on ${url} with ${tool}, mobile profile, median of three runs. SEO not shown: a preview is kept out of search engines.`,
   },
 
   servicesSection: {
@@ -235,6 +237,8 @@ export const en: Widen<Dict> = {
     testimonial: 'Testimonial',
     delivery: 'Delivery',
     gallery: 'More screenshots of the live site',
+    galleryPreview: 'More screenshots of the new version',
+    previewCaption: 'New version, going live soon',
     seeAlso: 'See also',
     seeAlsoService: (t: string) => `The service: ${t}`,
     seeAlsoCity: (n: string) => `Web design in ${n}`,

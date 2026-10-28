@@ -39,6 +39,8 @@ const idx = all.findIndex((p) => p.slug === project.slug);
 const next = all[(idx + 1) % all.length];
 const others = all.filter((p) => p.slug !== project.slug && p.slug !== next.slug);
 
+// While a new version waits for its domain, the case study links to its preview.
+const siteUrl = project.preview ?? project.url;
 const shot = project.image;
 const contain = project.fit === 'contain';
 const isHabita = project.slug === 'habita';
@@ -100,7 +102,7 @@ const specs = [
         <dt>{ws.client}</dt>
         <dd>
           {project.logo && project.live ? (
-            <a href={project.url} class="case__client" target="_blank" rel="noopener">
+            <a href={siteUrl} class="case__client" target="_blank" rel="noopener">
               <img src={project.logo} alt="" class="case__logo" height="40" decoding="async" />
               <span>{project.client}</span>
             </a>
@@ -129,7 +131,7 @@ const specs = [
     </dl>
 
     {project.live && (
-      <a href={project.url} class="btn btn-accent case__visit" target="_blank" rel="noopener">
+      <a href={siteUrl} class="btn btn-accent case__visit" target="_blank" rel="noopener">
         {tr.cta.visitSite}
         <ExternalIcon />
       </a>
@@ -149,19 +151,20 @@ const specs = [
     <div class="container-wide case__media reveal-clip">
       <figure class:list={['case__shot', contain && 'case__shot--contain']}>
         {project.live ? (
-          <a href={project.url} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
+          <a href={siteUrl} target="_blank" rel="noopener" aria-label={tr.cta.visitSite}>
             <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
           </a>
         ) : (
           <img src={shot} srcset={captureSrcset(shot)} sizes="(min-width: 1320px) 1208px, 100vw" alt={shotAlt} width="1280" height="800" loading="lazy" decoding="async" />
         )}
+        {project.preview && <figcaption class="case__shot-caption">{ws.previewCaption}</figcaption>}
       </figure>
     </div>
   )}
 
   {score && (
     <section class="container-wide case__bench">
-      <h2 class="label case__bench-label">{tr.lighthouse.caseTitle}</h2>
+      <h2 class="label case__bench-label">{score.preview ? tr.lighthouse.caseTitlePreview : tr.lighthouse.caseTitle}</h2>
       <LighthouseScores locale={locale} score={score} variant="compact" />
     </section>
   )}
@@ -182,7 +185,7 @@ const specs = [
 
   {project.gallery.length > 0 && (
     <section class="container-wide case__gallery" aria-labelledby="case-gallery-label">
-      <h2 class="label label-rule" id="case-gallery-label">{ws.gallery}</h2>
+      <h2 class="label label-rule" id="case-gallery-label">{project.preview ? ws.galleryPreview : ws.gallery}</h2>
       <div class="case__gallery-grid">
         {project.gallery.map((g) => {
           const phone = g.height > g.width;
@@ -390,6 +393,13 @@ const specs = [
     object-fit: cover;
     object-position: top center;
     transition: transform var(--t-slow) var(--ease-out);
+  }
+  .case__shot-caption {
+    padding: 0.6rem 1rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--fg-dim);
   }
   .case__shot:hover img { transform: scale(1.015); }
   .case__shot--contain {

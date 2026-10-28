@@ -1,15 +1,16 @@
 {
-  "measuredAt": "2026-10-27T14:01:29.452Z",
+  "measuredAt": "2026-10-28T19:28:48.000Z",
   "tool": "Lighthouse 12.8.2",
   "profile": "mobile",
   "runs": 3,
   "sites": {
     "inspection-habitation-outaouais": {
-      "url": "https://inspectionhab.ca/",
-      "performance": 63,
+      "url": "https://ebe6af57.inspectionhab-39r.pages.dev/",
+      "preview": true,
+      "performance": 100,
       "accessibility": 100,
-      "seo": 100,
-      "lcpMs": 5185,
+      "seo": null,
+      "lcpMs": 1714,
       "cls": 0
     }
   }

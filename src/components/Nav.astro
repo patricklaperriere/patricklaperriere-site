@@ -145,6 +145,12 @@ const [first, last] = tr.brand.split(' ');
     -webkit-backdrop-filter: blur(14px);
     border-bottom-color: var(--line);
   }
+  /* On a phone the bar covers a larger share of the screen and a coloured
+     button scrolling beneath it showed through, smeared under the « PL. »
+     logo (case study « Visiter le site », 2026-10-28). Opaque there. */
+  @media (max-width: 1023px) {
+    .nav.is-stuck { background: var(--ink); }
+  }
   .nav__inner {
     display: flex;
     align-items: center;

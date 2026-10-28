@@ -22,9 +22,13 @@ export interface LighthouseScore {
   /** The URL actually measured. */
   url: string;
   tool: string;
+  /** True when `url` is a preview of a new version, not the live domain. */
+  preview: boolean;
 }
 
-type Raw = { url: string; performance: number; accessibility: number; seo: number; lcpMs: number; cls: number };
+// `seo` is null for a preview: previews carry `noindex`, so their SEO score says
+// nothing about the site that will go live.
+type Raw = { url: string; preview?: boolean; performance: number; accessibility: number; seo: number | null; lcpMs: number; cls: number };
 const sites = (data.sites ?? {}) as Record<string, Raw>;
 
 /** Keyed by project slug. */
@@ -40,6 +44,7 @@ export const lighthouse: Record<string, LighthouseScore> = Object.fromEntries(
       measured: data.measuredAt,
       url: s.url,
       tool: data.tool,
+      preview: s.preview ?? false,
     },
   ]),
 );

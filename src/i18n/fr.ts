@@ -55,12 +55,14 @@ export const fr = {
   // Measured Lighthouse scores of a client's live site (data/lighthouse.ts).
   lighthouse: {
     caseTitle: 'Mesure du site en ligne',
+    caseTitlePreview: 'Mesure de la nouvelle version',
     labels: {
       performance: 'Performance',
       accessibility: 'Accessibilité',
       seo: 'SEO',
     },
     method: (date: string, url: string, tool: string) => `Mesuré le ${date} sur ${url} avec ${tool}, profil mobile, médiane de trois essais.`,
+    methodPreview: (date: string, url: string, tool: string) => `Préversion, mesurée le ${date} sur ${url} avec ${tool}, profil mobile, médiane de trois essais. SEO non affiché : une préversion est exclue des moteurs de recherche.`,
   },
 
   servicesSection: {
@@ -247,6 +249,8 @@ export const fr = {
     testimonial: 'Témoignage',
     delivery: 'Délai',
     gallery: 'Autres captures du site en ligne',
+    galleryPreview: 'Autres captures de la nouvelle version',
+    previewCaption: 'Nouvelle version, en ligne sous peu',
     seeAlso: 'Voir aussi',
     seeAlsoService: (t: string) => `Le service : ${t}`,
     seeAlsoCity: (n: string) => `Création de site web à ${n}`,

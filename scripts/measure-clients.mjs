@@ -21,6 +21,9 @@ const work = mkdtempSync(join(tmpdir(), 'clients-'));
 const SITES = {
   habita: 'https://habita.expert',
   'inspection-beauregard': 'https://www.inspectionbeauregard.com',
+  // Until the domain switches, the IHO case study shows the new version's preview,
+  // measured by hand on 2026-10-28 (SEO left null: previews carry noindex). Re-run
+  // this script only after the switch, or it will measure the old site again.
   'inspection-habitation-outaouais': 'https://inspectionhab.ca',
   'hp-addik': 'https://hpaddik.com',
 };

@@ -30,12 +30,27 @@ résultat:
   en: "The site is live at inspectionhab.ca, in French and English, with one page per service."
 ville: "gatineau"
 lien: "https://inspectionhab.ca"
+# Nouvelle version en préversion Cloudflare tant que le domaine n'est pas transféré.
+# Après la bascule : retirer cette ligne et remesurer (node scripts/measure-clients.mjs).
+préversion: "https://ebe6af57.inspectionhab-39r.pages.dev"
 image: "/work/inspection-habitation-outaouais.webp"
+captures:
+  - src: "/work/inspection-habitation-outaouais-preachat.webp"
+    alt:
+      fr: "Page Inspection préachat de la nouvelle version du site d’Inspection Habitation Outaouais, sur ordinateur"
+      en: "Pre-purchase inspection page of the new Inspection Habitation Outaouais website, on desktop"
+    largeur: 1280
+    hauteur: 800
+  - src: "/work/inspection-habitation-outaouais-mobile.webp"
+    alt:
+      fr: "Accueil de la nouvelle version du site d’Inspection Habitation Outaouais sur téléphone"
+      en: "Home page of the new Inspection Habitation Outaouais website on a phone"
+    largeur: 750
+    hauteur: 1624
 aFournir:
   - "Lighthouse de l’ancien site, s’il en existait un"
   - "délai de livraison du projet"
   - "résultats depuis la mise en ligne (demandes reçues, trafic), si le client accepte de les publier"
-  - "2 à 3 captures supplémentaires (page de service, mobile)"
 ordre: 4
 statut: publié
 preuve:

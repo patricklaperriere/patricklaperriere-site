@@ -71,7 +71,7 @@ const vitals = [
       </ul>
     )}
 
-    <p class="bench__meta">{l.method(new Date(score.measured).toLocaleDateString(tr.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Toronto' }), score.url.replace(/^https?:\/\//, '').replace(/\/$/, ''), score.tool)}</p>
+    <p class="bench__meta">{(score.preview ? l.methodPreview : l.method)(new Date(score.measured).toLocaleDateString(tr.locale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Toronto' }), score.url.replace(/^https?:\/\//, '').replace(/\/$/, ''), score.tool)}</p>
   </div>
 )}
 

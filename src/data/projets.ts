@@ -34,6 +34,8 @@ export interface Project {
   featured: boolean;
   order: number;
   url: string;
+  /** Preview of a new version not yet on the domain, or null (see `préversion`). */
+  preview: string | null;
   /** False while the project is built but not online yet. */
   live: boolean;
   image: string;
@@ -96,6 +98,7 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     featured: d.vedette,
     order: d.ordre,
     url: d.lien,
+    preview: d.préversion ?? null,
     live: d.enLigne && Boolean(d.lien),
     image: d.image,
     year: d.année,

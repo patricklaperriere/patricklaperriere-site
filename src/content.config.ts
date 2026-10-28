@@ -79,6 +79,9 @@ const projets = defineCollection({
     logo: z.string().optional(),
     /** Live URL. Empty while the site is not online yet. */
     lien: z.string(),
+    /** Optional preview of a new version not yet on the domain: the case study's links point
+        there, the screenshots are labelled as the new version. Remove once the domain switches. */
+    préversion: z.string().optional(),
     /** False while the site is built but not online yet (shown as such). */
     enLigne: z.boolean().default(true),
     /** Screenshot under public/, 1280×800 WebP. Empty: no capture yet, no frame. */
