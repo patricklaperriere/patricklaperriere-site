@@ -25,14 +25,6 @@ réalisation:
 résultat:
   fr: "Le nouveau site est en ligne à inspectionbeauregard.com : neuf pages, dont une par type d’inspection (préachat, prévente, préventive), et un formulaire de soumission protégé contre le spam qui envoie la demande à Éric et un accusé de réception au client. Les cinq anciennes adresses Wix redirigent en 301 vers leurs nouvelles pages, pour garder ce que Google avait déjà indexé."
   en: "The new site is live at inspectionbeauregard.com: nine pages, including one per type of inspection (pre-purchase, pre-sale, preventive), and a spam-protected quote form that sends the request to Éric and a confirmation to the client. The five old Wix addresses redirect with a 301 to their new pages, so what Google had already indexed is kept."
-témoignage:
-  citation:
-    fr: "<!-- À CONFIRMER : citation et accord d'Éric -->"
-    en: "<!-- À CONFIRMER : citation et accord d'Éric -->"
-  auteur: "Éric Beauregard <!-- À CONFIRMER : citation et accord d'Éric -->"
-  fonction:
-    fr: "Inspection BeauRegard <!-- À CONFIRMER : titre exact d'Éric -->"
-    en: "Inspection BeauRegard <!-- À CONFIRMER : titre exact d'Éric -->"
 lien: "https://www.inspectionbeauregard.com"
 logo: "/work/logos/inspection-beauregard.svg"
 image: "/work/inspection-beauregard.webp"
@@ -61,5 +53,5 @@ Vérifié le 27 octobre 2026 sur le site en ligne et dans ~/projets/inspection-b
 - Mise en ligne en 2026 : encore sur Wix dans la Wayback Machine en mai 2026, dépôt commencé en septembre 2026.
 - Capture : public/work/inspection-beauregard.webp, tirée de src/assets/work/beauregard-apres.png.
 
-Témoignage : la citation approuvée par Éric porte sur Habita, elle est donc sur la fiche Habita. Il n'y a pas
-encore de citation sur le site Web : le bloc reste en dev seulement tant que le marqueur À CONFIRMER y est.
+Témoignage : Éric n'a écrit aucune citation sur le site Web (sa citation approuvée porte sur Habita et figure
+sur la fiche Habita). Pas de bloc témoignage ici; en ajouter un seulement avec une citation qu'il a approuvée.
