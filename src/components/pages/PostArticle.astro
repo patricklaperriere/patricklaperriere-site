@@ -17,6 +17,14 @@ interface Props {
 const { locale, post, related = [] } = Astro.props;
 const tr = useTranslations(locale);
 
+// Only the update date is shown, and only when the article declares one
+// (`updatedDate`). It also feeds dateModified in the JSON-LD and the sitemap's
+// <lastmod>. The publication date stays in the JSON-LD only.
+const updated = post.data.updatedDate;
+const updatedLabel = updated
+  ? new Intl.DateTimeFormat(tr.htmlLang, { dateStyle: 'long', timeZone: 'UTC' }).format(updated)
+  : null;
+
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
   { name: tr.nav.blog, url: path('blog', locale) },
@@ -30,10 +38,9 @@ const crumbs = [
   <header class="post__head container-wide">
     <div class="post__meta">
       <span class="post__byline">{tr.blog.byline} <strong>Patrick Laperrière</strong></span>
-      {/* No visible date. These are evergreen reference pages, and a stamped
-          date only tells a reader how long it has been since the last one.
-          datePublished / dateModified stay in the BlogPosting JSON-LD, so
-          search engines still get the real dates. */}
+      {updated && (
+        <span class="post__updated">{tr.blog.updated} <time datetime={updated.toISOString().slice(0, 10)}>{updatedLabel}</time></span>
+      )}
       {post.data.tags.map((t) => <span class="post__tag">{t}</span>)}
     </div>
     <h1 class="post__title">{post.data.title}</h1>

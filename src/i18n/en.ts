@@ -312,6 +312,7 @@ export const en: Widen<Dict> = {
     aboutLink: 'More about me',
     related: 'Related articles',
     readMore: 'Read',
+    updated: 'Updated',
   },
 
   privacy: {

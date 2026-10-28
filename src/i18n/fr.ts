@@ -326,6 +326,7 @@ export const fr = {
     aboutLink: 'En savoir plus sur moi',
     related: 'Articles connexes',
     readMore: 'Lire',
+    updated: 'Mis à jour le',
   },
 
   privacy: {
