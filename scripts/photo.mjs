@@ -89,7 +89,7 @@ async function square(size, file, opts = {}) {
 
 // The default source is already a face crop, so no `tight` pre-crop here.
 const written = [
-  await square(1080, 'patrick-square.jpg', { jpg: true }),
+  await square(1080, 'patrick-laperriere-2025.jpg', { jpg: true }),
   await square(32, 'icon-32.png', { png: true, round: true }),
   // Apple applies its own rounded mask to the home-screen icon and expects an
   // opaque square: a pre-rounded one gets a black wedge in each corner.

@@ -1,9 +1,9 @@
 // The personal portrait, in one place.
 //
-// Source (27 October 2026): Patrick's original phone photo, unretouched
-// (Downloads/20250402_105602.jpg), cropped to 4:5 and to a square, EXIF and
-// GPS stripped. The previous portrait was a retouched version of the same
-// shot that looked generated; it was withdrawn. To be approved by Patrick.
+// Source (28 October 2026): Patrick's professional photo from the Bravo 2025
+// award (NEXUS-Passation/assets/patrick-photo-pro-2025.jpg, 1080 × 1080, white
+// background). Cropped only, never retouched: 864 × 1080 (4:5) for the
+// portrait, a 720 × 720 face crop for the square. Metadata stripped.
 //
 // The site finds its photos by file presence: drop a 4:5 portrait at
 // src/assets/photo/patrick-portrait.jpg (and, optionally, a square face crop
@@ -24,8 +24,11 @@ const square = find('patrick-square') ?? portrait;
 
 export const hasPhoto = Boolean(portrait);
 
-/** Widths generated for the portrait; each slot picks with its own `sizes`. */
-export const PORTRAIT_WIDTHS = [160, 320, 480, 640, 840, 1080];
+/** Widths generated for the portrait; each slot picks with its own `sizes`.
+ *  Never wider than the source: an upscaled portrait only looks soft. */
+export const PORTRAIT_WIDTHS = [160, 320, 480, 640, 840, 1080].filter(
+  (w) => !portrait || w <= portrait.width,
+);
 
 export const PHOTO = {
   /** 4:5 portrait (home "Qui je suis", about page). */
@@ -33,7 +36,7 @@ export const PHOTO = {
   /** Square face crop (article author box). */
   square,
   /** Square JPEG for JSON-LD / rich results (crawlers want a stable raster). */
-  schema: '/photo/patrick-square.jpg',
+  schema: '/photo/patrick-laperriere-2025.jpg',
   /** Favicons. */
   icon32: '/photo/icon-32.png',
   icon180: '/photo/apple-touch-icon.png',
