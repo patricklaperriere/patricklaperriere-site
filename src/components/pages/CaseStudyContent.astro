@@ -170,7 +170,8 @@ const specs = [
 
   {quote && (
     <section class="container-wide case__quote reveal" aria-labelledby="case-quote-label">
-      <h2 class="label label-rule" id="case-quote-label">{ws.testimonial}</h2>
+      <h2 class="label label-rule" id="case-quote-label">{'heading' in quote && quote.heading ? loc(quote.heading, locale) : ws.testimonial}</h2>
+      {'intro' in quote && quote.intro && <p class="case__quote-intro">{loc(quote.intro, locale)}</p>}
       <figure>
         <blockquote class="case__quote-text">
           <p lang={'lang' in quote && quote.lang !== locale ? quote.lang : undefined}>{loc(quote.quote, locale)}</p>
@@ -222,6 +223,7 @@ const specs = [
     padding-block: clamp(2rem, 5vw, 3.5rem);
   }
   .case__quote figure { margin: 1.5rem 0 0; max-width: 60ch; }
+  .case__quote-intro { margin: 1.5rem 0 0; max-width: 60ch; color: var(--fg-mute); line-height: 1.6; }
   .case__quote-text {
     margin: 0;
     font-size: var(--fs-lead);

@@ -30,8 +30,8 @@ résultat:
   fr: "Le site de présentation est en ligne à habita.expert et décrit les fonctionnalités du logiciel."
   en: "The product site is live at habita.expert and describes the software’s features."
 terrain:
-  fr: "Éric Beauregard, d’Inspection BeauRegard, utilise Habita pour ses inspections : il prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau."
-  en: "Éric Beauregard, of Inspection BeauRegard, uses Habita for his inspections: he shoots his photos in the field with his own camera, then writes the report back at the office."
+  fr: "Habita sert à plusieurs inspecteurs en bâtiment. Chez Inspection BeauRegard, à Sherbrooke, Éric Beauregard prend ses photos sur le terrain avec sa propre caméra, puis rédige son rapport au bureau dans Habita."
+  en: "Habita is used by several building inspectors. At Inspection BeauRegard, in Sherbrooke, Éric Beauregard shoots his photos in the field with his own camera, then writes the report back at the office in Habita."
 témoignage:
   citation:
     fr: "Un logiciel d’inspection moderne, parfaitement adapté aux besoins d’aujourd’hui. Sa conception intuitive fait sauver un temps précieux à la rédaction, et la version tactile et navigable du rapport se démarque vraiment. Le soutien est omniprésent : on ne se sent jamais laissé à nous-mêmes."
@@ -41,6 +41,12 @@ témoignage:
     fr: "Inspection de bâtiment BeauRegard"
     en: "Inspection de bâtiment BeauRegard"
   langue: fr
+  rubrique:
+    fr: "Un client en vedette"
+    en: "Featured client"
+  présentation:
+    fr: "Parmi les inspecteurs qui utilisent Habita, je suis fier de vous présenter Éric Beauregard. Il a pris le logiciel en main rapidement et il gagne du temps sur chaque rapport. Voici ce qu’il en dit."
+    en: "Among the inspectors who use Habita, I’m proud to introduce Éric Beauregard. He picked up the software quickly and saves time on every report. Here’s what he says about it."
 lien: "https://habita.expert"
 image: "/work/habita.webp"
 aFournir:
