@@ -27,7 +27,7 @@ export interface Project {
   draft: boolean;
   /** `statut: en_cours`: built and listed, with an « En cours » badge. */
   inProgress: boolean;
-  /** Short checkable facts for the work index (« Preuve »), 0 to 3. */
+  /** Short checkable facts for the work index (« Preuve »), 0 to 4. */
   proof: LocalizedField[];
   /** Work-index grid span (of 12) and media ratio; null: the defaults. */
   grid: { span: number; ratio: string | null } | null;
@@ -55,6 +55,10 @@ export interface Project {
   testimonial: { quote: LocalizedField; author: string; title: LocalizedField; original?: 'fr' | 'en'; heading?: LocalizedField; intro?: LocalizedField } | null;
   /** Client logo under public/, or null. */
   logo: string | null;
+  /** Years shown on the lead card; falls back to `year`. */
+  period: string;
+  /** One-line role for the lead card, or null. */
+  roleLine: LocalizedField | null;
   /** H1 of the case study: descriptive, with the service keyword. */
   h1: LocalizedField;
   /** City page slug for the client's area, or null. */
@@ -104,6 +108,8 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     field: pending(d.terrain),
     testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction, original: t.langue, heading: t.rubrique, intro: t.présentation } : null,
     logo: d.logo ?? null,
+    period: d.période ?? d.année,
+    roleLine: d.rôleCourt ?? null,
     h1: d.titreH1 ?? d.titre,
     city: d.ville ?? null,
     stack: d.stack,

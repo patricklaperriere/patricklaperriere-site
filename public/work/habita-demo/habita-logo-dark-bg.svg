@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Logo Habita — export Illustrator, pour fond sombre. Deux retouches:
+       1. la barre passe de #306fa3 a #2c70a5, la couleur de marque;
+       2. la patte du bas commence 1.4 plus bas, pour que la barre ne la touche
+          plus. ATTENTION AU SENS: ce rect est tourne de -90°, donc y = 61.465 - x.
+          Son PIED tient a l'attribut x et ne doit jamais bouger — le toucher
+          decolle la patte du bas du logo. C'est la LARGEUR qui regle son sommet,
+          et le sommet vivait de toute facon cache sous la barre.
+     La barre, elle, n'est pas deplacee: elle garde son ecart avec le montant de
+     gauche. -->
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 189.282 41.836">
+  <path d="M101.842,20.013c2.686,1.201,4.649,3.106,5.513,5.928,1.781,5.82.192,12.693-6.187,14.839-1.785.533-3.562.931-5.488.932l-17.97.016-.006-41.702,17.276-.016c2.152-.002,4.144.482,6.049,1.259,2.539,1.214,4.387,3.255,5.093,5.999,1.133,4.391.516,10.183-4.279,12.745ZM98.603,15.222c1.029-2.208.976-4.591-.048-6.67-.959-1.294-2.473-2.012-4.129-2.019l-9.408-.038-.007,10.892,9.489-.039c1.633-.007,3.148-.815,4.102-2.126ZM100.195,32.329c.724-2.095.601-4.358-.357-6.258-.931-1.559-2.577-2.093-4.341-2.357l-10.465-.02-.023,11.512,10.71-.01c1.896-.291,3.588-1.043,4.477-2.866Z" fill="#e6e6e6"/>
+  <path d="M178.616,32.688l-15.552-.029-3.049,9.051-7.532-.004L167.019.031l7.701-.013,14.562,41.635-7.686.09-2.98-9.056ZM176.36,26.019l-5.546-16.799-5.55,16.833,11.096-.034Z" fill="#e6e6e6"/>
+  <path d="M62.072,32.668h-15.549s-3.011,9.038-3.011,9.038l-7.527-.004L50.537.022l7.703-.01,14.589,41.694-7.672.027-3.085-9.067ZM59.842,26.021l-5.545-16.884-5.517,16.909,11.062-.026Z" fill="#e6e6e6"/>
+  <polygon points="144.865 41.695 137.585 41.723 137.574 6.825 126.768 6.823 126.776 .029 155.644 .014 155.667 6.81 144.864 6.832 144.865 41.695" fill="#e6e6e6"/>
+  <rect x="96.943" y="17.168" width="41.721" height="7.397" transform="translate(96.904 138.664) rotate(-89.984)" fill="#e6e6e6"/>
+  <rect x="-17.204" y="17.212" width="41.72" height="7.306" transform="translate(-17.21 24.518) rotate(-89.993)" fill="#e6e6e6"/>
+  <rect x="23.884" width="7.294" height="23.233" fill="#e6e6e6"/>
+  <rect x="19.634" y="30.287" width="10.540" height="7.306" transform="translate(-6.415 61.465) rotate(-89.993)" fill="#e6e6e6"/>
+  <rect x="18.198" y="16.913" width="3.846" height="22.111" transform="translate(48.09 7.847) rotate(90)" fill="#2c70a5"/>
+</svg>

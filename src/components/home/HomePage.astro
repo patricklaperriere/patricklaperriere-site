@@ -17,8 +17,8 @@ import { hasPhoto } from '../../lib/photo';
 import PortraitSlot from '../PortraitSlot.astro';
 import DossierFrame from '../DossierFrame.astro';
 import { showCapture } from '../../lib/work-media';
-import { captureSrcset } from '../../data/projets';
 import HabitaLoop from '../HabitaLoop.astro';
+import { HABITA_LOOP } from '../../lib/habitaLoop';
 import SiteSheet from './SiteSheet.astro';
 import HouseScene from './HouseScene.astro';
 import ExternalIcon from '../ExternalIcon.astro';
@@ -88,7 +88,7 @@ const quote = t.about.testimonial;
             <div class="file__media">
               <figure class="file__loop">
                 <figcaption class="file__loop-label annot">habita.expert</figcaption>
-                <HabitaLoop poster="/work/habita.webp" srcset={captureSrcset('/work/habita.webp')} sizes="(min-width: 1024px) 600px, (min-width: 768px) 45vw, 100vw" alt={tr.workSection.habitaAlt} />
+                <HabitaLoop poster={HABITA_LOOP.poster} alt={tr.workSection.habitaAlt} />
               </figure>
             </div>
           ) : w.media.length > 0 && (

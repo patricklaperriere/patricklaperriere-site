@@ -25,7 +25,8 @@ Le schéma est validé par `src/content.config.ts` : un champ manquant fait éch
 | `image` | Capture 1280×800 en WebP dans `public/work/`, plus une variante `-640.webp` à côté pour les téléphones. Vide : pas de cadre, la fiche s'affiche sans image |
 | `ordre` | Position dans la liste (1 = premier) |
 | `statut` | `brouillon` : visible seulement avec `npm run dev`, absent du build. `publié` : en ligne. `en_cours` : en ligne avec un badge « En cours » |
-| `preuve` | 1 à 3 faits courts et vérifiables (fr, en), affichés sur la page Réalisations avec une coche |
+| `preuve` | 1 à 4 faits courts et vérifiables (fr, en), affichés sur la page Réalisations avec une coche |
+| `période`, `rôleCourt` (fr, en) | Facultatifs, carte vedette : années affichées (ex. « 2025–2026 ») et rôle en une ligne |
 | `grille` | Carte de la page Réalisations : `colonnes` (sur 12) et `ratio` du média (ex. `"21 / 9"`). Une rangée incomplète est complétée par sa dernière carte |
 | `année`, `catégorie` (saas, web, seo, shopify), `vedette`, `accent`, `cadrage` (cover, contain) | Présentation |
 
