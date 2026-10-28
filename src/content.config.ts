@@ -52,6 +52,9 @@ const projets = defineCollection({
         fonction: bilingue,
         /** Language the client wrote in; the other version is a translation, labelled as such. */
         langue: z.enum(['fr', 'en']).optional(),
+        /** Optional heading in place of « Témoignage », and a sentence introducing the client. */
+        rubrique: bilingue.optional(),
+        présentation: bilingue.optional(),
       })
       .optional(),
     /** Optional client logo under public/work/logos/, shown with the client name (only with their OK). */
