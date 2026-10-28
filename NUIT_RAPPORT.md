@@ -24,7 +24,7 @@ Les rappels `[À FOURNIR : …]` (en jaune, en pointillé) n'apparaissent qu'ave
 |---|---|---|
 | A. Audit complet | `efb71d3` | Trois audits en parallèle (technique, contenu, schema) sur les 60 fichiers HTML. Synthèse dans `docs/AUDIT_NUIT.md`, détail dans `docs/audit-nuit/` |
 | B. Réécriture FR puis EN | `6308583` | Thème de l'accueil appliqué à toutes les pages ; copie réécrite (services, À propos, contact, confidentialité et mentions légales, 404, régions, concepts, blogue) ; photo retirée ; une seule liste d'outils |
-| C. Portfolio | `6d28c0c` | Fiches au format « point de départ, ce que j'ai fait, ce qu'on peut vérifier » ; Habita, BeauRegard et Bâti-Conseil publiés ; anciens scores d'août retirés |
+| C. Portfolio | `6d28c0c` | Fiches au format « point de départ, ce que j'ai fait, ce qu'on peut vérifier » ; Habita et BeauRegard publiés ; anciens scores d'août retirés |
 | D. SEO technique | `69b74da` | JSON-LD consolidé, titres d'au plus 60 caractères, descriptions de 110 à 160, une image Open Graph par page, `/signature/` en noindex |
 | Ajout de nuit (photo) | `5bbc5bc` | Portrait tiré de la photo originale, sans retouche (voir Décisions) |
 | E. Performance et accessibilité | `44708c3` | LCP des réalisations, variantes 640 px, portrait chargé tout de suite, anneau de focus des champs |
@@ -96,9 +96,6 @@ Chaque ligne apparaît aussi sur le site en mode dev, à l'endroit concerné.
 | Habita (`habita.md`) | Les vrais outils de Habita, si tu veux les afficher. Pour l'instant, « En bref » liste des caractéristiques |
 | Habita (`config.ts`, `company.neq`) | Le NEQ de Technologies Habita inc., si tu veux qu'il paraisse |
 | Habita, accueil (`home.ts`) | Une capture à plat d'un rapport web, avec des données de démo (`src/assets/work/habita-rapport-web.png`) |
-| Bâti-Conseil (`bati-conseil.md`) | L'accord de Gabriel Patenaude pour figurer au portfolio et être nommé |
-| Bâti-Conseil (`bati-conseil.md`) | La date de mise en ligne et l'adresse définitive : **URL introuvable**, `lien` est laissé vide et la fiche dit « Pas encore en ligne » |
-| Bâti-Conseil (`bati-conseil.md`) | Une capture 1280 × 800, plus sa variante `-640`, une fois le site en ligne |
 | BeauRegard (`inspection-beauregard.md`) | L'accord écrit d'Éric Beauregard pour être nommé au portfolio |
 | BeauRegard (`inspection-beauregard.md`) | Les pages livrées, le formulaire et les redirections des anciennes adresses Wix |
 | BeauRegard (`inspection-beauregard.md`) | Les captures avant (Wix) et après (Astro), une fois l'accord d'Éric obtenu |
@@ -116,9 +113,9 @@ Chaque ligne apparaît aussi sur le site en mode dev, à l'endroit concerné.
    - La photo est affichée sur l'accueil (« Qui je suis »), la page À propos et l'encadré d'auteur du blogue. Elle sert aussi aux favicônes et au JSON-LD.
    - C'est un selfie, pas un portrait professionnel. Pour la remplacer, dépose un autre fichier sous le même nom et lance `npm run photo`. Pour la retirer, supprime les deux fichiers : le site revient au monogramme, sans aucune autre modification.
 2. **Thème.** Le thème « rapport d'inspection » de l'accueil est maintenant celui de toutes les pages. Les anciennes sections « papier » (fond beige) deviennent aubergine pâle.
-3. **Bâti-Conseil et Inspection BeauRegard sont publiés au portfolio**, comme le demande la mission.
-   - Avant, l'accueil ne montrait pas Bâti-Conseil, et ses notes demandaient l'accord de Gabriel ; BeauRegard attend aussi l'accord écrit d'Éric.
-   - Si les accords ne sont pas confirmés, repasse `publié: false` dans les deux fiches. Rien ne casse : les liens et le sitemap suivent.
+3. **Inspection BeauRegard est publié au portfolio**, comme le demande la mission.
+   - BeauRegard attendait l'accord écrit d'Éric.
+   - Si les accords ne sont pas confirmés, repasse `publié: false` dans la fiche. Rien ne casse : les liens et le sitemap suivent.
    - L'accueil nomme déjà BeauRegard (« Sherbrooke », « rédige ses rapports dans Habita »), comme tu l'avais approuvé.
 4. **Les autres projets sont gardés :** Inspection Habitation Outaouais, HP Addik et Envita Wellness.
    - Ce sont de vrais projets, corrigés à partir des sites en ligne en juin.

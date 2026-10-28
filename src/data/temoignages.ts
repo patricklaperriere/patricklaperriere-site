@@ -14,13 +14,6 @@ export interface Temoignage {
 
 export const temoignages: Temoignage[] = [
   {
-    author: 'Chrissy Papageorgopoulos',
-    rating: 5,
-    lang: 'en',
-    text: 'Patrick is awesome! He\'s quick, efficient, detail-oriented, and seems to know what you need before you do.',
-    project: 'envita-wellness',
-  },
-  {
     author: 'Alexia Angiolillo',
     rating: 5,
     lang: 'en',

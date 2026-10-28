@@ -82,7 +82,7 @@ affirmations invérifiables.
 10. Le portfolio ne correspond pas à l'accueil :
     - l'accueil montre Habita et BeauRegard ;
     - l'index montre Habita, IHO, HP Addik et Envita ;
-    - Bâti-Conseil et BeauRegard sont en brouillon.
+    - BeauRegard est en brouillon.
 11. Les pages de services ne renvoient à aucune étude de cas. Leurs cartes disent « Voir les services » alors qu'elles mènent à un seul service.
 12. Le formulaire de contact et les pages régionales oublient le service « Outils sur mesure ».
 13. La photo de profil (jugée générée par IA) apparaît à plusieurs endroits :

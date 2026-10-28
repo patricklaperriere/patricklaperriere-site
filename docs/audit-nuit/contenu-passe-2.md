@@ -32,7 +32,6 @@ What was fixed since pass 1 (verified in `dist/`): Lighthouse 100 and dead dicti
 Fix: run `scripts/measure-clients.mjs` before shipping, or delete those sentences. Don't ship text that points at an empty block.
 
 ### 1.2 Clients named without recorded consent (published: true)
-- `bati-conseil.md` `publié: true` while its own note says `Repasser publié: false si Gabriel n'a pas donné son accord` and `aFournir` lists `accord de Gabriel Patenaude`. Rendered on `/realisations`, the case study, and the "Création de site web" service page.
 - `inspection-beauregard.md` `publié: true`, plus `src/i18n/home.ts` l.104–118 (home item 2), with `aFournir: accord écrit d’Éric Beauregard`.
 - Inconsistency: `habita.md` `terrain` (Éric uses Habita) is withheld from the build pending Éric's consent, but the same fact ships in the BeauRegard `accroche` and in `home.ts` l.108/218: `Un inspecteur en bâtiment de Sherbrooke, qui rédige ses rapports dans Habita.` / `…who writes his reports in Habita.` "Sherbrooke" also has no source besides Patrick's say-so.
 
@@ -55,7 +54,7 @@ Fix: `Faire évoluer un logiciel destiné aux inspecteurs en bâtiment m’oblig
 - `src/config.ts` `serviceDescription`: `…de boutiques Shopify et de logiciels SaaS` / `SaaS software` → `et d’outils web sur mesure` / `and custom web tools` (matches the service name; SaaS is Habita's business).
 
 ### 2.2 "Verifiable results" meta vs pages with no result
-- `src/pages/realisations/index.astro` l.13: `…sur mesure, avec des résultats vérifiables.` and EN `…each with results you can check.`: no case study has a measured result (1.1), and Bâti-Conseil isn't live. → `…avec, pour chacun, le point de départ et le travail fait.`
+- `src/pages/realisations/index.astro` l.13: `…sur mesure, avec des résultats vérifiables.` and EN `…each with results you can check.`: no case study has a measured result (1.1). → `…avec, pour chacun, le point de départ et le travail fait.`
 - `inspection-beauregard.md` description: `…passé de Wix à un site Astro sur mesure, rapide et bien structuré.` "rapide" is unmeasured → drop `, rapide et bien structuré`. EN `…fast and well structured.` too.
 
 ### 2.3 Wrong category on two case studies
@@ -118,7 +117,6 @@ Fix: `Faire évoluer un logiciel destiné aux inspecteurs en bâtiment m’oblig
 |---|---|---|---|---|
 | Habita | Yes (problem, not prior state; fine for a product) | Yes | Only "marketing site is live" + phantom Lighthouse | 1.1, 1.3; no usage figure |
 | Inspection BeauRegard | Generic (Wix in general, no specific problem of this site) | Thin, 1 sentence | "Live" + phantom Lighthouse | 1.1, 1.2; no capture; no pages/redirect detail |
-| Bâti-Conseil | Yes | Yes, detailed | "Not live yet" (honest) | 1.2 consent |
 | IHO | Client need, no prior state | Yes, detailed | "Live" + phantom Lighthouse | 1.1, 2.3 category |
 | HP Addik | Yes | Yes | "Live, sells CA/US" (checkable via the selector) + phantom Lighthouse | 1.1 |
 | Envita | Yes | Yes | "Live" + real Google review + phantom Lighthouse | 1.1 |

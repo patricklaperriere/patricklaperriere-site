@@ -79,8 +79,7 @@ const fr = {
     ] as { name: string; title: string; body: string; links: ServiceKey[] }[],
   },
   // Facts only. BeauRegard: supplied by Patrick or read from the live site
-  // (title, Astro generator). Bâti-Conseil stays off the home page until the
-  // client agrees to be named.
+  // (title, Astro generator).
   // <!-- À CONFIRMER PATRICK : accord d'Éric Beauregard pour être nommé à l'accueil -->
   work: {
     title: 'Réalisations',

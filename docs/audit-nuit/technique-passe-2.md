@@ -1,6 +1,6 @@
 # Technical + schema audit, pass 2 (dist, 62 pages). Score 92/100
 
-PASS: 62 pages = 62 sitemap URLs, no orphans either way (bati-conseil, inspection-beauregard FR+EN included). hreflang fr-CA/en-CA/x-default(FR) present and reciprocal on all pairs; self-canonical everywhere; og:locale fr_CA/en_CA + one alternate, correct per language; own OG image, og/twitter title/desc/alt/size present, files exist; no address on Person, plain email, jobTitle OK; ProfessionalService full only on / , /en, contact; no ratings/prices/reviews; 404 noindex; llms.txt lists new case studies; FR+EN RSS exist; no @id duplicates; robots.txt valid, sitemap-index -> sitemap-0 OK; vercel signature X-Robots-Tag OK.
+PASS: 62 pages = 62 sitemap URLs, no orphans either way (inspection-beauregard FR+EN included). hreflang fr-CA/en-CA/x-default(FR) present and reciprocal on all pairs; self-canonical everywhere; og:locale fr_CA/en_CA + one alternate, correct per language; own OG image, og/twitter title/desc/alt/size present, files exist; no address on Person, plain email, jobTitle OK; ProfessionalService full only on / , /en, contact; no ratings/prices/reviews; 404 noindex; llms.txt lists new case studies; FR+EN RSS exist; no @id duplicates; robots.txt valid, sitemap-index -> sitemap-0 OK; vercel signature X-Robots-Tag OK.
 
 ## Critical: none
 ## High: none
