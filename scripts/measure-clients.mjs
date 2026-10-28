@@ -23,7 +23,6 @@ const SITES = {
   'inspection-beauregard': 'https://www.inspectionbeauregard.com',
   'inspection-habitation-outaouais': 'https://inspectionhab.ca',
   'hp-addik': 'https://hpaddik.com',
-  'envita-wellness': 'https://envita-wellness.com',
 };
 
 const exec = (cmd, args, timeoutMs) =>

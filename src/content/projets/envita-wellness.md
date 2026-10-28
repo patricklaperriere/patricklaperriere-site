@@ -26,12 +26,15 @@ résultat:
   fr: "La boutique est en ligne à envita-wellness.com. Chrissy Papageorgopoulos a laissé un avis public sur Google, cité sur cette page."
   en: "The store is live at envita-wellness.com. Chrissy Papageorgopoulos left a public Google review, quoted on this page."
 lien: "https://envita-wellness.com"
-image: "/work/envita-wellness.webp"
+image: ""
 ordre: 6
-publié: true
+publié: false
 année: "2026"
 catégorie: shopify
 vedette: true
 accent: "#e8c79a"
 cadrage: cover
 ---
+
+Retiré du site public le 27 octobre 2026, à la demande de Patrick : le site sera refait plus tard.
+Garder `publié: false`. Les captures et l'image OG ont été supprimées de public/.
