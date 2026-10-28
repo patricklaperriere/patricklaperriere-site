@@ -55,6 +55,12 @@ export interface Project {
   testimonial: { quote: LocalizedField; author: string; title: LocalizedField; original?: 'fr' | 'en'; heading?: LocalizedField; intro?: LocalizedField } | null;
   /** Client logo under public/, or null. */
   logo: string | null;
+  /** Delivery time, or null. */
+  delivery: LocalizedField | null;
+  /** Measured results after launch, or null (only with figures and the client's OK). */
+  measured: LocalizedField | null;
+  /** Extra captures for the case study. */
+  gallery: { src: string; alt: LocalizedField; width: number; height: number }[];
   /** Years shown on the lead card; falls back to `year`. */
   period: string;
   /** One-line role for the lead card, or null. */
@@ -108,6 +114,9 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     field: pending(d.terrain),
     testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction, original: t.langue, heading: t.rubrique, intro: t.présentation } : null,
     logo: d.logo ?? null,
+    delivery: d.délai ?? null,
+    measured: d.résultatsMesurés ?? null,
+    gallery: d.captures.map((c) => ({ src: c.src, alt: c.alt, width: c.largeur, height: c.hauteur })),
     period: d.période ?? d.année,
     roleLine: d.rôleCourt ?? null,
     h1: d.titreH1 ?? d.titre,

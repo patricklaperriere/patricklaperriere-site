@@ -67,6 +67,14 @@ const projets = defineCollection({
     période: z.string().optional(),
     /** Optional one-line role shown on the lead card, under the pitch. */
     rôleCourt: bilingue.optional(),
+    /** Optional delivery time from real dates (first commit to launch), e.g. « Livré en 5 semaines ». */
+    délai: bilingue.optional(),
+    /** Optional measured results after launch, only with figures and the client's OK. Empty for now. */
+    résultatsMesurés: bilingue.optional(),
+    /** Extra captures under public/work/, shown below the case study (1280 × 800 plus a -640 variant, or a phone shot). */
+    captures: z
+      .array(z.object({ src: z.string(), alt: bilingue, largeur: z.number().int(), hauteur: z.number().int() }))
+      .default([]),
     /** Optional client logo under public/work/logos/, shown with the client name (only with their OK). */
     logo: z.string().optional(),
     /** Live URL. Empty while the site is not online yet. */

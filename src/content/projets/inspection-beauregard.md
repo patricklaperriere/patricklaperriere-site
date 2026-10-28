@@ -26,16 +26,35 @@ réalisation:
   fr: "J’ai remplacé le site Wix par un site Astro sur mesure : des pages légères rendues d’avance, une structure pensée pour Google et des données structurées qui décrivent l’entreprise et ses services."
   en: "I replaced the Wix site with a custom Astro site: light, pre-rendered pages, a structure designed for Google and structured data describing the business and its services."
 résultat:
-  fr: "Le nouveau site est en ligne à inspectionbeauregard.com : neuf pages, dont une par type d’inspection (préachat, prévente, préventive), et un formulaire de soumission protégé contre le spam qui envoie la demande à Éric et un accusé de réception au client. Les cinq anciennes adresses Wix redirigent en 301 vers leurs nouvelles pages, pour garder ce que Google avait déjà indexé."
-  en: "The new site is live at inspectionbeauregard.com: nine pages, including one per type of inspection (pre-purchase, pre-sale, preventive), and a spam-protected quote form that sends the request to Éric and a confirmation to the client. The five old Wix addresses redirect with a 301 to their new pages, so what Google had already indexed is kept."
+  fr: "Le nouveau site est en ligne à inspectionbeauregard.com : 22 pages, dont une par service d’inspection (préachat, prévente, préventive, thermographie, inspection par drone, chauffage au bois), cinq pages de villes et trois guides, et un formulaire de soumission protégé contre le spam qui envoie la demande à Éric et un accusé de réception au client. Les cinq anciennes adresses Wix redirigent en 301 vers leurs nouvelles pages, pour garder ce que Google avait déjà indexé."
+  en: "The new site is live at inspectionbeauregard.com: 22 pages, including one per inspection service (pre-purchase, pre-sale, preventive, thermography, drone inspection, wood heating), five city pages and three guides, and a spam-protected quote form that sends the request to Éric and a confirmation to the client. The five old Wix addresses redirect with a 301 to their new pages, so what Google had already indexed is kept."
 lien: "https://www.inspectionbeauregard.com"
 logo: "/work/logos/inspection-beauregard.svg"
 image: "/work/inspection-beauregard.webp"
+délai:
+  fr: "Livré en 5 semaines"
+  en: "Delivered in 5 weeks"
+captures:
+  - src: "/work/inspection-beauregard-thermographie.webp"
+    alt:
+      fr: "Page Thermographie du site d’Inspection BeauRegard, en haut de page, sur ordinateur"
+      en: "Thermography page of the Inspection BeauRegard website, top of page, on desktop"
+    largeur: 1280
+    hauteur: 800
+  - src: "/work/inspection-beauregard-contact.webp"
+    alt:
+      fr: "Formulaire de demande de soumission d’Inspection BeauRegard, avec les coordonnées d’Éric à côté"
+      en: "Inspection BeauRegard quote request form, with Éric’s contact details beside it"
+    largeur: 1280
+    hauteur: 800
+  - src: "/work/inspection-beauregard-mobile.webp"
+    alt:
+      fr: "Accueil du site d’Inspection BeauRegard sur téléphone"
+      en: "Inspection BeauRegard website home page on a phone"
+    largeur: 750
+    hauteur: 1624
 aFournir:
-  - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
-  - "délai de livraison du projet"
-  - "résultats depuis la mise en ligne (demandes reçues, trafic), si Éric accepte de les publier"
-  - "2 à 3 captures supplémentaires (page de service, formulaire, mobile)"
+  - "scores Lighthouse mobile du site en ligne, avec la date (API PageSpeed refusée le 28 octobre 2026 : quota quotidien dépassé ; la mesure locale échoue : NO_FCP sous WSL)"
 ordre: 2
 statut: publié
 preuve:
@@ -72,3 +91,9 @@ Vérifié le 27 octobre 2026 sur le site en ligne et dans ~/projets/inspection-b
 
 Témoignage : Éric n'a écrit aucune citation sur le site Web (sa citation approuvée porte sur Habita et figure
 sur la fiche Habita). Pas de bloc témoignage ici; en ajouter un seulement avec une citation qu'il a approuvée.
+
+28 octobre 2026 (prompt SITEPERSO-2026-10-28-4) :
+- Délai : premier commit 093a1b9 le 22 septembre 2026 (fondation du site, déjà propre au projet : 45 fichiers, pages BeauRegard), mise en ligne ac60dc4 poussée sur main le 27 octobre 2026. 35 jours, soit 5 semaines.
+- Résultat : le site en ligne compte 22 pages (sitemap du 28 octobre), plus 9 ; les 5 redirections Wix répondent toujours 301.
+- Captures prises sur le site en ligne le 28 octobre (Playwright) : /thermographie et /contact à 1440 px, accueil à 375 px.
+- Résultats depuis la mise en ligne : retirés (ni chiffres ni accord d'Éric). Le champ `résultatsMesurés` reste disponible.

@@ -233,6 +233,8 @@ export const en: Widen<Dict> = {
     result: 'What you can check',
     field: 'In the field',
     testimonial: 'Testimonial',
+    delivery: 'Delivery',
+    gallery: 'More screenshots of the live site',
     seeAlso: 'See also',
     seeAlsoService: (t: string) => `The service: ${t}`,
     seeAlsoCity: (n: string) => `Web design in ${n}`,
