@@ -66,6 +66,9 @@ export function personSchema(locale: Locale) {
     ...(hasPhoto ? { image: abs(PHOTO.schema) } : {}),
     knowsLanguage: ['fr-CA', 'en-CA'],
     sameAs: Object.values(SITE.socials),
+    // Habita's site is the company's, not a profile of Patrick: it belongs to
+    // the Organization node (founder ↔ worksFor), not to sameAs.
+    worksFor: { '@id': COMPANY_ID },
   };
 }
 

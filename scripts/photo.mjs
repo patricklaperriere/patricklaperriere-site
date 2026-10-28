@@ -18,7 +18,7 @@
 // looks soft and a soft portrait is worse than a small one.
 
 import sharp from 'sharp';
-import { mkdirSync, existsSync, statSync } from 'node:fs';
+import { mkdirSync, existsSync, statSync, writeFileSync } from 'node:fs';
 
 const SRC = process.argv[2] || 'src/assets/photo/patrick-square.jpg';
 const OUT = 'public/photo';
@@ -94,8 +94,30 @@ const written = [
   // Apple applies its own rounded mask to the home-screen icon and expects an
   // opaque square: a pre-rounded one gets a black wedge in each corner.
   await square(180, 'apple-touch-icon.png', { png: true }),
+  // 48 px: Google Search wants a favicon in a multiple of 48 px. 192 and 512
+  // are the web app manifest icons (public/site.webmanifest).
+  await square(48, 'icon-48.png', { png: true, round: true }),
+  await square(192, 'icon-192.png', { png: true, round: true }),
   await square(512, 'icon-512.png', { png: true, round: true }),
 ];
+
+// /favicon.ico, requested by browsers and crawlers whatever the <head> says.
+// An ICO file may hold PNG images as is: 16, 32 and 48 px here.
+const icoSizes = [16, 32, 48];
+const pngs = await Promise.all(icoSizes.map((s) =>
+  sharp(`${OUT}/icon-512.png`).resize(s, s).png({ compressionLevel: 9 }).toBuffer()));
+const header = Buffer.alloc(6 + 16 * pngs.length);
+header.writeUInt16LE(0, 0); header.writeUInt16LE(1, 2); header.writeUInt16LE(pngs.length, 4);
+let offset = header.length;
+pngs.forEach((png, i) => {
+  const e = 6 + 16 * i;
+  header.writeUInt8(icoSizes[i], e); header.writeUInt8(icoSizes[i], e + 1);
+  header.writeUInt16LE(1, e + 4); header.writeUInt16LE(32, e + 6);
+  header.writeUInt32LE(png.length, e + 8); header.writeUInt32LE(offset, e + 12);
+  offset += png.length;
+});
+writeFileSync('public/favicon.ico', Buffer.concat([header, ...pngs]));
+console.log('  ✓ ../favicon.ico (16, 32, 48)');
 
 let total = 0;
 for (const f of written) {

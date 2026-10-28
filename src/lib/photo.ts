@@ -36,6 +36,8 @@ export const PHOTO = {
   schema: '/photo/patrick-square.jpg',
   /** Favicons. */
   icon32: '/photo/icon-32.png',
+  icon48: '/photo/icon-48.png',
+  icon192: '/photo/icon-192.png',
   icon180: '/photo/apple-touch-icon.png',
   icon512: '/photo/icon-512.png',
 } as const;
