@@ -2,6 +2,9 @@
 titre:
   fr: "Inspection Habitation Outaouais"
   en: "Inspection Habitation Outaouais"
+titreH1:
+  fr: "Site web bilingue pour Inspection Habitation Outaouais, à Gatineau"
+  en: "Bilingual website for Inspection Habitation Outaouais in Gatineau"
 titreSeo:
   fr: "Inspection Habitation Outaouais"
   en: "Inspection Habitation Outaouais site"
@@ -25,8 +28,14 @@ réalisation:
 résultat:
   fr: "Le site est en ligne à inspectionhab.ca, en français et en anglais, avec une page par service."
   en: "The site is live at inspectionhab.ca, in French and English, with one page per service."
+ville: "gatineau"
 lien: "https://inspectionhab.ca"
 image: "/work/inspection-habitation-outaouais.webp"
+aFournir:
+  - "Lighthouse de l’ancien site, s’il en existait un"
+  - "délai de livraison du projet"
+  - "résultats depuis la mise en ligne (demandes reçues, trafic), si le client accepte de les publier"
+  - "2 à 3 captures supplémentaires (page de service, mobile)"
 ordre: 4
 publié: true
 année: "2025"

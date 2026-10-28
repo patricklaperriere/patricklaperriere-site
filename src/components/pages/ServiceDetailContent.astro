@@ -32,6 +32,9 @@ const related = allKeys.filter((k) => k !== service).map((k) => tr.services[k]);
 
 // Case studies that show this service in practice (proof next to the promise).
 const work = await projectsForService(s.key);
+// A client's approved words from one of those case studies, if any.
+const quoted = work.find((p) => p.testimonial);
+const quote = quoted?.testimonial ?? null;
 
 const crumbs = [
   { name: tr.breadcrumb.home, url: path('home', locale) },
@@ -94,12 +97,22 @@ const crumbs = [
       {work.map((p) => (
         <li class="reveal">
           <a href={`${workBase[locale]}/${p.slug}`} class="sd__work-link">
+            {p.logo && <img src={p.logo} alt="" class="sd__work-logo" height="32" decoding="async" loading="lazy" />}
             <span class="sd__work-title">{p.title[locale]}</span>
             <span class="sd__work-tag">{p.tagline[locale]}</span>
           </a>
         </li>
       ))}
     </ul>
+    {quote && (
+      <figure class="sd__quote reveal">
+        <blockquote><p>{quote.quote[locale]}</p></blockquote>
+        <figcaption>
+          {quote.author}, {quote.title[locale]}
+          {quote.original && quote.original !== locale && <span class="sd__quote-note">{tr.workSection.translatedFrom[quote.original]}</span>}
+        </figcaption>
+      </figure>
+    )}
   </section>
 )}
 
@@ -270,6 +283,12 @@ const crumbs = [
   }
 
   /* ---- Related -------------------------------------------------------------- */
+  .sd__work-logo { display: block; height: 32px; width: auto; margin-bottom: 0.5rem; }
+  .sd__quote { margin: 2rem 0 0; max-width: 60ch; padding-left: 1.25rem; border-left: 2px solid var(--signal); }
+  .sd__quote blockquote { margin: 0; }
+  .sd__quote p { margin: 0; font-size: var(--fs-lead); line-height: 1.5; }
+  .sd__quote figcaption { margin-top: 0.75rem; color: var(--fg-mute); font-family: var(--font-mono); font-size: var(--fs-meta); }
+  .sd__quote-note { display: block; font-style: italic; margin-top: 0.25rem; }
   .sd__related {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

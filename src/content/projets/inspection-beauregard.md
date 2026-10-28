@@ -2,6 +2,9 @@
 titre:
   fr: "Inspection BeauRegard"
   en: "Inspection BeauRegard"
+titreH1:
+  fr: "Refonte du site d’Inspection BeauRegard, de Wix à Astro"
+  en: "Inspection BeauRegard website redesign, from Wix to Astro"
 titreSeo:
   fr: "Inspection BeauRegard, de Wix à Astro"
   en: "Inspection BeauRegard, Wix to Astro"
@@ -28,6 +31,11 @@ résultat:
 lien: "https://www.inspectionbeauregard.com"
 logo: "/work/logos/inspection-beauregard.svg"
 image: "/work/inspection-beauregard.webp"
+aFournir:
+  - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
+  - "délai de livraison du projet"
+  - "résultats depuis la mise en ligne (demandes reçues, trafic), si Éric accepte de les publier"
+  - "2 à 3 captures supplémentaires (page de service, formulaire, mobile)"
 ordre: 2
 publié: true
 année: "2026"

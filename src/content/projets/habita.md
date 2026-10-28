@@ -2,6 +2,9 @@
 titre:
   fr: "Habita"
   en: "Habita"
+titreH1:
+  fr: "Habita, logiciel de rapports d’inspection en bâtiment"
+  en: "Habita, building inspection report software"
 titreSeo:
   fr: "Habita, logiciel d’inspection"
   en: "Habita, building inspection software"
@@ -50,6 +53,8 @@ témoignage:
 lien: "https://habita.expert"
 image: "/work/habita.webp"
 aFournir:
+  - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
+  - "2 à 4 captures supplémentaires du logiciel (rédaction, rapport web, mobile), avec données de démo"
   - "statut public de Habita (en production ou bêta sur invitation) avant de l’écrire sur le site"
   - "un résultat mesurable de Habita : nombre d’inspecteurs, de rapports produits ou temps gagné par rapport"
 ordre: 1

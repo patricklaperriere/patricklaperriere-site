@@ -57,6 +57,10 @@ const projets = defineCollection({
         présentation: bilingue.optional(),
       })
       .optional(),
+    /** Optional descriptive H1 (with the service keyword); falls back to `titre`. */
+    titreH1: bilingue.optional(),
+    /** Optional city page slug (src/data/villes.ts) where the client works. */
+    ville: z.string().optional(),
     /** Optional client logo under public/work/logos/, shown with the client name (only with their OK). */
     logo: z.string().optional(),
     /** Live URL. Empty while the site is not online yet. */

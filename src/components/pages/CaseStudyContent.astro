@@ -7,10 +7,11 @@
 // on a readable measure — and a link through to the next project.
 //
 import { useTranslations, path } from '../../i18n';
-import type { Locale } from '../../i18n/routes';
+import type { Locale, RouteKey } from '../../i18n/routes';
 import { workBase } from '../../i18n/routes';
 import type { Project } from '../../data/projets';
-import { loc, sortedProjects, stackLabel, captureSrcset } from '../../data/projets';
+import { loc, sortedProjects, stackLabel, captureSrcset, SERVICE_FOR_CATEGORY } from '../../data/projets';
+import { villeBySlug, villePath } from '../../data/villes';
 import Breadcrumb from '../Breadcrumb.astro';
 import CtaBand from '../CtaBand.astro';
 import LighthouseScores from '../LighthouseScores.astro';
@@ -63,6 +64,14 @@ const quote = project.testimonial ?? (review
   ? { quote: { fr: review.text, en: review.text }, author: review.author, title: { fr: 'Avis Google', en: 'Google review' }, lang: review.lang }
   : null);
 
+// Where to go next from the proof: the service it shows, and the client's city page.
+const svc = tr.services[SERVICE_FOR_CATEGORY[project.category]];
+const city = project.city ? villeBySlug(project.city) : undefined;
+const seeAlso = [
+  { href: path(svc.key as RouteKey, locale), text: ws.seeAlsoService(svc.title) },
+  ...(city ? [{ href: villePath(locale, city.slug), text: ws.seeAlsoCity(city.name) }] : []),
+];
+
 const specs = [
   { k: ws.role, v: loc(project.role, locale) },
   { k: ws.year, v: project.year },
@@ -82,7 +91,7 @@ const specs = [
       </p>
     )}
     <p class="label label-rule">{project.client} · {project.year}</p>
-    <h1 class="case__title">{loc(project.title, locale)}</h1>
+    <h1 class="case__title">{loc(project.h1, locale)}</h1>
     <p class="case__tagline">{loc(project.tagline, locale)}</p>
 
     <dl class="case__specs">
@@ -168,6 +177,13 @@ const specs = [
     ))}
   </div>
 
+  <nav class="container-wide case__see" aria-labelledby="case-see-label">
+    <h2 class="label label-rule" id="case-see-label">{ws.seeAlso}</h2>
+    <ul class="case__see-list">
+      {seeAlso.map((l) => <li><a href={l.href} class="link">{l.text}</a></li>)}
+    </ul>
+  </nav>
+
   {quote && (
     <section class="container-wide case__quote reveal" aria-labelledby="case-quote-label">
       <h2 class="label label-rule" id="case-quote-label">{'heading' in quote && quote.heading ? loc(quote.heading, locale) : ws.testimonial}</h2>
@@ -240,6 +256,8 @@ const specs = [
     font-size: var(--fs-meta);
   }
   .case__quote-title { color: var(--fg-mute); }
+  .case__see { padding-block: clamp(1.5rem, 4vw, 2.5rem); }
+  .case__see-list { display: flex; flex-wrap: wrap; gap: 0.75rem 2rem; margin: 1.25rem 0 0; padding: 0; list-style: none; }
   .case__quote-note { flex-basis: 100%; color: var(--fg-mute); font-style: italic; }
   .case__client { display: inline-flex; flex-direction: column; align-items: flex-start; gap: 0.5rem; color: inherit; }
   a.case__client:hover span, a.case__client:focus-visible span { text-decoration: underline; }
@@ -256,11 +274,13 @@ const specs = [
     padding-block: clamp(2rem, 5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
   }
   .case__title {
-    font-size: var(--fs-xxl);
+    font-size: var(--fs-xl);
     font-weight: var(--fw-thin);
-    letter-spacing: -0.035em;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
     margin: 1.25rem 0 0;
-    max-width: 18ch;
+    max-width: 22ch;
+    overflow-wrap: break-word;
   }
   .case__tagline {
     color: var(--fg-dim);

@@ -2,6 +2,9 @@
 titre:
   fr: "HP Addik"
   en: "HP Addik"
+titreH1:
+  fr: "Boutique Shopify sur mesure pour HP Addik"
+  en: "Custom Shopify store for HP Addik"
 titreSeo:
   fr: "HP Addik, boutique Shopify sur mesure"
   en: "HP Addik, custom Shopify store"
@@ -27,6 +30,12 @@ résultat:
   en: "The store is live at hpaddik.com and sells in Canada and the United States, with a country and language selector."
 lien: "https://hpaddik.com"
 image: "/work/hp-addik.webp"
+aFournir:
+  - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
+  - "Lighthouse de l’ancienne boutique, s’il en existait une"
+  - "délai de livraison du projet"
+  - "résultats depuis la mise en ligne (ventes, commandes US), si le client accepte de les publier"
+  - "2 à 3 captures supplémentaires (fiche produit, sélecteur de pays, mobile)"
 ordre: 5
 publié: true
 année: "2025"
