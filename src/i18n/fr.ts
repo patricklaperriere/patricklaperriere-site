@@ -274,7 +274,7 @@ export const fr = {
     seoTitle: 'À propos, développeur web | Patrick Laperrière',
     seoDesc: 'Patrick Laperrière, développeur web et concepteur de produits, cofondateur de Technologies Habita inc. Sites et outils web pour PME, en français et en anglais.',
     kicker: 'À propos',
-    portraitAlt: 'Portrait de Patrick Laperrière',
+    portraitAlt: 'Patrick Laperrière, développeur web',
     h1: 'Développeur web et concepteur de produits',
     lead: 'Je conçois et je développe des sites et des outils web pour les PME, au Québec et ailleurs, en français et en anglais.',
     body: [

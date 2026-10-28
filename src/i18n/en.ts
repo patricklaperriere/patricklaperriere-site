@@ -261,7 +261,7 @@ export const en: Widen<Dict> = {
     seoTitle: 'About, web developer | Patrick Laperrière',
     seoDesc: 'Patrick Laperrière, web developer and product builder, co-founder of Technologies Habita inc. Websites and web tools for small businesses, in English and French.',
     kicker: 'About',
-    portraitAlt: 'Portrait of Patrick Laperrière',
+    portraitAlt: 'Patrick Laperrière, web developer',
     h1: 'Web developer and product builder',
     lead: 'I design and develop websites and web tools for small businesses, in Quebec and beyond, in English and French.',
     body: [
