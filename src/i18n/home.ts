@@ -3,7 +3,7 @@
 //
 // Every fact here is already published elsewhere on the site or was supplied
 // by Patrick: Habita is published by Technologies Habita inc., which he
-// founded; the stack is Astro, React, Supabase and Vercel; one contact from
+// co-founded; the stack is Astro, React, Supabase and Vercel; one contact from
 // first call to launch.
 //
 // Repetition is kept in check on purpose: Habita has one strong mention (its
@@ -122,7 +122,7 @@ const fr = {
     title: 'Qui je suis',
     body: [
       'Développeur web au Québec, je travaille directement avec vous : un seul interlocuteur, du premier appel à la mise en ligne.',
-      'Je développe aussi Habita, le logiciel de l’entreprise que j’ai fondée, Technologies Habita inc. Faire évoluer ce logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
+      'Je développe aussi Habita, le logiciel de l’entreprise que j’ai cofondée, Technologies Habita inc. Faire évoluer ce logiciel me garde exigeant sur ce qui compte pour vous : un code fiable, rapide et qui tient dans le temps.',
     ],
     proofs: {
       stack: 'Outils',
@@ -237,7 +237,7 @@ const en: HomeCopy = {
     title: 'Who I am',
     body: [
       'A web developer in Quebec, I work with you directly: one contact, from the first call to launch day.',
-      'I also develop Habita, the software of the company I founded, Technologies Habita inc. Growing that software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
+      'I also develop Habita, the software of the company I co-founded, Technologies Habita inc. Growing that software keeps me demanding about what matters to you: code that is reliable, fast and built to last.',
     ],
     proofs: {
       stack: 'Tools',

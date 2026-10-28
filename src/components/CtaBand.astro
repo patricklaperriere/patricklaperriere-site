@@ -8,10 +8,10 @@ import { SITE } from '../config';
 
 interface Props {
   locale: Locale;
-  /** Address shown under the button. The About page passes the personal one. */
-  email?: string;
 }
-const { locale, email = SITE.email } = Astro.props;
+const { locale } = Astro.props;
+// One contact address everywhere (SITE.email).
+const email = SITE.email;
 const tr = useTranslations(locale);
 ---
 

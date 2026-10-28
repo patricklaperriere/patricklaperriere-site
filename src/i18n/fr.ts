@@ -7,7 +7,7 @@
 //     elsewhere and checkable. A missing fact goes in a <Todo> on the page
 //     and in NUIT_RAPPORT.md, never as a guess here;
 //   · Patrick and Technologies Habita inc. are two entities: the company
-//     publishes Habita, Patrick founded it and builds it;
+//     publishes Habita, Patrick co-founded it and builds it;
 //   · Quebec French, no em dash, the typography filter adds the no-break
 //     spaces before : ; ? ! at render time;
 //   · one name per service, the same everywhere (nav, footer, home, pages);
@@ -260,18 +260,18 @@ export const fr = {
 
   about: {
     seoTitle: 'À propos, développeur web | Patrick Laperrière',
-    seoDesc: 'Patrick Laperrière, développeur web et concepteur de produits, fondateur de Technologies Habita inc. Sites et outils web pour PME, en français et en anglais.',
+    seoDesc: 'Patrick Laperrière, développeur web et concepteur de produits, cofondateur de Technologies Habita inc. Sites et outils web pour PME, en français et en anglais.',
     kicker: 'À propos',
     portraitAlt: 'Portrait de Patrick Laperrière',
     h1: 'Développeur web et concepteur de produits',
     lead: 'Je conçois et je développe des sites et des outils web pour les PME, au Québec et ailleurs, en français et en anglais.',
     body: [
       'Je m’appelle Patrick Laperrière. Je travaille directement avec mes clients : la personne qui vous écoute au premier appel est celle qui conçoit, écrit le code et met votre projet en ligne.',
-      'J’ai aussi fondé Technologies Habita inc., une entreprise distincte qui publie Habita, un logiciel d’inspection en bâtiment. J’en conçois le produit et j’en écris le code. Faire évoluer un logiciel destiné aux inspecteurs en bâtiment m’oblige à penser à long terme : sécurité, sauvegardes, performance, entretien.',
+      'J’ai aussi cofondé Technologies Habita inc., une entreprise distincte qui publie Habita, un logiciel d’inspection en bâtiment. J’en conçois le produit et j’en écris le code. Faire évoluer un logiciel destiné aux inspecteurs en bâtiment m’oblige à penser à long terme : sécurité, sauvegardes, performance, entretien.',
       'J’applique la même exigence aux projets de mes clients : comprendre l’entreprise avant de choisir une technologie, livrer un code propre et mesurer le résultat plutôt que de le promettre.',
       'Je travaille en français et en anglais, avec des clients du Québec, du reste du Canada et des États-Unis.',
     ],
-    bioTodo: 'parcours, formation et années d’expérience, en deux ou trois phrases',
+    bio: 'Avant le web, j’ai passé 16 ans chez Laperrière Motosports, à Gatineau, de conseiller technique à directeur général : j’y ai appris à traduire un diagnostic technique en décision claire pour le client. Je crée des sites pour des PME depuis 2020 et, depuis 2023, je coordonne les communications internes et les outils web d’une filiale de Bell qui compte plus de 6 700 employés. Je termine en 2026 une AEC en développement de sites Web transactionnels au Collège Ahuntsic.',
     whyTitle: 'Ma façon de travailler',
     why: [
       { t: 'Un seul interlocuteur', d: 'Pas d’intermédiaire : vous parlez à la personne qui fait le travail.' },
@@ -281,7 +281,7 @@ export const fr = {
     ],
     stackTitle: 'Outils',
     companyTitle: 'Technologies Habita inc.',
-    company: 'Entreprise fondée par Patrick Laperrière, qui publie le logiciel d’inspection en bâtiment Habita.',
+    company: 'Entreprise cofondée par Patrick Laperrière, qui publie le logiciel d’inspection en bâtiment Habita.',
     companyLink: 'habita.expert',
   },
 
@@ -322,7 +322,7 @@ export const fr = {
     soon: 'Les premiers articles arrivent bientôt.',
     byline: 'Par',
     authorRole: 'Développeur web, Québec',
-    authorBio: 'Je conçois des sites et des outils web pour les PME, en français et en anglais. Je suis aussi le fondateur de Technologies Habita inc.',
+    authorBio: 'Je conçois des sites et des outils web pour les PME, en français et en anglais. Je suis aussi cofondateur de Technologies Habita inc.',
     aboutLink: 'En savoir plus sur moi',
     related: 'Articles connexes',
     readMore: 'Lire',

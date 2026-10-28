@@ -81,7 +81,8 @@ export function webSiteSchema(_locale?: Locale) {
   };
 }
 
-/** Technologies Habita inc. — the company behind Habita, founded by Patrick. */
+/** Technologies Habita inc. — the company behind Habita, co-founded by Patrick (schema.org has
+ *  no co-founder property: `founder` lists one of its founders). */
 export function companySchema() {
   return {
     '@type': 'Organization',

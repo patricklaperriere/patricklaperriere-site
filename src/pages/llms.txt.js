@@ -36,7 +36,7 @@ export async function GET() {
   const body = [
     `# ${SITE.name}`,
     '',
-    `> Développeur web bilingue (français et anglais) établi au Québec, fondateur de ${SITE.company.name}, l’entreprise derrière Habita (${SITE.company.url}), un logiciel SaaS d’inspection en bâtiment. Il conçoit des sites sur mesure, des boutiques Shopify et des logiciels pour des clients au Québec, au Canada et aux États-Unis.`,
+    `> Développeur web bilingue (français et anglais) établi au Québec, cofondateur de ${SITE.company.name}, l’entreprise derrière Habita (${SITE.company.url}), un logiciel SaaS d’inspection en bâtiment. Il conçoit des sites sur mesure, des boutiques Shopify et des logiciels pour des clients au Québec, au Canada et aux États-Unis.`,
     '',
     `Technologies : ${SITE.stack.join(', ')}.`,
     `Contact : ${SITE.email} · ${SITE.phoneDisplay} · ${abs(routes.contact.fr)}`,
@@ -57,7 +57,7 @@ export async function GET() {
     '',
     '## English',
     '',
-    `> Bilingual web developer based in Quebec, founder of ${SITE.company.name}, the company behind Habita, a building-inspection SaaS. Builds custom websites, Shopify stores and software for clients in Quebec, Canada and the United States.`,
+    `> Bilingual web developer based in Quebec, co-founder of ${SITE.company.name}, the company behind Habita, a building-inspection SaaS. Builds custom websites, Shopify stores and software for clients in Quebec, Canada and the United States.`,
     '',
     ...work('en'),
     ...services(en, 'en'),
