@@ -153,7 +153,9 @@ const quote = t.about.testimonial;
         <h2 id="contact-title" class="contact__title">{t.contact.title}</h2>
         <p class="contact__lead">{t.contact.lead}</p>
       </div>
-      <div class="contact__reach" data-reveal>
+      {/* No data-reveal here: the engine dims below-the-fold blocks to 60 %
+          until they scroll in, which dropped this button's contrast to 3.9:1. */}
+      <div class="contact__reach">
         <dl>
           <div>
             <dt>{t.contact.email}</dt>

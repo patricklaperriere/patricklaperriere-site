@@ -40,7 +40,11 @@ const [first, last] = tr.brand.split(' ');
 
 <header class="nav" id="site-nav">
   <div class="container-wide nav__inner">
-    <a href={home} class="nav__brand" aria-label={tr.brand}>
+    {/* The label holds both visible forms of the logo (« Patrick Laperrière. »
+        on wide screens, « PL. » on phones), so voice users can say what
+        they see (WCAG 2.5.3, label in name). No parentheses around PL: axe
+        then stops finding « PL » in the name. */}
+    <a href={home} class="nav__brand" aria-label={`${tr.brand}, PL, ${tr.breadcrumb.home.toLowerCase()}`}>
       {/* The space between the names is written out, because JSX collapses
           the whitespace around the expressions and the two would run together. */}
       <span class="nav__brand-full" aria-hidden="true">
