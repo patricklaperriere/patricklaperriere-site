@@ -138,7 +138,7 @@ const quote = t.about.testimonial;
         {quote && (
           <figure class="quote">
             <blockquote><p>{quote.quote}</p></blockquote>
-            <figcaption>{quote.name}, {quote.role}</figcaption>
+            <figcaption>{quote.name}, {quote.role}{quote.note && <span class="quote__note">{quote.note}</span>}</figcaption>
           </figure>
         )}
         <p><a href={routes.about[locale]}>{t.about.more}</a></p>
@@ -288,6 +288,7 @@ const quote = t.about.testimonial;
   .quote blockquote { margin: 0; }
   .quote blockquote p { color: var(--bone); font-size: 1.25rem; }
   .quote figcaption { color: var(--slate-mute); font-size: 0.9375rem; margin-top: var(--s1); }
+  .quote__note { display: block; font-style: italic; margin-top: 0.25rem; }
   .about__text p { color: var(--slate); font-size: 1.125rem; max-width: 52ch; margin: 0 0 var(--s3); }
   .about__text p:last-child { margin-bottom: 0; }
   .proofs { margin: var(--s4) 0; border-top: 1px solid var(--line); }

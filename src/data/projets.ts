@@ -49,6 +49,10 @@ export interface Project {
   testimonial: { quote: LocalizedField; author: string; title: LocalizedField; original?: 'fr' | 'en'; heading?: LocalizedField; intro?: LocalizedField } | null;
   /** Client logo under public/, or null. */
   logo: string | null;
+  /** H1 of the case study: descriptive, with the service keyword. */
+  h1: LocalizedField;
+  /** City page slug for the client's area, or null. */
+  city: string | null;
   stack: (string | LocalizedField)[];
   /** Missing facts, rendered as dev-only reminders. */
   todo: string[];
@@ -91,6 +95,8 @@ function toProject(entry: CollectionEntry<'projets'>): Project {
     field: pending(d.terrain),
     testimonial: t ? { quote: t.citation, author: t.auteur, title: t.fonction, original: t.langue, heading: t.rubrique, intro: t.présentation } : null,
     logo: d.logo ?? null,
+    h1: d.titreH1 ?? d.titre,
+    city: d.ville ?? null,
     stack: d.stack,
     todo: d.aFournir,
   };
@@ -136,6 +142,14 @@ const SERVICE_CATEGORIES: Record<string, ProjectCategory[]> = {
   svcSeo: ['seo'],
   svcShopify: ['shopify'],
   svcTools: ['saas'],
+};
+
+/** The service page a case study proves, from its category. */
+export const SERVICE_FOR_CATEGORY: Record<ProjectCategory, 'web' | 'seo' | 'shopify' | 'tools'> = {
+  web: 'web',
+  seo: 'seo',
+  shopify: 'shopify',
+  saas: 'tools',
 };
 
 /** Published case studies for a service key, in portfolio order. */

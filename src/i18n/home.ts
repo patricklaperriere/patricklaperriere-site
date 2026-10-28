@@ -25,7 +25,7 @@ type WorkItem = { slug: string; kind: string; title: string; body: string; statu
 
 // A client's words, published only once the client has supplied and approved
 // them. Null hides the slot.
-type Testimonial = { quote: string; name: string; role: string } | null;
+type Testimonial = { quote: string; name: string; role: string; note?: string } | null;
 
 const fr = {
   hero: {
@@ -129,8 +129,14 @@ const fr = {
       languages: 'Langues',
       languagesValue: 'Français et anglais',
     },
-    // <!-- À CONFIRMER PATRICK : vraie citation d'un client, avec son accord -->
-    testimonial: null as Testimonial,
+    // Éric's short quote on Habita, approved 26 Oct 2026 (email « Petite faveur :
+    // ton avis sur Habita »). The only approved client quote: do not add others.
+    testimonial: {
+      quote: 'Un logiciel d’inspection moderne, parfaitement adapté aux besoins d’aujourd’hui. Sa conception intuitive fait sauver un temps précieux à la rédaction, et la version tactile et navigable du rapport se démarque vraiment. Le soutien est omniprésent : on ne se sent jamais laissé à nous-mêmes.',
+      name: 'Éric Beauregard',
+      role: 'Inspection de bâtiment BeauRegard',
+      note: 'À propos de Habita',
+    } as Testimonial,
     more: 'En savoir plus',
   },
   contact: {
@@ -238,7 +244,12 @@ const en: HomeCopy = {
       languages: 'Languages',
       languagesValue: 'French and English',
     },
-    testimonial: null,
+    testimonial: {
+      quote: 'A modern inspection software, perfectly suited to today’s needs. Its intuitive design saves precious time when writing, and the touch-friendly, navigable version of the report really stands out. Support is always there: you never feel left on your own.',
+      name: 'Éric Beauregard',
+      role: 'Inspection de bâtiment BeauRegard',
+      note: 'On Habita · Translated from French',
+    },
     more: 'More about me',
   },
   contact: {
