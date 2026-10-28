@@ -259,18 +259,18 @@ export const en: Widen<Dict> = {
 
   about: {
     seoTitle: 'About, web developer | Patrick Laperrière',
-    seoDesc: 'Patrick Laperrière, web developer and product builder, founder of Technologies Habita inc. Websites and web tools for small businesses, in English and French.',
+    seoDesc: 'Patrick Laperrière, web developer and product builder, co-founder of Technologies Habita inc. Websites and web tools for small businesses, in English and French.',
     kicker: 'About',
     portraitAlt: 'Portrait of Patrick Laperrière',
     h1: 'Web developer and product builder',
     lead: 'I design and develop websites and web tools for small businesses, in Quebec and beyond, in English and French.',
     body: [
       'My name is Patrick Laperrière. I work with my clients directly: the person who listens on the first call is the one who designs, writes the code and puts your project online.',
-      'I also founded Technologies Habita inc., a separate company that publishes Habita, building inspection software. I design the product and write its code. Growing software built for building inspectors makes me think long term: security, backups, performance, maintenance.',
+      'I also co-founded Technologies Habita inc., a separate company that publishes Habita, building inspection software. I design the product and write its code. Growing software built for building inspectors makes me think long term: security, backups, performance, maintenance.',
       'I bring the same standard to client projects: understand the business before choosing a technology, deliver clean code, and measure the result instead of promising it.',
       'I work in English and French, with clients in Quebec, the rest of Canada and the United States.',
     ],
-    bioTodo: 'background, training and years of experience, in two or three sentences',
+    bio: "Before the web, I spent 16 years at Laperrière Motosports in Gatineau, working my way from technical advisor to general manager: that’s where I learned to turn a technical diagnosis into a clear decision for the customer. I’ve been building websites for small businesses since 2020, and since 2023 I’ve coordinated internal communications and web tools for a Bell subsidiary with more than 6,700 employees. I’m completing a college diploma (AEC) in transactional web development at Collège Ahuntsic in 2026.",
     whyTitle: 'How I work',
     why: [
       { t: 'One point of contact', d: 'No middleman: you talk to the person doing the work.' },
@@ -280,7 +280,7 @@ export const en: Widen<Dict> = {
     ],
     stackTitle: 'Tools',
     companyTitle: 'Technologies Habita inc.',
-    company: 'Company founded by Patrick Laperrière, publisher of the Habita building inspection software.',
+    company: 'Company co-founded by Patrick Laperrière, publisher of the Habita building inspection software.',
     companyLink: 'habita.expert',
   },
 
@@ -320,7 +320,7 @@ export const en: Widen<Dict> = {
     soon: 'The first articles are coming soon.',
     byline: 'By',
     authorRole: 'Web developer, Quebec',
-    authorBio: 'I design websites and web tools for small businesses, in English and French. I am also the founder of Technologies Habita inc.',
+    authorBio: 'I design websites and web tools for small businesses, in English and French. I am also a co-founder of Technologies Habita inc.',
     aboutLink: 'More about me',
     related: 'Related articles',
     readMore: 'Read',

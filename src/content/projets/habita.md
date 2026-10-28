@@ -9,15 +9,15 @@ titreSeo:
   fr: "Habita, logiciel d’inspection"
   en: "Habita, building inspection software"
 accroche:
-  fr: "Le logiciel d’inspection en bâtiment de Technologies Habita inc., l’entreprise que j’ai fondée. J’en conçois le produit et j’en écris le code."
-  en: "The building inspection software of Technologies Habita inc., the company I founded. I design the product and write its code."
+  fr: "Le logiciel d’inspection en bâtiment de Technologies Habita inc., l’entreprise que j’ai cofondée. J’en conçois le produit et j’en écris le code."
+  en: "The building inspection software of Technologies Habita inc., the company I co-founded. I design the product and write its code."
 description:
   fr: "Étude de cas : Habita, logiciel d’inspection en bâtiment de Technologies Habita inc. Rapports web et PDF, mode hors ligne, interface bilingue."
   en: "Case study: Habita, building inspection software by Technologies Habita inc. Web and PDF reports, offline mode, a bilingual interface."
 client: "Technologies Habita inc."
 rôle:
-  fr: "Fondateur ; produit, design et développement"
-  en: "Founder; product, design and development"
+  fr: "Cofondateur ; produit, design et développement"
+  en: "Co-founder; product, design and development"
 stack:
   - { fr: "Application web", en: "Web application" }
   - { fr: "Mode hors ligne", en: "Offline mode" }
