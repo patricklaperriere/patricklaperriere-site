@@ -26,22 +26,22 @@ réalisation:
   fr: "Un site sur mesure en Astro, entièrement bilingue (FR et EN) et optimisé pour le SEO local. Une page dédiée par service (préachat, prévente, préréception, commerciale et multilogements, thermographie, inspection par drone), une page Secteurs couvrant tout l’Outaouais, une page Tarifs, une FAQ et une page À propos qui présente ses accréditations (APCHQ, CEI, Snell Group). Un formulaire de demande met de l’avant ses engagements de service, et chaque page a ses métadonnées, ses données structurées et son image de partage."
   en: "A custom Astro site, fully bilingual (FR and EN) and built for local SEO. A dedicated page per service (pre-purchase, pre-sale, pre-delivery, commercial & multi-unit, thermography, drone inspection), a Service Areas page covering the whole Outaouais, a Pricing page, an FAQ and an About page presenting his accreditations (APCHQ, CEI, Snell Group). A request form puts his service commitments forward, and every page has its own metadata, structured data and share image."
 résultat:
-  fr: "Le site est en ligne à inspectionhab.ca, en français et en anglais, avec une page par service."
-  en: "The site is live at inspectionhab.ca, in French and English, with one page per service."
+  fr: "La nouvelle version, en français et en anglais avec une page par service, est en préversion ; la bascule du domaine inspectionhab.ca est à venir."
+  en: "The new version, in French and English with one page per service, is in preview; the switch of the inspectionhab.ca domain is coming."
 ville: "gatineau"
 lien: "https://inspectionhab.ca"
 # Nouvelle version en préversion Cloudflare tant que le domaine n'est pas transféré.
 # Après la bascule : retirer cette ligne et remesurer (node scripts/measure-clients.mjs).
-préversion: "https://ebe6af57.inspectionhab-39r.pages.dev"
-image: "/work/inspection-habitation-outaouais.webp"
+préversion: "https://inspectionhab-39r.pages.dev"
+image: "/work/inspection-habitation-outaouais-v2.webp"
 captures:
-  - src: "/work/inspection-habitation-outaouais-preachat.webp"
+  - src: "/work/inspection-habitation-outaouais-v2-preachat.webp"
     alt:
       fr: "Page Inspection préachat de la nouvelle version du site d’Inspection Habitation Outaouais, sur ordinateur"
       en: "Pre-purchase inspection page of the new Inspection Habitation Outaouais website, on desktop"
     largeur: 1280
     hauteur: 800
-  - src: "/work/inspection-habitation-outaouais-mobile.webp"
+  - src: "/work/inspection-habitation-outaouais-v2-mobile.webp"
     alt:
       fr: "Accueil de la nouvelle version du site d’Inspection Habitation Outaouais sur téléphone"
       en: "Home page of the new Inspection Habitation Outaouais website on a phone"
