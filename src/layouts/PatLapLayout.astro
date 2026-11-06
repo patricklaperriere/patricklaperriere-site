@@ -64,6 +64,7 @@ const autre = locale === 'fr' ? 'en' : 'fr';
         <a href={locale === 'fr' ? '/' : '/en'}>{tx.pied.projet}</a>
         <a href={LIENS.instagram} rel="noopener" target="_blank">{tx.pied.instagram}</a>
         <a href={r.confidentialite}>{tx.pied.confidentialite}</a>
+        <p class="pl-marques">{tx.pied.marques}</p>
       </div>
     </footer>
   </body>
@@ -142,4 +143,5 @@ const autre = locale === 'fr' ? 'en' : 'fr';
   .pl-pied { border-top: 1px solid rgba(48, 10, 36, .12); padding: 2rem 0; margin-top: 3rem; }
   .pl-pied-in { display: flex; flex-wrap: wrap; gap: 1rem 2rem; font-size: .95rem; }
   .pl-pied a { color: var(--pl-gris); }
+  .pl-marques { flex-basis: 100%; margin: 0; font-size: .8rem; color: var(--pl-gris); }
 </style>

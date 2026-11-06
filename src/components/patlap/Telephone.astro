@@ -1,7 +1,8 @@
 ---
 // Le téléphone dessiné d'un panneau « Jour N » : cadre mauve nuit, picto
-// maison (trait 2 px, mauve) et le nom de l'app EN TEXTE. Aucun logo de
-// marque (OpenAI, Anthropic, Google, Apple) : pas d'affiliation.
+// maison (trait 2 px, mauve) et le nom de l'app EN TEXTE. Pas de logo
+// officiel : Anthropic et Google exigent une autorisation écrite préalable,
+// la page de marque d'OpenAI n'a pas pu être lue (PAT-LAP-8, 6 nov.).
 // Le cadre est un <symbol> défini une fois dans PageProgramme (#pl-tel).
 interface Props { n: number; app: string; }
 const { n, app } = Astro.props;

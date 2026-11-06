@@ -258,6 +258,9 @@ export function textes(locale: Locale) {
       site: 'patricklaperriere.com',
       projet: fr ? 'Un projet de Patrick Laperrière' : 'A Patrick Laperrière project',
       confidentialite: fr ? 'Confidentialité' : 'Privacy',
+      marques: fr
+        ? 'ChatGPT, Claude, Gmail et Google Agenda sont des marques de leurs propriétaires respectifs. Pat Lap n\'est affilié à aucun d\'eux.'
+        : 'ChatGPT, Claude, Gmail and Google Calendar are trademarks of their respective owners. Pat Lap is not affiliated with any of them.',
     },
     pageJour: {
       titre: (n: number) => (fr ? `Jour ${n}` : `Day ${n}`),
