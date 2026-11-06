@@ -195,8 +195,8 @@ export function textes(locale: Locale) {
     },
     hero: {
       badge: fr ? 'Gratuit, pas de carte' : 'Free, no credit card',
-      // Accroche de la passation (section 4), gardée le 6 nov. (PAT-LAP-4).
-      accroche: fr ? 'Ton téléphone sait faire plus que tu penses. Je te montre, 5 minutes par jour.' : "Your phone can do more than you think. I'll show you, 5 minutes a day.",
+      // Accroche finale de Patrick (6 nov. 17 h 11).
+      accroche: fr ? "La techno, c'est pas si compliqué. Je te montre, 5 minutes par jour." : "Tech isn't that complicated. I'll show you, 5 minutes a day.",
       accrocheAConfirmer: '',
       texte: fr
         ? 'Pas de jargon, pas de cours de trois heures. Chaque matin pendant 5 jours, un courriel, une capsule de 60 secondes et un petit geste à faire.'
