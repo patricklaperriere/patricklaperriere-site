@@ -30,8 +30,9 @@ const autre = locale === 'fr' ? 'en' : 'fr';
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#1F5F49" />
+    <meta name="theme-color" content="#300A24" />
     <link rel="preload" href="/fonts/figtree.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/big-shoulders-display.woff2" as="font" type="font/woff2" crossorigin />
     <SEO title={title} description={description} locale={locale} alternates={alternates} path={path} noindex={BROUILLON || cachee} />
   </head>
   <body class="patlap">
@@ -39,7 +40,7 @@ const autre = locale === 'fr' ? 'en' : 'fr';
     <header class="pl-nav">
       <div class="pl-cadre pl-nav-in">
         <a class="pl-marque" href={r.page}>
-          <span class="pl-marque-nom">{tx.nav.marque}</span>
+          <span class="pl-marque-nom">{tx.nav.marque}<span class="pl-marque-point">.</span></span>
           <span class="pl-marque-sous">{tx.nav.sousTitre}</span>
         </a>
         {!cachee && (
@@ -60,8 +61,8 @@ const autre = locale === 'fr' ? 'en' : 'fr';
     </main>
     <footer class="pl-pied">
       <div class="pl-cadre pl-pied-in">
+        <a href={locale === 'fr' ? '/' : '/en'}>{tx.pied.projet}</a>
         <a href={LIENS.instagram} rel="noopener" target="_blank">{tx.pied.instagram}</a>
-        <a href={locale === 'fr' ? '/' : '/en'}>{tx.pied.site}</a>
         <a href={r.confidentialite}>{tx.pied.confidentialite}</a>
       </div>
     </footer>
@@ -69,6 +70,16 @@ const autre = locale === 'fr' ? 'en' : 'fr';
 </html>
 
 <style is:global>
+  /* LA MÊME FAMILLE QUE LA VITRINE (Patrick, 6 nov., « ok famille ») : les
+     titres et le wordmark dans la police des titres de patricklaperriere.com
+     (même fichier), l'accent mauve et le mauve nuit de sa charte. Le texte
+     courant garde Figtree, plus lisible en grand pour un public non techno. */
+  @font-face {
+    font-family: "Big Shoulders Display";
+    src: url("/fonts/big-shoulders-display.woff2") format("woff2");
+    font-weight: 500 900;
+    font-display: swap;
+  }
   @font-face {
     font-family: "Figtree";
     src: url("/fonts/figtree.woff2") format("woff2");
@@ -77,11 +88,15 @@ const autre = locale === 'fr' ? 'en' : 'fr';
     font-style: normal;
   }
   .patlap {
-    --pl-vert: #1F5F49;
-    --pl-vert-fonce: #174A39;
+    /* Mauve des boutons de la vitrine (4,94:1 sur le sable, blanc dessus
+       5,66:1), plum au survol, mauve nuit pour le texte et le bloc Soirée. */
+    --pl-vert: #A33E9A;
+    --pl-vert-fonce: #77216F;
+    --pl-nuit: #300A24;
     --pl-sable: #F4EFE6;
-    --pl-texte: #1C2A22;
-    --pl-gris: #5B6B62;
+    --pl-texte: #300A24;
+    --pl-gris: #6B5563;
+    --pl-titres: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
     margin: 0;
     background: var(--pl-sable);
     color: var(--pl-texte);
@@ -100,10 +115,14 @@ const autre = locale === 'fr' ? 'en' : 'fr';
   .pl-saut { position: absolute; left: -999px; top: 0; }
   .pl-saut:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem 1rem; z-index: 10; }
 
-  .pl-nav { position: sticky; top: 0; z-index: 5; background: rgba(244, 239, 230, .94); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(28, 42, 34, .08); }
+  .pl-nav { position: sticky; top: 0; z-index: 5; background: rgba(244, 239, 230, .94); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(48, 10, 36, .1); }
   .pl-nav-in { display: flex; align-items: center; gap: 1rem; min-height: 4rem; }
   .pl-marque { display: flex; flex-direction: column; line-height: 1.1; text-decoration: none; color: var(--pl-texte) !important; margin-right: auto; }
-  .pl-marque-nom { font-weight: 800; font-size: 1.25rem; color: var(--pl-vert); }
+  .pl-marque-nom { font-family: var(--pl-titres); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.01em; color: var(--pl-texte); }
+  /* Le point du wordmark : jaune signal sur la vitrine (fond foncé) ; sur le
+     sable, ce jaune ne se lit pas (1,26:1), il prend donc l'accent mauve. */
+  .pl-marque-point { color: var(--pl-vert); }
+  .patlap h1, .patlap h2, .patlap h3 { font-family: var(--pl-titres); font-weight: 800; letter-spacing: 0; }
   .pl-marque-sous { font-size: .8rem; color: var(--pl-gris); }
   .pl-liens { display: none; gap: 1.5rem; }
   .pl-liens a { text-decoration: none; color: var(--pl-texte); font-weight: 600; font-size: .95rem; }
@@ -120,7 +139,7 @@ const autre = locale === 'fr' ? 'en' : 'fr';
   /* Un texte absent se voit comme tel, à l'écran : jamais confondu avec le vrai. */
   .pl-tbc { display: inline-block; background: #FFF4CC; color: #6B4E00; border: 1px dashed #B88A00; border-radius: .375rem; padding: .1rem .4rem; font-weight: 600; font-size: .95em; }
 
-  .pl-pied { border-top: 1px solid rgba(28, 42, 34, .1); padding: 2rem 0; margin-top: 3rem; }
+  .pl-pied { border-top: 1px solid rgba(48, 10, 36, .12); padding: 2rem 0; margin-top: 3rem; }
   .pl-pied-in { display: flex; flex-wrap: wrap; gap: 1rem 2rem; font-size: .95rem; }
   .pl-pied a { color: var(--pl-gris); }
 </style>

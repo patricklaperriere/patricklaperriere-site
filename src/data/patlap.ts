@@ -192,6 +192,7 @@ export function textes(locale: Locale) {
     pied: {
       instagram: '@pat.achell',
       site: 'patricklaperriere.com',
+      projet: fr ? 'Un projet de Patrick Laperrière' : 'A Patrick Laperrière project',
       confidentialite: fr ? 'Confidentialité' : 'Privacy',
     },
     pageJour: {
