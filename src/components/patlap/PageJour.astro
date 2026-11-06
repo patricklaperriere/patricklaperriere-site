@@ -19,7 +19,9 @@ const id = LIENS.youtube[n] || '';
         ? <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`} title={tx.pageJour.titre(n)} loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
         : <Texte s={tx.pageJour.video} />}
     </div>
-    <p class="pl-geste"><Texte s={tx.pageJour.geste(n)} /></p>
+    <div class="pl-geste">
+      {tx.pageJour.geste(n).map((p) => <p><Texte s={p} /></p>)}
+    </div>
   </div>
 </section>
 <style>

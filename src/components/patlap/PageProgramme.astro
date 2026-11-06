@@ -62,7 +62,10 @@ const fr = locale === 'fr';
     <h2 class="pl-h2">{tx.jours.titre}</h2>
     <ol class="pl-jours">
       {tx.jours.liste.map((g, i) => (
-        <li><span class="pl-jour">{tx.jours.libelleJour(i + 1)}</span><Texte s={g} /></li>
+        <li>
+          <span class="pl-jour">{tx.jours.libelleJour(i + 1)}</span>
+          <span><strong class="pl-jour-titre">{g.titre}</strong><span class="pl-jour-resume">{g.resume}</span></span>
+        </li>
       ))}
     </ol>
   </div>
@@ -95,7 +98,10 @@ const fr = locale === 'fr';
   for (const form of document.querySelectorAll<HTMLFormElement>('[data-pl-inscription]')) {
     const etat = form.querySelector<HTMLElement>('.pl-etat')!;
     const bouton = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
-    const dire = (cle: string) => { etat.textContent = etat.dataset[cle] || ''; etat.hidden = false; };
+    const dire = (cle: string, prenom = '') => {
+      etat.textContent = (etat.dataset[cle] || '').replace('{prenom}', prenom);
+      etat.hidden = false;
+    };
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const d = new FormData(form);
@@ -112,7 +118,7 @@ const fr = locale === 'fr';
       bouton.textContent = bouton.dataset.envoi || libelle;
       try {
         const rep = await fetch('/api/inscription', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(donnees) });
-        if (rep.ok) { form.reset(); dire('merci'); }
+        if (rep.ok) { form.reset(); dire('merci', donnees.prenom.trim()); }
         else if (rep.status === 503) dire('fermee');
         else dire('erreur');
       } catch {
@@ -149,6 +155,8 @@ const fr = locale === 'fr';
   .pl-jours { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
   .pl-jours li { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid rgba(28, 42, 34, .1); }
   .pl-jour { font-weight: 800; color: var(--pl-vert); }
+  .pl-jour-titre { display: block; font-weight: 800; }
+  .pl-jour-resume { display: block; color: var(--pl-gris); }
   .pl-pat { display: grid; gap: 1.5rem; align-items: center; }
   @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
   .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
