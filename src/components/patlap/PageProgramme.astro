@@ -4,7 +4,7 @@
 // 5 jours, C'est qui Pat, la Soirée.
 import Texte from './Texte.astro';
 import type { Locale } from '../../i18n/routes';
-import { LIENS, PATLAP_ROUTES, textes } from '../../data/patlap';
+import { LIENS, PATLAP_ROUTES, PHOTOS, textes } from '../../data/patlap';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -18,7 +18,7 @@ const fr = locale === 'fr';
     <div>
       <p class="pl-badge"><Texte s={tx.hero.badge} /></p>
       <h1 class="pl-h1">{tx.hero.accroche.startsWith('[') ? <Texte s={tx.hero.accroche} /> : tx.hero.accroche}</h1>
-      <p class="pl-note"><Texte s={tx.hero.accrocheAConfirmer} /></p>
+      {tx.hero.accrocheAConfirmer && <p class="pl-note"><Texte s={tx.hero.accrocheAConfirmer} /></p>}
       <p class="pl-lead"><Texte s={tx.hero.texte} /></p>
     </div>
     <form class="pl-form" data-pl-inscription data-langue={locale} novalidate>
@@ -71,9 +71,12 @@ const fr = locale === 'fr';
   </div>
 </section>
 
-<section class="pl-section" id="pat">
+<section class:list={['pl-section', { 'pl-avec-lac': PHOTOS.lac.pret }]} id="pat" style={PHOTOS.lac.pret ? `--pl-lac:url(${PHOTOS.lac.src})` : undefined}>
+  {PHOTOS.lac.pret && <span class="pl-lac" role="img" aria-label={PHOTOS.lac.alt}></span>}
   <div class="pl-cadre pl-pat">
-    <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>
+    {PHOTOS.portrait.pret
+      ? <img class="pl-photo pl-photo-img" src={PHOTOS.portrait.src} width={PHOTOS.portrait.largeur} height={PHOTOS.portrait.hauteur} alt={tx.pat.photoAlt} loading="lazy" decoding="async" />
+      : <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>}
     <div>
       <h2 class="pl-h2">{tx.pat.titre}</h2>
       <p><Texte s={tx.pat.texte} /></p>
@@ -160,6 +163,10 @@ const fr = locale === 'fr';
   .pl-pat { display: grid; gap: 1.5rem; align-items: center; }
   @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
   .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
+  .pl-photo-img { width: 100%; height: auto; object-fit: cover; padding: 0; }
+  /* Photo d'ambiance du lac (optionnelle) : voilée pour garder le texte lisible. */
+  .pl-avec-lac { position: relative; isolation: isolate; }
+  .pl-lac { position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(244, 239, 230, .88), rgba(244, 239, 230, .88)), var(--pl-lac) center / cover no-repeat; }
   .pl-soiree { background: var(--pl-nuit); color: #fff; padding: 3rem 0; margin-top: 1.5rem; }
   .pl-soiree .pl-h2 { color: #fff; }
   .pl-soiree-format { font-weight: 700; font-size: 1.1rem; }

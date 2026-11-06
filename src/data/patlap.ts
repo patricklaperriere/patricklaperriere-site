@@ -21,6 +21,35 @@ export const tbc = (locale: Locale, quoi: string) =>
 
 export const estPlaceholder = (s: string) => /^\[(À CONFIRMER|TO CONFIRM) PATRICK/.test(s);
 
+/** La prochaine Soirée : LA seule valeur à changer pour une nouvelle date.
+ *  Heure de l'Est (-05:00 en décembre), sur Zoom. */
+export const SOIREE = {
+  debut: '2026-12-03T19:00:00-05:00',
+  minutes: 90,
+  lieu: 'Zoom',
+};
+
+/** « Jeudi 3 décembre, 19 h », calculé depuis SOIREE.debut, à l'heure de l'Est. */
+export function dateSoireeFr(iso = SOIREE.debut) {
+  const d = new Date(iso);
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('fr-CA', { timeZone: 'America/Toronto', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h23' })
+      .formatToParts(d).map((x) => [x.type, x.value]),
+  );
+  const jour = parts.weekday.charAt(0).toUpperCase() + parts.weekday.slice(1);
+  const heure = parts.minute === '00' ? `${Number(parts.hour)} h` : `${Number(parts.hour)} h ${parts.minute}`;
+  return `${jour} ${parts.day} ${parts.month}, ${heure}`;
+}
+
+/** Photos de Patrick (fournies dans NEXUS-Bridge/assets/pat-lap/photos/).
+ *  `pret: false` tant que le fichier n'est pas dans public/pat-lap/ :
+ *  la page garde alors le placeholder visible. */
+export const PHOTOS = {
+  portrait: { src: '/pat-lap/pat.jpg', largeur: 1200, hauteur: 1500, pret: false },
+  // Optionnelle : ambiance derrière le bloc « C'est qui, Pat ? ».
+  lac: { src: '/pat-lap/lac-simon.jpg', largeur: 1920, hauteur: 1080, pret: false, alt: 'Le lac Simon, en Outaouais' },
+};
+
 export const PATLAP_ROUTES = {
   fr: { page: '/la-technologie-pour-tous', jour: (n: number) => `/la-technologie-pour-tous/jour-${n}`, soiree: '/la-technologie-pour-tous/soiree', confidentialite: '/confidentialite' },
   en: { page: '/en/tech-for-everyone', jour: (n: number) => `/en/tech-for-everyone/day-${n}`, soiree: '/en/tech-for-everyone/evening', confidentialite: '/en/privacy' },
@@ -123,7 +152,10 @@ export function textes(locale: Locale) {
   const fr = locale === 'fr';
   return {
     titrePage: fr ? 'La technologie pour tous' : 'Tech for everyone',
-    seoDescription: t(fr ? 'description pour Google (155 caractères)' : 'Google description (155 characters)'),
+    // Décidée par le chat NEXUS (délégation de Patrick, 6 nov. 16 h 28), 139 caractères.
+    seoDescription: fr
+      ? "5 jours, 5 gestes simples pour apprivoiser l'IA sur ton téléphone. Un courriel par matin, une capsule de 60 secondes, zéro jargon. Gratuit."
+      : t('Google description (155 characters)'),
     nav: {
       marque: 'Pat Lap',
       sousTitre: fr ? 'La technologie pour tous' : 'Tech for everyone',
@@ -136,10 +168,12 @@ export function textes(locale: Locale) {
     },
     hero: {
       badge: fr ? 'Gratuit, pas de carte' : t('badge « Gratuit, pas de carte » en anglais'),
-      // Accroche PROPOSÉE dans la passation (section 4), pas approuvée.
+      // Accroche de la passation (section 4), gardée le 6 nov. (PAT-LAP-4).
       accroche: fr ? 'Ton téléphone sait faire plus que tu penses. Je te montre, 5 minutes par jour.' : t('accroche'),
-      accrocheAConfirmer: t(fr ? 'accroche proposée, ou « Non, maman »' : 'hero headline'),
-      texte: t(fr ? 'texte sous l\'accroche (2 phrases)' : 'text under the headline (2 sentences)'),
+      accrocheAConfirmer: fr ? '' : t('hero headline'),
+      texte: fr
+        ? 'Pas de jargon, pas de cours de trois heures. Chaque matin pendant 5 jours, un courriel, une capsule de 60 secondes et un petit geste à faire sur ton propre téléphone.'
+        : t('text under the headline (2 sentences)'),
     },
     formulaire: {
       prenom: fr ? 'Prénom' : 'First name',
@@ -175,16 +209,23 @@ export function textes(locale: Locale) {
     },
     pat: {
       titre: fr ? "C'est qui, Pat ?" : 'Who is Pat?',
-      texte: t(fr ? 'texte « C\'est qui, Pat ? » (parti de rien, pas d\'université, jamais lâché)' : '"Who is Pat?" text'),
+      texte: fr
+        ? "Je m'appelle Patrick, je vis au lac Simon, en Outaouais. Je bâtis des sites web et des logiciels pour des entreprises d'ici, et je passe mes journées avec des outils d'intelligence artificielle. Le soir, c'est ma mère ou un oncle qui m'appelle parce que « le téléphone fait quelque chose de bizarre ». J'ai fini par comprendre une affaire : ce n'est pas que c'est compliqué, c'est que personne ne prend 5 minutes pour montrer. La technologie pour tous, c'est ces 5 minutes-là, sans jugement, en français, de mon téléphone au tien."
+        : t('"Who is Pat?" text'),
       photo: t(fr ? 'photo de Patrick (quai, lac Simon)' : 'photo of Patrick'),
+      photoAlt: fr ? 'Patrick, au lac Simon' : 'Patrick, at Lac Simon',
       lienPro: fr ? 'Mon travail de développeur web' : 'My web developer work',
     },
     soiree: {
       titre: fr ? 'Soirée avec Patrick' : 'Evening with Patrick',
       format: fr ? 'En direct sur Zoom, 90 minutes' : 'Live on Zoom, 90 minutes',
       prix: fr ? '49 $' : '$49',
-      date: t(fr ? 'date de la première Soirée' : 'date of the first Evening'),
-      texte: t(fr ? 'texte du bloc Soirée' : 'Evening block text'),
+      date: fr ? dateSoireeFr() : t('date of the first Evening'),
+      // « places limitées » retiré : interdit par la passation (section « Interdit
+      // dans tout contenu »). Voir le rendu PAT-LAP-4.
+      texte: fr
+        ? "La Soirée avec Patrick, c'est 90 minutes en direct sur Zoom, en petit groupe. Tu arrives avec ton téléphone et tes vraies questions, tu repars avec des choses qui marchent : tes photos rangées, tes courriels écrits en deux minutes, l'IA qui te répond comme un ami patient. 49 $, enregistrement envoyé après."
+        : t('Evening block text'),
       bouton: fr ? 'Réserver ma place' : 'Save my seat',
       boutonPaiement: fr ? 'Payer 49 $' : 'Pay $49',
       paiementAVenir: t(fr ? 'lien de paiement Stripe (compte à son nom)' : 'Stripe payment link'),
