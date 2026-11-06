@@ -3,6 +3,7 @@
 // 4 nov. (passation, section 4) : hero et formulaire, comment ça marche, les
 // 5 jours, C'est qui Pat, la Soirée.
 import Texte from './Texte.astro';
+import Telephone from './Telephone.astro';
 import type { Locale } from '../../i18n/routes';
 import { LIENS, PATLAP_ROUTES, PHOTOS, textes } from '../../data/patlap';
 
@@ -11,7 +12,17 @@ const { locale } = Astro.props;
 const tx = textes(locale);
 const r = PATLAP_ROUTES[locale];
 const fr = locale === 'fr';
+// Le nom affiché sur l'écran du téléphone de chaque jour (texte, jamais de logo).
+const apps = ['ChatGPT · Claude', 'Gmail → Claude', fr ? 'Photo → ChatGPT' : 'Photo → ChatGPT', 'Claude', fr ? 'Sauvegarde' : 'Backup'];
 ---
+
+{/* Le cadre du téléphone, défini une fois, réutilisé par les 5 panneaux. */}
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="pl-tel" viewBox="0 0 160 300">
+    <rect x="5" y="5" width="150" height="290" rx="26" fill="#fff" stroke="#300A24" stroke-width="7" />
+    <rect x="62" y="16" width="36" height="7" rx="3.5" fill="#300A24" />
+  </symbol>
+</svg>
 
 <section class="pl-hero" id="inscription">
   <div class="pl-cadre pl-hero-in">
@@ -49,7 +60,7 @@ const fr = locale === 'fr';
 <section class="pl-section">
   <div class="pl-cadre">
     <h2 class="pl-h2"><Texte s={tx.commentCaMarche.titre} /></h2>
-    <ol class="pl-trois">
+    <ol class="pl-trois" data-pl-groupe>
       {tx.commentCaMarche.points.map((p, i) => (
         <li><span class="pl-num">{i + 1}</span><Texte s={p} /></li>
       ))}
@@ -60,11 +71,18 @@ const fr = locale === 'fr';
 <section class="pl-section" id="jours">
   <div class="pl-cadre">
     <h2 class="pl-h2">{tx.jours.titre}</h2>
+    {/* Un panneau par jour. Sur grand écran, les panneaux s'empilent au
+        défilement (position sticky, CSS seul) ; sans JS ou en mouvement
+        réduit, ils restent lisibles l'un sous l'autre. */}
     <ol class="pl-jours">
       {tx.jours.liste.map((g, i) => (
-        <li>
-          <span class="pl-jour">{tx.jours.libelleJour(i + 1)}</span>
-          <span><strong class="pl-jour-titre">{g.titre}</strong><span class="pl-jour-resume">{g.resume}</span></span>
+        <li class="pl-panneau" style={`--i:${i}`}>
+          <div class="pl-panneau-texte">
+            <span class="pl-jour">{tx.jours.libelleJour(i + 1)}</span>
+            <strong class="pl-jour-titre">{g.titre}</strong>
+            <span class="pl-jour-resume">{g.resume}</span>
+          </div>
+          <div class="pl-panneau-tel" data-pl-revele><Telephone n={i + 1} app={apps[i]} /></div>
         </li>
       ))}
     </ol>
@@ -95,6 +113,23 @@ const fr = locale === 'fr';
     <a class="pl-bouton pl-bouton-clair" href={r.soiree}>{tx.soiree.bouton}</a>
   </div>
 </section>
+
+<script>
+  // Apparitions au défilement (même recette que Batixpert, sans librairie) :
+  // fondu + 12 px, transform et opacity seulement (CLS 0). Mouvement réduit
+  // ou pas d'IntersectionObserver : rien n'est caché, rien ne bouge.
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    document.querySelectorAll('[data-pl-groupe]').forEach((g) => [...g.children].forEach((c, i) => {
+      c.setAttribute('data-pl-revele', '');
+      (c as HTMLElement).style.setProperty('--delai', `${Math.min(i * 90, 360)}ms`);
+    }));
+    const io = new IntersectionObserver((es) => {
+      for (const e of es) if (e.isIntersecting) { e.target.classList.add('vu'); io.unobserve(e.target); }
+    }, { rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('[data-pl-revele]').forEach((el) => io.observe(el));
+    document.documentElement.classList.add('pl-anim');
+  }
+</script>
 
 <script>
   import { validerInscription } from '../../lib/patlapInscription.mjs';
@@ -155,11 +190,25 @@ const fr = locale === 'fr';
   @media (min-width: 768px) { .pl-trois { grid-template-columns: repeat(3, 1fr); } }
   .pl-trois li { background: #fff; border-radius: 1rem; padding: 1.25rem; display: grid; gap: .5rem; }
   .pl-num { display: inline-flex; width: 2rem; height: 2rem; border-radius: 999px; align-items: center; justify-content: center; background: var(--pl-vert); color: #fff; font-weight: 800; }
-  .pl-jours { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
-  .pl-jours li { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid rgba(48, 10, 36, .12); }
-  .pl-jour { font-weight: 800; color: var(--pl-vert); }
-  .pl-jour-titre { display: block; font-weight: 800; }
-  .pl-jour-resume { display: block; color: var(--pl-gris); }
+  .pl-jours { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: 1rem; }
+  .pl-panneau { display: grid; gap: 1.25rem; align-items: center; background: #fff; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 10px 30px rgba(48, 10, 36, .08); }
+  .pl-panneau-texte { display: grid; gap: .5rem; }
+  .pl-panneau-tel { width: 9rem; margin: 0 auto; }
+  @media (min-width: 768px) {
+    .pl-panneau { grid-template-columns: 1fr 11rem; gap: 2.5rem; padding: 2.5rem 3rem; min-height: 22rem; }
+    .pl-panneau-tel { width: 11rem; }
+  }
+  /* L'empilement au défilement : seulement quand un panneau entier tient
+     dans la fenêtre, pour qu'aucun texte ne passe sous le panneau suivant. */
+  @media (min-width: 900px) and (min-height: 700px) {
+    .pl-jours { gap: 2rem; }
+    .pl-panneau { position: sticky; top: calc(5.5rem + var(--i) * 1rem); }
+  }
+  .pl-jour { font-family: var(--pl-titres); font-weight: 800; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1; color: var(--pl-vert); }
+  .pl-jour-titre { display: block; font-weight: 800; font-size: 1.25rem; }
+  .pl-jour-resume { display: block; color: var(--pl-gris); font-size: 1.1rem; }
+  :global(.pl-anim) [data-pl-revele] { opacity: 0; transform: translateY(12px); transition: opacity .5s ease var(--delai, 0ms), transform .5s ease var(--delai, 0ms); }
+  :global(.pl-anim) [data-pl-revele].vu { opacity: 1; transform: none; }
   .pl-pat { display: grid; gap: 1.5rem; align-items: center; }
   @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
   .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
