@@ -13,7 +13,8 @@ const tx = textes(locale);
 const r = PATLAP_ROUTES[locale];
 const fr = locale === 'fr';
 // Le nom affiché sur l'écran du téléphone de chaque jour (texte, jamais de logo).
-const apps = ['ChatGPT · Claude', 'Gmail → Claude', fr ? 'Photo → ChatGPT' : 'Photo → ChatGPT', 'Claude', fr ? 'Sauvegarde' : 'Backup'];
+// Gestes V2 : 1 courriel, 2 agenda, 3 ménage de la boîte, 4 photo lue, 5 vocal.
+const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gmail', 'Photo → Claude', fr ? 'Mode vocal' : 'Voice mode'];
 ---
 
 {/* Le cadre du téléphone, défini une fois, réutilisé par les 5 panneaux. */}

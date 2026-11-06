@@ -74,86 +74,99 @@ export const LIENS = {
   instagram: 'https://www.instagram.com/pat.achell/',
 };
 
-/* LES 5 GESTES, textes approuvés (FR) et leur traduction (EN, à relire par
-   Patrick). `geste` : les paragraphes de la page du jour. */
+/* LES 5 GESTES V2 (Patrick, 6 nov. 16 h 56), PROPOSITION pas encore approuvée :
+   NEXUS-Bridge/assets/pat-lap/5-JOURS-5-GESTES-V2-2026-11-06.md. EN : traduction
+   à relire par Patrick. `geste` : les paragraphes de la page du jour. */
 const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[]> = {
   fr: [
     {
-      titre: 'Poser une vraie question à une IA',
-      resume: 'Tu ouvres ChatGPT ou Claude pis tu lui poses une question de ta vraie vie, comme à un chum.',
+      titre: 'Ton courriel, écrit pour toi',
+      resume: "Tu dictes à l'IA ce que tu veux dire, elle écrit ton courriel, tu l'envoies de Gmail.",
       geste: [
-        "Aujourd'hui, tu ouvres ChatGPT ou Claude sur ton téléphone (les deux sont gratuits, choisis celui que tu veux) pis tu lui poses une question de ta vraie vie. Pas une question de robot, une question que tu poserais à un chum.",
-        'Mon exemple : « J\'ai du poulet, du riz pis un brocoli. Qu\'est-ce que je fais pour souper ? »',
+        'Le geste : tu ouvres ChatGPT ou Claude sur ton téléphone (les deux sont gratuits), tu pèses sur le petit micro pis tu parles, tout croche, pas grave.',
+        'Mon exemple : « Écris un courriel à mon garagiste. Je veux savoir si mon char est prêt pis combien ça va coûter. Poli, court. »',
+        'Tu lis ce qu\'il te propose, tu changes un mot si tu veux. Après, tu le copies, tu ouvres Gmail, tu colles pis tu envoies.',
       ],
     },
     {
-      titre: 'Faire lire tes courriels par ton téléphone',
-      resume: 'Tu colles un courriel long dans ChatGPT ou Claude pis tu demandes de te le résumer en 3 lignes.',
+      titre: 'Ta semaine, rentrée dans ton agenda',
+      resume: "Tu dictes ta semaine à l'IA, elle sort tes rendez-vous propres, tu les rentres dans Google Agenda.",
       geste: [
-        'Le geste : tu copies le texte du courriel au complet, tu le colles dans ChatGPT ou Claude, pis t\'écris en haut : « Résume-moi ça en 3 lignes. Qu\'est-ce que je dois faire ? »',
+        'Le geste : tu ouvres ChatGPT ou Claude, tu pèses sur le micro pis tu dictes ta semaine comme elle te vient.',
+        'Mon exemple : « Mardi, dentiste à 10 h. Jeudi, souper chez ma sœur à 18 h. Vendredi, appeler l\'assurance. Fais-moi une liste propre avec le jour, l\'heure pis quoi. »',
+        'Tu ouvres Google Agenda, tu pèses sur le « + », pis tu rentres chaque rendez-vous. Ton téléphone va te le rappeler tout seul. Sur iPhone, l\'app Calendrier marche pareil.',
       ],
     },
     {
-      titre: "Prendre une photo d'un problème et demander c'est quoi",
-      resume: "Tu prends la patente en photo pis tu demandes : « C'est quoi ça, pis qu'est-ce que je fais avec ? »",
+      titre: 'Le ménage de ta boîte pleine',
+      resume: 'Tu te désabonnes, tu archives en masse, pis une règle classe tes factures toute seule.',
       geste: [
-        'Le geste : tu prends une photo de la patente. Tu ouvres ChatGPT ou Claude, tu pèses sur le petit « + » ou le trombone, tu ajoutes la photo, pis t\'écris : « C\'est quoi ça, pis qu\'est-ce que je fais avec ? »',
+        'Un : tu ouvres une pub que tu lis jamais, tu pèses sur « Se désabonner ». Fais-en cinq.',
+        'Deux : dans la recherche de Gmail, tu écris le nom d\'un magasin qui t\'envoie trop de pubs, tu les sélectionnes toutes pis tu archives. Archiver, c\'est pas effacer.',
+        'Trois : un filtre qui met tes factures dans un dossier « Factures », tout seul. Sur l\'ordi, c\'est plus facile. Si tu bloques, demande à Claude ou ChatGPT : « Comment je fais un filtre dans Gmail pour mes factures ? »',
       ],
     },
     {
-      titre: "Réécrire un message que t'as peur d'envoyer",
-      resume: 'Tu fais réécrire ton brouillon « poli mais direct », tu changes un mot ou deux, pis tu l\'envoies.',
+      titre: 'Ton téléphone qui lit pour toi',
+      resume: "Une lettre, une facture, une étiquette en photo : l'IA t'explique en mots simples quoi faire.",
       geste: [
-        'Le geste : t\'écris ton brouillon comme ça te vient, tout croche, pas grave. Tu le colles dans ChatGPT ou Claude pis t\'écris en haut : « Rends ça poli mais direct, en français du Québec, pas trop long. »',
+        'Le geste : tu ouvres ChatGPT ou Claude, tu pèses sur le petit « + » ou le trombone, tu prends la feuille en photo, pis tu écris : « Explique-moi ça en mots simples. Qu\'est-ce que je dois faire, pis avant quand ? »',
+        'Si c\'est dans une autre langue, ajoute : « Traduis en français. »',
+        'Cache ton numéro d\'assurance sociale ou de compte avec ton pouce avant la photo. Pour les pilules, ça remplace pas ton pharmacien.',
       ],
     },
     {
-      titre: 'Activer la sauvegarde automatique des photos',
-      resume: 'Tu actives la sauvegarde automatique de tes photos, une fois, pour toujours.',
+      titre: 'La discussion',
+      resume: "Tu parles à l'IA à voix haute, comme à un ami patient, sur n'importe quoi.",
       geste: [
-        'Le geste : tu actives la sauvegarde automatique de tes photos.',
-        'Sur iPhone : Réglages, ton nom en haut, iCloud, Photos, tu allumes « Synchroniser ce iPhone ».',
-        'Sur Android : tu ouvres l\'app Google Photos, ta photo de profil en haut à droite, « Sauvegarde », tu l\'allumes.',
+        'Le geste : tu ouvres ChatGPT ou Claude, pis tu pèses sur le bouton du mode vocal, à droite de la barre où tu écris (des petites barres ou un micro). Pis tu jases.',
+        'N\'importe quoi : une question de santé, une recette de ta mère, une nouvelle que t\'as pas comprise, un souvenir. Tu la coupes quand tu veux, elle te juge pas.',
       ],
     },
   ],
   en: [
     {
-      titre: 'Ask an AI a real question',
-      resume: 'Open ChatGPT or Claude and ask it a question from your real life, like you would ask a friend.',
+      titre: 'Your email, written for you',
+      resume: 'Tell the AI what you want to say, it writes your email, you send it from Gmail.',
       geste: [
-        "Today, open ChatGPT or Claude on your phone (both are free, pick whichever you like) and ask it a question from your real life. Not a robot question: a question you'd ask a friend.",
-        'My example: "I have chicken, rice and a head of broccoli. What should I make for supper?"',
+        "The move: open ChatGPT or Claude on your phone (both are free), tap the little microphone and talk. Messy is fine.",
+        'My example: "Write an email to my mechanic. I want to know if my car is ready and how much it will cost. Polite, short."',
+        'Read what it suggests and change a word if you like. Then copy it, open Gmail, paste and send.',
       ],
     },
     {
-      titre: 'Have your phone read your emails',
-      resume: 'Paste a long email into ChatGPT or Claude and ask for a 3-line summary.',
+      titre: 'Your week, in your calendar',
+      resume: 'Tell the AI your week, it gives you a clean list, you add it to Google Calendar.',
       geste: [
-        'The move: copy the whole email, paste it into ChatGPT or Claude, and type at the top: "Sum this up in 3 lines. What do I need to do?"',
+        'The move: open ChatGPT or Claude, tap the microphone and say your week the way it comes to you.',
+        'My example: "Tuesday, dentist at 10. Thursday, supper at my sister\'s at 6. Friday, call the insurance. Make me a clean list with the day, the time and what."',
+        'Open Google Calendar, tap the "+", and add each appointment. Your phone will remind you on its own. On iPhone, the built-in Calendar app works the same way.',
       ],
     },
     {
-      titre: 'Snap a photo of a problem and ask what it is',
-      resume: 'Take a photo of the thing and ask: "What is this, and what do I do with it?"',
+      titre: 'Clean up your overflowing inbox',
+      resume: 'Unsubscribe, archive in bulk, and let a rule file your bills on its own.',
       geste: [
-        'The move: take a photo of the thing. Open ChatGPT or Claude, tap the little "+" or the paper clip, add the photo, and type: "What is this, and what do I do with it?"',
+        'One: open an ad you never read and tap "Unsubscribe". Do five.',
+        "Two: in Gmail's search bar, type the name of a store that sends you too many ads, select them all and archive. Archiving isn't deleting.",
+        'Three: a filter that puts your bills in a "Bills" folder, on its own. It\'s easier on a computer. If you get stuck, ask Claude or ChatGPT: "How do I make a Gmail filter for my bills?"',
       ],
     },
     {
-      titre: "Rewrite a message you're scared to send",
-      resume: 'Have your draft rewritten "polite but direct", change a word or two, and send it.',
+      titre: 'Your phone reads for you',
+      resume: 'Snap a letter, a bill or a label: the AI explains in plain words what to do.',
       geste: [
-        'The move: write your draft however it comes out, messy is fine. Paste it into ChatGPT or Claude and type at the top: "Make this polite but direct, not too long."',
+        'The move: open ChatGPT or Claude, tap the little "+" or the paper clip, take a photo of the page, and type: "Explain this in plain words. What do I need to do, and by when?"',
+        'If it\'s in another language, add: "Translate it into English."',
+        'Cover your social insurance or account number with your thumb before the photo. For pills, it doesn\'t replace your pharmacist.',
       ],
     },
     {
-      titre: 'Turn on automatic photo backup',
-      resume: 'Turn on automatic backup for your photos, once, for good.',
+      titre: 'The conversation',
+      resume: 'Talk to the AI out loud, like a patient friend, about anything.',
       geste: [
-        'The move: turn on automatic backup for your photos.',
-        'On iPhone: Settings, your name at the top, iCloud, Photos, turn on "Sync this iPhone".',
-        'On Android: open the Google Photos app, your profile picture at the top right, "Backup", turn it on.',
+        'The move: open ChatGPT or Claude and tap the voice mode button, to the right of where you type (little bars or a microphone). Then just talk.',
+        'Anything: a health question, your mom\'s recipe, a news story you didn\'t get, a memory. Interrupt it whenever you want, it won\'t judge you.',
       ],
     },
   ],
@@ -213,9 +226,8 @@ export function textes(locale: Locale) {
     },
     jours: {
       titre: fr ? 'Les 5 jours' : 'The 5 days',
-      // Les 5 gestes APPROUVÉS par Patrick le 6 nov. 2026 :
-      // NEXUS-Bridge/assets/pat-lap/5-JOURS-5-GESTES-APPROUVES-2026-11-06.md.
-      // Titre = le « ## Jour N : … » du fichier ; résumé tiré du geste.
+      // Les 5 gestes V2 (PROPOSITION du 6 nov. 2026) :
+      // NEXUS-Bridge/assets/pat-lap/5-JOURS-5-GESTES-V2-2026-11-06.md.
       liste: GESTES[locale].map(({ titre, resume }) => ({ titre, resume })),
       libelleJour: (n: number) => (fr ? `Jour ${n}` : `Day ${n}`),
     },
