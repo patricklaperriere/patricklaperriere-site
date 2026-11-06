@@ -15,7 +15,7 @@
     "astro": "astro",
     "contrast": "node scripts/check-contrast.mjs",
     "measure": "node scripts/measure-site.mjs",
-    "test": "node --test tests/"
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
