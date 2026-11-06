@@ -58,9 +58,8 @@ export function dateSoireeEn(iso = SOIREE.debut) {
  *  `pret: false` tant que le fichier n'est pas dans public/pat-lap/ :
  *  la page garde alors le placeholder visible. */
 export const PHOTOS = {
-  portrait: { src: '/pat-lap/pat.jpg', largeur: 1200, hauteur: 1500, pret: false },
-  // Optionnelle : ambiance derrière le bloc « C'est qui, Pat ? ».
-  lac: { src: '/pat-lap/lac-simon.jpg', largeur: 1920, hauteur: 1080, pret: false, alt: 'Le lac Simon, en Outaouais', altEn: 'Lac Simon, in the Outaouais' },
+  // Règle de Patrick (6 nov. 16 h 54) : aucune mention de lieu, nulle part.
+  portrait: { src: '/pat-lap/pat.jpg', largeur: 1200, hauteur: 1500, pret: false, alt: 'Patrick, téléphone à la main', altEn: 'Patrick, phone in hand' },
 };
 
 export const PATLAP_ROUTES = {
@@ -223,10 +222,9 @@ export function textes(locale: Locale) {
     pat: {
       titre: fr ? "C'est qui, Pat ?" : "Who's Pat?",
       texte: fr
-        ? "Je m'appelle Patrick, je vis au lac Simon, en Outaouais. Je bâtis des sites web et des logiciels pour des entreprises d'ici, et je passe mes journées avec des outils d'intelligence artificielle. Le soir, c'est ma mère ou un oncle qui m'appelle parce que « le téléphone fait quelque chose de bizarre ». J'ai fini par comprendre une affaire : ce n'est pas que c'est compliqué, c'est que personne ne prend 5 minutes pour montrer. La technologie pour tous, c'est ces 5 minutes-là, sans jugement, en français, de mon téléphone au tien."
-        : 'My name is Patrick, and I live on Lac Simon, in the Outaouais region of Quebec. I build websites and software for local businesses, and I spend my days working with artificial intelligence tools. In the evening, it\'s my mom or an uncle calling because "the phone is doing something weird." I finally figured something out: it\'s not that it\'s complicated, it\'s that nobody takes 5 minutes to show you. Tech for everyone is those 5 minutes, no judgment, from my phone to yours.',
-      photo: t(fr ? 'photo de Patrick (quai, lac Simon)' : 'photo of Patrick'),
-      photoAlt: fr ? 'Patrick, au lac Simon' : 'Patrick, at Lac Simon',
+        ? "Je m'appelle Patrick. Je bâtis des sites web et des logiciels pour des entreprises d'ici, et je passe mes journées avec des outils d'intelligence artificielle. Le soir, c'est ma mère ou un oncle qui m'appelle parce que « le téléphone fait quelque chose de bizarre ». J'ai fini par comprendre une affaire : ce n'est pas que c'est compliqué, c'est que personne ne prend 5 minutes pour montrer. La technologie pour tous, c'est ces 5 minutes-là, sans jugement, en français, de mon téléphone au tien."
+        : 'My name is Patrick. I build websites and software for local businesses, and I spend my days working with artificial intelligence tools. In the evening, it\'s my mom or an uncle calling because "the phone is doing something weird." I finally figured something out: it\'s not that it\'s complicated, it\'s that nobody takes 5 minutes to show you. Tech for everyone is those 5 minutes, no judgment, from my phone to yours.',
+      photo: t(fr ? 'photo de Patrick' : 'photo of Patrick'),
       lienPro: fr ? 'Mon travail de développeur web' : 'My web developer work',
     },
     soiree: {

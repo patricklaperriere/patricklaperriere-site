@@ -89,11 +89,10 @@ const apps = ['ChatGPT · Claude', 'Gmail → Claude', fr ? 'Photo → ChatGPT' 
   </div>
 </section>
 
-<section class:list={['pl-section', { 'pl-avec-lac': PHOTOS.lac.pret }]} id="pat" style={PHOTOS.lac.pret ? `--pl-lac:url(${PHOTOS.lac.src})` : undefined}>
-  {PHOTOS.lac.pret && <span class="pl-lac" role="img" aria-label={fr ? PHOTOS.lac.alt : PHOTOS.lac.altEn}></span>}
+<section class="pl-section" id="pat">
   <div class="pl-cadre pl-pat">
     {PHOTOS.portrait.pret
-      ? <img class="pl-photo pl-photo-img" src={PHOTOS.portrait.src} width={PHOTOS.portrait.largeur} height={PHOTOS.portrait.hauteur} alt={tx.pat.photoAlt} loading="lazy" decoding="async" />
+      ? <img class="pl-photo pl-photo-img" src={PHOTOS.portrait.src} width={PHOTOS.portrait.largeur} height={PHOTOS.portrait.hauteur} alt={fr ? PHOTOS.portrait.alt : PHOTOS.portrait.altEn} loading="lazy" decoding="async" />
       : <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>}
     <div>
       <h2 class="pl-h2">{tx.pat.titre}</h2>
@@ -213,9 +212,6 @@ const apps = ['ChatGPT · Claude', 'Gmail → Claude', fr ? 'Photo → ChatGPT' 
   @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
   .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
   .pl-photo-img { width: 100%; height: auto; object-fit: cover; padding: 0; }
-  /* Photo d'ambiance du lac (optionnelle) : voilée pour garder le texte lisible. */
-  .pl-avec-lac { position: relative; isolation: isolate; }
-  .pl-lac { position: absolute; inset: 0; z-index: -1; background: linear-gradient(rgba(244, 239, 230, .88), rgba(244, 239, 230, .88)), var(--pl-lac) center / cover no-repeat; }
   .pl-soiree { background: var(--pl-nuit); color: #fff; padding: 3rem 0; margin-top: 1.5rem; }
   .pl-soiree .pl-h2 { color: #fff; }
   .pl-soiree-format { font-weight: 700; font-size: 1.1rem; }
