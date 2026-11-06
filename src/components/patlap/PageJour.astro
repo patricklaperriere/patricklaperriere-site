@@ -1,0 +1,30 @@
+---
+// Une page de parcours « jour N » : la vidéo en haut, le geste dessous, rien
+// d'autre (passation, section 4). Cachée : jamais dans un menu, noindex,
+// accessible seulement par le lien du courriel du jour.
+import Texte from './Texte.astro';
+import type { Locale } from '../../i18n/routes';
+import { LIENS, textes } from '../../data/patlap';
+
+interface Props { locale: Locale; n: number; }
+const { locale, n } = Astro.props;
+const tx = textes(locale);
+const id = LIENS.youtube[n] || '';
+---
+<section class="pl-section">
+  <div class="pl-cadre pl-jour-cadre">
+    <h1 class="pl-h2">{tx.pageJour.titre(n)}</h1>
+    <div class="pl-video">
+      {id
+        ? <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`} title={tx.pageJour.titre(n)} loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+        : <Texte s={tx.pageJour.video} />}
+    </div>
+    <p class="pl-geste"><Texte s={tx.pageJour.geste(n)} /></p>
+  </div>
+</section>
+<style>
+  .pl-jour-cadre { max-width: 48rem; }
+  .pl-video { aspect-ratio: 16 / 9; border-radius: 1rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; overflow: hidden; }
+  .pl-video iframe { width: 100%; height: 100%; border: 0; }
+  .pl-geste { font-size: 1.2rem; margin-top: 1.5rem; }
+</style>

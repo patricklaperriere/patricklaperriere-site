@@ -1,0 +1,28 @@
+---
+// La page Soirée : le bouton de paiement 49 $. Cachée (lien du courriel du
+// jour 5), noindex. Le lien Stripe reste vide tant que le compte Stripe au nom
+// de Patrick n'existe pas (décision ouverte n° 6) : le bouton est alors
+// désactivé et le placeholder dit ce qui manque.
+import Texte from './Texte.astro';
+import type { Locale } from '../../i18n/routes';
+import { LIENS, textes } from '../../data/patlap';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const tx = textes(locale);
+---
+<section class="pl-section">
+  <div class="pl-cadre pl-jour-cadre">
+    <h1 class="pl-h2">{tx.soiree.titre}</h1>
+    <p class="pl-soiree-format">{tx.soiree.format} · {tx.soiree.prix}</p>
+    <p><Texte s={tx.soiree.date} /></p>
+    <p><Texte s={tx.soiree.texte} /></p>
+    {LIENS.stripeSoiree
+      ? <a class="pl-bouton" href={LIENS.stripeSoiree} rel="noopener">{tx.soiree.boutonPaiement}</a>
+      : <p><span class="pl-bouton" aria-disabled="true">{tx.soiree.boutonPaiement}</span> <Texte s={tx.soiree.paiementAVenir} /></p>}
+  </div>
+</section>
+<style>
+  .pl-jour-cadre { max-width: 48rem; }
+  .pl-soiree-format { font-weight: 700; font-size: 1.1rem; }
+</style>

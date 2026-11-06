@@ -1,0 +1,16 @@
+---
+import PatLapLayout from '../../../layouts/PatLapLayout.astro';
+import PageJour from '../../../components/patlap/PageJour.astro';
+import { PATLAP_ROUTES, textes } from '../../../data/patlap';
+
+export function getStaticPaths() {
+  return [1, 2, 3, 4, 5].map((n) => ({ params: { day: 'day-' + n }, props: { n } }));
+}
+const { n } = Astro.props;
+const locale = 'en';
+const tx = textes(locale);
+---
+<PatLapLayout cachee title={`${tx.pageJour.titre(n)} | ${tx.titrePage}`} description={tx.titrePage} locale={locale}
+  alternates={{ fr: PATLAP_ROUTES.fr.jour(n), en: PATLAP_ROUTES.en.jour(n) }} path={PATLAP_ROUTES[locale].jour(n)}>
+  <PageJour locale={locale} n={n} />
+</PatLapLayout>

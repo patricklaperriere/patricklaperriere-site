@@ -1,0 +1,11 @@
+---
+import PatLapLayout from '../../../layouts/PatLapLayout.astro';
+import PageProgramme from '../../../components/patlap/PageProgramme.astro';
+import { PATLAP_ROUTES, textes } from '../../../data/patlap';
+const locale = 'en';
+const tx = textes(locale);
+---
+<PatLapLayout title={`${tx.titrePage} | Pat Lap`} description={tx.seoDescription} locale={locale}
+  alternates={{ fr: PATLAP_ROUTES.fr.page, en: PATLAP_ROUTES.en.page }} path={PATLAP_ROUTES[locale].page}>
+  <PageProgramme locale={locale} />
+</PatLapLayout>

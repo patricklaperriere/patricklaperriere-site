@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import { existsSync, readFileSync } from 'node:fs';
 import { metricsDigest } from './scripts/metrics-digest.mjs';
 import { typoFaults } from './src/lib/typography.mjs';
+import { BROUILLON as PATLAP_BROUILLON } from './src/data/patlap.ts';
 
 // The sitemap mirrors each page's own <head> instead of guessing: hreflang
 // pairs come from the page's <link rel="alternate" hreflang> tags (FR and EN
@@ -157,7 +158,10 @@ export default defineConfig({
     sitemap({
       serialize,
       // The 404 is noindex; drafts never reach a build in the first place.
-      filter: (page) => !page.endsWith('/404'),
+      // Pat Lap (« La technologie pour tous ») reste hors du sitemap tant que
+      // ses textes sont des placeholders (src/data/patlap.ts, BROUILLON).
+      filter: (page) => !page.endsWith('/404')
+        && !(PATLAP_BROUILLON && /\/(la-technologie-pour-tous|en\/tech-for-everyone)(\/|$)/.test(page)),
     }),
   ],
 });

@@ -14,7 +14,8 @@
     "check": "node scripts/check-prix.mjs",
     "astro": "astro",
     "contrast": "node scripts/check-contrast.mjs",
-    "measure": "node scripts/measure-site.mjs"
+    "measure": "node scripts/measure-site.mjs",
+    "test": "node --test tests/"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",

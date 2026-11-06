@@ -1,0 +1,11 @@
+---
+import PatLapLayout from '../../../layouts/PatLapLayout.astro';
+import PageSoiree from '../../../components/patlap/PageSoiree.astro';
+import { PATLAP_ROUTES, textes } from '../../../data/patlap';
+const locale = 'en';
+const tx = textes(locale);
+---
+<PatLapLayout cachee title={`${tx.soiree.titre} | ${tx.titrePage}`} description={tx.titrePage} locale={locale}
+  alternates={{ fr: PATLAP_ROUTES.fr.soiree, en: PATLAP_ROUTES.en.soiree }} path={PATLAP_ROUTES[locale].soiree}>
+  <PageSoiree locale={locale} />
+</PatLapLayout>

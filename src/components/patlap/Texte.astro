@@ -1,0 +1,7 @@
+---
+// Un texte de Pat Lap : affiché tel quel, ou en jaune s'il reste à confirmer.
+import { estPlaceholder } from '../../data/patlap';
+interface Props { s: string; }
+const { s } = Astro.props;
+---
+{estPlaceholder(s) ? <span class="pl-tbc">{s}</span> : s}

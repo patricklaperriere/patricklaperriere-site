@@ -1,0 +1,160 @@
+---
+// La page « La technologie pour tous », FR et EN, dans l'ordre du croquis du
+// 4 nov. (passation, section 4) : hero et formulaire, comment ça marche, les
+// 5 jours, C'est qui Pat, la Soirée.
+import Texte from './Texte.astro';
+import type { Locale } from '../../i18n/routes';
+import { LIENS, PATLAP_ROUTES, textes } from '../../data/patlap';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const tx = textes(locale);
+const r = PATLAP_ROUTES[locale];
+const fr = locale === 'fr';
+---
+
+<section class="pl-hero" id="inscription">
+  <div class="pl-cadre pl-hero-in">
+    <div>
+      <p class="pl-badge"><Texte s={tx.hero.badge} /></p>
+      <h1 class="pl-h1">{tx.hero.accroche.startsWith('[') ? <Texte s={tx.hero.accroche} /> : tx.hero.accroche}</h1>
+      <p class="pl-note"><Texte s={tx.hero.accrocheAConfirmer} /></p>
+      <p class="pl-lead"><Texte s={tx.hero.texte} /></p>
+    </div>
+    <form class="pl-form" data-pl-inscription data-langue={locale} novalidate>
+      <label class="pl-champ">
+        <span>{tx.formulaire.prenom}</span>
+        <input name="prenom" type="text" autocomplete="given-name" required maxlength="60" />
+      </label>
+      <label class="pl-champ">
+        <span>{tx.formulaire.courriel}</span>
+        <input name="courriel" type="email" autocomplete="email" inputmode="email" required maxlength="254" />
+      </label>
+      {/* Anti-robots : un champ invisible qu'un humain ne remplit jamais. */}
+      <label class="pl-pot" aria-hidden="true">
+        <span>Site web</span><input name="site" type="text" tabindex="-1" autocomplete="off" />
+      </label>
+      <label class="pl-consent">
+        <input name="consentement" type="checkbox" required />
+        <span><Texte s={tx.formulaire.consentement} /> <a href={r.confidentialite}>{tx.formulaire.lienConfidentialite}</a></span>
+      </label>
+      <button class="pl-bouton" type="submit" data-envoi={tx.formulaire.envoi}>{tx.formulaire.bouton}</button>
+      <p class="pl-etat" role="status" aria-live="polite" hidden
+        data-merci={tx.formulaire.merci} data-erreur={tx.formulaire.erreur}
+        data-fermee={tx.formulaire.fermee} data-requis={tx.formulaire.champsRequis}></p>
+    </form>
+  </div>
+</section>
+
+<section class="pl-section">
+  <div class="pl-cadre">
+    <h2 class="pl-h2"><Texte s={tx.commentCaMarche.titre} /></h2>
+    <ol class="pl-trois">
+      {tx.commentCaMarche.points.map((p, i) => (
+        <li><span class="pl-num">{i + 1}</span><Texte s={p} /></li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="pl-section" id="jours">
+  <div class="pl-cadre">
+    <h2 class="pl-h2">{tx.jours.titre}</h2>
+    <ol class="pl-jours">
+      {tx.jours.liste.map((g, i) => (
+        <li><span class="pl-jour">{tx.jours.libelleJour(i + 1)}</span><Texte s={g} /></li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<section class="pl-section" id="pat">
+  <div class="pl-cadre pl-pat">
+    <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>
+    <div>
+      <h2 class="pl-h2">{tx.pat.titre}</h2>
+      <p><Texte s={tx.pat.texte} /></p>
+      {/* Le seul pont vers la vitrine pro (passation, section 4). */}
+      <p><a href={fr ? '/a-propos' : '/en/about'}>{tx.pat.lienPro}</a></p>
+    </div>
+  </div>
+</section>
+
+<section class="pl-soiree" id="soiree">
+  <div class="pl-cadre">
+    <h2 class="pl-h2">{tx.soiree.titre}</h2>
+    <p class="pl-soiree-format">{tx.soiree.format} · {tx.soiree.prix}</p>
+    <p><Texte s={tx.soiree.date} /></p>
+    <p><Texte s={tx.soiree.texte} /></p>
+    <a class="pl-bouton pl-bouton-clair" href={r.soiree}>{tx.soiree.bouton}</a>
+  </div>
+</section>
+
+<script>
+  import { validerInscription } from '../../lib/patlapInscription.mjs';
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-pl-inscription]')) {
+    const etat = form.querySelector<HTMLElement>('.pl-etat')!;
+    const bouton = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const dire = (cle: string) => { etat.textContent = etat.dataset[cle] || ''; etat.hidden = false; };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const d = new FormData(form);
+      const donnees = {
+        prenom: String(d.get('prenom') || ''),
+        courriel: String(d.get('courriel') || ''),
+        consentement: d.get('consentement') === 'on',
+        site: String(d.get('site') || ''),
+        langue: form.dataset.langue,
+      };
+      if (!validerInscription(donnees).ok) return dire('requis');
+      const libelle = bouton.textContent;
+      bouton.disabled = true;
+      bouton.textContent = bouton.dataset.envoi || libelle;
+      try {
+        const rep = await fetch('/api/inscription', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(donnees) });
+        if (rep.ok) { form.reset(); dire('merci'); }
+        else if (rep.status === 503) dire('fermee');
+        else dire('erreur');
+      } catch {
+        dire('erreur');
+      } finally {
+        bouton.disabled = false;
+        bouton.textContent = libelle;
+      }
+    });
+  }
+</script>
+
+<style>
+  .pl-hero { padding: 3rem 0 2.5rem; }
+  .pl-hero-in { display: grid; gap: 2rem; align-items: start; }
+  @media (min-width: 900px) { .pl-hero-in { grid-template-columns: 1.15fr 1fr; gap: 3rem; padding-top: 1.5rem; } }
+  .pl-badge { display: inline-block; margin: 0 0 1rem; padding: .3rem .8rem; border-radius: 999px; background: rgba(31, 95, 73, .12); color: var(--pl-vert); font-weight: 700; font-size: .9rem; }
+  .pl-h1 { margin: 0 0 .75rem; font-weight: 800; font-size: clamp(2rem, 6vw, 3.25rem); line-height: 1.08; letter-spacing: -.01em; }
+  .pl-note { margin: 0 0 1rem; font-size: .9rem; }
+  .pl-lead { margin: 0; font-size: 1.15rem; color: var(--pl-gris); }
+  .pl-form { display: grid; gap: 1rem; background: #fff; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 10px 30px rgba(28, 42, 34, .08); }
+  .pl-champ { display: grid; gap: .35rem; font-weight: 600; font-size: .95rem; }
+  .pl-champ input { font: inherit; font-weight: 400; min-height: 3rem; padding: .6rem .9rem; border: 1px solid #C9C2B5; border-radius: .75rem; background: #fff; color: var(--pl-texte); width: 100%; }
+  .pl-consent { display: grid; grid-template-columns: auto 1fr; gap: .6rem; font-size: .9rem; color: var(--pl-gris); align-items: start; }
+  .pl-consent input { width: 1.25rem; height: 1.25rem; margin-top: .15rem; accent-color: var(--pl-vert); }
+  .pl-pot { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .pl-etat { margin: 0; font-weight: 600; }
+  .pl-section { padding: 2.5rem 0; }
+  .pl-h2 { margin: 0 0 1.25rem; font-weight: 800; font-size: clamp(1.5rem, 4vw, 2.25rem); line-height: 1.15; }
+  .pl-trois { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
+  @media (min-width: 768px) { .pl-trois { grid-template-columns: repeat(3, 1fr); } }
+  .pl-trois li { background: #fff; border-radius: 1rem; padding: 1.25rem; display: grid; gap: .5rem; }
+  .pl-num { display: inline-flex; width: 2rem; height: 2rem; border-radius: 999px; align-items: center; justify-content: center; background: var(--pl-vert); color: #fff; font-weight: 800; }
+  .pl-jours { list-style: none; margin: 0; padding: 0; display: grid; gap: .75rem; }
+  .pl-jours li { display: grid; grid-template-columns: 5rem 1fr; gap: 1rem; align-items: baseline; padding: 1rem 0; border-bottom: 1px solid rgba(28, 42, 34, .1); }
+  .pl-jour { font-weight: 800; color: var(--pl-vert); }
+  .pl-pat { display: grid; gap: 1.5rem; align-items: center; }
+  @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
+  .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
+  .pl-soiree { background: var(--pl-vert); color: #fff; padding: 3rem 0; margin-top: 1.5rem; }
+  .pl-soiree .pl-h2 { color: #fff; }
+  .pl-soiree-format { font-weight: 700; font-size: 1.1rem; }
+  .pl-soiree a.pl-bouton-clair { background: #fff; color: var(--pl-vert) !important; margin-top: .5rem; }
+  .pl-soiree a.pl-bouton-clair:hover { background: var(--pl-sable); }
+</style>
