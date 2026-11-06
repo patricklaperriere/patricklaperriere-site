@@ -200,7 +200,7 @@ export function textes(locale: Locale) {
       accrocheAConfirmer: '',
       texte: fr
         ? 'Pas de jargon, pas de cours de trois heures. Chaque matin pendant 5 jours, un courriel, une capsule de 60 secondes et un petit geste à faire.'
-        : 'No jargon, no three-hour class. Every morning for 5 days: one email, one 60-second clip and one small thing to try.',
+        : 'No jargon, no three-hour class. Every morning for 5 days: one email, one 60-second clip and one small thing to try, on your phone or your computer, whichever you prefer.',
       // Règle de Patrick (6 nov. 17 h 05) : on n'impose jamais un appareil.
       appareil: fr ? 'Sur ton téléphone ou ton ordi, comme tu veux.' : 'On your phone or your computer, your choice.',
     },
@@ -248,7 +248,7 @@ export function textes(locale: Locale) {
       format: fr ? 'En direct sur Zoom, 90 minutes' : 'Live on Zoom, 90 minutes',
       prix: fr ? '49 $' : '$49',
       date: fr ? dateSoireeFr() : dateSoireeEn(),
-      // « places limitées » retiré : interdit par la passation (section « Interdit
+      // Aucune mention de rareté (interdit par la passation, section « Interdit
       // dans tout contenu »). Voir le rendu PAT-LAP-4.
       texte: fr
         ? "La Soirée avec Patrick, c'est 90 minutes en direct sur Zoom, en petit groupe. Tu arrives avec ton téléphone ou ton ordi, et tes vraies questions, tu repars avec des choses qui marchent : tes photos rangées, tes courriels écrits en deux minutes, l'IA qui te répond comme un ami patient. 49 $, enregistrement envoyé après."
