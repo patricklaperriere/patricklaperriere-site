@@ -72,7 +72,7 @@ const fr = locale === 'fr';
 </section>
 
 <section class:list={['pl-section', { 'pl-avec-lac': PHOTOS.lac.pret }]} id="pat" style={PHOTOS.lac.pret ? `--pl-lac:url(${PHOTOS.lac.src})` : undefined}>
-  {PHOTOS.lac.pret && <span class="pl-lac" role="img" aria-label={PHOTOS.lac.alt}></span>}
+  {PHOTOS.lac.pret && <span class="pl-lac" role="img" aria-label={fr ? PHOTOS.lac.alt : PHOTOS.lac.altEn}></span>}
   <div class="pl-cadre pl-pat">
     {PHOTOS.portrait.pret
       ? <img class="pl-photo pl-photo-img" src={PHOTOS.portrait.src} width={PHOTOS.portrait.largeur} height={PHOTOS.portrait.hauteur} alt={tx.pat.photoAlt} loading="lazy" decoding="async" />

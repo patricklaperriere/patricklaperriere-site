@@ -41,13 +41,26 @@ export function dateSoireeFr(iso = SOIREE.debut) {
   return `${jour} ${parts.day} ${parts.month}, ${heure}`;
 }
 
+/** « Thursday, December 3, 7 p.m. ET », depuis la même constante SOIREE.debut. */
+export function dateSoireeEn(iso = SOIREE.debut) {
+  const d = new Date(iso);
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', weekday: 'long', day: 'numeric', month: 'long', hour: 'numeric', minute: '2-digit', hourCycle: 'h12' })
+      .formatToParts(d).map((x) => [x.type, x.value]),
+  );
+  const h = Number(parts.hour);
+  const pm = Number(new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Toronto', hour: 'numeric', hourCycle: 'h23' }).format(d)) >= 12;
+  const heure = parts.minute === '00' ? `${h}` : `${h}:${parts.minute}`;
+  return `${parts.weekday}, ${parts.month} ${parts.day}, ${heure} ${pm ? 'p.m.' : 'a.m.'} ET`;
+}
+
 /** Photos de Patrick (fournies dans NEXUS-Bridge/assets/pat-lap/photos/).
  *  `pret: false` tant que le fichier n'est pas dans public/pat-lap/ :
  *  la page garde alors le placeholder visible. */
 export const PHOTOS = {
   portrait: { src: '/pat-lap/pat.jpg', largeur: 1200, hauteur: 1500, pret: false },
   // Optionnelle : ambiance derrière le bloc « C'est qui, Pat ? ».
-  lac: { src: '/pat-lap/lac-simon.jpg', largeur: 1920, hauteur: 1080, pret: false, alt: 'Le lac Simon, en Outaouais' },
+  lac: { src: '/pat-lap/lac-simon.jpg', largeur: 1920, hauteur: 1080, pret: false, alt: 'Le lac Simon, en Outaouais', altEn: 'Lac Simon, in the Outaouais' },
 };
 
 export const PATLAP_ROUTES = {
@@ -155,25 +168,25 @@ export function textes(locale: Locale) {
     // Décidée par le chat NEXUS (délégation de Patrick, 6 nov. 16 h 28), 139 caractères.
     seoDescription: fr
       ? "5 jours, 5 gestes simples pour apprivoiser l'IA sur ton téléphone. Un courriel par matin, une capsule de 60 secondes, zéro jargon. Gratuit."
-      : t('Google description (155 characters)'),
+      : '5 days, 5 simple moves to get comfortable with AI on your phone. One email a morning, a 60-second clip, zero jargon. Free.',
     nav: {
       marque: 'Pat Lap',
       sousTitre: fr ? 'La technologie pour tous' : 'Tech for everyone',
       jours: fr ? 'Les 5 jours' : 'The 5 days',
       soiree: fr ? 'La Soirée' : 'The Evening',
-      quiPat: fr ? "C'est qui Pat ?" : 'Who is Pat?',
+      quiPat: fr ? "C'est qui Pat ?" : "Who's Pat?",
       inscription: fr ? "Je m'inscris" : 'Sign me up',
       autreLangue: fr ? 'EN' : 'FR',
       autreLangueLabel: fr ? 'English' : 'Français',
     },
     hero: {
-      badge: fr ? 'Gratuit, pas de carte' : t('badge « Gratuit, pas de carte » en anglais'),
+      badge: fr ? 'Gratuit, pas de carte' : 'Free, no credit card',
       // Accroche de la passation (section 4), gardée le 6 nov. (PAT-LAP-4).
-      accroche: fr ? 'Ton téléphone sait faire plus que tu penses. Je te montre, 5 minutes par jour.' : t('accroche'),
-      accrocheAConfirmer: fr ? '' : t('hero headline'),
+      accroche: fr ? 'Ton téléphone sait faire plus que tu penses. Je te montre, 5 minutes par jour.' : "Your phone can do more than you think. I'll show you, 5 minutes a day.",
+      accrocheAConfirmer: '',
       texte: fr
         ? 'Pas de jargon, pas de cours de trois heures. Chaque matin pendant 5 jours, un courriel, une capsule de 60 secondes et un petit geste à faire sur ton propre téléphone.'
-        : t('text under the headline (2 sentences)'),
+        : 'No jargon, no three-hour class. Every morning for 5 days: one email, one 60-second clip and one small thing to try on your own phone.',
     },
     formulaire: {
       prenom: fr ? 'Prénom' : 'First name',
@@ -208,24 +221,24 @@ export function textes(locale: Locale) {
       libelleJour: (n: number) => (fr ? `Jour ${n}` : `Day ${n}`),
     },
     pat: {
-      titre: fr ? "C'est qui, Pat ?" : 'Who is Pat?',
+      titre: fr ? "C'est qui, Pat ?" : "Who's Pat?",
       texte: fr
         ? "Je m'appelle Patrick, je vis au lac Simon, en Outaouais. Je bâtis des sites web et des logiciels pour des entreprises d'ici, et je passe mes journées avec des outils d'intelligence artificielle. Le soir, c'est ma mère ou un oncle qui m'appelle parce que « le téléphone fait quelque chose de bizarre ». J'ai fini par comprendre une affaire : ce n'est pas que c'est compliqué, c'est que personne ne prend 5 minutes pour montrer. La technologie pour tous, c'est ces 5 minutes-là, sans jugement, en français, de mon téléphone au tien."
-        : t('"Who is Pat?" text'),
+        : 'My name is Patrick, and I live on Lac Simon, in the Outaouais region of Quebec. I build websites and software for local businesses, and I spend my days working with artificial intelligence tools. In the evening, it\'s my mom or an uncle calling because "the phone is doing something weird." I finally figured something out: it\'s not that it\'s complicated, it\'s that nobody takes 5 minutes to show you. Tech for everyone is those 5 minutes, no judgment, from my phone to yours.',
       photo: t(fr ? 'photo de Patrick (quai, lac Simon)' : 'photo of Patrick'),
       photoAlt: fr ? 'Patrick, au lac Simon' : 'Patrick, at Lac Simon',
       lienPro: fr ? 'Mon travail de développeur web' : 'My web developer work',
     },
     soiree: {
-      titre: fr ? 'Soirée avec Patrick' : 'Evening with Patrick',
+      titre: fr ? 'Soirée avec Patrick' : 'An evening with Patrick',
       format: fr ? 'En direct sur Zoom, 90 minutes' : 'Live on Zoom, 90 minutes',
       prix: fr ? '49 $' : '$49',
-      date: fr ? dateSoireeFr() : t('date of the first Evening'),
+      date: fr ? dateSoireeFr() : dateSoireeEn(),
       // « places limitées » retiré : interdit par la passation (section « Interdit
       // dans tout contenu »). Voir le rendu PAT-LAP-4.
       texte: fr
         ? "La Soirée avec Patrick, c'est 90 minutes en direct sur Zoom, en petit groupe. Tu arrives avec ton téléphone et tes vraies questions, tu repars avec des choses qui marchent : tes photos rangées, tes courriels écrits en deux minutes, l'IA qui te répond comme un ami patient. 49 $, enregistrement envoyé après."
-        : t('Evening block text'),
+        : 'An evening with Patrick is 90 minutes live on Zoom, in a small group. Bring your phone and your real questions, and leave with things that work: your photos sorted, your emails written in two minutes, an AI that answers you like a patient friend. $49, recording sent afterwards.',
       bouton: fr ? 'Réserver ma place' : 'Save my seat',
       boutonPaiement: fr ? 'Payer 49 $' : 'Pay $49',
       paiementAVenir: t(fr ? 'lien de paiement Stripe (compte à son nom)' : 'Stripe payment link'),
