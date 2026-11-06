@@ -83,7 +83,7 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       titre: 'Ton courriel, écrit pour toi',
       resume: "Tu dictes à l'IA ce que tu veux dire, elle écrit ton courriel, tu l'envoies de Gmail.",
       geste: [
-        'Le geste : tu ouvres ChatGPT ou Claude sur ton téléphone (les deux sont gratuits), tu pèses sur le petit micro pis tu parles, tout croche, pas grave.',
+        'Le geste : tu ouvres ChatGPT ou Claude, sur ton téléphone ou ton ordi, comme tu veux (les deux sont gratuits), tu pèses sur le petit micro pis tu parles, tout croche, pas grave.',
         'Mon exemple : « Écris un courriel à mon garagiste. Je veux savoir si mon char est prêt pis combien ça va coûter. Poli, court. »',
         'Tu lis ce qu\'il te propose, tu changes un mot si tu veux. Après, tu le copies, tu ouvres Gmail, tu colles pis tu envoies.',
       ],
@@ -92,16 +92,16 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       titre: 'Ta semaine, rentrée dans ton agenda',
       resume: "Tu dictes ta semaine à l'IA, elle sort tes rendez-vous propres, tu les rentres dans Google Agenda.",
       geste: [
-        'Le geste : tu ouvres ChatGPT ou Claude, tu pèses sur le micro pis tu dictes ta semaine comme elle te vient.',
+        'Le geste : tu ouvres ChatGPT ou Claude, sur ton téléphone ou ton ordi, comme tu veux, tu pèses sur le micro pis tu dictes ta semaine comme elle te vient.',
         'Mon exemple : « Mardi, dentiste à 10 h. Jeudi, souper chez ma sœur à 18 h. Vendredi, appeler l\'assurance. Fais-moi une liste propre avec le jour, l\'heure pis quoi. »',
-        'Tu ouvres Google Agenda, tu pèses sur le « + », pis tu rentres chaque rendez-vous. Ton téléphone va te le rappeler tout seul. Sur iPhone, l\'app Calendrier marche pareil.',
+        'Tu ouvres Google Agenda, tu pèses sur le « + », pis tu rentres chaque rendez-vous. Google Agenda va te le rappeler tout seul. Sur iPhone, l\'app Calendrier marche pareil.',
       ],
     },
     {
       titre: 'Le ménage de ta boîte pleine',
       resume: 'Tu te désabonnes, tu archives en masse, pis une règle classe tes factures toute seule.',
       geste: [
-        'Un : tu ouvres une pub que tu lis jamais, tu pèses sur « Se désabonner ». Fais-en cinq.',
+        'Sur ton téléphone ou ton ordi, comme tu veux. Un : tu ouvres une pub que tu lis jamais, tu pèses sur « Se désabonner ». Fais-en cinq.',
         'Deux : dans la recherche de Gmail, tu écris le nom d\'un magasin qui t\'envoie trop de pubs, tu les sélectionnes toutes pis tu archives. Archiver, c\'est pas effacer.',
         'Trois : un filtre qui met tes factures dans un dossier « Factures », tout seul. Sur l\'ordi, c\'est plus facile. Si tu bloques, demande à Claude ou ChatGPT : « Comment je fais un filtre dans Gmail pour mes factures ? »',
       ],
@@ -111,6 +111,7 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       resume: "Une lettre, une facture, une étiquette en photo : l'IA t'explique en mots simples quoi faire.",
       geste: [
         'Le geste : tu ouvres ChatGPT ou Claude, tu pèses sur le petit « + » ou le trombone, tu prends la feuille en photo, pis tu écris : « Explique-moi ça en mots simples. Qu\'est-ce que je dois faire, pis avant quand ? »',
+        'Sur l\'ordi, tu prends la photo avec ton téléphone, tu te l\'envoies, pis tu téléverses l\'image avec le même « + ».',
         'Si c\'est dans une autre langue, ajoute : « Traduis en français. »',
         'Cache ton numéro d\'assurance sociale ou de compte avec ton pouce avant la photo. Pour les pilules, ça remplace pas ton pharmacien.',
       ],
@@ -119,7 +120,7 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       titre: 'La discussion',
       resume: "Tu parles à l'IA à voix haute, comme à un ami patient, sur n'importe quoi.",
       geste: [
-        'Le geste : tu ouvres ChatGPT ou Claude, pis tu pèses sur le bouton du mode vocal, à droite de la barre où tu écris (des petites barres ou un micro). Pis tu jases.',
+        'Le geste : tu ouvres ChatGPT ou Claude, sur ton téléphone ou ton ordi, comme tu veux, pis tu pèses sur le bouton du mode vocal, à droite de la barre où tu écris (des petites barres ou un micro). Pis tu jases.',
         'N\'importe quoi : une question de santé, une recette de ta mère, une nouvelle que t\'as pas comprise, un souvenir. Tu la coupes quand tu veux, elle te juge pas.',
       ],
     },
@@ -129,7 +130,7 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       titre: 'Your email, written for you',
       resume: 'Tell the AI what you want to say, it writes your email, you send it from Gmail.',
       geste: [
-        "The move: open ChatGPT or Claude on your phone (both are free), tap the little microphone and talk. Messy is fine.",
+        "The move: open ChatGPT or Claude, on your phone or your computer, your choice (both are free), tap the little microphone and talk. Messy is fine.",
         'My example: "Write an email to my mechanic. I want to know if my car is ready and how much it will cost. Polite, short."',
         'Read what it suggests and change a word if you like. Then copy it, open Gmail, paste and send.',
       ],
@@ -138,16 +139,16 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       titre: 'Your week, in your calendar',
       resume: 'Tell the AI your week, it gives you a clean list, you add it to Google Calendar.',
       geste: [
-        'The move: open ChatGPT or Claude, tap the microphone and say your week the way it comes to you.',
+        'The move: open ChatGPT or Claude, on your phone or your computer, your choice, tap the microphone and say your week the way it comes to you.',
         'My example: "Tuesday, dentist at 10. Thursday, supper at my sister\'s at 6. Friday, call the insurance. Make me a clean list with the day, the time and what."',
-        'Open Google Calendar, tap the "+", and add each appointment. Your phone will remind you on its own. On iPhone, the built-in Calendar app works the same way.',
+        'Open Google Calendar, tap the "+", and add each appointment. Google Calendar will remind you on its own. On iPhone, the built-in Calendar app works the same way.',
       ],
     },
     {
       titre: 'Clean up your overflowing inbox',
       resume: 'Unsubscribe, archive in bulk, and let a rule file your bills on its own.',
       geste: [
-        'One: open an ad you never read and tap "Unsubscribe". Do five.',
+        'On your phone or your computer, your choice. One: open an ad you never read and tap "Unsubscribe". Do five.',
         "Two: in Gmail's search bar, type the name of a store that sends you too many ads, select them all and archive. Archiving isn't deleting.",
         'Three: a filter that puts your bills in a "Bills" folder, on its own. It\'s easier on a computer. If you get stuck, ask Claude or ChatGPT: "How do I make a Gmail filter for my bills?"',
       ],
@@ -157,6 +158,7 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       resume: 'Snap a letter, a bill or a label: the AI explains in plain words what to do.',
       geste: [
         'The move: open ChatGPT or Claude, tap the little "+" or the paper clip, take a photo of the page, and type: "Explain this in plain words. What do I need to do, and by when?"',
+        'On a computer, take the photo with your phone, send it to yourself, and upload the image with the same "+".',
         'If it\'s in another language, add: "Translate it into English."',
         'Cover your social insurance or account number with your thumb before the photo. For pills, it doesn\'t replace your pharmacist.',
       ],
@@ -165,7 +167,7 @@ const GESTES: Record<Locale, { titre: string; resume: string; geste: string[] }[
       titre: 'The conversation',
       resume: 'Talk to the AI out loud, like a patient friend, about anything.',
       geste: [
-        'The move: open ChatGPT or Claude and tap the voice mode button, to the right of where you type (little bars or a microphone). Then just talk.',
+        'The move: open ChatGPT or Claude, on your phone or your computer, your choice, and tap the voice mode button, to the right of where you type (little bars or a microphone). Then just talk.',
         'Anything: a health question, your mom\'s recipe, a news story you didn\'t get, a memory. Interrupt it whenever you want, it won\'t judge you.',
       ],
     },
@@ -197,8 +199,10 @@ export function textes(locale: Locale) {
       accroche: fr ? 'Ton téléphone sait faire plus que tu penses. Je te montre, 5 minutes par jour.' : "Your phone can do more than you think. I'll show you, 5 minutes a day.",
       accrocheAConfirmer: '',
       texte: fr
-        ? 'Pas de jargon, pas de cours de trois heures. Chaque matin pendant 5 jours, un courriel, une capsule de 60 secondes et un petit geste à faire sur ton propre téléphone.'
-        : 'No jargon, no three-hour class. Every morning for 5 days: one email, one 60-second clip and one small thing to try on your own phone.',
+        ? 'Pas de jargon, pas de cours de trois heures. Chaque matin pendant 5 jours, un courriel, une capsule de 60 secondes et un petit geste à faire.'
+        : 'No jargon, no three-hour class. Every morning for 5 days: one email, one 60-second clip and one small thing to try.',
+      // Règle de Patrick (6 nov. 17 h 05) : on n'impose jamais un appareil.
+      appareil: fr ? 'Sur ton téléphone ou ton ordi, comme tu veux.' : 'On your phone or your computer, your choice.',
     },
     formulaire: {
       prenom: fr ? 'Prénom' : 'First name',
@@ -247,8 +251,8 @@ export function textes(locale: Locale) {
       // « places limitées » retiré : interdit par la passation (section « Interdit
       // dans tout contenu »). Voir le rendu PAT-LAP-4.
       texte: fr
-        ? "La Soirée avec Patrick, c'est 90 minutes en direct sur Zoom, en petit groupe. Tu arrives avec ton téléphone et tes vraies questions, tu repars avec des choses qui marchent : tes photos rangées, tes courriels écrits en deux minutes, l'IA qui te répond comme un ami patient. 49 $, enregistrement envoyé après."
-        : 'An evening with Patrick is 90 minutes live on Zoom, in a small group. Bring your phone and your real questions, and leave with things that work: your photos sorted, your emails written in two minutes, an AI that answers you like a patient friend. $49, recording sent afterwards.',
+        ? "La Soirée avec Patrick, c'est 90 minutes en direct sur Zoom, en petit groupe. Tu arrives avec ton téléphone ou ton ordi, et tes vraies questions, tu repars avec des choses qui marchent : tes photos rangées, tes courriels écrits en deux minutes, l'IA qui te répond comme un ami patient. 49 $, enregistrement envoyé après."
+        : 'An evening with Patrick is 90 minutes live on Zoom, in a small group. Bring your phone or your computer and your real questions, and leave with things that work: your photos sorted, your emails written in two minutes, an AI that answers you like a patient friend. $49, recording sent afterwards.',
       bouton: fr ? 'Réserver ma place' : 'Save my seat',
       boutonPaiement: fr ? 'Payer 49 $' : 'Pay $49',
       paiementAVenir: t(fr ? 'lien de paiement Stripe (compte à son nom)' : 'Stripe payment link'),

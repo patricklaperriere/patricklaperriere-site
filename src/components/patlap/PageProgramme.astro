@@ -32,6 +32,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
       <h1 class="pl-h1">{tx.hero.accroche.startsWith('[') ? <Texte s={tx.hero.accroche} /> : tx.hero.accroche}</h1>
       {tx.hero.accrocheAConfirmer && <p class="pl-note"><Texte s={tx.hero.accrocheAConfirmer} /></p>}
       <p class="pl-lead"><Texte s={tx.hero.texte} /></p>
+      <p class="pl-appareil">{tx.hero.appareil}</p>
     </div>
     <form class="pl-form" data-pl-inscription data-langue={locale} novalidate>
       <label class="pl-champ">
@@ -177,6 +178,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
   .pl-h1 { margin: 0 0 .75rem; font-weight: 800; font-size: clamp(2.5rem, 7vw, 4.25rem); line-height: 1; }
   .pl-note { margin: 0 0 1rem; font-size: .9rem; }
   .pl-lead { margin: 0; font-size: 1.15rem; color: var(--pl-gris); }
+  .pl-appareil { margin: .75rem 0 0; font-size: 1.15rem; font-weight: 700; color: var(--pl-texte); }
   .pl-form { display: grid; gap: 1rem; background: #fff; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 10px 30px rgba(48, 10, 36, .08); }
   .pl-champ { display: grid; gap: .35rem; font-weight: 600; font-size: .95rem; }
   .pl-champ input { font: inherit; font-weight: 400; min-height: 3rem; padding: .6rem .9rem; border: 1px solid #C9C2B5; border-radius: .75rem; background: #fff; color: var(--pl-texte); width: 100%; }
