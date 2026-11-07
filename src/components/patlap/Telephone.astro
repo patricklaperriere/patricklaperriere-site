@@ -4,8 +4,11 @@
 // officiel : Anthropic et Google exigent une autorisation écrite préalable,
 // la page de marque d'OpenAI n'a pas pu être lue (PAT-LAP-8, 6 nov.).
 // Le cadre est un <symbol> défini une fois dans PageProgramme (#pl-tel).
-interface Props { n: number; app: string; }
-const { n, app } = Astro.props;
+interface Props { n: number; noms: string[]; }
+const { n, noms } = Astro.props;
+// Les noms, un par ligne, même taille, centrés sous le picto.
+const pas = 22;
+const y0 = noms.length === 1 ? 214 : 200;
 ---
 
 <svg class="pl-tel" viewBox="0 0 160 300" aria-hidden="true" focusable="false">
@@ -18,10 +21,11 @@ const { n, app } = Astro.props;
     {n === 4 && <><path d="M6 22h12l6-8h16l6 8h12v30H6z" /><circle cx="32" cy="36" r="10" /></>}
     {n === 5 && <><rect x="22" y="4" width="20" height="34" rx="10" /><path d="M12 30a20 20 0 0 0 40 0M32 50v8M24 58h16" /></>}
   </g>
-  <text x="80" y="214" text-anchor="middle" class="pl-tel-app">{app}</text>
+  {noms.map((nom, i) => <text x="80" y={y0 + i * pas} text-anchor="middle" class:list={['pl-tel-app', { 'pl-tel-app-liste': noms.length > 1 }]}>{nom}</text>)}
 </svg>
 
 <style>
   .pl-tel { width: 100%; height: auto; display: block; }
   .pl-tel-app { font: 700 17px "Figtree", system-ui, sans-serif; fill: #300A24; }
+  .pl-tel-app-liste { font-size: 15px; }
 </style>

@@ -14,7 +14,10 @@ const r = PATLAP_ROUTES[locale];
 const fr = locale === 'fr';
 // Le nom affiché sur l'écran du téléphone de chaque jour (texte, jamais de logo).
 // Gestes V2 : 1 courriel, 2 agenda, 3 ménage de la boîte, 4 photo lue, 5 vocal.
-const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gmail', 'Photo → Claude', fr ? 'Mode vocal' : 'Voice mode'];
+// Les noms des applis, en texte, à côté de l'icône maison (option A). Aucune
+// IA imposée : ChatGPT, Claude et Gemini à égalité, en ordre alphabétique.
+const ia = ['ChatGPT', 'Claude', 'Gemini'];
+const apps = [[...ia, '+ Gmail'], [...ia, fr ? '+ Google Agenda' : '+ Google Calendar'], ['Gmail'], ia, ia];
 ---
 
 {/* Le cadre du téléphone, défini une fois, réutilisé par les 5 panneaux. */}
@@ -67,6 +70,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
         <li><span class="pl-num">{i + 1}</span><Texte s={p} /></li>
       ))}
     </ol>
+    <p class="pl-ia">{tx.ia}</p>
   </div>
 </section>
 
@@ -84,7 +88,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
             <strong class="pl-jour-titre">{g.titre}</strong>
             <span class="pl-jour-resume">{g.resume}</span>
           </div>
-          <div class="pl-panneau-tel" data-pl-revele><Telephone n={i + 1} app={apps[i]} /></div>
+          <div class="pl-panneau-tel" data-pl-revele><Telephone n={i + 1} noms={apps[i]} /></div>
         </li>
       ))}
     </ol>
@@ -206,6 +210,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
   .pl-trois { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; }
   @media (min-width: 768px) { .pl-trois { grid-template-columns: repeat(3, 1fr); } }
   .pl-trois li { background: #fff; border-radius: 1rem; padding: 1.25rem; display: grid; gap: .5rem; }
+  .pl-ia { margin: 1.25rem 0 0; font-size: 1.1rem; font-weight: 700; }
   .pl-num { display: inline-flex; width: 2rem; height: 2rem; border-radius: 999px; align-items: center; justify-content: center; background: var(--pl-vert); color: #fff; font-weight: 800; }
   .pl-jours { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: 1rem; }
   /* Ombre nette + filet : sur la pile, le bord de chaque carte se lit
