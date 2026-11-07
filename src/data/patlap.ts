@@ -59,7 +59,10 @@ export function dateSoireeEn(iso = SOIREE.debut) {
  *  la page garde alors le placeholder visible. */
 export const PHOTOS = {
   // Règle de Patrick (6 nov. 16 h 54) : aucune mention de lieu, nulle part.
-  portrait: { src: '/pat-lap/pat.jpg', largeur: 1200, hauteur: 1500, pret: false, alt: 'Patrick, téléphone à la main', altEn: 'Patrick, phone in hand' },
+  // Photo fournie par Patrick (6 nov. 19 h 35) : src/assets/pat-lap/patrick-portrait.jpg,
+  // 1080 × 1080, fond blanc. Importée dans PageProgramme (astro:assets), pas
+  // ici : astro.config.mjs lit ce fichier sans le pipeline d'images.
+  portrait: { pret: true, alt: 'Patrick Laperrière, sourire, veston bleu', altEn: 'Patrick Laperrière, smiling, blue blazer' },
 };
 
 export const PATLAP_ROUTES = {

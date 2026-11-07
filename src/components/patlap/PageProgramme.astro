@@ -4,6 +4,8 @@
 // 5 jours, C'est qui Pat, la Soirée.
 import Texte from './Texte.astro';
 import Telephone from './Telephone.astro';
+import { Picture } from 'astro:assets';
+import portrait from '../../assets/pat-lap/patrick-portrait.jpg';
 import type { Locale } from '../../i18n/routes';
 import { LIENS, PATLAP_ROUTES, PHOTOS, textes } from '../../data/patlap';
 
@@ -98,7 +100,13 @@ const apps = [[...ia, '+ Gmail'], [...ia, fr ? '+ Google Agenda' : '+ Google Cal
 <section class="pl-section" id="pat">
   <div class="pl-cadre pl-pat">
     {PHOTOS.portrait.pret
-      ? <img class="pl-photo pl-photo-img" src={PHOTOS.portrait.src} width={PHOTOS.portrait.largeur} height={PHOTOS.portrait.hauteur} alt={fr ? PHOTOS.portrait.alt : PHOTOS.portrait.altEn} loading="lazy" decoding="async" />
+      ? (
+        /* Fond blanc de la photo assumé : carte blanche aux coins arrondis,
+           cerne mauve léger, sur le sable de la section. */
+        <div class="pl-photo pl-photo-cadre">
+          <Picture src={portrait} formats={['webp']} widths={[720, 1080]} sizes="(min-width: 768px) 18rem, 20rem" width={1080} height={1080} alt={fr ? PHOTOS.portrait.alt : PHOTOS.portrait.altEn} loading="lazy" decoding="async" />
+        </div>
+      )
       : import.meta.env.DEV
         ? <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>
         : (
@@ -245,7 +253,8 @@ const apps = [[...ia, '+ Gmail'], [...ia, fr ? '+ Google Agenda' : '+ Google Cal
   .pl-pat { display: grid; gap: 1.5rem; align-items: center; }
   @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
   .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
-  .pl-photo-img { width: 100%; height: auto; object-fit: cover; padding: 0; }
+  .pl-photo-cadre { width: 100%; max-width: 20rem; margin: 0 auto; aspect-ratio: 1 / 1; padding: 0; background: #fff; overflow: hidden; box-shadow: 0 0 0 3px rgba(163, 62, 154, .35), 0 12px 28px -14px rgba(48, 10, 36, .35); }
+  .pl-photo-cadre :global(picture), .pl-photo-cadre :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
   .pl-photo-neutre svg { width: 80%; height: auto; }
   .pl-soiree { background: var(--pl-nuit); color: #fff; padding: 3rem 0; margin-top: 1.5rem; }
   .pl-soiree .pl-h2 { color: #fff; }
