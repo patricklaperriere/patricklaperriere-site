@@ -29,18 +29,30 @@ const sizes = '(min-width: 1024px) 1200px, 100vw';
       <input class="aa__range" type="range" min="0" max="100" value="50" step="1" aria-label={label} data-aa />
     </div>
     <figcaption class="aa__legende">
-      <span>{avant.label}</span>
-      <span>{consigne}</span>
       <span>{apres.label}</span>
+      <span>{consigne}</span>
+      <span>{avant.label}</span>
     </figcaption>
   </figure>
 )}
 
 <style>
   .aa { margin: 0; }
+  /* 3. Le balayage de Wix vers Astro suit le défilement : --pos va de 0 à
+     100 % pendant que la comparaison traverse l'écran. Dès que l'on touche le
+     glisseur (doigt, souris ou clavier), refonte.ts pose .aa--main : le
+     défilement rend la main. Sans support ou en mouvement réduit : 50 %. */
+  @property --pos { syntax: '<percentage>'; inherits: true; initial-value: 50%; }
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .aa:not(.aa--main) { animation: aa-balaye linear both; animation-timeline: view(); animation-range: cover 15% cover 70%; }
+    }
+  }
+  @keyframes aa-balaye { from { --pos: 0%; } to { --pos: 100%; } }
   .aa__cadre { position: relative; border: 1px solid var(--gris-plan); border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 10; background: var(--gris-plan); touch-action: pan-y; }
   .aa__cadre :global(picture), .aa__cadre :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-  .aa__apres { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--pos)); }
+  /* L'Après (Astro) se découvre depuis la gauche : --pos = part d'Astro visible. */
+  .aa__apres { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
   /* La poignée : un trait bleu plan et une prise carrée. */
   .aa__poignee { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--bleu); pointer-events: none; }
   .aa__poignee::after { content: ""; position: absolute; top: 50%; left: 50%; width: 20px; height: 48px; margin: -24px 0 0 -10px; background: var(--bleu); border: 2px solid #fff; border-radius: var(--r); }

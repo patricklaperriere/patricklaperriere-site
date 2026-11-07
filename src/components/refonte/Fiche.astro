@@ -49,7 +49,7 @@ const lcpOk = page ? page.lcpMs <= 2500 : false;
               <th scope="row">{k}</th>
               <td class="fiche__val">
                 <span class="fiche__jauge" aria-hidden="true"><span style={`--v:${v / 100}`}></span></span>
-                <span data-compte={v}>{v}</span><span class="fiche__sur"> / 100</span>
+                <span class="fiche__n" data-compte={v}>{v}</span><span class="fiche__sur"> / 100</span>
               </td>
               <td class:list={['fiche__etat', v < 90 && 'fiche__etat--non']}>{v >= 90 ? t.conforme : t.aCorriger}</td>
             </tr>
@@ -58,7 +58,7 @@ const lcpOk = page ? page.lcpMs <= 2500 : false;
             <th scope="row">{t.lcp}<span class="fiche__seuil">{t.lcpSeuil}</span></th>
             <td class="fiche__val">
               <span class="fiche__jauge" aria-hidden="true"><span style={`--v:${Math.min(page.lcpMs / 2500, 1).toFixed(3)}`}></span></span>
-              <span data-compte={lcpS.toFixed(1)} data-decimales="1" data-sep={sep}>{num(lcpS, 1)}</span> s
+              <span class="fiche__n" data-compte={lcpS.toFixed(1)} data-decimales="1" data-sep={sep}>{num(lcpS, 1)}</span> s
             </td>
             <td class:list={['fiche__etat', !lcpOk && 'fiche__etat--non']}>{lcpOk ? t.conforme : t.aCorriger}</td>
           </tr>
@@ -80,6 +80,8 @@ const lcpOk = page ? page.lcpMs <= 2500 : false;
   .fiche__seuil { display: block; color: var(--gris-txt); font-size: .875rem; }
   .fiche__val { white-space: nowrap; font-weight: 700; font-variant-numeric: tabular-nums; padding: 12px 12px 12px 0; }
   .fiche__sur { font-weight: 400; color: var(--gris-txt); }
+  /* Largeur fixe : le remplissage (0 → 100) ne déplace rien (CLS 0). */
+  .fiche__n { display: inline-block; min-width: 3ch; text-align: right; }
   .fiche__jauge { display: inline-block; vertical-align: middle; width: 56px; height: 6px; margin-right: 10px; background: var(--gris-plan); border-radius: 1px; overflow: hidden; }
   .fiche__jauge span { display: block; height: 100%; width: 100%; background: var(--bleu); transform-origin: left; transform: scaleX(var(--v)); }
   .fiche__etat { text-align: right; color: var(--conforme); font-weight: 700; padding: 12px 0; white-space: nowrap; }

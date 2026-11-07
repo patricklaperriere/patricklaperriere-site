@@ -28,6 +28,7 @@ import AvantApres from './AvantApres.astro';
 import { HOME_LIEN_PATLAP, HOME_PATLAP } from '../../data/patlap';
 import hero from '../../assets/refonte/hero.jpg';
 import dev from '../../assets/refonte/dev.jpg';
+import toit from '../../assets/refonte/inspection.jpg';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -89,8 +90,12 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
         <figure class="r-fig">
           <div class="r-fig__img">
             <img src={HABITA_LOOP.poster} width={HABITA_LOOP.width} height={HABITA_LOOP.height} alt={tr.workSection.habitaAlt} loading="lazy" decoding="async" fetchpriority="low" />
-            {c.travaux.habita.reperes.map((r) => (
-              <span class="r-fig__repere" style={`left:${r.x}%;top:${r.y}%`} aria-hidden="true">{r.id}</span>
+            {c.travaux.habita.reperes.map((r, i) => (
+              <span class="r-fig__repere" style={`left:${r.x}%;top:${r.y}%;--i:${i}`} aria-hidden="true">
+                <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="17" pathLength="100" /></svg>
+                <b>{r.id}</b>
+                <span class="r-fig__trait"></span>
+              </span>
             ))}
           </div>
           <figcaption class="r-fig__legende">{c.travaux.habita.figure}</figcaption>
@@ -99,8 +104,8 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
           <h3 id="habita-titre" class="r-h r-h--3">{c.travaux.habita.titre}</h3>
           <p class="r-p">{c.travaux.habita.texte}</p>
           <dl class="r-reperes">
-            {c.travaux.habita.reperes.map((r) => (
-              <div><dt><span class="r-fig__repere r-fig__repere--liste" aria-hidden="true">{r.id}</span><span class="r-visuel-cache">{locale === 'fr' ? 'Repère' : 'Mark'} {r.id}</span></dt><dd>{r.texte}</dd></div>
+            {c.travaux.habita.reperes.map((r, i) => (
+              <div class="r-reperes__ligne" style={`--i:${i}`}><dt><span class="r-reperes__lettre" aria-hidden="true">{r.id}</span><span class="r-visuel-cache">{locale === 'fr' ? 'Repère' : 'Mark'} {r.id}</span></dt><dd>{r.texte}</dd></div>
             ))}
           </dl>
           <p class="r-liens">
@@ -134,6 +139,11 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     </div>
   </section>
 
+  {/* ---- Bande panoramique : un toit qu'on balaie du regard (défilement) ----- */}
+  <div class="r-toit" aria-hidden="true">
+    <Picture src={toit} formats={['avif', 'webp']} widths={[800, 1200, 1800, 2600, 3400]} sizes="170vw" quality={45} alt="" class="r-toit__img" loading="lazy" decoding="async" fetchpriority="low" />
+  </div>
+
   {/* ---- Ce que je fais : une vraie liste de vérification ---------------------- */}
   <section class="r-services" aria-labelledby="services-titre">
     <div class="r-services__photo">
@@ -142,7 +152,7 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     <div class="r-services__liste">
       <h2 id="services-titre" class="r-h r-h--2">{c.services.titre}</h2>
       <p class="r-p r-gris">{c.services.intro}</p>
-      <ul class="r-coches">
+      <ul class="r-coches" data-coches>
         {services.map(({ href, s }) => (
           <li>
             <span class="r-coche" aria-hidden="true"></span>
@@ -241,13 +251,16 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   .r-fig { margin: 0; }
   .r-fig__img { position: relative; border: 1px solid var(--gris-plan); border-radius: var(--r); overflow: hidden; }
   .r-fig__img img { display: block; width: 100%; height: auto; }
-  /* Le repère : un cercle fin et sa lettre, comme sur une photo de rapport. */
-  .r-fig__repere {
-    position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
-    border: 2px solid var(--bleu); background: #fff; color: var(--bleu);
-    display: grid; place-items: center; font-weight: 700; font-size: .9375rem; line-height: 1;
-  }
-  .r-fig__repere--liste { position: static; margin: 0; flex: none; }
+  /* Le repère : un cercle fin tracé en SVG, sa lettre, et un court trait de
+     renvoi, comme sur une photo de rapport. */
+  .r-fig__repere { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; display: grid; place-items: center; color: var(--bleu); font-weight: 700; font-size: .9375rem; line-height: 1; }
+  .r-fig__repere svg { position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); }
+  .r-fig__repere circle { fill: #fff; stroke: var(--bleu); stroke-width: 2.5; stroke-dasharray: 100; stroke-dashoffset: 0; }
+  .r-fig__repere b { position: relative; }
+  .r-fig__trait { position: absolute; left: 100%; top: 50%; width: 28px; height: 2px; margin-top: -1px; background: var(--bleu); transform-origin: left; }
+  .r-reperes__lettre { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--bleu); color: var(--bleu); display: grid; place-items: center; font-weight: 700; font-size: .9375rem; line-height: 1; }
+  .r-reperes__ligne { border-left: 3px solid transparent; padding-left: 10px !important; margin-left: -13px; }
+  .r-reperes__ligne.est-allume, .r-reperes__ligne { transition: none; }
   .r-fig__legende { margin-top: 10px; color: var(--gris-txt); font-size: .9375rem; }
   .r-reperes { margin: 24px 0 0; border-top: 1px solid var(--gris-plan); }
   .r-reperes div { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--gris-plan); }
@@ -261,6 +274,10 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     .r-beau__texte { margin-left: auto; margin-right: 8%; }
   }
 
+  /* ---- Bande panoramique -------------------------------------------------------- */
+  .r-toit { height: min(42vh, 72vw); overflow: hidden; background: var(--graphite); }
+  .r-toit :global(.r-toit__img) { display: block; width: 170%; max-width: none; height: 100%; object-fit: cover; }
+
   /* ---- Ce que je fais ---------------------------------------------------------- */
   .r-services { display: grid; border-top: 1px solid var(--gris-plan); border-bottom: 1px solid var(--gris-plan); }
   .r-services__photo :global(picture), .r-services__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
@@ -272,7 +289,11 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   .r-coches li:last-child { border-bottom: 1px solid var(--gris-plan); }
   /* La case cochée : un carré et sa coche, tracés en CSS. */
   .r-coche { width: 22px; height: 22px; margin-top: 3px; border: 2px solid var(--bleu); border-radius: var(--r); position: relative; }
-  .r-coche::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid var(--bleu); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+  .r-coche::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid var(--bleu); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); transition: transform .25s cubic-bezier(.2, .7, .1, 1), opacity .15s; }
+  /* Avec JS et mouvement permis : la case est vide, puis se coche quand sa
+     ligne passe au centre de l'écran (refonte.ts), et reste cochée. Sans JS :
+     cochée d'office. */
+  :global(.r-coches--anim) li:not(.est-coche) .r-coche::after { opacity: 0; transform: rotate(45deg) scale(.2); }
   .r-coches__titre { font-weight: 700; font-size: 1.25rem; }
   .r-coches p { margin: 6px 0 0; color: var(--gris-txt); line-height: 1.55; max-width: 60ch; }
   @media (min-width: 1024px) {
@@ -310,4 +331,33 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   .r-contact__moyens dt { color: var(--gris-txt); }
   .r-contact__moyens dd { margin: 0; font-size: 1.25rem; font-weight: 700; overflow-wrap: anywhere; }
   .r-contact__bas p { margin: 0; }
+
+  /* ═══ Effets liés au défilement (REFONTE-1D) : ils avancent et reculent avec
+     le doigt, chacun répond à un contenu précis. CSS scroll-driven ; sans
+     support ou en mouvement réduit, les états finaux restent affichés. ═══ */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      /* 1. Hero : la photo de nuit dérive vers le haut (0 à 12 %). */
+      .r-hero :global(.r-hero__photo) { height: 116%; animation: r-derive linear both; animation-timeline: scroll(root block); animation-range: 0 100vh; }
+
+      /* 2. Repères : le cercle se trace, le trait de renvoi part, la ligne de
+         légende s'allume, quand la capture arrive au centre de l'écran. */
+      .r-habita { timeline-scope: --fig; }
+      .r-fig__img { view-timeline: --fig block; }
+      .r-fig__repere circle { animation: r-trace linear both; animation-timeline: --fig; animation-range: cover calc(30% + var(--i) * 8%) cover calc(42% + var(--i) * 8%); }
+      .r-fig__trait { animation: r-trait linear both; animation-timeline: --fig; animation-range: cover calc(38% + var(--i) * 8%) cover calc(46% + var(--i) * 8%); }
+      .r-reperes__ligne { animation: r-allume linear both; animation-timeline: --fig; animation-range: cover calc(38% + var(--i) * 8%) cover calc(46% + var(--i) * 8%); }
+      .r-reperes__ligne .r-reperes__lettre { animation: r-lettre linear both; animation-timeline: --fig; animation-range: cover calc(38% + var(--i) * 8%) cover calc(46% + var(--i) * 8%); }
+
+      /* 4. Bande panoramique : le toit défile de gauche à droite. */
+      .r-toit { view-timeline: --toit block; }
+      .r-toit :global(.r-toit__img) { animation: r-pan linear both; animation-timeline: --toit; animation-range: cover 0% cover 100%; }
+    }
+  }
+  @keyframes r-derive { from { transform: translateY(0); } to { transform: translateY(-12%); } }
+  @keyframes r-trace { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+  @keyframes r-trait { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes r-allume { from { border-left-color: transparent; } to { border-left-color: var(--bleu); } }
+  @keyframes r-lettre { from { background: #fff; color: var(--bleu); } to { background: var(--bleu); color: #fff; } }
+  @keyframes r-pan { from { transform: translateX(0); } to { transform: translateX(-41.17%); } }
 </style>
