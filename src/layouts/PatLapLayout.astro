@@ -107,4 +107,10 @@ const r = PATLAP_ROUTES[locale];
   .patlap .pl-champ input { background: #100E11 !important; color: var(--pl-texte) !important; border: 1px solid #5A5058 !important; border-radius: 2px !important; }
   .patlap .pl-badge { border-radius: 2px !important; }
   .patlap .pl-soiree { background: var(--pl-nuit); }
+
+  /* Plus de cascade d'apparition (au plus un effet par page, règles de
+     design) : tout est visible tout de suite. L'empilement des 5 jours au
+     défilement reste (c'est la mise en page, pas une apparition). */
+  html.pl-anim [data-pl-revele] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  html.pl-anim .pl-trois [data-pl-revele]::after { display: none !important; }
 </style>

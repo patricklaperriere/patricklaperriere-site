@@ -179,3 +179,14 @@ html.theme-refonte main :is(.card, .svc, .svcx__item, .city-card, .wc, .posts__i
 html.theme-refonte .btn { font-family: var(--font-sans); font-weight: 700; letter-spacing: normal; text-transform: none; min-height: 48px; }
 html.theme-refonte .btn-ghost { border-color: rgba(244, 239, 230, .55); color: var(--lumiere); }
 html.theme-refonte .cpt-secnum { display: none !important; }
+
+/* Plus d'apparitions au défilement (fondu et glissement) : interdites par
+   REGLES-DESIGN-SANS-IA.md (« tout qui apparaît en fondu ») et par le prompt
+   TOUTES-PAGES (au plus un effet d'entrée par page). Tout est affiché tout
+   de suite ; la seule entrée qui reste est le balayage du titre de la home. */
+html.theme-refonte.js :is(.reveal, .reveal-mask > *, .reveal-clip) {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+  transition: none !important;
+}
