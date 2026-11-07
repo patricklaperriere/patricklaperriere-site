@@ -1,0 +1,106 @@
+---
+// La scène « mes vrais projets autour de toi » (home WOW).
+// Trois états, choisis AVANT le premier affichage (script en ligne de
+// HomeRefonte.astro, classe html.scene-3d) pour qu'aucun changement de mise
+// en page ne survienne ensuite :
+//  - sans html.scene-3d (mouvement réduit, économie de données, sans JS) :
+//    composition fixe, chaque projet avec sa capture et sa légende ;
+//  - html.scene-3d : section haute et plateau collant (position: sticky),
+//    le défilement natif fait avancer la caméra. scene.ts dessine en WebGL 2,
+//    ou, sur un appareil faible ou sans WebGL, place les mêmes images en CSS 3D.
+// Tout ce qui informe (nom, phrase, lien) est du HTML ; le canvas et les
+// images de la scène sont décoratifs.
+import type { Locale } from '../../i18n/routes';
+import { routes, workBase } from '../../i18n/routes';
+import { refonteCopy } from '../../i18n/refonte';
+import { PROJETS_SCENE, urlEcran } from '../../data/scene';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = refonteCopy[locale].scene;
+const nb = PROJETS_SCENE.length;
+---
+
+<section class="scene" id="travaux" aria-labelledby="scene-titre" data-scene style={`--n:${nb}`}>
+  <div class="r-wrap scene__entete">
+    <h2 id="scene-titre" class="r-h r-h--2">{t.titre}</h2>
+    <p class="r-p r-gris">{t.intro}</p>
+  </div>
+
+  <div class="scene__piste">
+    <div class="scene__plateau">
+      <canvas class="scene__canvas" aria-hidden="true"></canvas>
+      <div class="scene__ecrans" aria-hidden="true">
+        {PROJETS_SCENE.flatMap((p) => p.ecrans.map((e) => (
+          <img src={urlEcran(e, locale)} alt="" width={e.ar > 1 ? 512 : 1024} height={e.ar > 1 ? 1109 : 640} loading="lazy" decoding="async" />
+        )))}
+      </div>
+
+      <ol class="scene__projets">
+        {PROJETS_SCENE.map((p, i) => {
+          const txt = t.projets[p.id];
+          const e = p.ecrans[0];
+          return (
+            <li class:list={['scene__projet', i === 0 && 'est-actif']}>
+              <img class="scene__capture" src={urlEcran(e, locale)} alt="" width="1024" height="640" loading="lazy" decoding="async" />
+              <div class="scene__legende">
+                <h3 class="r-h r-h--3">{txt.nom}</h3>
+                <p>{txt.phrase}</p>
+                <a href={`${workBase[locale]}/${p.slug}`}>{txt.lien}</a>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  </div>
+
+  <p class="r-wrap scene__tout"><a class="r-btn r-btn--trait" href={routes.work[locale]}>{t.tout}</a></p>
+</section>
+
+<style>
+  .scene { background: var(--salle); padding: clamp(72px, 10vw, 140px) 0 clamp(56px, 8vw, 112px); }
+  .scene__entete { display: grid; gap: 18px; }
+  .scene__entete .r-p { max-width: 46ch; }
+  .scene__tout { margin-top: clamp(40px, 6vw, 72px); }
+
+  /* ── Composition fixe (par défaut) : chaque projet, capture et légende,
+     en quinconce. ─────────────────────────────────────────────────────── */
+  .scene__piste { margin-top: clamp(40px, 6vw, 80px); }
+  .scene__canvas, .scene__ecrans { display: none; }
+  .scene__projets { list-style: none; margin: 0 auto; padding: 0 var(--pad-x); max-width: 1360px; display: grid; gap: clamp(48px, 8vw, 112px); }
+  .scene__projet { display: grid; gap: 20px; }
+  .scene__capture { display: block; width: 100%; height: auto; border: 1px solid var(--filet); border-radius: var(--r); background: #13234D; }
+  .scene__legende p { margin: 10px 0 0; color: var(--gris-txt); font-size: 1.0625rem; line-height: 1.55; max-width: 44ch; }
+  .scene__legende a { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; font-weight: 700; }
+  @media (min-width: 900px) {
+    .scene__projet { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); align-items: end; gap: 40px; }
+    .scene__projet:nth-child(even) { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+    .scene__projet:nth-child(even) .scene__capture { order: 2; }
+    .scene__projet:nth-child(3) { margin-right: 12%; }
+  }
+
+  /* ── La scène (html.scene-3d) : piste haute, plateau collant ────────── */
+  :global(html.scene-3d) .scene__piste { height: calc(100svh + var(--n) * 85svh); margin-top: clamp(24px, 4vw, 48px); }
+  :global(html.scene-3d) .scene__plateau { position: sticky; top: 0; height: 100svh; overflow: hidden; contain: strict; cursor: pointer; }
+  :global(html.scene-3d) .scene__canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; }
+  :global(html.scene-3d) .scene--webgl.scene--prete .scene__canvas { opacity: 1; }
+  :global(html.scene-3d) .scene__ecrans { display: block; position: absolute; inset: 0; perspective: var(--focale, 800px); perspective-origin: 50% 50%; transform-style: preserve-3d; }
+  :global(html.scene-3d) .scene__ecrans img { position: absolute; left: 50%; top: 50%; width: 40vw; height: auto; object-fit: cover; border: 1px solid rgba(220, 230, 255, .45); border-radius: var(--r); backface-visibility: hidden; will-change: transform, opacity; }
+  /* Avant que le moteur ne prenne la main : seul le premier écran, posé. */
+  :global(html.scene-3d) .scene:not(.scene--css) .scene__ecrans img { opacity: 0; }
+  :global(html.scene-3d) .scene:not(.scene--css):not(.scene--webgl) .scene__ecrans img:first-child { opacity: 1; transform: translate(-28%, -10%); }
+  :global(html.scene-3d) .scene--webgl .scene__ecrans { display: none; }
+
+  :global(html.scene-3d) .scene__projets { position: absolute; left: 0; right: 0; bottom: 0; top: 0; max-width: none; padding: 0; margin: 0; display: block; pointer-events: none; }
+  :global(html.scene-3d) .scene__capture { display: none; }
+  :global(html.scene-3d) .scene__projet { position: absolute; left: var(--pad-x); bottom: clamp(24px, 6vh, 64px); width: min(30vw, 400px); display: block; opacity: 0; transition: opacity .35s; }
+  :global(html.scene-3d) .scene__projet.est-actif { opacity: 1; pointer-events: auto; }
+  :global(html.scene-3d) .scene__projet:focus-within { opacity: 1; }
+  :global(html.scene-3d) .scene__legende { background: rgba(10, 20, 48, .82); padding: 20px 22px 14px; border-left: 3px solid var(--bleu); }
+  @media (max-width: 899px) {
+    :global(html.scene-3d) .scene__projet { left: 16px; right: 16px; width: auto; bottom: 16px; }
+    :global(html.scene-3d) .scene__legende { padding: 16px 18px 10px; }
+    :global(html.scene-3d) .scene__legende p { font-size: 1rem; }
+  }
+</style>

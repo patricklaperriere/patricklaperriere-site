@@ -36,6 +36,19 @@ const fr = {
       `Mesuré le ${date} avec l’outil de mesure de Google, comme sur un téléphone, ${live ? 'sur ce site en ligne' : 'sur une copie de ce site'}. Résultat retenu sur trois essais.`,
     pasMesure: 'Pas encore mesuré.',
   },
+  // Home WOW : la scène « mes vrais projets autour de toi ». Une phrase vraie
+  // par projet, tirée des études de cas publiées.
+  scene: {
+    titre: 'Mes vrais projets',
+    intro: 'Descendez doucement. Vous passez devant des projets que j’ai faits, tels qu’ils sont en ligne.',
+    projets: {
+      habita: { nom: 'Habita', phrase: 'Le logiciel où les inspecteurs en bâtiment écrivent leurs rapports. Je le conçois et je le programme.', lien: 'Lire l’étude de cas Habita' },
+      beauregard: { nom: 'Inspection BeauRegard', phrase: 'Le nouveau site d’un inspecteur en bâtiment de Sherbrooke, fait sur mesure.', lien: 'Lire l’étude de cas BeauRegard' },
+      iho: { nom: 'Inspection Habitation Outaouais', phrase: 'Le site d’un inspecteur en bâtiment de l’Outaouais, en français et en anglais.', lien: 'Lire l’étude de cas Inspection Habitation Outaouais' },
+      hpaddik: { nom: 'HP Addik', phrase: 'Une boutique en ligne faite sur mesure pour un spécialiste de pièces de performance.', lien: 'Lire l’étude de cas HP Addik' },
+    },
+    tout: 'Voir toutes les réalisations',
+  },
   travaux: {
     titre: 'Réalisations',
     intro: 'Deux projets que je peux vous montrer en détail : le logiciel Habita et le site d’Inspection BeauRegard.',
@@ -118,6 +131,17 @@ const en: typeof fr = {
     mesure: (date: string, live: boolean) =>
       `Measured on ${date} with Google’s measuring tool, as on a phone, ${live ? 'on this live site' : 'on a copy of this site'}. Result kept over three tries.`,
     pasMesure: 'Not measured yet.',
+  },
+  scene: {
+    titre: 'My real projects',
+    intro: 'Scroll down slowly. You are walking past projects I made, just as they are online.',
+    projets: {
+      habita: { nom: 'Habita', phrase: 'The software where home inspectors write their reports. I design it and I program it.', lien: 'Read the Habita case study' },
+      beauregard: { nom: 'Inspection BeauRegard', phrase: 'The new website of a home inspector in Sherbrooke, made to measure.', lien: 'Read the BeauRegard case study' },
+      iho: { nom: 'Inspection Habitation Outaouais', phrase: 'The website of a home inspector in the Outaouais, in French and in English.', lien: 'Read the Inspection Habitation Outaouais case study' },
+      hpaddik: { nom: 'HP Addik', phrase: 'An online store made to measure for a performance-parts specialist.', lien: 'Read the HP Addik case study' },
+    },
+    tout: 'See all my work',
   },
   travaux: {
     titre: 'Work',

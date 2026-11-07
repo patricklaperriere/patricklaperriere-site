@@ -25,3 +25,23 @@ if (coches && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-
   }, { rootMargin: '-50% 0px -50% 0px' });
   coches.querySelectorAll('li').forEach((li) => io.observe(li));
 }
+
+// La scène 3D (home WOW) : chargée seulement quand la section approche, et
+// jamais avant la fin du chargement de la page. html.scene-3d est posé avant
+// l'affichage (HomeRefonte.astro) : sans lui, la composition fixe reste.
+const scene = document.querySelector<HTMLElement>('[data-scene]');
+if (scene && document.documentElement.classList.contains('scene-3d')) {
+  const nav = navigator as Navigator & { deviceMemory?: number };
+  const faible = (nav.hardwareConcurrency || 8) <= 4 || (nav.deviceMemory || 8) <= 4;
+  const observer = () => {
+    const io = new IntersectionObserver((e) => {
+      if (!e[0]?.isIntersecting) return;
+      io.disconnect();
+      import('./scene').then((m) => m.demarrer(scene, faible ? 'css' : 'webgl'));
+    }, { rootMargin: '60% 0px' });
+    io.observe(scene);
+  };
+  const apresChargement = () => ('requestIdleCallback' in window ? requestIdleCallback(observer, { timeout: 1500 }) : setTimeout(observer, 200));
+  if (document.readyState === 'complete') apresChargement();
+  else addEventListener('load', apresChargement, { once: true });
+}

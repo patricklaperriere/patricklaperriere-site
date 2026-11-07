@@ -1,55 +1,61 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Refonte 2026-11, direction v2 : le site est un rapport d'inspection.
-   Règle permanente : NEXUS-Bridge/REGLES-DESIGN-SANS-IA.md (lue avant toute
-   mise en page). Portée : html.theme-refonte (la home au jalon 1).
+   Home WOW (refonte/2026-11-wow, 7 nov. 2026) : une salle de projection.
+   Règle permanente : NEXUS-Bridge/REGLES-DESIGN-SANS-IA.md (relue avant).
+   Portée : html.theme-refonte (la home seulement).
    ───────────────────────────────────────────────────────────────────────────
-   Palette (tirée du métier : le plan, le rapport, la photo de nuit) :
-     Papier     #FFFFFF  fond
-     Gris plan  #E9EDF2  séparateurs, fonds de tableau ; jamais de décor
-     Graphite   #1A1E24  texte
-     Bleu plan  #1F3FBF  accent unique : liens, repères, jauge
-     Nuit       #0E1B3D  hero et pied de page seulement
-     Conforme   #1A7F4B  les mentions « Conforme » de la fiche, rien d'autre
-   Contraste mesuré (WCAG 2.2) : graphite sur papier 16,7 ; bleu plan sur
-     papier 8,3 ; conforme sur papier 5,0 ; blanc sur nuit 16,9 ; #C9D2E3 sur
-     nuit 11,1 ; #5A6270 sur papier 6,2 ; blanc sur bleu plan 8,3.
+   Le fond foncé vient du sujet : la salle est éteinte, la seule lumière de
+   la page vient des écrans (les vrais projets) et du visage de Patrick.
+   Palette :
+     Nuit         #0E1B3D  fond de la page (la nuit de la marque)
+     Salle        #0A1430  fond de la scène, la salle éteinte
+     Lumière      #F3F5F9  texte, la lumière du projecteur
+     Gris salle   #AEB9D0  texte secondaire
+     Bleu plan    #1F3FBF  accent unique : boutons pleins, poignée, coches
+     Bleu clair   #9FB2FF  le même bleu, éclairci pour les liens sur la nuit
+     Filet        #26355F  séparateurs de 1 px
+   Contraste mesuré (WCAG 2.2) : lumière sur nuit 15,5 ; gris salle sur nuit
+     8,6 ; bleu clair sur nuit 8,3 ; blanc sur bleu plan 8,3.
 
-   Type : Big Shoulders Display 800 pour les titres, un seul style, jamais
-   d'italique ni de mot accentué. Atkinson Hyperlegible Next pour tout le
-   reste (la police d'une fiche qui se lit). Aucune mono, aucune capitale
-   d'étiquette. Rayon 2 px, aucune ombre, filets de 1 px gris plan.
+   Type : Atkinson Hyperlegible Next, une seule famille (conçue pour être lue
+   par tout le monde, y compris les gens qui voient mal : c'est le sujet de
+   Patrick). Titres en 800, serrés ; texte en 400 ; jamais d'italique, jamais
+   de capitales d'étiquette, aucune mono. Rayon 2 px, aucune ombre.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @font-face {
   font-family: "Atkinson Hyperlegible Next";
-  src: url("/fonts/atkinson-hyperlegible-next.woff2") format("woff2");
+  src: url("/fonts/atkinson-next-latin.woff2") format("woff2");
   font-weight: 200 800;
   font-display: swap;
 }
 
 html.theme-report.theme-refonte {
-  --papier:    #FFFFFF;
-  --gris-plan: #E9EDF2;
-  --graphite:  #1A1E24;
-  --gris-txt:  #5A6270;
-  --bleu:      #1F3FBF;
   --nuit:      #0E1B3D;
-  --nuit-txt:  #C9D2E3;
-  --conforme:  #1A7F4B;
+  --salle:     #0A1430;
+  --lumiere:   #F3F5F9;
+  --gris-txt:  #AEB9D0;
+  --bleu:      #1F3FBF;
+  --bleu-clair:#9FB2FF;
+  --filet:     #26355F;
+  --conforme:  #6FD39B;
 
-  /* Les anciens noms (nav, pied de page, composants partagés), sur la nuit. */
+  /* Anciens noms (nav, pied de page, composants partagés). */
+  --papier:      var(--nuit);
+  --gris-plan:   var(--filet);
+  --graphite:    var(--lumiere);
+  --nuit-txt:    var(--gris-txt);
   --ink:          var(--nuit);
   --ink-raised:   #16264F;
   --ink-high:     #1D2F5E;
-  --ink-sunken:   #0A1430;
+  --ink-sunken:   var(--salle);
   --bone:         #FFFFFF;
   --fg:           #FFFFFF;
-  --slate:        var(--nuit-txt);
-  --slate-mute:   var(--nuit-txt);
+  --slate:        var(--gris-txt);
+  --slate-mute:   var(--gris-txt);
   --plum:         var(--bleu);
   --plum-wash:    rgba(31, 63, 191, .2);
   --mauve:        #FFFFFF;
-  --mauve-hover:  var(--gris-plan);
+  --mauve-hover:  #E4E9F4;
   --signal:       #FFFFFF;
   --plan-line:    #8D9AB5;
   --plan-grid:    transparent;
@@ -65,35 +71,36 @@ html.theme-report.theme-refonte {
   --btn-fill-fg: var(--nuit);
 
   --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-sans);
   --font-mono: var(--font-sans);
   font-family: var(--font-sans);
 
   --r: 2px;
-  --pad-x: clamp(20px, 5vw, 80px);
+  --pad-x: clamp(16px, 5vw, 80px);
 
-  background: var(--papier);
+  background: var(--nuit);
+  color-scheme: dark;
 }
 
-.theme-refonte body { background: var(--papier); background-image: none; color: var(--graphite); }
+.theme-refonte body { background: var(--nuit); background-image: none; color: var(--lumiere); }
 .theme-refonte ::selection { background: var(--bleu); color: #fff; }
-.theme-refonte :focus-visible { outline: 3px solid var(--bleu); outline-offset: 3px; }
-.theme-refonte main { color: var(--graphite); }
-.theme-refonte main a:not(.btn):not(.r-btn) { color: var(--bleu); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
-.theme-refonte main a:not(.btn):not(.r-btn):hover { text-decoration-thickness: 2px; }
+.theme-refonte :focus-visible { outline: 3px solid var(--bleu-clair); outline-offset: 3px; }
+.theme-refonte main { color: var(--lumiere); overflow-x: clip; }
+.theme-refonte main a:not(.btn):not(.r-btn) { color: var(--bleu-clair); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.theme-refonte main a:not(.btn):not(.r-btn):hover { text-decoration-thickness: 2px; color: #fff; }
 
-/* Transitions de pages : elles répondent à un clic. */
 @view-transition { navigation: auto; }
 ::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
 
 /* ---- Mise en page ---------------------------------------------------------- */
 .r-wrap { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: var(--pad-x); }
 
-/* Titres : Big Shoulders 800, un seul style. */
-.r-h { font-family: var(--font-display); font-weight: 800; letter-spacing: -.01em; line-height: .95; text-transform: none; margin: 0; color: inherit; text-wrap: balance; }
-.r-h--1 { font-size: clamp(3.25rem, min(9vw, 15vh), 9.5rem); }
-.r-h--2 { font-size: clamp(2.5rem, 5.5vw, 5rem); }
-.r-h--3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1; }
-.r-p { font-size: 1.125rem; line-height: 1.6; max-width: 66ch; margin: 0; }
+/* Titres : Atkinson 800, serrés ; la hiérarchie vient de la taille. */
+.r-h { font-family: var(--font-sans); font-weight: 800; letter-spacing: -.035em; line-height: .96; text-transform: none; margin: 0; color: inherit; text-wrap: balance; }
+.r-h--1 { font-size: clamp(2.75rem, 7.6vw, 7.5rem); }
+.r-h--2 { font-size: clamp(2.25rem, 5vw, 4.5rem); }
+.r-h--3 { font-size: clamp(1.5rem, 2.4vw, 2.125rem); line-height: 1.05; letter-spacing: -.02em; }
+.r-p { font-size: 1.125rem; line-height: 1.6; max-width: 62ch; margin: 0; }
 .r-p + .r-p { margin-top: 1em; }
 .r-gris { color: var(--gris-txt); }
 
@@ -101,23 +108,21 @@ html.theme-report.theme-refonte {
 .r-btn {
   display: inline-flex; align-items: center; min-height: 52px; padding: 10px 24px; max-width: 100%;
   border-radius: var(--r); border: 1px solid transparent;
-  font-family: var(--font-sans); font-weight: 700; font-size: 1.0625rem; text-decoration: none !important;
+  font-family: var(--font-sans); font-weight: 700; font-size: 1.0625rem; line-height: 1.3; text-decoration: none !important;
+  transition: background-color .15s, border-color .15s;
 }
 .r-btn--plein { background: var(--bleu); color: #fff !important; }
-.r-btn--plein:hover { background: #1A34A0; }
-.r-btn--blanc { background: #fff; color: var(--nuit) !important; }
-.r-btn--blanc:hover { background: var(--gris-plan); }
-.r-btn--trait { border-color: currentColor; color: var(--graphite) !important; }
-.r-btn--trait:hover { background: var(--gris-plan); }
-.r-btn--trait-nuit { border-color: rgba(255, 255, 255, .6); color: #fff !important; }
-.r-btn--trait-nuit:hover { background: rgba(255, 255, 255, .1); }
+.r-btn--plein:hover { background: #2A4BD6; }
+.r-btn--blanc { background: var(--lumiere); color: var(--nuit) !important; }
+.r-btn--blanc:hover { background: #fff; }
+.r-btn--trait, .r-btn--trait-nuit { border-color: rgba(243, 245, 249, .55); color: var(--lumiere) !important; }
+.r-btn--trait:hover, .r-btn--trait-nuit:hover { background: rgba(255, 255, 255, .08); border-color: var(--lumiere); }
 
-/* ---- Nav et pied de page : la nuit de la photo ---------------------------- */
+/* ---- Nav et pied de page : la nuit -------------------------------------------- */
 .theme-refonte .nav, .theme-refonte .nav.is-stuck { background: var(--nuit); color: #fff; }
-.theme-refonte .footer { color: #fff; }
-.theme-refonte .nav__cta, .theme-refonte .btn-accent, .theme-refonte .btn-primary { border-radius: var(--r); background: #fff; color: var(--nuit); border-color: #fff; }
-.theme-refonte .btn-accent:hover, .theme-refonte .btn-primary:hover { background: var(--gris-plan); border-color: var(--gris-plan); color: var(--nuit); }
-.theme-refonte .footer { background: var(--nuit); }
+.theme-refonte .footer { color: #fff; background: var(--salle); }
+.theme-refonte .nav__cta, .theme-refonte .btn-accent, .theme-refonte .btn-primary { border-radius: var(--r); background: var(--lumiere); color: var(--nuit); border-color: var(--lumiere); }
+.theme-refonte .btn-accent:hover, .theme-refonte .btn-primary:hover { background: #fff; border-color: #fff; color: var(--nuit); }
 .theme-refonte .grain { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
