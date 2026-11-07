@@ -41,7 +41,15 @@ if (scene && document.documentElement.classList.contains('scene-3d')) {
     }, { rootMargin: '60% 0px' });
     io.observe(scene);
   };
-  const apresChargement = () => ('requestIdleCallback' in window ? requestIdleCallback(observer, { timeout: 1500 }) : setTimeout(observer, 200));
+  // Rien ne se charge tant que la personne n'a pas commencé à descendre :
+  // le premier écran reste léger (aucune tâche longue au chargement).
+  const auPremierGeste = () => {
+    if (window.scrollY > 0) { observer(); return; }
+    const go = () => { removeEventListener('scroll', go); removeEventListener('keydown', go); observer(); };
+    addEventListener('scroll', go, { passive: true });
+    addEventListener('keydown', go);
+  };
+  const apresChargement = () => ('requestIdleCallback' in window ? requestIdleCallback(auPremierGeste, { timeout: 1500 }) : setTimeout(auPremierGeste, 200));
   if (document.readyState === 'complete') apresChargement();
   else addEventListener('load', apresChargement, { once: true });
 }

@@ -358,3 +358,18 @@ export function graph(nodes: object[]) {
     '@graph': nodes,
   };
 }
+
+/** ItemList : les projets montrés sur la home (la scène 3D), chacun relié au
+ *  CreativeWork de son étude de cas (même @id que sur la page du projet). */
+export function projetsHomeSchema(locale: Locale, items: { name: string; url: string }[]) {
+  return {
+    '@type': 'ItemList',
+    '@id': `${abs(locale === 'fr' ? '/' : '/en')}#projets`,
+    name: locale === 'fr' ? 'Projets de Patrick Laperrière' : 'Projects by Patrick Laperrière',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: { '@id': `${abs(it.url)}#work`, name: it.name, url: abs(it.url) },
+    })),
+  };
+}

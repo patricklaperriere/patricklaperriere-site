@@ -2,14 +2,18 @@
 import Layout from '../../layouts/Layout.astro';
 import HomeRefonte from '../../components/refonte/HomeRefonte.astro';
 import { routes } from '../../i18n/routes';
-import { graph, personSchema, webSiteSchema, professionalServiceSchema } from '../../lib/schema';
+import { graph, personSchema, webSiteSchema, professionalServiceSchema, projetsHomeSchema } from '../../lib/schema';
+import { PROJETS_SCENE } from '../../data/scene';
+import { refonteCopy } from '../../i18n/refonte';
+import { workBase } from '../../i18n/routes';
 
 const locale = 'en' as const;
-const title = 'Patrick Laperrière · Web developer in Quebec';
+const title = 'Patrick Laperrière, web developer in Quebec';
 const description =
-  'Fast, well-ranked websites, redesigns, Shopify stores and custom tools for small businesses in Quebec and beyond, in English and French.';
+  'Fast websites that are easy to find on Google, for businesses in Quebec: redesigns, online stores and custom tools, in English and French.';
 
-const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale)]);
+const projets = PROJETS_SCENE.map((p) => ({ name: refonteCopy[locale].scene.projets[p.id].nom, url: `${workBase[locale]}/${p.slug}` }));
+const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale), projetsHomeSchema(locale, projets)]);
 ---
 
 <Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} theme="refonte" ogImage="/og/home-en.png">

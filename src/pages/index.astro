@@ -2,14 +2,18 @@
 import Layout from '../layouts/Layout.astro';
 import HomeRefonte from '../components/refonte/HomeRefonte.astro';
 import { routes } from '../i18n/routes';
-import { graph, personSchema, webSiteSchema, professionalServiceSchema } from '../lib/schema';
+import { graph, personSchema, webSiteSchema, professionalServiceSchema, projetsHomeSchema } from '../lib/schema';
+import { PROJETS_SCENE } from '../data/scene';
+import { refonteCopy } from '../i18n/refonte';
+import { workBase } from '../i18n/routes';
 
 const locale = 'fr' as const;
-const title = 'Patrick Laperrière · Développeur web au Québec';
+const title = 'Patrick Laperrière, développeur web au Québec';
 const description =
-  'Développeur web au Québec : sites rapides et bien référencés, refontes, boutiques Shopify et outils sur mesure pour les PME, en français et en anglais.';
+  'Des sites web rapides et faciles à trouver sur Google pour les entreprises du Québec : refontes, boutiques en ligne et outils sur mesure.';
 
-const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale)]);
+const projets = PROJETS_SCENE.map((p) => ({ name: refonteCopy[locale].scene.projets[p.id].nom, url: `${workBase[locale]}/${p.slug}` }));
+const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale), projetsHomeSchema(locale, projets)]);
 ---
 
 <Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} theme="refonte" ogImage="/og/home-fr.png">
