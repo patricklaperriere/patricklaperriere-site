@@ -25,10 +25,10 @@ import PortraitSlot from '../PortraitSlot.astro';
 import { HABITA_LOOP } from '../../lib/habitaLoop';
 import Fiche from './Fiche.astro';
 import AvantApres from './AvantApres.astro';
-import { HOME_LIEN_PATLAP, HOME_PATLAP } from '../../data/patlap';
+import { HOME_LIEN_PATLAP, HOME_PATLAP, textes as textesPatlap } from '../../data/patlap';
 import hero from '../../assets/refonte/hero.jpg';
 import dev from '../../assets/refonte/dev.jpg';
-import toit from '../../assets/refonte/inspection.jpg';
+import quebec from '../../assets/refonte/quebec.jpg';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -36,6 +36,10 @@ const h = homeCopy[locale];
 const c = refonteCopy[locale];
 const tr = useTranslations(locale);
 const patlap = HOME_PATLAP[locale];
+const pl = textesPatlap(locale);
+// Le bloc Pat Lap : en ligne seulement avec l'interrupteur ; en local, aussi
+// avec PUBLIC_PREVIEW_PATLAP=true (.env.local), en dev seulement.
+const voirPatlap = HOME_LIEN_PATLAP || (import.meta.env.DEV && import.meta.env.PUBLIC_PREVIEW_PATLAP === 'true');
 
 const etude = (slug: string) => `${workBase[locale]}/${slug}`;
 const services = [
@@ -139,11 +143,6 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     </div>
   </section>
 
-  {/* ---- Bande panoramique : un toit qu'on balaie du regard (défilement) ----- */}
-  <div class="r-toit" aria-hidden="true">
-    <Picture src={toit} formats={['avif', 'webp']} widths={[800, 1200, 1800, 2600, 3400]} sizes="170vw" quality={45} alt="" class="r-toit__img" loading="lazy" decoding="async" fetchpriority="low" />
-  </div>
-
   {/* ---- Ce que je fais : une vraie liste de vérification ---------------------- */}
   <section class="r-services" aria-labelledby="services-titre">
     <div class="r-services__photo">
@@ -189,17 +188,30 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     </div>
   </section>
 
-  {/* ---- La technologie pour tous (interrupteur HOME_LIEN_PATLAP = false ; le
-      build refuse de l'activer tant que Pat Lap est en brouillon). */}
-  {HOME_LIEN_PATLAP && (
-    <section class="r-patlap" aria-labelledby="patlap-title">
-      <div class="r-wrap">
-        <h2 id="patlap-title" class="r-h r-h--3">{patlap.titre}</h2>
-        <p class="r-p">{patlap.texte}</p>
-        <p class="r-liens"><a href={patlap.lien}>{patlap.bouton}</a></p>
+  {/* ---- La technologie pour tous (Pat Lap). Interrupteur HOME_LIEN_PATLAP
+      (false ; le build refuse de l'activer tant que Pat Lap est en brouillon).
+      Pour le voir en local seulement : PUBLIC_PREVIEW_PATLAP=true dans
+      .env.local (non versionné), et le serveur de dev ; jamais dans un build.
+      Textes repris de la landing (src/data/patlap.ts), aucun prix. */}
+  {voirPatlap && (
+    <section class="r-patlap" aria-labelledby="patlap-titre">
+      <div class="r-wrap r-patlap__grille">
+        <h2 id="patlap-titre" class="r-h r-h--2">{patlap.titre}</h2>
+        <div class="r-patlap__texte">
+          <p class="r-patlap__accroche">{pl.hero.accroche}</p>
+          <p class="r-p">{pl.hero.texte}</p>
+          <p class="r-p">{c.patlap.soiree(pl.soiree.titre, pl.soiree.format)}</p>
+          <p class="r-liens"><a href={patlap.lien}>{c.patlap.lien}</a></p>
+        </div>
       </div>
     </section>
   )}
+
+  {/* ---- Bande Québec : une rue d'ici sous la neige, sans texte ---------------- */}
+  <div class="r-quebec" aria-hidden="true">
+    <Picture src={quebec} formats={['avif', 'webp']} widths={[800, 1200, 1800, 2400, 3200]} sizes="100vw" quality={60} alt="" class="r-quebec__img" loading="lazy" decoding="async" fetchpriority="low" />
+  </div>
+
 
   {/* ---- Contact ---------------------------------------------------------------------- */}
   <section class="r-contact" aria-labelledby="contact-titre">
@@ -274,9 +286,10 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     .r-beau__texte { margin-left: auto; margin-right: 8%; }
   }
 
-  /* ---- Bande panoramique -------------------------------------------------------- */
-  .r-toit { height: min(42vh, 72vw); overflow: hidden; background: var(--graphite); }
-  .r-toit :global(.r-toit__img) { display: block; width: 170%; max-width: none; height: 100%; object-fit: cover; }
+  /* ---- Bande Québec : un triplex sous la neige, sans texte ni filtre ---------- */
+  .r-quebec { aspect-ratio: 16 / 9; overflow: hidden; background: var(--gris-plan); }
+  .r-quebec :global(.r-quebec__img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 62%; }
+  @media (min-width: 768px) { .r-quebec { aspect-ratio: 21 / 9; } }
 
   /* ---- Ce que je fais ---------------------------------------------------------- */
   .r-services { display: grid; border-top: 1px solid var(--gris-plan); border-bottom: 1px solid var(--gris-plan); }
@@ -318,9 +331,15 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
     .r-apropos__texte { padding-top: 12px; }
   }
 
-  /* ---- Pat Lap (interrupteur) ------------------------------------------------------- */
-  .r-patlap { padding: 64px 0; border-top: 1px solid var(--gris-plan); }
-  .r-patlap .r-p { margin-top: 12px; }
+  /* ---- Pat Lap (interrupteur) : fond nuit, pleine largeur, titre à gauche,
+     texte décalé ; aucune carte. ---------------------------------------------- */
+  .r-patlap { background: var(--nuit); color: #fff; padding: clamp(72px, 10vw, 140px) 0; }
+  .r-patlap__grille { display: grid; gap: 32px; }
+  .r-patlap__accroche { font-size: clamp(1.375rem, 2.4vw, 1.875rem); line-height: 1.35; margin: 0 0 20px; max-width: 30ch; }
+  .r-patlap .r-p { color: var(--nuit-txt); }
+  .r-patlap .r-p + .r-p { margin-top: 1em; }
+  .r-patlap a { color: #fff !important; }
+  @media (min-width: 1024px) { .r-patlap__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; align-items: start; } }
 
   /* ---- Contact -------------------------------------------------------------------- */
   .r-contact { padding: clamp(80px, 11vw, 160px) 0; border-top: 1px solid var(--gris-plan); }
@@ -333,7 +352,9 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   .r-contact__bas p { margin: 0; }
 
   /* ═══ Effets liés au défilement (REFONTE-1D) : ils avancent et reculent avec
-     le doigt, chacun répond à un contenu précis. CSS scroll-driven ; sans
+     le doigt, chacun répond à un contenu précis. (La bande du toit, 1D, est
+     retirée en 1F : il reste le hero, les repères, l'Avant/Après et les cases,
+     plus la dérive de la bande Québec.) CSS scroll-driven ; sans
      support ou en mouvement réduit, les états finaux restent affichés. ═══ */
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
@@ -349,9 +370,9 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
       .r-reperes__ligne { animation: r-allume linear both; animation-timeline: --fig; animation-range: cover calc(38% + var(--i) * 8%) cover calc(46% + var(--i) * 8%); }
       .r-reperes__ligne .r-reperes__lettre { animation: r-lettre linear both; animation-timeline: --fig; animation-range: cover calc(38% + var(--i) * 8%) cover calc(46% + var(--i) * 8%); }
 
-      /* 4. Bande panoramique : le toit défile de gauche à droite. */
-      .r-toit { view-timeline: --toit block; }
-      .r-toit :global(.r-toit__img) { animation: r-pan linear both; animation-timeline: --toit; animation-range: cover 0% cover 100%; }
+      /* Bande Québec : légère dérive verticale (0 à 8 %), transform seulement. */
+      .r-quebec { view-timeline: --quebec block; }
+      .r-quebec :global(.r-quebec__img) { height: 109%; animation: r-quebec linear both; animation-timeline: --quebec; animation-range: cover 0% cover 100%; }
     }
   }
   @keyframes r-derive { from { transform: translateY(0); } to { transform: translateY(-12%); } }
@@ -359,5 +380,5 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   @keyframes r-trait { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @keyframes r-allume { from { border-left-color: transparent; } to { border-left-color: var(--bleu); } }
   @keyframes r-lettre { from { background: #fff; color: var(--bleu); } to { background: var(--bleu); color: #fff; } }
-  @keyframes r-pan { from { transform: translateX(0); } to { transform: translateX(-41.17%); } }
+  @keyframes r-quebec { from { transform: translateY(0); } to { transform: translateY(-8%); } }
 </style>

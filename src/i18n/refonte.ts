@@ -11,7 +11,8 @@ import type { Locale } from './routes';
 const fr = {
   hero: {
     titre: 'Des sites web rapides, bâtis au Québec.',
-    texte: 'Je m’appelle Patrick Laperrière. Je conçois des sites en Astro pour des PME et des inspecteurs en bâtiment, en français et en anglais, et je développe le logiciel Habita.',
+    // 1E (Patrick) : pas de techno ni de public étroit dans le hero.
+    texte: 'Je m’appelle Patrick Laperrière. Quand une entreprise d’ici a besoin d’un site, d’un outil ou d’un logiciel, je le conçois et je le construis moi-même.',
     contact: 'Remplir le formulaire de contact',
     travaux: 'Voir mes réalisations',
     photoAlt: '',
@@ -67,6 +68,12 @@ const fr = {
     outils: (stack: string) => `Je travaille avec ${stack}, en français et en anglais.`,
     lien: 'Lire la page À propos',
   },
+  // Bloc Pat Lap (1G) : textes de la landing (data/patlap.ts) ; ici, seulement
+  // la phrase qui annonce la Soirée et le lien. Aucun prix.
+  patlap: {
+    soiree: (titre: string, format: string) => `Ensuite, pour aller plus loin : la ${titre}, ${format.charAt(0).toLowerCase()}${format.slice(1)}.`,
+    lien: 'Voir le programme La technologie pour tous',
+  },
   contact: {
     titre: 'Parlez-moi de votre projet.',
     texte: 'Écrivez-moi ou appelez-moi. Je vous réponds moi-même, en français ou en anglais.',
@@ -79,7 +86,7 @@ const fr = {
 const en: typeof fr = {
   hero: {
     titre: 'Fast websites, built in Quebec.',
-    texte: 'I’m Patrick Laperrière. I design websites in Astro for small businesses and home inspectors, in French and in English, and I develop the Habita software.',
+    texte: 'I’m Patrick Laperrière. When a business here needs a website, a tool or a piece of software, I design it and build it myself.',
     contact: 'Fill in the contact form',
     travaux: 'See my work',
     photoAlt: '',
@@ -134,6 +141,10 @@ const en: typeof fr = {
     ],
     outils: (stack: string) => `I work with ${stack}, in French and in English.`,
     lien: 'Read the About page',
+  },
+  patlap: {
+    soiree: (titre: string, format: string) => `Then, to go further: ${titre.charAt(0).toLowerCase()}${titre.slice(1)}, ${format.charAt(0).toLowerCase()}${format.slice(1)}.`,
+    lien: 'See the Tech for everyone program',
   },
   contact: {
     titre: 'Tell me about your project.',
