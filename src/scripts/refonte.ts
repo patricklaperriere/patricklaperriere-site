@@ -1,15 +1,10 @@
-// Refonte 2026-11 : le peu de JS de la home (~2 ko). Pas de librairie.
-// Tout le reste passe par CSS (scroll-driven animations, view transitions).
+// Refonte 2026-11 (direction v2) : le peu de JS de la home. Pas de librairie.
 //
-// - compteurs [data-compte] : de 0 à la valeur déjà écrite dans le HTML ;
-// - curseurs Avant/Après [data-aa] : recopie la valeur du range dans --pos ;
-// - boutons magnétiques .r-btn et curseur discret : ordinateur seulement.
-// En mouvement réduit, seuls les curseurs Avant/Après restent actifs.
+// - fiche du site [data-compte] : les valeurs se remplissent UNE fois au
+//   chargement (le seul mouvement orchestré de la page), puis rien ne bouge ;
+// - curseur Avant/Après [data-aa] : recopie la valeur du range dans --pos
+//   (il répond à une action de l'utilisateur ; actif aussi en mouvement réduit).
 
-const reduit = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const pointeurFin = matchMedia('(pointer: fine)').matches;
-
-// ---- Avant/Après --------------------------------------------------------------
 for (const r of document.querySelectorAll<HTMLInputElement>('[data-aa]')) {
   const fig = r.closest<HTMLElement>('.aa');
   const maj = () => fig?.style.setProperty('--pos', `${r.value}%`);
@@ -17,50 +12,19 @@ for (const r of document.querySelectorAll<HTMLInputElement>('[data-aa]')) {
   maj();
 }
 
-// ---- Compteurs ----------------------------------------------------------------
-if (!reduit && 'IntersectionObserver' in window) {
-  const io = new IntersectionObserver((entrees) => {
-    for (const e of entrees) {
-      if (!e.isIntersecting) continue;
-      io.unobserve(e.target);
-      const el = e.target as HTMLElement;
-      const cible = Number(el.dataset.compte);
-      const dec = Number(el.dataset.decimales || 0);
-      const sep = el.dataset.sep || '.';
-      const ecrit = (v: number) => (el.textContent = v.toFixed(dec).replace('.', sep));
-      const debut = performance.now();
-      const duree = 1200;
-      const pas = (t: number) => {
-        const p = Math.min((t - debut) / duree, 1);
-        ecrit(cible * (1 - Math.pow(1 - p, 3)));
-        if (p < 1) requestAnimationFrame(pas);
-      };
-      ecrit(0);
-      requestAnimationFrame(pas);
-    }
-  }, { threshold: 0.4 });
-  document.querySelectorAll('[data-compte]').forEach((el) => io.observe(el));
-}
-
-// ---- Boutons magnétiques et curseur (ordinateur) ------------------------------
-if (!reduit && pointeurFin) {
-  for (const b of document.querySelectorAll<HTMLElement>('.r-btn')) {
-    b.addEventListener('pointermove', (e) => {
-      const r = b.getBoundingClientRect();
-      b.style.setProperty('--mx', `${((e.clientX - r.left) / r.width - 0.5) * 10}px`);
-      b.style.setProperty('--my', `${((e.clientY - r.top) / r.height - 0.5) * 8}px`);
-    });
-    b.addEventListener('pointerleave', () => { b.style.setProperty('--mx', '0px'); b.style.setProperty('--my', '0px'); });
-  }
-  const c = document.querySelector<HTMLElement>('.r-curseur');
-  if (c) {
-    addEventListener('pointermove', (e) => {
-      c.classList.add('is-on');
-      c.style.setProperty('--cx', `${e.clientX}px`);
-      c.style.setProperty('--cy', `${e.clientY}px`);
-      const lien = (e.target as Element).closest('a, button, input');
-      c.style.setProperty('--cs', lien ? '2.6' : '1');
-    }, { passive: true });
-    document.addEventListener('pointerleave', () => c.classList.remove('is-on'));
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  for (const el of document.querySelectorAll<HTMLElement>('.fiche [data-compte]')) {
+    const cible = Number(el.dataset.compte);
+    const dec = Number(el.dataset.decimales || 0);
+    const sep = el.dataset.sep || '.';
+    const ecrit = (v: number) => (el.textContent = v.toFixed(dec).replace('.', sep));
+    const debut = performance.now();
+    const pas = (t: number) => {
+      const p = Math.min((t - debut) / 1000, 1);
+      ecrit(cible * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(pas);
+    };
+    ecrit(0);
+    requestAnimationFrame(pas);
   }
 }

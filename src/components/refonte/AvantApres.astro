@@ -1,8 +1,8 @@
 ---
-// Curseur Avant/Après : deux captures superposées, l'Après découpé par
-// clip-path selon --pos. Le contrôle est un vrai <input type="range"> :
+// Curseur Avant/Après : deux captures réelles superposées, l'Après découpé
+// par clip-path selon --pos. Le contrôle est un vrai <input type="range"> :
 // clavier (flèches), lecteur d'écran et tactile marchent sans code de plus ;
-// refonte.ts ne fait que recopier sa valeur dans --pos. Sans JS : 50 / 50.
+// refonte.ts recopie sa valeur dans --pos. Sans JS : moitié, moitié.
 import { Picture } from 'astro:assets';
 import { capture } from '../../lib/work-media';
 
@@ -15,47 +15,41 @@ interface Props {
 const { avant, apres, label, consigne } = Astro.props;
 const a = capture(avant.file);
 const b = capture(apres.file);
-const sizes = '(min-width: 1024px) 760px, 92vw';
+const sizes = '(min-width: 1024px) 1200px, 100vw';
 ---
 
 {a && b && (
   <figure class="aa" style="--pos: 50%">
     <div class="aa__cadre">
-      <Picture src={a} formats={['avif', 'webp']} widths={[640, 960, 1280]} sizes={sizes} alt={avant.alt} class="aa__img" loading="lazy" decoding="async" />
+      <Picture src={a} formats={['avif', 'webp']} widths={[640, 960, 1280]} sizes={sizes} alt={avant.alt} loading="lazy" decoding="async" fetchpriority="low" />
       <div class="aa__apres">
-        <Picture src={b} formats={['avif', 'webp']} widths={[640, 960, 1280]} sizes={sizes} alt={apres.alt} class="aa__img" loading="lazy" decoding="async" />
+        <Picture src={b} formats={['avif', 'webp']} widths={[640, 960, 1280, 1920]} sizes={sizes} alt={apres.alt} loading="lazy" decoding="async" fetchpriority="low" />
       </div>
-      <span class="aa__tag aa__tag--avant" aria-hidden="true">{avant.label}</span>
-      <span class="aa__tag aa__tag--apres" aria-hidden="true">{apres.label}</span>
-      <span class="aa__poignee" aria-hidden="true"><span>⟷</span></span>
+      <span class="aa__poignee" aria-hidden="true"></span>
       <input class="aa__range" type="range" min="0" max="100" value="50" step="1" aria-label={label} data-aa />
     </div>
-    <figcaption class="aa__consigne">{consigne}</figcaption>
+    <figcaption class="aa__legende">
+      <span>{avant.label}</span>
+      <span>{consigne}</span>
+      <span>{apres.label}</span>
+    </figcaption>
   </figure>
 )}
 
 <style>
   .aa { margin: 0; }
-  .aa__cadre { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); aspect-ratio: 16 / 10; background: var(--encre-3); touch-action: pan-y; }
+  .aa__cadre { position: relative; border: 1px solid var(--gris-plan); border-radius: var(--r); overflow: hidden; aspect-ratio: 16 / 10; background: var(--gris-plan); touch-action: pan-y; }
   .aa__cadre :global(picture), .aa__cadre :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
   .aa__apres { position: absolute; inset: 0; clip-path: inset(0 0 0 var(--pos)); }
-  .aa__tag {
-    position: absolute; top: 14px; padding: 4px 10px; border-radius: 999px;
-    font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase;
-    background: var(--encre); color: var(--os);
-  }
-  .aa__tag--avant { left: 14px; }
-  .aa__tag--apres { right: 14px; background: var(--citron); color: var(--encre); }
-  .aa__poignee {
-    position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--citron);
-    pointer-events: none;
-  }
-  .aa__poignee span {
-    position: absolute; top: 50%; left: 50%; width: 48px; height: 48px; margin: -24px 0 0 -24px; border-radius: 50%;
-    display: grid; place-items: center; background: var(--citron); color: var(--encre); font-weight: 700;
-  }
-  /* Le range couvre tout le cadre, invisible : on glisse n'importe où. */
+  /* La poignée : un trait bleu plan et une prise carrée. */
+  .aa__poignee { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--bleu); pointer-events: none; }
+  .aa__poignee::after { content: ""; position: absolute; top: 50%; left: 50%; width: 20px; height: 48px; margin: -24px 0 0 -10px; background: var(--bleu); border: 2px solid #fff; border-radius: var(--r); }
   .aa__range { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; }
-  .aa__range:focus-visible + * , .aa:has(.aa__range:focus-visible) .aa__cadre { outline: 3px solid var(--cobalt); outline-offset: 3px; }
-  .aa__consigne { margin-top: 10px; color: var(--gris); font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; }
+  .aa:has(.aa__range:focus-visible) .aa__cadre { outline: 3px solid var(--bleu); outline-offset: 3px; }
+  .aa__legende { display: flex; justify-content: space-between; gap: 16px; margin-top: 12px; font-size: .9375rem; color: var(--gris-txt); }
+  .aa__legende span:first-child, .aa__legende span:last-child { color: var(--graphite); font-weight: 700; white-space: nowrap; }
+  @media (max-width: 640px) {
+    .aa__legende { flex-wrap: wrap; }
+    .aa__legende span:nth-child(2) { order: 3; flex-basis: 100%; }
+  }
 </style>

@@ -1,223 +1,210 @@
 ---
-// La home, refonte 2026-11 (jalon 1), FR et EN. Éditoriale, cinématographique :
-// encre et os en alternance, un mot en citron, très gros titres.
+// La home, refonte 2026-11, direction v2 : le site se lit comme un rapport
+// d'inspection de bâtiment, fait de contenu réel. Règle permanente :
+// NEXUS-Bridge/REGLES-DESIGN-SANS-IA.md.
 //
-// Contenu : le même que HomePage.astro (home.ts, fr.ts, en.ts), plus les
-// étiquettes de refonte.ts. Tout est dans le HTML : sans JS ou en mouvement
-// réduit, c'est la page, immobile et complète. Les effets passent par CSS
-// (scroll-driven animations, repli : tout visible) et par refonte.ts (~2 ko).
+// - Hero : la photo de nuit plein cadre, le titre, et la fiche d'inspection du
+//   site (vrais scores) posée dessus comme une feuille de rapport.
+// - Réalisations : captures réelles en grand, annotées comme des photos de
+//   rapport (repères A, B), et le curseur Avant/Après de BeauRegard.
+// - Ce que je fais : une vraie liste de vérification, une ligne par service.
+// - Qui je suis, puis le contact, nus.
+// Chaque section a sa propre largeur et son propre rythme. Un seul mouvement
+// orchestré : le remplissage de la fiche au chargement. Pas de fondu au
+// défilement, pas de colonne épinglée, pas de décor.
 import '../../styles/refonte.css';
+import { Picture } from 'astro:assets';
 import { SITE } from '../../config';
 import type { Locale } from '../../i18n/routes';
 import { routes, workBase } from '../../i18n/routes';
 import { homeCopy } from '../../i18n/home';
-import type { ServiceKey } from '../../i18n/home';
-import { refonteCopy, accentue } from '../../i18n/refonte';
+import { refonteCopy } from '../../i18n/refonte';
 import { useTranslations } from '../../i18n';
 import { hasPhoto } from '../../lib/photo';
 import PortraitSlot from '../PortraitSlot.astro';
-import HabitaLoop from '../HabitaLoop.astro';
 import { HABITA_LOOP } from '../../lib/habitaLoop';
-import ExternalIcon from '../ExternalIcon.astro';
 import Fiche from './Fiche.astro';
 import AvantApres from './AvantApres.astro';
 import { HOME_LIEN_PATLAP, HOME_PATLAP } from '../../data/patlap';
+import hero from '../../assets/refonte/hero.jpg';
+import dev from '../../assets/refonte/dev.jpg';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
-const t = homeCopy[locale];
-const rc = refonteCopy[locale];
+const h = homeCopy[locale];
+const c = refonteCopy[locale];
 const tr = useTranslations(locale);
 const patlap = HOME_PATLAP[locale];
 
-const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
-const services: Record<ServiceKey, { href: string; label: string }> = {
-  svcWeb: { href: routes.svcWeb[locale], label: tr.services.web.title },
-  svcSeo: { href: routes.svcSeo[locale], label: tr.services.seo.title },
-  svcShopify: { href: routes.svcShopify[locale], label: tr.services.shopify.title },
-  svcTools: { href: routes.svcTools[locale], label: tr.services.tools.title },
-};
-const proofs = [
-  { k: t.about.proofs.stack, v: SITE.stack.join(', ') },
-  { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
+const etude = (slug: string) => `${workBase[locale]}/${slug}`;
+const services = [
+  { href: routes.svcWeb[locale], s: tr.services.web },
+  { href: routes.svcSeo[locale], s: tr.services.seo },
+  { href: routes.svcShopify[locale], s: tr.services.shopify },
+  { href: routes.svcTools[locale], s: tr.services.tools },
 ];
-const quote = t.about.testimonial;
-const two = (n: number) => String(n).padStart(2, '0');
-
-const h = {
-  inspection: accentue(t.inspection.title, rc.accent.inspection),
-  work: accentue(t.work.title, rc.accent.work),
-  about: accentue(t.about.title, rc.accent.about),
-  contact: accentue(t.contact.title, rc.accent.contact),
-};
-const beau = t.work.items.find((w) => w.slug === 'inspection-beauregard');
+const quote = h.about.testimonial;
+const beau = h.work.items.find((w) => w.slug === 'inspection-beauregard');
 const avant = beau?.media.find((m) => m.file.includes('avant'));
 const apres = beau?.media.find((m) => m.file.includes('apres'));
+const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 'long', type: 'conjunction' }).format(SITE.stack);
 ---
 
 <div class="r-home">
-  {/* ---- Hero : plein écran, titre géant, la fiche du site en signature ----- */}
+  {/* ---- Hero ----------------------------------------------------------------- */}
   <section class="r-hero" aria-labelledby="hero-title">
+    <Picture
+      src={hero}
+      formats={['avif', 'webp']}
+      widths={[640, 960, 1280, 1920, 2400]}
+      sizes="100vw"
+      alt=""
+      class="r-hero__photo"
+      loading="eager"
+      fetchpriority="high"
+      decoding="async"
+    />
     <div class="r-wrap r-hero__in">
-      <p class="r-eyebrow">{rc.eyebrow}</p>
-      <h1 id="hero-title" class="r-h r-hero__titre">
-        {t.hero.title.map((ligne) => {
-          const a = accentue(ligne, rc.accent.hero);
-          return <span>{a.avant}{a.mot && <em class="r-citron">{a.mot}</em>}{a.apres}</span>;
-        })}
-      </h1>
-      <div class="r-hero__bas">
-        <div class="r-hero__texte">
-          <p class="r-lead">{t.hero.lead}</p>
-          <p class="r-hero__actions">
-            <a class="r-btn r-btn--plein" href={routes.contact[locale]}>{tr.cta.primary}<span class="r-btn__fleche" aria-hidden="true">→</span></a>
-            <a class="r-btn r-btn--fantome" href="#travaux">{t.hero.secondary}</a>
+      <div class="r-hero__texte">
+        <h1 id="hero-title" class="r-h r-h--1">{c.hero.titre}</h1>
+        <p class="r-hero__lead">{c.hero.texte}</p>
+        <p class="r-hero__actions">
+          {/* Un seul bouton : « Voir mes réalisations » a été retiré (l'exercice
+              « retirer une chose ») ; la fiche et le défilement y mènent déjà. */}
+          <a class="r-btn r-btn--blanc" href={routes.contact[locale]}>{c.hero.contact}</a>
+        </p>
+      </div>
+      <div class="r-hero__fiche"><Fiche locale={locale} /></div>
+    </div>
+  </section>
+
+  {/* ---- Réalisations ----------------------------------------------------------- */}
+  <section class="r-travaux" id="travaux" aria-labelledby="travaux-titre">
+    <div class="r-wrap">
+      <h2 id="travaux-titre" class="r-h r-h--2">{c.travaux.titre}</h2>
+      <p class="r-p r-gris r-travaux__intro">{c.travaux.intro}</p>
+
+      {/* Habita : la capture en grand, annotée comme une photo de rapport. */}
+      <article class="r-habita" aria-labelledby="habita-titre">
+        <figure class="r-fig">
+          <div class="r-fig__img">
+            <img src={HABITA_LOOP.poster} width={HABITA_LOOP.width} height={HABITA_LOOP.height} alt={tr.workSection.habitaAlt} loading="lazy" decoding="async" fetchpriority="low" />
+            {c.travaux.habita.reperes.map((r) => (
+              <span class="r-fig__repere" style={`left:${r.x}%;top:${r.y}%`} aria-hidden="true">{r.id}</span>
+            ))}
+          </div>
+          <figcaption class="r-fig__legende">{c.travaux.habita.figure}</figcaption>
+        </figure>
+        <div class="r-habita__texte">
+          <h3 id="habita-titre" class="r-h r-h--3">{c.travaux.habita.titre}</h3>
+          <p class="r-p">{c.travaux.habita.texte}</p>
+          <dl class="r-reperes">
+            {c.travaux.habita.reperes.map((r) => (
+              <div><dt><span class="r-fig__repere r-fig__repere--liste" aria-hidden="true">{r.id}</span><span class="r-visuel-cache">{locale === 'fr' ? 'Repère' : 'Mark'} {r.id}</span></dt><dd>{r.texte}</dd></div>
+            ))}
+          </dl>
+          <p class="r-liens">
+            <a href={etude('habita')}>{c.travaux.habita.etude}</a>
+            <a href="https://habita.expert" rel="noopener">{c.travaux.habita.site}</a>
           </p>
         </div>
-        <div class="r-hero__fiche"><Fiche locale={locale} /></div>
-      </div>
-    </div>
-  </section>
+      </article>
 
-  {/* ---- La méthode : trois couches, colonne épinglée + rail de progression -- */}
-  <section class="r-sec r-sec--os r-insp" id="inspection" aria-labelledby="insp-title">
-    <div class="r-wrap r-insp__grille">
-      <div class="r-insp__epingle">
-        <p class="r-eyebrow">{rc.method}</p>
-        <h2 id="insp-title" class="r-h r-h--xl r-lignes"><span>{h.inspection.avant}{h.inspection.mot && <em>{h.inspection.mot}</em>}{h.inspection.apres}</span></h2>
-        <p class="r-lead r-insp__intro">{t.inspection.intro}</p>
-        <div class="r-insp__rail" aria-hidden="true"><span></span></div>
-      </div>
-      <ol class="r-insp__couches">
-        {t.inspection.layers.map((l, i) => (
-          <li class="r-couche r-revele" data-n={two(i + 1)}>
-            {/* Le grand numéro est décoratif : tracé en CSS (::before), hors du texte. */}
-            <p class="r-couche__nom">{rc.couche} · {l.name}</p>
-            <h3 class="r-h r-h--l">{l.title}</h3>
-            <p class="r-couche__corps">{l.body}</p>
-            <p class="r-couche__liens">{l.links.map((k) => <a href={services[k].href}>{services[k].label}</a>)}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  {/* ---- Réalisations : grandes cartes, Avant/Après, chiffres ---------------- */}
-  <section class="r-sec r-work" id="travaux" aria-labelledby="work-title">
-    <div class="r-wrap">
-      <header class="r-work__tete">
-        <p class="r-eyebrow">{rc.work.eyebrow}</p>
-        <h2 id="work-title" class="r-h r-h--xxl r-lignes"><span>{h.work.avant}{h.work.mot && <em>{h.work.mot}</em>}{h.work.apres}</span></h2>
-        <p class="r-lead">{t.work.intro}</p>
-      </header>
-      <ol class="r-work__liste">
-        {t.work.items.map((w, i) => (
-          <li class="r-dossier r-carte r-revele">
-            <div class="r-dossier__texte">
-              <p class="r-dossier__ref">{t.work.file} {two(i + 1)} · {w.kind}</p>
-              <h3 class="r-h r-h--xl">{w.title}</h3>
-              <p class="r-dossier__corps">{w.body}</p>
-              {w.slug === 'inspection-beauregard' && (
-                <dl class="r-chiffres">
-                  {rc.work.chiffres.map((c) => (
-                    <div>
-                      <dt><span data-compte={c.n}>{c.n}</span></dt>
-                      <dd>{c.label}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-              <div class="r-dossier__pied">
-                <span class="r-dossier__statut">{w.status}</span>
-                {w.links.map((l) =>
-                  l.external
-                    ? <a class="r-dossier__lien" href={l.href} rel="noopener">{l.label}<ExternalIcon /></a>
-                    : <a class="r-dossier__lien" href={caseHref(w.slug)}>{l.label}</a>,
-                )}
-              </div>
-            </div>
-            <div class="r-dossier__media">
-              {w.slug === 'habita' ? (
-                <figure class="r-loop">
-                  <HabitaLoop poster={HABITA_LOOP.poster} alt={tr.workSection.habitaAlt} />
-                </figure>
-              ) : w.slug === 'inspection-beauregard' && avant && apres ? (
-                <AvantApres
-                  avant={{ file: avant.file, alt: avant.alt, label: rc.slider.avant }}
-                  apres={{ file: apres.file, alt: apres.alt, label: rc.slider.apres }}
-                  label={rc.slider.label}
-                  consigne={rc.slider.consigne}
-                />
-              ) : null}
-            </div>
-          </li>
-        ))}
-      </ol>
-      <p class="r-work__tout"><a class="r-btn r-btn--fantome" href={routes.work[locale]}>{t.work.all}<span class="r-btn__fleche" aria-hidden="true">→</span></a></p>
-    </div>
-  </section>
-
-  {/* ---- Qui je suis ----------------------------------------------------------- */}
-  <section class="r-sec r-sec--os r-about" aria-labelledby="about-title">
-    <div class="r-wrap r-about__grille">
-      <div class="r-about__tete">
-        <p class="r-eyebrow">{rc.about}</p>
-        <h2 id="about-title" class="r-h r-h--xxl r-lignes"><span>{h.about.avant}{h.about.mot && <em>{h.about.mot}</em>}{h.about.apres}</span></h2>
-        {(hasPhoto || import.meta.env.DEV) && (
-          <div class="r-about__photo r-revele">
-            <PortraitSlot alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 360px, 70vw" />
-          </div>
+      {/* BeauRegard : le texte d'abord, étroit, puis la comparaison pleine largeur. */}
+      <article class="r-beau" aria-labelledby="beau-titre">
+        <div class="r-beau__texte">
+          <h3 id="beau-titre" class="r-h r-h--3">{c.travaux.beauregard.titre}</h3>
+          <p class="r-p">{c.travaux.beauregard.texte}</p>
+          <p class="r-liens">
+            <a href={etude('inspection-beauregard')}>{c.travaux.beauregard.etude}</a>
+            <a href="https://www.inspectionbeauregard.com" rel="noopener">{c.travaux.beauregard.site}</a>
+          </p>
+        </div>
+        {avant && apres && (
+          <AvantApres
+            avant={{ file: avant.file, alt: avant.alt, label: c.travaux.slider.avant }}
+            apres={{ file: apres.file, alt: apres.alt, label: c.travaux.slider.apres }}
+            label={c.travaux.slider.label}
+            consigne={c.travaux.slider.consigne}
+          />
         )}
-      </div>
-      <div class="r-about__texte r-revele">
-        {t.about.body.map((p) => <p>{p}</p>)}
-        <dl class="r-preuves">
-          {proofs.map((p) => (
-            <div><dt>{p.k}</dt><dd>{p.v}</dd></div>
-          ))}
-        </dl>
+      </article>
+
+      <p class="r-travaux__tout"><a class="r-btn r-btn--trait" href={routes.work[locale]}>{c.travaux.tout}</a></p>
+    </div>
+  </section>
+
+  {/* ---- Ce que je fais : une vraie liste de vérification ---------------------- */}
+  <section class="r-services" aria-labelledby="services-titre">
+    <div class="r-services__photo">
+      <Picture src={dev} formats={['avif', 'webp']} widths={[640, 960, 1280, 1920]} sizes="(min-width: 1024px) 45vw, 100vw" alt={c.services.imageAlt} loading="lazy" decoding="async" fetchpriority="low" />
+    </div>
+    <div class="r-services__liste">
+      <h2 id="services-titre" class="r-h r-h--2">{c.services.titre}</h2>
+      <p class="r-p r-gris">{c.services.intro}</p>
+      <ul class="r-coches">
+        {services.map(({ href, s }) => (
+          <li>
+            <span class="r-coche" aria-hidden="true"></span>
+            <div>
+              <a class="r-coches__titre" href={href}>{s.title}</a>
+              <p>{s.blurb}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  {/* ---- Qui je suis ---------------------------------------------------------------- */}
+  <section class="r-apropos" aria-labelledby="apropos-titre">
+    <div class="r-wrap r-apropos__grille">
+      {(hasPhoto || import.meta.env.DEV) && (
+        <div class="r-apropos__photo">
+          <PortraitSlot alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 480px, 100vw" />
+        </div>
+      )}
+      <div class="r-apropos__texte">
+        <h2 id="apropos-titre" class="r-h r-h--2">{c.apropos.titre}</h2>
+        {c.apropos.textes.map((p) => <p class="r-p">{p}</p>)}
+        <p class="r-p">{c.apropos.outils(stack)}</p>
         {quote && (
           <figure class="r-citation">
             <blockquote><p>{quote.quote}</p></blockquote>
             <figcaption>{quote.name}, {quote.role}{quote.note && <span class="r-citation__note">{quote.note}</span>}</figcaption>
           </figure>
         )}
-        <p><a href={routes.about[locale]}>{t.about.more}</a></p>
+        <p class="r-liens"><a href={routes.about[locale]}>{c.apropos.lien}</a></p>
       </div>
     </div>
   </section>
 
-  {/* ---- La technologie pour tous (interrupteur HOME_LIEN_PATLAP, garde-fou
-      du build dans astro.config.mjs) : style de la vitrine, pas de Pat Lap. */}
+  {/* ---- La technologie pour tous (interrupteur HOME_LIEN_PATLAP = false ; le
+      build refuse de l'activer tant que Pat Lap est en brouillon). */}
   {HOME_LIEN_PATLAP && (
-    <section class="r-sec r-patlap" aria-labelledby="patlap-title">
-      <div class="r-wrap r-patlap__in">
-        <h2 id="patlap-title" class="r-h r-h--xl">{patlap.titre}</h2>
-        <div>
-          <p class="r-lead">{patlap.texte}</p>
-          <p><a class="r-btn r-btn--fantome" href={patlap.lien}>{patlap.bouton}<span class="r-btn__fleche" aria-hidden="true">→</span></a></p>
-        </div>
+    <section class="r-patlap" aria-labelledby="patlap-title">
+      <div class="r-wrap">
+        <h2 id="patlap-title" class="r-h r-h--3">{patlap.titre}</h2>
+        <p class="r-p">{patlap.texte}</p>
+        <p class="r-liens"><a href={patlap.lien}>{patlap.bouton}</a></p>
       </div>
     </section>
   )}
 
-  {/* ---- Contact ------------------------------------------------------------------ */}
-  <section class="r-sec r-contact" aria-labelledby="contact-title">
+  {/* ---- Contact ---------------------------------------------------------------------- */}
+  <section class="r-contact" aria-labelledby="contact-titre">
     <div class="r-wrap">
-      <p class="r-eyebrow">{rc.contact}</p>
-      <h2 id="contact-title" class="r-h r-h--xxl r-lignes"><span>{h.contact.avant}{h.contact.mot && <em class="r-citron">{h.contact.mot}</em>}{h.contact.apres}</span></h2>
+      <h2 id="contact-titre" class="r-h r-h--1">{c.contact.titre}</h2>
       <div class="r-contact__bas">
-        <p class="r-lead">{t.contact.lead}</p>
+        <p class="r-p">{c.contact.texte}</p>
         <dl class="r-contact__moyens">
-          <div><dt>{t.contact.email}</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
-          <div><dt>{t.contact.phone}</dt><dd><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></dd></div>
+          <div><dt>{c.contact.courriel}</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+          <div><dt>{c.contact.telephone}</dt><dd><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></dd></div>
         </dl>
-        <p><a class="r-btn r-btn--plein r-contact__btn" href={routes.contact[locale]}>{tr.cta.primary}<span class="r-btn__fleche" aria-hidden="true">→</span></a></p>
+        <p><a class="r-btn r-btn--plein" href={routes.contact[locale]}>{c.contact.bouton}</a></p>
       </div>
     </div>
   </section>
-
-  <div class="r-curseur" aria-hidden="true"></div>
 </div>
 
 <script>
@@ -225,131 +212,102 @@ const apres = beau?.media.find((m) => m.file.includes('apres'));
 </script>
 
 <style>
-  /* ---- Hero ---------------------------------------------------------------- */
-  .r-hero { min-height: 100svh; display: flex; align-items: center; padding: calc(80px + 2vh) 0 clamp(32px, 5vh, 72px); position: relative; overflow: hidden; }
-  /* Un halo cobalt, très doux, derrière la fiche : de la profondeur sans image. */
-  .r-hero::before {
-    content: ""; position: absolute; right: -10vw; bottom: -20vh; width: 70vw; height: 70vw; max-width: 1100px; max-height: 1100px;
-    background: radial-gradient(closest-side, rgba(59, 91, 255, .22), transparent 70%); pointer-events: none;
+  .r-visuel-cache { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .r-liens { display: flex; flex-wrap: wrap; gap: 4px 28px; margin: 24px 0 0; }
+  .r-liens a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+
+  /* ---- Hero ------------------------------------------------------------------- */
+  .r-hero { position: relative; background: var(--nuit); color: #fff; overflow: hidden; padding: 112px 0 48px; }
+  /* La photo, retournée (immeubles à droite) ; le dégradé nuit à gauche sert
+     la lecture du titre, il n'est pas décoratif. */
+  .r-hero :global(.r-hero__photo) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% 50%; }
+  .r-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--nuit) 0%, rgba(14, 27, 61, .92) 38%, rgba(14, 27, 61, .35) 72%, rgba(14, 27, 61, .15) 100%); }
+  .r-hero__in { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .r-hero__texte .r-h { max-width: 11ch; }
+  .r-hero__lead { color: var(--nuit-txt); font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.55; max-width: 44ch; margin: 28px 0 0; }
+  .r-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 32px 0 0; }
+  @media (max-width: 767px) {
+    .r-hero::after { background: linear-gradient(180deg, rgba(14, 27, 61, .55) 0%, var(--nuit) 70%); }
   }
-  .r-hero__in { position: relative; }
-  /* Mobile : très gros, les phrases passent à la ligne (« sur mesure » reste
-     d'un bloc). Dès 768 px : une phrase par ligne, la taille suit la largeur
-     et la hauteur pour que tout le hero tienne dans l'écran. */
-  .r-hero__titre { font-size: 16vw; line-height: .88; margin-bottom: clamp(28px, 4.5vh, 56px); }
-  .r-hero__titre span { display: block; }
-  .r-hero__titre em { font-size: 1.04em; line-height: 0; }
-  @media (min-width: 768px) {
-    .r-hero__titre { font-size: min(10.4vw, 13vh, 13rem); line-height: .86; }
-    :global(html[lang="en"]) .r-hero__titre { font-size: min(14vw, 16vh, 14rem); }
-    .r-hero__titre span { white-space: nowrap; }
-  }
-  .r-hero__bas { display: grid; gap: 40px; align-items: end; }
-  .r-hero__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; margin: 32px 0 0; }
-  /* Deux colonnes (texte | fiche) dès que la fiche en bandeau y tient. */
-  @media (min-width: 1280px) {
-    .r-hero__bas { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; }
-  }
-  @media (min-width: 1024px) {
-    /* La fiche en bandeau : la bague à gauche, les lignes en trois colonnes. */
-    .r-hero__fiche :global(.fiche) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 32px; padding: 22px 28px; }
-    .r-hero__fiche :global(.fiche__tete), .r-hero__fiche :global(.fiche__titre), .r-hero__fiche :global(.fiche__meta) { grid-column: 1 / -1; }
-    .r-hero__fiche :global(.fiche__titre) { margin: 8px 0 14px; }
-    .r-hero__fiche :global(.fiche__score) { grid-template-columns: 96px auto; column-gap: 16px; }
-    .r-hero__fiche :global(.fiche__bague) { width: 96px; height: 96px; }
-    .r-hero__fiche :global(.fiche__n) { font-size: 3.75rem; }
-    .r-hero__fiche :global(.fiche__lignes) { margin: 0; border-top: 0; display: grid; grid-template-columns: 1.4fr 1fr 1fr; column-gap: 24px; align-self: center; }
-    .r-hero__fiche :global(.fiche__lignes > div) { flex-direction: column; align-items: flex-start; justify-content: flex-start; border-bottom: 0; border-left: 1px solid var(--line); padding: 0 0 0 16px; }
-    .r-hero__fiche :global(.fiche__lignes dd) { font-size: 1.375rem; order: -1; }
-    .r-hero__fiche :global(.fiche__lignes dt) { font-size: .8125rem; }
-    .r-hero__fiche :global(.fiche__plus) { flex-basis: auto; width: 100%; margin-top: 6px; }
-    .r-hero__fiche :global(.fiche__meta) { margin-top: 14px; }
+  @media (min-width: 1100px) {
+    .r-hero { min-height: min(100svh, 980px); display: flex; align-items: flex-end; padding: 140px 0 64px; }
+    .r-hero__in { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: end; }
   }
 
-  /* ---- La méthode ---------------------------------------------------------- */
-  .r-insp__grille { display: grid; gap: 48px; timeline-scope: --couches; }
-  .r-insp__intro { margin-top: 24px; }
-  .r-insp__rail { display: none; }
-  .r-insp__couches { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; view-timeline: --couches block; }
-  .r-couche { position: relative; background: #fff; border: 1px solid rgba(11, 15, 20, .1); border-radius: 28px; padding: clamp(24px, 4vw, 48px); overflow: hidden; }
-  .r-couche::before { content: attr(data-n); position: absolute; right: 24px; top: 8px; font-family: var(--font-display); font-weight: 800; font-size: clamp(5rem, 12vw, 9rem); line-height: 1; color: var(--os-2); pointer-events: none; }
-  .r-couche > * { position: relative; }
-  .r-couche__nom { margin: 0 0 16px; font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris-os); }
-  .r-couche__corps { color: var(--gris-os); font-size: 1.125rem; line-height: 1.6; max-width: 52ch; margin: 16px 0 0; }
-  .r-couche__liens { display: flex; flex-wrap: wrap; gap: 0 24px; margin: 16px 0 0; }
-  .r-couche__liens a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
-  @media (min-width: 1024px) {
-    .r-insp__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; align-items: start; }
-    .r-insp__epingle { position: sticky; top: 120px; }
-    .r-couche { min-height: 52vh; display: flex; flex-direction: column; justify-content: center; }
-    .r-insp__rail { display: block; margin-top: 48px; width: 4px; height: 160px; border-radius: 999px; background: rgba(11, 15, 20, .12); overflow: hidden; }
-    .r-insp__rail span { display: block; height: 100%; background: var(--encre); transform-origin: top; }
-    @supports (animation-timeline: view()) {
-      @media (prefers-reduced-motion: no-preference) {
-        .r-insp__rail span { animation: rail linear both; animation-timeline: --couches; animation-range: entry 30% exit 70%; }
-      }
-    }
+  /* ---- Réalisations ------------------------------------------------------------ */
+  .r-travaux { padding: clamp(80px, 11vw, 160px) 0 clamp(64px, 8vw, 120px); }
+  .r-travaux__intro { margin-top: 20px; max-width: 52ch; }
+  .r-habita { display: grid; gap: 32px; margin-top: clamp(48px, 7vw, 96px); }
+  .r-fig { margin: 0; }
+  .r-fig__img { position: relative; border: 1px solid var(--gris-plan); border-radius: var(--r); overflow: hidden; }
+  .r-fig__img img { display: block; width: 100%; height: auto; }
+  /* Le repère : un cercle fin et sa lettre, comme sur une photo de rapport. */
+  .r-fig__repere {
+    position: absolute; width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+    border: 2px solid var(--bleu); background: #fff; color: var(--bleu);
+    display: grid; place-items: center; font-weight: 700; font-size: .9375rem; line-height: 1;
   }
-  @keyframes rail { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-
-  /* ---- Réalisations -------------------------------------------------------- */
-  .r-work__tete { display: grid; gap: 24px; margin-bottom: clamp(48px, 8vw, 96px); }
-  .r-work__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
-  .r-dossier { display: grid; gap: 32px; padding: clamp(24px, 4vw, 56px); }
-  .r-dossier__ref { margin: 0 0 16px; font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); }
-  .r-dossier__corps { color: var(--gris-clair); font-size: 1.125rem; line-height: 1.6; max-width: 50ch; margin: 20px 0 0; }
-  .r-dossier__pied { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
-  .r-dossier__statut { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--encre); background: var(--citron); padding: 3px 10px; border-radius: 999px; }
-  .r-dossier__lien { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 700; }
-  .r-loop { margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); }
-  .r-chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 28px 0 0; }
-  .r-chiffres div { border-top: 2px solid var(--citron); padding-top: 12px; }
-  .r-chiffres dt { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.75rem, 5vw, 4.5rem); line-height: 1; color: var(--os); font-variant-numeric: tabular-nums; }
-  .r-chiffres dd { margin: 8px 0 0; color: var(--gris-clair); font-size: .875rem; line-height: 1.4; }
-  .r-work__tout { margin: 48px 0 0; }
+  .r-fig__repere--liste { position: static; margin: 0; flex: none; }
+  .r-fig__legende { margin-top: 10px; color: var(--gris-txt); font-size: .9375rem; }
+  .r-reperes { margin: 24px 0 0; border-top: 1px solid var(--gris-plan); }
+  .r-reperes div { display: flex; gap: 14px; align-items: flex-start; padding: 14px 0; border-bottom: 1px solid var(--gris-plan); }
+  .r-reperes dd { margin: 0; line-height: 1.5; padding-top: 5px; }
+  .r-beau { display: grid; gap: 32px; margin-top: clamp(80px, 11vw, 160px); }
+  .r-beau__texte { max-width: 62ch; }
+  .r-travaux__tout { margin: clamp(48px, 7vw, 80px) 0 0; }
   @media (min-width: 1024px) {
-    .r-work__tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; }
-    .r-work__tete .r-eyebrow, .r-work__tete h2 { grid-column: 1 / -1; }
-    .r-work__tete .r-lead { grid-column: 2; }
-    .r-dossier { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; min-height: 72vh; }
-    .r-work__liste > li:nth-child(even) .r-dossier__texte { order: 2; }
+    .r-travaux .r-h--2 { font-size: clamp(5rem, 9vw, 9rem); }
+    .r-habita { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 48px; align-items: start; }
+    .r-beau__texte { margin-left: auto; margin-right: 8%; }
   }
 
-  /* ---- Qui je suis --------------------------------------------------------- */
-  .r-about__grille { display: grid; gap: 48px; }
-  .r-about__photo { margin-top: 40px; max-width: 360px; }
-  .r-about__photo :global(.portrait) { border-radius: 28px; overflow: hidden; }
-  .r-about__texte p { color: var(--gris-os); font-size: 1.1875rem; line-height: 1.65; max-width: 54ch; margin: 0 0 24px; }
-  .r-preuves { margin: 32px 0; border-top: 1px solid rgba(11, 15, 20, .14); }
-  .r-preuves div { display: grid; grid-template-columns: 8rem 1fr; gap: 16px; padding-block: 16px; border-bottom: 1px solid rgba(11, 15, 20, .14); }
-  .r-preuves dt { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris-os); padding-top: .3em; }
-  .r-preuves dd { margin: 0; color: var(--encre); }
-  .r-citation { margin: 32px 0; padding: 28px; background: var(--encre); color: var(--os); border-radius: 28px; }
+  /* ---- Ce que je fais ---------------------------------------------------------- */
+  .r-services { display: grid; border-top: 1px solid var(--gris-plan); border-bottom: 1px solid var(--gris-plan); }
+  .r-services__photo :global(picture), .r-services__photo :global(img) { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .r-services__photo { aspect-ratio: 16 / 9; }
+  .r-services__liste { padding: clamp(48px, 7vw, 96px) var(--pad-x); }
+  .r-services__liste > .r-p { margin-top: 16px; }
+  .r-coches { list-style: none; margin: 32px 0 0; padding: 0; }
+  .r-coches li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: 18px; padding: 20px 0; border-top: 1px solid var(--gris-plan); }
+  .r-coches li:last-child { border-bottom: 1px solid var(--gris-plan); }
+  /* La case cochée : un carré et sa coche, tracés en CSS. */
+  .r-coche { width: 22px; height: 22px; margin-top: 3px; border: 2px solid var(--bleu); border-radius: var(--r); position: relative; }
+  .r-coche::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid var(--bleu); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+  .r-coches__titre { font-weight: 700; font-size: 1.25rem; }
+  .r-coches p { margin: 6px 0 0; color: var(--gris-txt); line-height: 1.55; max-width: 60ch; }
+  @media (min-width: 1024px) {
+    .r-services { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+    .r-services__photo { aspect-ratio: auto; min-height: 100%; }
+    .r-services__liste { padding-left: clamp(48px, 6vw, 96px); max-width: 860px; }
+  }
+
+  /* ---- Qui je suis ----------------------------------------------------------------- */
+  .r-apropos { padding: clamp(80px, 11vw, 160px) 0; }
+  .r-apropos__grille { display: grid; gap: 40px; }
+  .r-apropos__photo :global(.portrait) { border: 0; }
+  .r-apropos__photo { max-width: 480px; }
+  .r-apropos__texte .r-h { margin-bottom: 28px; }
+  .r-citation { margin: 36px 0 0; padding: 4px 0 4px 24px; border-left: 3px solid var(--bleu); }
   .r-citation blockquote { margin: 0; }
-  .r-citation blockquote p { font-family: var(--font-accent); font-style: italic; font-size: clamp(1.375rem, 2.2vw, 1.875rem); line-height: 1.3; color: var(--os) !important; margin: 0 !important; max-width: none !important; }
-  .r-citation figcaption { margin-top: 16px; color: var(--gris-clair); font-size: .9375rem; }
-  .r-citation__note { display: block; font-family: var(--font-accent); font-style: italic; margin-top: 4px; }
+  .r-citation blockquote p { font-size: 1.25rem; line-height: 1.55; margin: 0; max-width: 60ch; }
+  .r-citation figcaption { margin-top: 14px; font-weight: 700; }
+  .r-citation__note { display: block; font-weight: 400; color: var(--gris-txt); margin-top: 2px; }
   @media (min-width: 1024px) {
-    .r-about__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; }
-    .r-about__tete { position: sticky; top: 120px; align-self: start; }
-    .r-about__texte { padding-top: 40px; }
+    .r-apropos__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 80px; align-items: start; }
+    .r-apropos__texte { padding-top: 12px; }
   }
 
-  /* ---- Pat Lap (interrupteur) ----------------------------------------------- */
-  .r-patlap { border-top: 1px solid var(--line); }
-  .r-patlap__in { display: grid; gap: 32px; }
-  .r-patlap__in p + p { margin-top: 28px; }
-  @media (min-width: 1024px) { .r-patlap__in { grid-template-columns: 1fr 1fr; align-items: end; } }
+  /* ---- Pat Lap (interrupteur) ------------------------------------------------------- */
+  .r-patlap { padding: 64px 0; border-top: 1px solid var(--gris-plan); }
+  .r-patlap .r-p { margin-top: 12px; }
 
-  /* ---- Contact --------------------------------------------------------------- */
-  .r-contact { border-top: 1px solid var(--line); }
-  .r-contact__bas { display: grid; gap: 32px; margin-top: clamp(40px, 6vw, 72px); align-items: end; }
-  .r-contact__moyens { margin: 0; border-top: 1px solid var(--line); }
-  .r-contact__moyens div { display: grid; grid-template-columns: 7rem 1fr; gap: 16px; padding-block: 16px; border-bottom: 1px solid var(--line); }
-  .r-contact__moyens dt { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); padding-top: .3em; }
-  .r-contact__moyens dd { margin: 0; overflow-wrap: anywhere; font-size: 1.125rem; }
-  .r-contact__btn { min-height: 64px; font-size: 1.125rem; padding: 0 36px; }
-  @media (min-width: 1024px) {
-    .r-contact__bas { grid-template-columns: 1.1fr 1fr auto; gap: 56px; }
-  }
+  /* ---- Contact -------------------------------------------------------------------- */
+  .r-contact { padding: clamp(80px, 11vw, 160px) 0; border-top: 1px solid var(--gris-plan); }
+  .r-contact .r-h { max-width: 12ch; }
+  .r-contact__bas { display: grid; gap: 28px; margin-top: 40px; max-width: 760px; }
+  .r-contact__moyens { margin: 0; border-top: 1px solid var(--gris-plan); }
+  .r-contact__moyens div { display: grid; grid-template-columns: 8rem minmax(0, 1fr); gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--gris-plan); }
+  .r-contact__moyens dt { color: var(--gris-txt); }
+  .r-contact__moyens dd { margin: 0; font-size: 1.25rem; font-weight: 700; overflow-wrap: anywhere; }
+  .r-contact__bas p { margin: 0; }
 </style>

@@ -108,7 +108,8 @@ async function lighthouse(url) {
       '-y',
       LIGHTHOUSE,
       url,
-      '--only-categories=performance',
+      // Les quatre catégories : la fiche du site les affiche toutes (refonte 2026-11).
+      '--only-categories=performance,accessibility,best-practices,seo',
       '--form-factor=mobile',
       '--output=json',
       `--output-path=${out}`,
@@ -125,6 +126,9 @@ async function lighthouse(url) {
   if (score == null || !si || si > 10000) return null;
   return {
     performance: Math.round(score * 100),
+    accessibility: Math.round((r.categories?.accessibility?.score ?? 0) * 100),
+    bestPractices: Math.round((r.categories?.['best-practices']?.score ?? 0) * 100),
+    seo: Math.round((r.categories?.seo?.score ?? 0) * 100),
     lcpMs: Math.round(a['largest-contentful-paint'].numericValue),
     fcpMs: Math.round(a['first-contentful-paint'].numericValue),
     cls: Math.round(a['cumulative-layout-shift'].numericValue * 1000) / 1000,

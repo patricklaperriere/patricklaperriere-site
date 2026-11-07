@@ -1,203 +1,125 @@
 /* ═══════════════════════════════════════════════════════════════════════════
-   Refonte 2026-11 : système de design. Portée : html.theme-refonte (la home
-   au jalon 1 ; les autres pages au jalon 2). Chargé seulement par les pages
-   qui l'importent : le reste du site ne change pas.
+   Refonte 2026-11, direction v2 : le site est un rapport d'inspection.
+   Règle permanente : NEXUS-Bridge/REGLES-DESIGN-SANS-IA.md (lue avant toute
+   mise en page). Portée : html.theme-refonte (la home au jalon 1).
    ───────────────────────────────────────────────────────────────────────────
-   Couleur : Encre #0B0F14 (fond principal), Os #F4F1EA (sections de
-   respiration), Citron #D8FF3E (accent rare, toujours avec du texte encre),
-   Cobalt #3B5BFF (focus, détails ; en texte : #8FA2FF sur encre, #2F45D9 sur
-   os), gris chauds #1A2029 / #8A93A0.
+   Palette (tirée du métier : le plan, le rapport, la photo de nuit) :
+     Papier     #FFFFFF  fond
+     Gris plan  #E9EDF2  séparateurs, fonds de tableau ; jamais de décor
+     Graphite   #1A1E24  texte
+     Bleu plan  #1F3FBF  accent unique : liens, repères, jauge
+     Nuit       #0E1B3D  hero et pied de page seulement
+     Conforme   #1A7F4B  les mentions « Conforme » de la fiche, rien d'autre
+   Contraste mesuré (WCAG 2.2) : graphite sur papier 16,7 ; bleu plan sur
+     papier 8,3 ; conforme sur papier 5,0 ; blanc sur nuit 16,9 ; #C9D2E3 sur
+     nuit 11,1 ; #5A6270 sur papier 6,2 ; blanc sur bleu plan 8,3.
 
-   Contraste (WCAG 2.2) :
-     os sur encre 17.0 · citron sur encre 16.7 · encre sur citron 16.7
-     #C4CAD3 sur encre 11.7, sur #1A2029 9.9 · #8A93A0 sur encre 6.2, sur #1A2029 5.3
-     #8FA2FF sur encre 8.0 · #2F45D9 sur os 6.3 · #4A5260 sur os 7.0
-     cobalt #3B5BFF (anneau de focus, graphique) sur encre 3.8, sur os 4.5
-
-   Type : Big Shoulders Display 800 (très gros titres), Instrument Serif
-   italique (un seul mot d'accent par titre), Red Hat Text (lecture), Red Hat
-   Mono (annotations).
+   Type : Big Shoulders Display 800 pour les titres, un seul style, jamais
+   d'italique ni de mot accentué. Atkinson Hyperlegible Next pour tout le
+   reste (la police d'une fiche qui se lit). Aucune mono, aucune capitale
+   d'étiquette. Rayon 2 px, aucune ombre, filets de 1 px gris plan.
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @font-face {
-  font-family: "Instrument Serif";
-  src: url("/fonts/instrument-serif-italic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: italic;
+  font-family: "Atkinson Hyperlegible Next";
+  src: url("/fonts/atkinson-hyperlegible-next.woff2") format("woff2");
+  font-weight: 200 800;
   font-display: swap;
 }
-/* Repli à la même chasse que l'Instrument Serif italique (mesuré : 0,79 à
-   0,89 de Georgia / Times), pour que le titre ne change pas de ligne quand la
-   police arrive (CLS 0 sans la précharger). */
-@font-face {
-  font-family: "Instrument Serif Repli";
-  src: local("Georgia Italic"), local("Georgia-Italic"), local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"), local("Liberation Serif Italic"), local("LiberationSerif-Italic");
-  font-style: italic;
-  size-adjust: 87%;
-}
 
-/* ---- Tokens : les anciens noms (report.css) suivent, pour que la nav, le
-   pied de page et les composants partagés changent sans être réécrits. ----- */
 html.theme-report.theme-refonte {
-  --encre:       #0B0F14;
-  --encre-2:     #1A2029;
-  --encre-3:     #232B36;
-  --os:          #F4F1EA;
-  --os-2:        #E9E4D8;
-  --citron:      #D8FF3E;
-  --cobalt:      #3B5BFF;
-  --cobalt-clair:#8FA2FF;
-  --cobalt-fonce:#2F45D9;
-  --gris:        #8A93A0;
-  --gris-clair:  #C4CAD3;
-  --gris-os:     #4A5260;
+  --papier:    #FFFFFF;
+  --gris-plan: #E9EDF2;
+  --graphite:  #1A1E24;
+  --gris-txt:  #5A6270;
+  --bleu:      #1F3FBF;
+  --nuit:      #0E1B3D;
+  --nuit-txt:  #C9D2E3;
+  --conforme:  #1A7F4B;
 
-  --ink:          var(--encre);
-  --ink-raised:   var(--encre-2);
-  --ink-high:     var(--encre-3);
-  --ink-sunken:   #070A0E;
-  --bone:         var(--os);
-  --fg:           var(--os);
-  --slate:        var(--gris-clair);
-  --slate-mute:   var(--gris);
-  --plum:         var(--encre-3);
-  --plum-wash:    rgba(59, 91, 255, 0.18);
-  --mauve:        var(--citron);
-  --mauve-hover:  #ECFF9E;
-  --signal:       var(--citron);
-  --plan-line:    #6B7584;
+  /* Les anciens noms (nav, pied de page, composants partagés), sur la nuit. */
+  --ink:          var(--nuit);
+  --ink-raised:   #16264F;
+  --ink-high:     #1D2F5E;
+  --ink-sunken:   #0A1430;
+  --bone:         #FFFFFF;
+  --fg:           #FFFFFF;
+  --slate:        var(--nuit-txt);
+  --slate-mute:   var(--nuit-txt);
+  --plum:         var(--bleu);
+  --plum-wash:    rgba(31, 63, 191, .2);
+  --mauve:        #FFFFFF;
+  --mauve-hover:  var(--gris-plan);
+  --signal:       #FFFFFF;
+  --plan-line:    #8D9AB5;
   --plan-grid:    transparent;
-  --vermilion:      var(--citron);
-  --vermilion-text: var(--citron);
-  --vermilion-deep: var(--citron);
-  --accent:         var(--citron);
-  --accent-fg:      var(--encre);
-  --line:        rgba(244, 241, 234, 0.12);
-  --line-soft:   rgba(244, 241, 234, 0.06);
-  --line-strong: rgba(244, 241, 234, 0.28);
-  --btn-fill-bg: var(--citron);
-  --btn-fill-fg: var(--encre);
+  --vermilion:      #FFFFFF;
+  --vermilion-text: #FFFFFF;
+  --vermilion-deep: #FFFFFF;
+  --accent:         #FFFFFF;
+  --accent-fg:      var(--nuit);
+  --line:        rgba(255, 255, 255, .16);
+  --line-soft:   rgba(255, 255, 255, .08);
+  --line-strong: rgba(255, 255, 255, .32);
+  --btn-fill-bg: #FFFFFF;
+  --btn-fill-fg: var(--nuit);
 
-  --font-accent: "Instrument Serif", "Instrument Serif Repli", Georgia, serif;
+  --font-sans: "Atkinson Hyperlegible Next", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-sans);
+  font-family: var(--font-sans);
 
-  /* Échelle fluide. */
-  --fs-hero:  clamp(2.6rem, 11vw, 13rem);
-  --fs-xxl:   clamp(2.75rem, 8vw, 8.5rem);
-  --fs-xl:    clamp(2.25rem, 5.6vw, 5.25rem);
-  --fs-l:     clamp(1.5rem, 2.6vw, 2.25rem);
-  --fs-lead:  clamp(1.125rem, 1.5vw, 1.375rem);
+  --r: 2px;
+  --pad-x: clamp(20px, 5vw, 80px);
 
-  --ease-out: cubic-bezier(.2, .7, .1, 1);
-  --pad-x:    clamp(20px, 5vw, 72px);
-  --sec-y:    clamp(96px, 14vw, 200px);
-
-  background: var(--encre);
-  color-scheme: dark;
+  background: var(--papier);
 }
-html.theme-refonte[lang="en"] { --fs-hero: clamp(2.6rem, 14vw, 14rem); }
 
-/* Fond uni : plus de quadrillage. */
-.theme-refonte body { background: var(--encre); background-image: none; }
-.theme-refonte ::selection { background: var(--citron); color: var(--encre); }
-.theme-refonte :focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
-.theme-refonte main a:not(.btn):not(.r-btn) { color: var(--cobalt-clair); text-decoration-color: color-mix(in srgb, var(--cobalt-clair) 45%, transparent); }
-.theme-refonte main a:not(.btn):not(.r-btn):hover { color: var(--os); text-decoration-color: var(--citron); }
+.theme-refonte body { background: var(--papier); background-image: none; color: var(--graphite); }
+.theme-refonte ::selection { background: var(--bleu); color: #fff; }
+.theme-refonte :focus-visible { outline: 3px solid var(--bleu); outline-offset: 3px; }
+.theme-refonte main { color: var(--graphite); }
+.theme-refonte main a:not(.btn):not(.r-btn) { color: var(--bleu); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .18em; }
+.theme-refonte main a:not(.btn):not(.r-btn):hover { text-decoration-thickness: 2px; }
 
-/* Transitions de pages (View Transitions API, entre documents). */
+/* Transitions de pages : elles répondent à un clic. */
 @view-transition { navigation: auto; }
-::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .3s; }
 
 /* ---- Mise en page ---------------------------------------------------------- */
-.r-wrap { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--pad-x); }
-.r-sec { position: relative; padding-block: var(--sec-y); }
-.r-sec--os { background: var(--os); color: var(--encre); color-scheme: light; }
-.r-sec--os main a, .r-sec--os a:not(.r-btn) { color: var(--cobalt-fonce) !important; text-decoration-color: color-mix(in srgb, var(--cobalt-fonce) 40%, transparent) !important; }
-.r-sec--os a:not(.r-btn):hover { color: var(--encre) !important; }
-.r-sec--os :focus-visible { outline-color: var(--cobalt-fonce); }
+.r-wrap { width: 100%; max-width: 1360px; margin-inline: auto; padding-inline: var(--pad-x); }
 
-/* Annotation : mono, capitales, petit. */
-.r-eyebrow {
-  display: inline-flex; align-items: center; gap: .6em; margin: 0 0 24px;
-  font-family: var(--font-mono); font-size: .8125rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
-  color: var(--gris-clair);
-}
-.r-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--citron); }
-.r-sec--os .r-eyebrow { color: var(--gris-os); }
-.r-sec--os .r-eyebrow::before { background: var(--encre); }
+/* Titres : Big Shoulders 800, un seul style. */
+.r-h { font-family: var(--font-display); font-weight: 800; letter-spacing: -.01em; line-height: .95; text-transform: none; margin: 0; color: inherit; text-wrap: balance; }
+.r-h--1 { font-size: clamp(3.25rem, min(9vw, 15vh), 9.5rem); }
+.r-h--2 { font-size: clamp(2.5rem, 5.5vw, 5rem); }
+.r-h--3 { font-size: clamp(1.75rem, 2.8vw, 2.5rem); line-height: 1; }
+.r-p { font-size: 1.125rem; line-height: 1.6; max-width: 66ch; margin: 0; }
+.r-p + .r-p { margin-top: 1em; }
+.r-gris { color: var(--gris-txt); }
 
-/* Titres : Big Shoulders 800 ; un mot d'accent en serif italique (<em>). */
-.r-h {
-  font-family: var(--font-display); font-weight: 800; letter-spacing: -.005em; line-height: .92;
-  text-transform: none; margin: 0; text-wrap: balance;
-}
-.r-h em { font-family: var(--font-accent); font-style: italic; font-weight: 400; letter-spacing: -.01em; padding-right: .04em; }
-.r-h--xxl { font-size: var(--fs-xxl); }
-.r-h--xl { font-size: var(--fs-xl); }
-.r-h--l { font-size: var(--fs-l); line-height: 1.02; }
-.r-citron { color: var(--citron); }
-.r-sec--os .r-citron { color: var(--encre); background: linear-gradient(transparent 62%, var(--citron) 62%); }
-.r-lead { font-size: var(--fs-lead); line-height: 1.55; color: var(--gris-clair); max-width: 46ch; margin: 0; }
-.r-sec--os .r-lead { color: var(--gris-os); }
-
-/* ---- Boutons : citron plein (encre dessus), fantôme ; magnétiques sur ordi. */
+/* ---- Boutons : rectangles nets, nommés par leur destination ------------- */
 .r-btn {
-  --mx: 0px; --my: 0px;
-  display: inline-flex; align-items: center; gap: .7em; min-height: 56px; padding: 0 28px;
-  border-radius: 999px; border: 1.5px solid transparent;
+  display: inline-flex; align-items: center; min-height: 52px; padding: 10px 24px; max-width: 100%;
+  border-radius: var(--r); border: 1px solid transparent;
   font-family: var(--font-sans); font-weight: 700; font-size: 1.0625rem; text-decoration: none !important;
-  transform: translate(var(--mx), var(--my));
-  transition: transform .35s var(--ease-out), background-color .2s, color .2s, border-color .2s;
 }
-.r-btn--plein { background: var(--citron); color: var(--encre) !important; }
-.r-btn--plein:hover { background: var(--os); }
-.r-btn--fantome { border-color: var(--line-strong); color: var(--os) !important; }
-.r-btn--fantome:hover { border-color: var(--citron); color: var(--citron) !important; }
-.r-sec--os .r-btn--fantome { border-color: rgba(11, 15, 20, .3); color: var(--encre) !important; }
-.r-sec--os .r-btn--fantome:hover { border-color: var(--encre); background: var(--encre); color: var(--os) !important; }
-.r-btn__fleche { transition: transform .3s var(--ease-out); }
-.r-btn:hover .r-btn__fleche { transform: translateX(4px); }
+.r-btn--plein { background: var(--bleu); color: #fff !important; }
+.r-btn--plein:hover { background: #1A34A0; }
+.r-btn--blanc { background: #fff; color: var(--nuit) !important; }
+.r-btn--blanc:hover { background: var(--gris-plan); }
+.r-btn--trait { border-color: currentColor; color: var(--graphite) !important; }
+.r-btn--trait:hover { background: var(--gris-plan); }
+.r-btn--trait-nuit { border-color: rgba(255, 255, 255, .6); color: #fff !important; }
+.r-btn--trait-nuit:hover { background: rgba(255, 255, 255, .1); }
 
-/* ---- Cartes ---------------------------------------------------------------- */
-.r-carte { background: var(--encre-2); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
-.r-sec--os .r-carte { background: #fff; border-color: rgba(11, 15, 20, .1); }
-
-/* ---- Curseur discret (ordinateur, pointeur fin, mouvement permis) -------- */
-.r-curseur { display: none; }
-@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .r-curseur {
-    display: block; position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none;
-    width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
-    background: var(--citron); mix-blend-mode: difference; opacity: 0;
-    transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0) scale(var(--cs, 1));
-    transition: opacity .3s, transform .12s linear;
-  }
-  .r-curseur.is-on { opacity: 1; }
-}
-
-/* ---- Révélations au défilement (CSS scroll-driven, repli : tout visible) -- */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .r-revele { animation: r-monte linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
-    .r-lignes > * { display: block; animation: r-ligne linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
-    .r-lignes > *:nth-child(2) { animation-range: entry 8% entry 78%; }
-    .r-lignes > *:nth-child(3) { animation-range: entry 16% entry 86%; }
-    .r-parallaxe { animation: r-parallaxe linear both; animation-timeline: view(); animation-range: cover; }
-  }
-}
-/* Sans opacité : le texte garde son vrai contraste à chaque instant (les
-   audits le mesurent tel quel), seul le mouvement et la découpe changent. */
-@keyframes r-monte { from { transform: translateY(48px) scale(.985); } to { transform: none; } }
-@keyframes r-ligne { from { transform: translateY(45%); clip-path: inset(0 0 100% 0); } to { transform: none; clip-path: inset(-10% -5% -25% -5%); } }
-@keyframes r-parallaxe { from { transform: translateY(6%); } to { transform: translateY(-6%); } }
-
-/* ---- Nav et pied de page dans le nouveau système ------------------------- */
-.theme-refonte .nav.is-stuck { background: color-mix(in srgb, var(--encre) 86%, transparent); }
-.theme-refonte .nav__cta { border-radius: 999px; }
-.theme-refonte .btn-accent, .theme-refonte .btn-primary { background: var(--citron); color: var(--encre); border-color: var(--citron); border-radius: 999px; }
-.theme-refonte .btn-accent:hover, .theme-refonte .btn-primary:hover { background: var(--os); border-color: var(--os); color: var(--encre); }
-.theme-refonte .footer { background: var(--encre); border-top: 1px solid var(--line); }
+/* ---- Nav et pied de page : la nuit de la photo ---------------------------- */
+.theme-refonte .nav, .theme-refonte .nav.is-stuck { background: var(--nuit); color: #fff; }
+.theme-refonte .footer { color: #fff; }
+.theme-refonte .nav__cta, .theme-refonte .btn-accent, .theme-refonte .btn-primary { border-radius: var(--r); background: #fff; color: var(--nuit); border-color: #fff; }
+.theme-refonte .btn-accent:hover, .theme-refonte .btn-primary:hover { background: var(--gris-plan); border-color: var(--gris-plan); color: var(--nuit); }
+.theme-refonte .footer { background: var(--nuit); }
+.theme-refonte .grain { display: none; }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-  .r-btn { transition: none; transform: none; }
 }

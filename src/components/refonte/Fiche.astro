@@ -1,126 +1,101 @@
 ---
-// La fiche d'inspection du site, signature du hero. Mêmes chiffres que
-// SiteSheet.astro, tous lus dans src/data/site-metrics.json (npm run
-// measure) : rien n'est tapé à la main, le score affiché reste vrai.
+// La fiche d'inspection du site : une vraie feuille de rapport, posée sur la
+// photo du hero. Les quatre scores Lighthouse et le LCP viennent de
+// src/data/site-metrics.json (npm run measure, médiane de trois essais) :
+// rien n'est tapé à la main. Une ligne n'apparaît que si elle a été mesurée.
 //
-// Animation : la bague se remplit à l'affichage, les compteurs montent de 0
-// (refonte.ts), la barre du LCP se remplit au défilement (CSS scroll-driven).
-// Le HTML porte déjà les valeurs finales : sans JS ou en mouvement réduit,
-// c'est la fiche, immobile et lisible.
+// Le seul mouvement de la page au chargement : les valeurs se remplissent
+// une fois (refonte.ts), puis plus rien ne bouge seul. Le HTML porte déjà les
+// valeurs finales ; en mouvement réduit ou sans JS, la fiche est immobile.
 import metrics from '../../data/site-metrics.json';
 import type { Locale } from '../../i18n/routes';
-import { homeCopy } from '../../i18n/home';
 import { refonteCopy } from '../../i18n/refonte';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
-const t = homeCopy[locale].sheet;
-const r = refonteCopy[locale].sheet;
+const t = refonteCopy[locale].fiche;
 const lang = locale === 'fr' ? 'fr-CA' : 'en-CA';
 
-type PageMetrics = { performance: number; lcpMs: number; cls: number; transferBytes: number };
+type PageMetrics = { performance: number; accessibility?: number; bestPractices?: number; seo?: number; lcpMs: number; cls: number };
 const page = (metrics.pages as Record<string, PageMetrics>)[locale === 'fr' ? '/' : '/en'];
 const num = (n: number, d = 0) => new Intl.NumberFormat(lang, { minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
 const date = metrics.measuredAt
   ? new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(metrics.measuredAt))
   : null;
-const pass = page ? page.performance >= 90 && page.lcpMs <= 2500 && page.cls <= 0.1 : false;
-// La bague : circonférence 2πr, r = 54.
-const C = 2 * Math.PI * 54;
-const lcpS = page ? page.lcpMs / 1000 : 0;
-// Part du seuil de Google (2,5 s) qu'occupe le LCP : plus c'est court, mieux c'est.
-const lcpPart = page ? Math.min(page.lcpMs / 2500, 1) : 0;
 const sep = locale === 'fr' ? ',' : '.';
+
+// Une ligne par score mesuré ; « Conforme » à 90 et plus (seuil « bon » de
+// Lighthouse), et pour le LCP à 2,5 s ou moins (seuil « bon » de Google).
+const scores = page
+  ? ([
+      [t.performance, page.performance],
+      [t.accessibility, page.accessibility],
+      [t.bestPractices, page.bestPractices],
+      [t.seo, page.seo],
+    ] as [string, number | undefined][]).filter((r): r is [string, number] => typeof r[1] === 'number')
+  : [];
+const lcpS = page ? page.lcpMs / 1000 : 0;
+const lcpOk = page ? page.lcpMs <= 2500 : false;
 ---
 
 <aside class="fiche" aria-labelledby="fiche-titre">
-  <div class="fiche__tete">
-    <p class="fiche__ref">{t.ref}</p>
-    {page && <strong class:list={['fiche__sceau', !pass && 'fiche__sceau--non']}>{pass ? t.pass : t.fix}</strong>}
-  </div>
-  <h2 id="fiche-titre" class="fiche__titre">{t.title}</h2>
+  <h2 id="fiche-titre" class="fiche__titre">{t.titre}</h2>
   {page ? (
     <>
-      <div class="fiche__score">
-        <svg class="fiche__bague" viewBox="0 0 120 120" aria-hidden="true">
-          <circle cx="60" cy="60" r="54" class="fiche__piste" />
-          <circle cx="60" cy="60" r="54" class="fiche__jauge" style={`--c:${C.toFixed(2)};--fin:${(C * (1 - page.performance / 100)).toFixed(2)}`} />
-        </svg>
-        <p class="fiche__nombre">
-          <span class="fiche__n" data-compte={page.performance}>{page.performance}</span>
-          <span class="fiche__sur">{r.sur}</span>
-        </p>
-        <p class="fiche__k">{r.score}</p>
-      </div>
-      <dl class="fiche__lignes">
-        <div class="fiche__lcp">
-          <dt>{t.lcp}</dt>
-          <dd><span data-compte={lcpS.toFixed(1)} data-decimales="1" data-sep={sep}>{num(lcpS, 1)}</span> s</dd>
-          <dd class="fiche__plus">
-            <span class="fiche__barre" aria-hidden="true"><span style={`--part:${lcpPart.toFixed(3)}`}></span></span>
-            <span class="fiche__seuil">{r.seuil}</span>
-          </dd>
-        </div>
-        <div>
-          <dt>{t.cls}</dt>
-          <dd>{num(page.cls, page.cls ? 2 : 0)}</dd>
-        </div>
-        <div>
-          <dt>{t.weight}</dt>
-          <dd><span data-compte={Math.round(page.transferBytes / 1024)}>{num(page.transferBytes / 1024)}</span> {t.kb}</dd>
-        </div>
-      </dl>
-      <p class="fiche__meta">{t.measured(date ?? '', metrics.tool ?? '', (metrics as { source?: string }).source === 'production')}</p>
+      <table class="fiche__table">
+        <tbody>
+          {scores.map(([k, v]) => (
+            <tr>
+              <th scope="row">{k}</th>
+              <td class="fiche__val">
+                <span class="fiche__jauge" aria-hidden="true"><span style={`--v:${v / 100}`}></span></span>
+                <span data-compte={v}>{v}</span><span class="fiche__sur"> / 100</span>
+              </td>
+              <td class:list={['fiche__etat', v < 90 && 'fiche__etat--non']}>{v >= 90 ? t.conforme : t.aCorriger}</td>
+            </tr>
+          ))}
+          <tr>
+            <th scope="row">{t.lcp}<span class="fiche__seuil">{t.lcpSeuil}</span></th>
+            <td class="fiche__val">
+              <span class="fiche__jauge" aria-hidden="true"><span style={`--v:${Math.min(page.lcpMs / 2500, 1).toFixed(3)}`}></span></span>
+              <span data-compte={lcpS.toFixed(1)} data-decimales="1" data-sep={sep}>{num(lcpS, 1)}</span> s
+            </td>
+            <td class:list={['fiche__etat', !lcpOk && 'fiche__etat--non']}>{lcpOk ? t.conforme : t.aCorriger}</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="fiche__meta">{t.mesure(date ?? '', metrics.tool ?? '', (metrics as { source?: string }).source === 'production')}</p>
     </>
   ) : (
-    <p class="fiche__meta">{t.notMeasured}</p>
+    <p class="fiche__meta">{t.pasMesure}</p>
   )}
 </aside>
 
 <style>
-  .fiche {
-    position: relative;
-    background: color-mix(in srgb, var(--encre-2) 88%, transparent);
-    border: 1px solid var(--line);
-    border-radius: 28px;
-    padding: 24px;
-    backdrop-filter: blur(8px);
+  .fiche { background: var(--papier); color: var(--graphite); border-radius: var(--r); padding: 24px 24px 20px; }
+  .fiche__titre { font-family: var(--font-sans); font-weight: 700; font-size: 1.125rem; letter-spacing: 0; text-transform: none; margin: 0 0 12px; color: var(--graphite); }
+  .fiche__table { width: 100%; border-collapse: collapse; font-size: 1rem; }
+  .fiche__table tr { border-top: 1px solid var(--gris-plan); }
+  .fiche__table th { text-align: left; font-weight: 400; padding: 12px 12px 12px 0; vertical-align: middle; }
+  .fiche__seuil { display: block; color: var(--gris-txt); font-size: .875rem; }
+  .fiche__val { white-space: nowrap; font-weight: 700; font-variant-numeric: tabular-nums; padding: 12px 12px 12px 0; }
+  .fiche__sur { font-weight: 400; color: var(--gris-txt); }
+  .fiche__jauge { display: inline-block; vertical-align: middle; width: 56px; height: 6px; margin-right: 10px; background: var(--gris-plan); border-radius: 1px; overflow: hidden; }
+  .fiche__jauge span { display: block; height: 100%; width: 100%; background: var(--bleu); transform-origin: left; transform: scaleX(var(--v)); }
+  .fiche__etat { text-align: right; color: var(--conforme); font-weight: 700; padding: 12px 0; white-space: nowrap; }
+  .fiche__etat--non { color: #B42318; }
+  .fiche__meta { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--gris-plan); color: var(--gris-txt); font-size: .875rem; line-height: 1.5; }
+  @media (max-width: 420px) {
+    .fiche { padding: 18px 16px 16px; }
+    .fiche__table { font-size: .9375rem; }
+    .fiche__jauge { display: none; }
   }
-  .fiche__tete { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .fiche__ref { margin: 0; font-family: var(--font-mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); }
-  .fiche__sceau {
-    font-family: var(--font-mono); font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
-    background: var(--citron); color: var(--encre); padding: 4px 10px; border-radius: 999px;
+  @media (max-width: 360px) {
+    .fiche__sur { display: none; }
   }
-  .fiche__sceau--non { background: transparent; color: var(--os); border: 1px solid var(--os); }
-  .fiche__titre { font-family: var(--font-sans); font-size: 1rem; font-weight: 700; letter-spacing: 0; text-transform: none; margin: 12px 0 20px; color: var(--os); }
-  .fiche__score { display: grid; grid-template-columns: 112px 1fr; grid-template-rows: auto auto; column-gap: 20px; align-items: center; }
-  .fiche__bague { grid-row: 1 / span 2; width: 112px; height: 112px; transform: rotate(-90deg); }
-  .fiche__piste { fill: none; stroke: var(--encre-3); stroke-width: 10; }
-  .fiche__jauge {
-    fill: none; stroke: var(--citron); stroke-width: 10; stroke-linecap: round;
-    stroke-dasharray: var(--c); stroke-dashoffset: var(--fin);
-  }
-  .fiche__nombre { margin: 0; display: flex; align-items: baseline; gap: 8px; }
-  .fiche__n { font-family: var(--font-display); font-weight: 800; font-size: 4.5rem; line-height: .9; color: var(--os); font-variant-numeric: tabular-nums; }
-  .fiche__sur { color: var(--gris); font-size: .875rem; }
-  .fiche__k { margin: 4px 0 0; color: var(--gris-clair); font-size: .9375rem; }
-  .fiche__lignes { margin: 20px 0 0; border-top: 1px solid var(--line); }
-  .fiche__lignes > div { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; padding-block: 12px; border-bottom: 1px solid var(--line); }
-  .fiche__lignes dt { color: var(--gris-clair); font-size: .9375rem; }
-  .fiche__lignes dd { margin: 0; font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--os); white-space: nowrap; }
-  .fiche__plus { flex-basis: 100%; display: grid; gap: 6px; font-family: var(--font-sans) !important; font-weight: 400 !important; white-space: normal !important; }
-  .fiche__barre { display: block; height: 6px; border-radius: 999px; background: var(--encre-3); overflow: hidden; }
-  .fiche__barre span { display: block; height: 100%; width: calc(var(--part) * 100%); background: var(--cobalt); border-radius: inherit; transform-origin: left; }
-  .fiche__seuil { color: var(--gris); font-size: .8125rem; }
-  .fiche__meta { color: var(--gris); font-size: .8125rem; line-height: 1.5; margin: 16px 0 0; }
-
+  /* Le remplissage, une fois, au chargement. */
   @media (prefers-reduced-motion: no-preference) {
-    .fiche__jauge { animation: fiche-bague 1.4s var(--ease-out) .2s both; }
-    @supports (animation-timeline: view()) {
-      .fiche__barre span { animation: fiche-barre linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
-    }
+    .fiche__jauge span { animation: fiche-remplit 1s cubic-bezier(.2, .7, .1, 1) .15s both; }
   }
-  @keyframes fiche-bague { from { stroke-dashoffset: var(--c); } }
-  @keyframes fiche-barre { from { transform: scaleX(0); } }
+  @keyframes fiche-remplit { from { transform: scaleX(0); } }
 </style>
