@@ -383,7 +383,7 @@ export const en: Widen<Dict> = {
       {
         title: 'Publisher and person in charge',
         body: [
-          'patricklaperriere.com is published by Patrick Laperrière, web developer, who is also the person in charge of the protection of personal information. For any question: info@patricklaperriere.com.',
+          'patricklaperriere.com is published by Patrick Laperrière, web developer, who is also the person in charge of the protection of personal information. For any question: patricklaperriere819@gmail.com.',
         ],
       },
     ],

@@ -12,12 +12,9 @@ developer serving Québec, Canada and the United States.
 > Montréal" are fine). When generating copy from this README, carry that rule
 > forward.
 >
-> **Email.** Public address: `info@patricklaperriere.com` (contact page,
-> footer, JSON-LD). The About page alone shows `pl@patricklaperriere.com`. The
-> contact form posts to Web3Forms, which forwards to the inbox configured in
-> that account; no personal address is printed anywhere. **Before launch,
-> configure mail routing for the domain** so both addresses actually receive
-> mail.
+> **Email.** Public address: `patricklaperriere819@gmail.com` everywhere (contact page,
+> footer, home, JSON-LD, privacy page). Single source: `SITE.email` in src/config.ts
+> (Patrick's decision, 7 Nov. 2026: no forwarding, no info@ address).
 
 Built SEO-first: static HTML at first paint, animations layered on top as
 progressive enhancement. Targets Lighthouse 100 across the board.

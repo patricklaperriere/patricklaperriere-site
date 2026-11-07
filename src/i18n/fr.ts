@@ -397,7 +397,7 @@ export const fr = {
       {
         title: 'Responsable et éditeur du site',
         body: [
-          'Le site patricklaperriere.com est édité par Patrick Laperrière, développeur web, qui est aussi le responsable de la protection des renseignements personnels. Pour toute question : info@patricklaperriere.com.',
+          'Le site patricklaperriere.com est édité par Patrick Laperrière, développeur web, qui est aussi le responsable de la protection des renseignements personnels. Pour toute question : patricklaperriere819@gmail.com.',
         ],
       },
     ],

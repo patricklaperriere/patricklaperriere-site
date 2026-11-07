@@ -11,10 +11,12 @@ export const SITE = {
     fr: 'Développeur web au Québec, cofondateur de Technologies Habita inc. Sites, boutiques Shopify et outils web sur mesure pour les PME, en français et en anglais.',
     en: 'Web developer in Quebec, co-founder of Technologies Habita inc. Websites, Shopify stores and custom web tools for small businesses, in English and French.',
   },
-  // Public address everywhere (contact page, footer, JSON-LD). The About page
-  // alone shows the personal one. Both need the domain's mail routing set up
-  // before launch (see README).
-  email: 'info@patricklaperriere.com',
+  // L'adresse de contact, partout (page contact, pied de page, accueil,
+  // données structurées, llms.txt, confidentialité) : une seule source.
+  // Décision de Patrick (7 nov., 8 h 12) : son adresse Gmail, affichée telle
+  // quelle (pas de redirection, pas d'info@). Elle est publique : à remplacer
+  // ici seulement le jour où il change d'adresse.
+  email: 'patricklaperriere819@gmail.com',
   // Phone — E.164 for tel: links + schema; display for the UI.
   phone: '+18193283101',
   phoneDisplay: '819 328-3101',
