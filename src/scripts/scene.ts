@@ -15,63 +15,67 @@
 import { PROJETS_SCENE, type Ecran } from '../data/scene';
 
 type Mode = 'webgl' | 'css';
-interface Plan { e: Ecran; projet: number; url: string; tex: WebGLTexture | null; img: HTMLImageElement | null; pret: boolean }
+interface Plan { e: Ecran; pos: Ecran; principal: boolean; projet: number; url: string; tex: WebGLTexture | null; img: HTMLImageElement | null; pret: boolean }
 
-const FOND = [10 / 255, 20 / 255, 48 / 255]; // Salle #0A1430
+const FOND = [16 / 255, 14 / 255, 17 / 255]; // Salle #100E11 (graphite chaud)
 
-// ── Caméra : positions de visite, une par projet, plus une approche ─────────
+// ── Caméra : un arrêt par projet ────────────────────────────────────────────
+// Retour du 7 nov. : les écrans remplissent la hauteur de l'écran du début à
+// la fin. Plus d'approche lointaine : on commence devant le premier projet.
 function cadrage(largeur: number, hauteur: number) {
   const aspect = largeur / Math.max(1, hauteur);
   const portrait = aspect < 1;
-  // Champ horizontal : environ 72° sur un écran large, 50° en portrait.
+  // Champ horizontal : environ 67 à 72° sur un écran large, 50° en portrait.
   const hfov = portrait ? (50 * Math.PI) / 180 : 2 * Math.atan(Math.tan((22.5 * Math.PI) / 180) * aspect);
   const vfov = 2 * Math.atan(Math.tan(hfov / 2) / aspect);
-  // Distance pour que l'écran principal occupe 60 % (88 % en portrait) de la largeur.
-  const part = portrait ? 0.88 : Math.min(0.6, 0.6 * (1.9 / Math.max(1.2, aspect)) + 0.1);
-  const d = 1.6 / part / 2 / Math.tan(hfov / 2);
-  return { aspect, portrait, vfov, d };
+  const tH = Math.tan(vfov / 2), tW = Math.tan(hfov / 2);
+  // Écran principal (1,6 x 1) : 76 % de la hauteur sur grand écran, sans
+  // dépasser 84 % de la largeur ; en portrait, toute la largeur.
+  const d = portrait ? 1.6 / 1.0 / 2 / tW : Math.max(0.5 / 0.76 / tH, 0.8 / 0.84 / tW);
+  const demiL = d * tW;
+  return { aspect, portrait, vfov, d, demiL };
+}
+
+/** Position d'un écran selon le format. En portrait, les écrans secondaires
+ *  s'empilent au-dessus et au-dessous du principal (ils remplissent la
+ *  hauteur au lieu de sortir par les côtés). */
+function placer(e: Ecran, principal: boolean, c: ReturnType<typeof cadrage>): Ecran {
+  if (!c.portrait) return e;
+  if (principal) return { ...e, x: 0, ry: e.ry * 0.5 };
+  const w = e.w * 1.35, h = w * e.ar;
+  const haut = e.y >= 0 ? 1 : -1;
+  return { ...e, w, x: e.x * 0.12, y: haut * (0.62 + h / 2 + Math.abs(e.y) * 0.35), ry: e.ry * 0.4 };
 }
 
 function arrets(c: ReturnType<typeof cadrage>) {
-  // Sur grand écran, l'écran principal est décalé à droite : la légende
-  // occupe la gauche. En portrait, il est centré, un peu en haut.
-  const dx = c.portrait ? 0 : -0.36;
-  const dy = c.portrait ? -0.22 : 0;
-  const a = PROJETS_SCENE.map((p) => {
-    const e = p.ecrans[0];
+  // Grand écran : le principal est poussé à droite (bord à 96 %), la légende
+  // occupe le bas à gauche. Portrait : centré, un peu au-dessus du milieu.
+  const dx = c.portrait ? 0 : -(0.96 * c.demiL - 0.8);
+  const dy = c.portrait ? -0.18 : 0.02;
+  return PROJETS_SCENE.map((p) => {
+    const e = placer(p.ecrans[0], true, c);
     return [e.x + dx, e.y + dy, e.z + c.d];
   });
-  const premier = a[0]!;
-  return [[premier[0]! * 0.4, premier[1]! + 0.15, premier[2]! + 2.6], ...a];
 }
 
 const lisse = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
-/** Position de la caméra pour une progression p (0 à 1) ; l'approche occupe le
- *  premier 12 %, puis chaque projet a un palier (30 % de son intervalle). */
+/** Position de la caméra pour une progression p (0 à 1) : chaque projet a un
+ *  palier (40 % de son intervalle), puis la caméra glisse au suivant. */
 function camera(p: number, a: number[][]) {
-  const n = a.length - 1; // nombre de projets
-  let i: number, f: number;
-  if (p < 0.12) { i = 0; f = lisse(p / 0.12); }
-  else {
-    const t = ((p - 0.12) / 0.88) * (n - 1);
-    i = Math.min(n - 1, Math.floor(t)) + 1;
-    const u = t - (i - 1);
-    f = i >= n ? 0 : lisse(Math.min(1, Math.max(0, (u - 0.15) / 0.7)));
-  }
-  const A = a[i]!, B = a[Math.min(n, i + 1)]!;
+  const n = a.length;
+  const t = Math.min(1, Math.max(0, p)) * (n - 1);
+  const i = Math.min(n - 2, Math.floor(t));
+  const f = lisse(Math.min(1, Math.max(0, (t - i - 0.2) / 0.6)));
+  const A = a[i]!, B = a[i + 1]!;
   return [A[0]! + (B[0]! - A[0]!) * f, A[1]! + (B[1]! - A[1]!) * f, A[2]! + (B[2]! - A[2]!) * f];
 }
 
 /** Le projet « devant » pour une progression p. */
-function actif(p: number) {
-  const n = PROJETS_SCENE.length;
-  if (p < 0.12) return 0;
-  return Math.min(n - 1, Math.round(((p - 0.12) / 0.88) * (n - 1)));
-}
+const actif = (p: number) => Math.min(PROJETS_SCENE.length - 1, Math.max(0, Math.round(p * (PROJETS_SCENE.length - 1))));
 
 /** Progression qui amène le projet i devant (pour le clavier). */
-const progressionDe = (i: number) => (i === 0 ? 0.14 : 0.12 + (i / (PROJETS_SCENE.length - 1)) * 0.88);
+const progressionDe = (i: number) => i / (PROJETS_SCENE.length - 1);
 
 // ── Matrices (colonnes, comme WebGL) ─────────────────────────────────────────
 function perspective(fovy: number, aspect: number, near: number, far: number) {
@@ -108,14 +112,14 @@ out vec4 o;
 void main() {
   // Netteté : nette à la distance de mise au point, floue devant et derrière.
   float flou = clamp(abs(vZ - uFocus) * 1.1, 0.0, 4.5);
-  vec3 c = mix(vec3(0.09, 0.13, 0.25), texture(uT, vUv, flou).rgb, uPret);
+  vec3 c = mix(vec3(0.13, 0.12, 0.14), texture(uT, vUv, flou).rgb, uPret);
   // Les écrans lointains se fondent dans la salle éteinte.
   float loin = smoothstep(uFocus + 1.5, uFocus + 13.0, vZ);
   c = mix(c, uFond, loin * 0.88);
   // Filet clair du cadre de l'écran (1 à 2 px).
   vec2 b = min(vUv, 1.0 - vUv) * uTaille;
   float cadre = 1.0 - smoothstep(0.0, 0.006, min(b.x, b.y));
-  c = mix(c, vec3(0.86, 0.9, 1.0), cadre * 0.55 * (1.0 - loin));
+  c = mix(c, vec3(0.96, 0.94, 0.9), cadre * 0.5 * (1.0 - loin));
   // Un écran qui passe près de la caméra s'efface au lieu de la traverser.
   float a = smoothstep(0.25, 0.9, vZ);
   o = vec4(c * a, a);
@@ -130,8 +134,8 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
   const locale = (document.documentElement.lang || 'fr').startsWith('en') ? 'en' : 'fr';
 
   const plans: Plan[] = [];
-  PROJETS_SCENE.forEach((p, i) => p.ecrans.forEach((e) => {
-    plans.push({ e, projet: i, url: `/scene/${locale === 'en' && e.srcEn ? e.srcEn : e.src}.webp`, tex: null, img: null, pret: false });
+  PROJETS_SCENE.forEach((p, i) => p.ecrans.forEach((e, k) => {
+    plans.push({ e, pos: e, principal: k === 0, projet: i, url: `/scene/${locale === 'en' && e.srcEn ? e.srcEn : e.src}.webp`, tex: null, img: null, pret: false });
   }));
 
   let gl: WebGL2RenderingContext | null = null;
@@ -204,7 +208,7 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
     g.blendFunc(g.ONE, g.ONE_MINUS_SRC_ALPHA);
     g.clearColor(FOND[0]!, FOND[1]!, FOND[2]!, 1);
     const aniso = g.getExtension('EXT_texture_filter_anisotropic');
-    const modeles = plans.map((p) => modele(p.e));
+    let modeles = plans.map((p) => modele(p.pos));
 
     // Textures : une par image (décodée hors du fil principal), une seule
     // téléversée par image dessinée pour ne jamais bloquer.
@@ -239,6 +243,8 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
       g.viewport(0, 0, canvas.width, canvas.height);
       c = cadrage(plateau.clientWidth, plateau.clientHeight);
       a = arrets(c);
+      plans.forEach((p) => { p.pos = placer(p.e, p.principal, c); });
+      modeles = plans.map((p) => modele(p.pos));
       g.uniformMatrix4fv(uP, false, perspective(c.vfov, c.aspect, 0.05, 40));
     };
     const ordre = plans.map((_, i) => i);
@@ -252,14 +258,14 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
       g.uniform1f(uFocus, c.d);
       g.clear(g.COLOR_BUFFER_BIT);
       // Du plus loin au plus proche (transparence).
-      plans.forEach((p, i) => { prof[i] = cz! - p.e.z; });
+      plans.forEach((p, i) => { prof[i] = cz! - p.pos.z; });
       ordre.sort((x, y) => prof[y]! - prof[x]!);
       for (const i of ordre) {
         const p = plans[i]!;
         if (prof[i]! < 0.2) continue; // derrière la caméra
         g.uniformMatrix4fv(uM, false, modeles[i]!);
         g.uniform1f(uPret, p.pret ? 1 : 0);
-        g.uniform2f(uTaille, 1, p.e.ar);
+        g.uniform2f(uTaille, 1, p.pos.ar);
         g.bindTexture(g.TEXTURE_2D, p.tex);
         g.drawArrays(g.TRIANGLE_STRIP, 0, 4);
       }
@@ -277,11 +283,12 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
       c = cadrage(plateau.clientWidth, plateau.clientHeight);
       a = arrets(c);
       // Longueur focale en pixels : 1 unité du monde à distance 1.
+      plans.forEach((p) => { p.pos = placer(p.e, p.principal, c); });
       f = plateau.clientHeight / 2 / Math.tan(c.vfov / 2);
       plateau.style.setProperty('--focale', `${f}px`);
       els.forEach((el, i) => {
         if (!el) return;
-        const e = plans[i]!.e;
+        const e = plans[i]!.pos;
         el.style.width = `${e.w * f}px`;
         el.style.height = `${e.w * e.ar * f}px`;
         el.style.marginLeft = `${(-e.w * f) / 2}px`;
@@ -292,7 +299,7 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
       const [cx, cy, cz] = camera(courant, a);
       els.forEach((el, i) => {
         if (!el) return;
-        const e = plans[i]!.e;
+        const e = plans[i]!.pos;
         const d = cz! - e.z;
         if (d < 0.35) { el.style.visibility = 'hidden'; return; }
         el.style.visibility = 'visible';
