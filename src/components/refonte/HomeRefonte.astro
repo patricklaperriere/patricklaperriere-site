@@ -3,15 +3,15 @@
 // d'inspection de bâtiment, fait de contenu réel. Règle permanente :
 // NEXUS-Bridge/REGLES-DESIGN-SANS-IA.md.
 //
-// - Hero : la photo de nuit plein cadre, le titre, et la fiche d'inspection du
-//   site (vrais scores) posée dessus comme une feuille de rapport.
+// - Hero (1I) : la photo de nuit plein cadre, un titre humain, une phrase et
+//   deux gros boutons qui disent où ils mènent. Aucun score dans le hero.
 // - Réalisations : captures réelles en grand, annotées comme des photos de
 //   rapport (repères A, B), et le curseur Avant/Après de BeauRegard.
 // - Ce que je fais : une vraie liste de vérification, une ligne par service.
-// - Qui je suis, puis le contact, nus.
-// Chaque section a sa propre largeur et son propre rythme. Un seul mouvement
-// orchestré : le remplissage de la fiche au chargement. Pas de fondu au
-// défilement, pas de colonne épinglée, pas de décor.
+// - Qui je suis, puis les mesures du site en mots simples (Mesures.astro),
+//   puis le contact, nus.
+// Chaque section a sa propre largeur et son propre rythme. Rien ne bouge au
+// chargement. Pas de fondu au défilement, pas de colonne épinglée, pas de décor.
 import '../../styles/refonte.css';
 import { Picture } from 'astro:assets';
 import { SITE } from '../../config';
@@ -23,7 +23,7 @@ import { useTranslations } from '../../i18n';
 import { hasPhoto } from '../../lib/photo';
 import PortraitSlot from '../PortraitSlot.astro';
 import { HABITA_LOOP } from '../../lib/habitaLoop';
-import Fiche from './Fiche.astro';
+import Mesures from './Mesures.astro';
 import AvantApres from './AvantApres.astro';
 import { HOME_LIEN_PATLAP, HOME_PATLAP, textes as textesPatlap } from '../../data/patlap';
 import hero from '../../assets/refonte/hero.jpg';
@@ -42,17 +42,18 @@ const pl = textesPatlap(locale);
 const voirPatlap = HOME_LIEN_PATLAP || (import.meta.env.DEV && import.meta.env.PUBLIC_PREVIEW_PATLAP === 'true');
 
 const etude = (slug: string) => `${workBase[locale]}/${slug}`;
+// 1H : les titres et textes simples de la home (refonte.ts) ; les pages de
+// services gardent les leurs.
 const services = [
-  { href: routes.svcWeb[locale], s: tr.services.web },
-  { href: routes.svcSeo[locale], s: tr.services.seo },
-  { href: routes.svcShopify[locale], s: tr.services.shopify },
-  { href: routes.svcTools[locale], s: tr.services.tools },
+  { href: routes.svcWeb[locale], s: c.services.lignes.web },
+  { href: routes.svcSeo[locale], s: c.services.lignes.seo },
+  { href: routes.svcShopify[locale], s: c.services.lignes.shopify },
+  { href: routes.svcTools[locale], s: c.services.lignes.tools },
 ];
 const quote = h.about.testimonial;
 const beau = h.work.items.find((w) => w.slug === 'inspection-beauregard');
 const avant = beau?.media.find((m) => m.file.includes('avant'));
 const apres = beau?.media.find((m) => m.file.includes('apres'));
-const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 'long', type: 'conjunction' }).format(SITE.stack);
 ---
 
 <div class="r-home">
@@ -73,13 +74,13 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
       <div class="r-hero__texte">
         <h1 id="hero-title" class="r-h r-h--1">{c.hero.titre}</h1>
         <p class="r-hero__lead">{c.hero.texte}</p>
+        {/* Deux portes, nommées par ce qui arrive au clic. La seconde mène à
+            La technologie pour tous : même interrupteur que le bloc Pat Lap. */}
         <p class="r-hero__actions">
-          {/* Un seul bouton : « Voir mes réalisations » a été retiré (l'exercice
-              « retirer une chose ») ; la fiche et le défilement y mènent déjà. */}
-          <a class="r-btn r-btn--blanc" href={routes.contact[locale]}>{c.hero.contact}</a>
+          <a class="r-btn r-btn--blanc" href="#travaux">{c.hero.entreprise}</a>
+          {voirPatlap && <a class="r-btn r-btn--trait-nuit" href={patlap.lien}>{c.hero.apprendre}</a>}
         </p>
       </div>
-      <div class="r-hero__fiche"><Fiche locale={locale} /></div>
     </div>
   </section>
 
@@ -131,8 +132,8 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
         </div>
         {avant && apres && (
           <AvantApres
-            avant={{ file: avant.file, alt: avant.alt, label: c.travaux.slider.avant }}
-            apres={{ file: apres.file, alt: apres.alt, label: c.travaux.slider.apres }}
+            avant={{ file: avant.file, alt: c.travaux.slider.avantAlt, label: c.travaux.slider.avant }}
+            apres={{ file: apres.file, alt: c.travaux.slider.apresAlt, label: c.travaux.slider.apres }}
             label={c.travaux.slider.label}
             consigne={c.travaux.slider.consigne}
           />
@@ -156,8 +157,8 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
           <li>
             <span class="r-coche" aria-hidden="true"></span>
             <div>
-              <a class="r-coches__titre" href={href}>{s.title}</a>
-              <p>{s.blurb}</p>
+              <a class="r-coches__titre" href={href}>{s.titre}</a>
+              <p>{s.texte}</p>
             </div>
           </li>
         ))}
@@ -176,7 +177,6 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
       <div class="r-apropos__texte">
         <h2 id="apropos-titre" class="r-h r-h--2">{c.apropos.titre}</h2>
         {c.apropos.textes.map((p) => <p class="r-p">{p}</p>)}
-        <p class="r-p">{c.apropos.outils(stack)}</p>
         {quote && (
           <figure class="r-citation">
             <blockquote><p>{quote.quote}</p></blockquote>
@@ -213,6 +213,8 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   </div>
 
 
+  <Mesures locale={locale} />
+
   {/* ---- Contact ---------------------------------------------------------------------- */}
   <section class="r-contact" aria-labelledby="contact-titre">
     <div class="r-wrap">
@@ -245,15 +247,19 @@ const stack = new Intl.ListFormat(locale === 'fr' ? 'fr-CA' : 'en-CA', { style: 
   .r-hero :global(.r-hero__photo) { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 75% 50%; }
   .r-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--nuit) 0%, rgba(14, 27, 61, .92) 38%, rgba(14, 27, 61, .35) 72%, rgba(14, 27, 61, .15) 100%); }
   .r-hero__in { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
-  .r-hero__texte .r-h { max-width: 11ch; }
+  /* Le titre est une phrase : plus petit que l'ancien slogan, pour que les
+     deux boutons restent dans le premier écran. */
+  .r-hero__texte .r-h { max-width: 16ch; font-size: clamp(2.75rem, 5.6vw, 5.75rem); }
   .r-hero__lead { color: var(--nuit-txt); font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.55; max-width: 44ch; margin: 28px 0 0; }
-  .r-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; margin: 32px 0 0; }
+  .r-hero__actions { display: flex; flex-wrap: wrap; gap: 14px; margin: 36px 0 0; }
+  .r-hero__actions .r-btn { min-height: 60px; padding: 14px 26px; font-size: 1.125rem; line-height: 1.3; }
   @media (max-width: 767px) {
     .r-hero::after { background: linear-gradient(180deg, rgba(14, 27, 61, .55) 0%, var(--nuit) 70%); }
   }
   @media (min-width: 1100px) {
-    .r-hero { min-height: min(100svh, 980px); display: flex; align-items: flex-end; padding: 140px 0 64px; }
-    .r-hero__in { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 64px; align-items: end; }
+    /* Le hero tient sous la barre de navigation (72 px) : les deux boutons
+       restent dans le premier écran. */
+    .r-hero { min-height: min(calc(100svh - 72px), 900px); display: flex; align-items: center; padding: 80px 0; }
   }
 
   /* ---- Réalisations ------------------------------------------------------------ */

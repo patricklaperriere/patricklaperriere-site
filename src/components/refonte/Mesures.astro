@@ -1,103 +1,71 @@
 ---
-// La fiche d'inspection du site : une vraie feuille de rapport, posée sur la
-// photo du hero. Les quatre scores Lighthouse et le LCP viennent de
-// src/data/site-metrics.json (npm run measure, médiane de trois essais) :
+// « Un site rapide, ça se vérifie » (REFONTE-1I). Les mesures de ce site, bas
+// dans la page, en mots simples : une phrase sur la vitesse, puis une courte
+// liste. Aucun sigle, aucune jauge, aucun remplissage animé. Les chiffres
+// viennent de src/data/site-metrics.json (npm run measure, trois essais) :
 // rien n'est tapé à la main. Une ligne n'apparaît que si elle a été mesurée.
-//
-// Le seul mouvement de la page au chargement : les valeurs se remplissent
-// une fois (refonte.ts), puis plus rien ne bouge seul. Le HTML porte déjà les
-// valeurs finales ; en mouvement réduit ou sans JS, la fiche est immobile.
 import metrics from '../../data/site-metrics.json';
 import type { Locale } from '../../i18n/routes';
 import { refonteCopy } from '../../i18n/refonte';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
-const t = refonteCopy[locale].fiche;
+const t = refonteCopy[locale].mesures;
 const lang = locale === 'fr' ? 'fr-CA' : 'en-CA';
 
 type PageMetrics = { performance: number; accessibility?: number; bestPractices?: number; seo?: number; lcpMs: number; cls: number };
 const page = (metrics.pages as Record<string, PageMetrics>)[locale === 'fr' ? '/' : '/en'];
-const num = (n: number, d = 0) => new Intl.NumberFormat(lang, { minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
 const date = metrics.measuredAt
   ? new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(metrics.measuredAt))
-  : null;
-const sep = locale === 'fr' ? ',' : '.';
+  : '';
+const secondes = page ? new Intl.NumberFormat(lang, { minimumFractionDigits: 1, maximumFractionDigits: 1 }).format(page.lcpMs / 1000) : '';
 
-// Une ligne par score mesuré ; « Conforme » à 90 et plus (seuil « bon » de
-// Lighthouse), et pour le LCP à 2,5 s ou moins (seuil « bon » de Google).
-const scores = page
+// « Réussi » à 90 et plus : le seuil « bon » de l'outil de Google.
+const lignes = page
   ? ([
       [t.performance, page.performance],
       [t.accessibility, page.accessibility],
-      [t.bestPractices, page.bestPractices],
       [t.seo, page.seo],
+      [t.bestPractices, page.bestPractices],
     ] as [string, number | undefined][]).filter((r): r is [string, number] => typeof r[1] === 'number')
   : [];
-const lcpS = page ? page.lcpMs / 1000 : 0;
-const lcpOk = page ? page.lcpMs <= 2500 : false;
 ---
 
-<aside class="fiche" aria-labelledby="fiche-titre">
-  <h2 id="fiche-titre" class="fiche__titre">{t.titre}</h2>
-  {page ? (
-    <>
-      <table class="fiche__table">
-        <tbody>
-          {scores.map(([k, v]) => (
-            <tr>
-              <th scope="row">{k}</th>
-              <td class="fiche__val">
-                <span class="fiche__jauge" aria-hidden="true"><span style={`--v:${v / 100}`}></span></span>
-                <span class="fiche__n" data-compte={v}>{v}</span><span class="fiche__sur"> / 100</span>
-              </td>
-              <td class:list={['fiche__etat', v < 90 && 'fiche__etat--non']}>{v >= 90 ? t.conforme : t.aCorriger}</td>
-            </tr>
+<section class="mesures" aria-labelledby="mesures-titre">
+  <div class="r-wrap">
+    <h2 id="mesures-titre" class="mesures__titre">{t.titre}</h2>
+    {page ? (
+      <>
+        <p class="mesures__phrase">{t.vitesse(secondes)}</p>
+        <ul class="mesures__liste">
+          {lignes.map(([k, v]) => (
+            <li>
+              <span class="mesures__nom">{k}</span>
+              <span class="mesures__val">{v} {t.sur}</span>
+              <span class:list={['mesures__etat', v < 90 && 'mesures__etat--non']}>{v >= 90 ? t.reussi : t.aCorriger}</span>
+            </li>
           ))}
-          <tr>
-            <th scope="row">{t.lcp}<span class="fiche__seuil">{t.lcpSeuil}</span></th>
-            <td class="fiche__val">
-              <span class="fiche__jauge" aria-hidden="true"><span style={`--v:${Math.min(page.lcpMs / 2500, 1).toFixed(3)}`}></span></span>
-              <span class="fiche__n" data-compte={lcpS.toFixed(1)} data-decimales="1" data-sep={sep}>{num(lcpS, 1)}</span> s
-            </td>
-            <td class:list={['fiche__etat', !lcpOk && 'fiche__etat--non']}>{lcpOk ? t.conforme : t.aCorriger}</td>
-          </tr>
-        </tbody>
-      </table>
-      <p class="fiche__meta">{t.mesure(date ?? '', metrics.tool ?? '', (metrics as { source?: string }).source === 'production')}</p>
-    </>
-  ) : (
-    <p class="fiche__meta">{t.pasMesure}</p>
-  )}
-</aside>
+        </ul>
+        <p class="mesures__meta">{t.mesure(date, (metrics as { source?: string }).source === 'production')}</p>
+      </>
+    ) : (
+      <p class="mesures__meta">{t.pasMesure}</p>
+    )}
+  </div>
+</section>
 
 <style>
-  .fiche { background: var(--papier); color: var(--graphite); border-radius: var(--r); padding: 24px 24px 20px; }
-  .fiche__titre { font-family: var(--font-sans); font-weight: 700; font-size: 1.125rem; letter-spacing: 0; text-transform: none; margin: 0 0 12px; color: var(--graphite); }
-  .fiche__table { width: 100%; border-collapse: collapse; font-size: 1rem; }
-  .fiche__table tr { border-top: 1px solid var(--gris-plan); }
-  .fiche__table th { text-align: left; font-weight: 400; padding: 12px 12px 12px 0; vertical-align: middle; }
-  .fiche__seuil { display: block; color: var(--gris-txt); font-size: .875rem; }
-  .fiche__val { white-space: nowrap; font-weight: 700; font-variant-numeric: tabular-nums; padding: 12px 12px 12px 0; }
-  .fiche__sur { font-weight: 400; color: var(--gris-txt); }
-  /* Largeur fixe : le remplissage (0 → 100) ne déplace rien (CLS 0). */
-  .fiche__n { display: inline-block; min-width: 3ch; text-align: right; }
-  .fiche__jauge { display: inline-block; vertical-align: middle; width: 56px; height: 6px; margin-right: 10px; background: var(--gris-plan); border-radius: 1px; overflow: hidden; }
-  .fiche__jauge span { display: block; height: 100%; width: 100%; background: var(--bleu); transform-origin: left; transform: scaleX(var(--v)); }
-  .fiche__etat { text-align: right; color: var(--conforme); font-weight: 700; padding: 12px 0; white-space: nowrap; }
-  .fiche__etat--non { color: #B42318; }
-  .fiche__meta { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--gris-plan); color: var(--gris-txt); font-size: .875rem; line-height: 1.5; }
+  .mesures { padding: clamp(56px, 7vw, 96px) 0; border-top: 1px solid var(--gris-plan); }
+  .mesures__titre { font-family: var(--font-sans); font-weight: 700; font-size: 1.375rem; margin: 0; color: var(--graphite); }
+  .mesures__phrase { margin: 14px 0 0; font-size: 1.125rem; line-height: 1.55; max-width: 52ch; }
+  .mesures__liste { list-style: none; margin: 24px 0 0; padding: 0; max-width: 640px; border-top: 1px solid var(--gris-plan); }
+  .mesures__liste li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 20px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--gris-plan); }
+  .mesures__val { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--gris-txt); }
+  .mesures__etat { font-weight: 700; color: var(--conforme); white-space: nowrap; }
+  .mesures__etat--non { color: #B42318; }
+  .mesures__meta { margin: 16px 0 0; color: var(--gris-txt); font-size: .9375rem; line-height: 1.5; max-width: 64ch; }
   @media (max-width: 420px) {
-    .fiche { padding: 18px 16px 16px; }
-    .fiche__table { font-size: .9375rem; }
-    .fiche__jauge { display: none; }
+    .mesures__liste li { grid-template-columns: minmax(0, 1fr) auto; }
+    .mesures__nom { grid-column: 1 / -1; }
   }
-  @media (max-width: 360px) {
-    .fiche__sur { display: none; }
-  }
-  /* Le remplissage, une fois, au chargement. */
-  @media (prefers-reduced-motion: no-preference) {
-    .fiche__jauge span { animation: fiche-remplit 1s cubic-bezier(.2, .7, .1, 1) .15s both; }
-  }
-  @keyframes fiche-remplit { from { transform: scaleX(0); } }
 </style>
