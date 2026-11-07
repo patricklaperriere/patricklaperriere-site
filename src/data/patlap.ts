@@ -15,6 +15,28 @@ import type { Locale } from '../i18n/routes';
 
 export const BROUILLON = true;
 
+/** Le bloc « La technologie pour tous » sur la home de la vitrine et le lien
+ *  du pied de page (décision de Patrick, 6 nov. 19 h 40). false = la home
+ *  reste identique à main, octet pour octet. Le build échoue s'il passe à
+ *  true pendant que BROUILLON est true (astro.config.mjs). */
+export const HOME_LIEN_PATLAP = false;
+
+/** Les textes de ce bloc, dans le style de la vitrine (pas le look Pat Lap). */
+export const HOME_PATLAP = {
+  fr: {
+    titre: 'La technologie pour tous',
+    texte: 'En parallèle de mes sites, j’aide les gens à se servir de la techno de tous les jours, sans jargon. 5 jours, 5 gestes, 5 minutes par jour, gratuit.',
+    bouton: 'Découvrir le programme',
+    lien: '/la-technologie-pour-tous',
+  },
+  en: {
+    titre: 'Tech for everyone',
+    texte: 'Alongside my websites, I help people get comfortable with everyday tech, no jargon. 5 days, 5 simple moves, 5 minutes a day, free.',
+    bouton: 'Discover the program',
+    lien: '/en/tech-for-everyone',
+  },
+};
+
 /** Un texte absent, visible comme tel à l'écran. */
 export const tbc = (locale: Locale, quoi: string) =>
   locale === 'fr' ? `[À CONFIRMER PATRICK : ${quoi}]` : `[TO CONFIRM PATRICK: ${quoi}]`;

@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import { existsSync, readFileSync } from 'node:fs';
 import { metricsDigest } from './scripts/metrics-digest.mjs';
 import { typoFaults } from './src/lib/typography.mjs';
-import { BROUILLON as PATLAP_BROUILLON } from './src/data/patlap.ts';
+import { BROUILLON as PATLAP_BROUILLON, HOME_LIEN_PATLAP } from './src/data/patlap.ts';
 
 // The sitemap mirrors each page's own <head> instead of guessing: hreflang
 // pairs come from the page's <link rel="alternate" hreflang> tags (FR and EN
@@ -98,6 +98,21 @@ function metricsFreshness() {
 // ; : ? ! » or after « (src/middleware.ts should have replaced them all): any
 // left over stops the build, with the page and the text around it.
 /** @returns {import('astro').AstroIntegration} */
+// Garde-fou Pat Lap : jamais de lien depuis la home vers une page encore en
+// brouillon (noindex). Le build échoue au lieu de publier ce lien.
+function patlapHomeGuard() {
+  return {
+    name: 'patlap-home-guard',
+    hooks: {
+      'astro:config:setup': ({ command }) => {
+        if (command === 'build' && HOME_LIEN_PATLAP && PATLAP_BROUILLON) {
+          throw new Error('HOME_LIEN_PATLAP = true alors que BROUILLON = true (src/data/patlap.ts) : la home lierait une page en noindex. Passe BROUILLON à false (avec l’OK de Patrick) ou remets HOME_LIEN_PATLAP à false.');
+        }
+      },
+    },
+  };
+}
+
 function typographyCheck() {
   return {
     name: 'typography-check',
@@ -154,6 +169,7 @@ export default defineConfig({
 
   integrations: [
     metricsFreshness(),
+    patlapHomeGuard(),
     typographyCheck(),
     sitemap({
       serialize,

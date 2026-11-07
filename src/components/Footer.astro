@@ -4,6 +4,7 @@ import type { Locale } from '../i18n/routes';
 import { SITE, SOCIAL_LIST } from '../config';
 import { villesHubPath } from '../data/villes';
 import ExternalIcon from './ExternalIcon.astro';
+import { HOME_LIEN_PATLAP, HOME_PATLAP } from '../data/patlap';
 
 interface Props {
   locale: Locale;
@@ -72,6 +73,9 @@ const serviceLinks = [
               </a>
             </li>
           ))}
+          {HOME_LIEN_PATLAP && (
+            <li><a href={HOME_PATLAP[locale].lien} class="footer__link">{HOME_PATLAP[locale].titre}</a></li>
+          )}
           <li>
             <a href={locale === 'fr' ? '/rss.xml' : '/en/rss.xml'} class="footer__link">RSS</a>
           </li>

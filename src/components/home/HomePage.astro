@@ -22,6 +22,7 @@ import { HABITA_LOOP } from '../../lib/habitaLoop';
 import SiteSheet from './SiteSheet.astro';
 import HouseScene from './HouseScene.astro';
 import ExternalIcon from '../ExternalIcon.astro';
+import { HOME_LIEN_PATLAP, HOME_PATLAP } from '../../data/patlap';
 
 interface Props {
   locale: Locale;
@@ -41,6 +42,7 @@ const proofs = [
 ];
 // Shown only once a client has supplied and approved a quote (home.ts).
 const quote = t.about.testimonial;
+const patlap = HOME_PATLAP[locale];
 
 ---
 
@@ -145,6 +147,21 @@ const quote = t.about.testimonial;
       </div>
     </div>
   </section>
+
+  {/* ---- La technologie pour tous (interrupteur HOME_LIEN_PATLAP) -------------------
+      Aucune règle CSS nouvelle : les classes de « Qui je suis » et le bouton
+      fantôme du site. Interrupteur à false, la home reste identique à main. */}
+  {HOME_LIEN_PATLAP && (
+    <section class="about st-frame" aria-labelledby="patlap-title">
+      <div class="st-grid">
+        <h2 id="patlap-title" class="h2 about__title" data-reveal>{patlap.titre}</h2>
+        <div class="about__text" data-reveal>
+          <p>{patlap.texte}</p>
+          <p><a class="btn btn-ghost" href={patlap.lien}>{patlap.bouton}<span class="btn__arrow" aria-hidden="true">→</span></a></p>
+        </div>
+      </div>
+    </section>
+  )}
 
   {/* ---- Contact ------------------------------------------------------------------- */}
   <section class="contact st-frame" aria-labelledby="contact-title">
