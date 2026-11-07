@@ -46,7 +46,7 @@ const fr = {
     },
     beauregard: {
       titre: 'Inspection BeauRegard',
-      texte: 'Éric Beauregard est inspecteur en bâtiment à Sherbrooke et il rédige ses rapports dans Habita. J’ai remplacé son site Wix par un site Astro sur mesure : 22 pages, dont une par service d’inspection, livrées en 5 semaines. Les cinq anciennes adresses Wix redirigent vers les nouvelles pages, pour garder ce que Google avait déjà indexé.',
+      texte: 'Éric Beauregard est inspecteur en bâtiment à Sherbrooke et il rédige ses rapports dans Habita. J’ai remplacé son site Wix par un site Astro sur mesure. Les cinq anciennes adresses Wix redirigent vers les nouvelles pages, pour garder ce que Google avait déjà indexé.',
       etude: 'Lire l’étude de cas BeauRegard',
       site: 'Voir inspectionbeauregard.com',
     },
@@ -114,7 +114,7 @@ const en: typeof fr = {
     },
     beauregard: {
       titre: 'Inspection BeauRegard',
-      texte: 'Éric Beauregard is a home inspector in Sherbrooke, and he writes his reports in Habita. I replaced his Wix site with a custom Astro site: 22 pages, including one per inspection service, delivered in 5 weeks. The five old Wix addresses redirect to the new pages, so what Google had already indexed is kept.',
+      texte: 'Éric Beauregard is a home inspector in Sherbrooke, and he writes his reports in Habita. I replaced his Wix site with a custom Astro site. The five old Wix addresses redirect to the new pages, so what Google had already indexed is kept.',
       etude: 'Read the BeauRegard case study',
       site: 'Visit inspectionbeauregard.com',
     },

@@ -31,9 +31,6 @@ résultat:
 lien: "https://www.inspectionbeauregard.com"
 logo: "/work/logos/inspection-beauregard.svg"
 image: "/work/inspection-beauregard.webp"
-délai:
-  fr: "Livré en 5 semaines"
-  en: "Delivered in 5 weeks"
 captures:
   - src: "/work/inspection-beauregard-thermographie.webp"
     alt:
@@ -93,7 +90,8 @@ Témoignage : Éric n'a écrit aucune citation sur le site Web (sa citation appr
 sur la fiche Habita). Pas de bloc témoignage ici; en ajouter un seulement avec une citation qu'il a approuvée.
 
 28 octobre 2026 (prompt SITEPERSO-2026-10-28-4) :
-- Délai : premier commit 093a1b9 le 22 septembre 2026 (fondation du site, déjà propre au projet : 45 fichiers, pages BeauRegard), mise en ligne ac60dc4 poussée sur main le 27 octobre 2026. 35 jours, soit 5 semaines.
+- DÉLAI RETIRÉ le 7 nov. 2026 (REFONTE-1C) : Patrick dit que le site lui a pris 2 jours ; les « 5 semaines » tirées des commits sont fausses. Aucun délai écrit sans son OK.
+- (Ancienne note, fausse) Délai : premier commit 093a1b9 le 22 septembre 2026 (fondation du site, déjà propre au projet : 45 fichiers, pages BeauRegard), mise en ligne ac60dc4 poussée sur main le 27 octobre 2026. 35 jours, soit 5 semaines.
 - Résultat : le site en ligne compte 22 pages (sitemap du 28 octobre), plus 9 ; les 5 redirections Wix répondent toujours 301.
 - Captures prises sur le site en ligne le 28 octobre (Playwright) : /thermographie et /contact à 1440 px, accueil à 375 px.
 - Résultats depuis la mise en ligne : retirés (ni chiffres ni accord d'Éric). Le champ `résultatsMesurés` reste disponible.
