@@ -106,8 +106,12 @@ export function initHabitaShowcase(root: HTMLElement): void {
   let last = 0;
   let raf = 0;
 
+  // Refonte (7 nov.) : la démo attend le premier geste de la personne
+  // (défilement, souris, clavier, toucher) avant de jouer. Le premier écran
+  // reste immobile et léger ; rien ne bouge tout seul au chargement.
+  let geste = false;
   const playing = () =>
-    visible && document.visibilityState === 'visible' && (asked || (!hovered && !focused));
+    geste && visible && document.visibilityState === 'visible' && (asked || (!hovered && !focused));
 
   function frame(now: number): void {
     if (last) t = (t + (now - last) / 1000) % total();
@@ -131,6 +135,13 @@ export function initHabitaShowcase(root: HTMLElement): void {
     { threshold: 0.35 },
   ).observe(root);
   document.addEventListener('visibilitychange', update);
+  const premierGeste = () => {
+    if (geste) return;
+    geste = true;
+    for (const ev of ['scroll', 'pointermove', 'keydown', 'touchstart']) removeEventListener(ev, premierGeste);
+    update();
+  };
+  for (const ev of ['scroll', 'pointermove', 'keydown', 'touchstart']) addEventListener(ev, premierGeste, { passive: true });
   // On the lead card the stretched link covers the frame, so the pointer is
   // tracked on the whole card ([data-showcase-host]), not on the figure.
   const hoverZone = root.closest<HTMLElement>('[data-showcase-host]') ?? root;
@@ -143,6 +154,7 @@ export function initHabitaShowcase(root: HTMLElement): void {
 
   // A step or Replay plays from that point even while hovered or focused.
   const jump = (to: number) => {
+    geste = true;
     t = to;
     asked = true;
     render(t);

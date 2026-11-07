@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-11-07T12:48:27.122Z",
+  "measuredAt": "2026-11-07T13:15:50.844Z",
   "tool": "Lighthouse 12.8.2",
   "profile": "mobile, simulated throttling (Slow 4G, 4x CPU)",
   "command": "npm run measure",
@@ -11,11 +11,11 @@
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
-      "lcpMs": 1952,
-      "fcpMs": 1244,
+      "lcpMs": 2027,
+      "fcpMs": 1289,
       "cls": 0,
       "tbtMs": 0,
-      "transferBytes": 444698,
+      "transferBytes": 446386,
       "runs": 3
     },
     "/en": {
@@ -24,16 +24,16 @@
       "bestPractices": 100,
       "seo": 100,
       "lcpMs": 2026,
-      "fcpMs": 1204,
+      "fcpMs": 1209,
       "cls": 0,
       "tbtMs": 0,
-      "transferBytes": 444011,
+      "transferBytes": 445699,
       "runs": 3
     }
   },
   "htmlBytes": {
-    "/": 83140,
-    "/en": 82425
+    "/": 84828,
+    "/en": 84113
   },
-  "digest": "fb464d217fd2cc79e68c7be03e2f547363d2f4a5852a5dbe55bce89f50a471a4"
+  "digest": "673e570cd21134a3803eda95fb7394800f12df6ca150b5a7635443c3ca6a1f63"
 }
