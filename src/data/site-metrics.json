@@ -1,5 +1,5 @@
 {
-  "measuredAt": "2026-11-07T11:43:16.685Z",
+  "measuredAt": "2026-11-07T11:55:14.454Z",
   "tool": "Lighthouse 12.8.2",
   "profile": "mobile, simulated throttling (Slow 4G, 4x CPU)",
   "command": "npm run measure",
@@ -7,33 +7,33 @@
   "url": "http://127.0.0.1:4391",
   "pages": {
     "/": {
-      "performance": 95,
-      "accessibility": 100,
-      "bestPractices": 100,
-      "seo": 100,
-      "lcpMs": 2028,
-      "fcpMs": 1203,
-      "cls": 0,
-      "tbtMs": 241,
-      "transferBytes": 451174,
-      "runs": 3
-    },
-    "/en": {
-      "performance": 96,
+      "performance": 99,
       "accessibility": 100,
       "bestPractices": 100,
       "seo": 100,
       "lcpMs": 2027,
-      "fcpMs": 1202,
+      "fcpMs": 1208,
       "cls": 0,
-      "tbtMs": 215,
-      "transferBytes": 450480,
+      "tbtMs": 0,
+      "transferBytes": 443855,
+      "runs": 3
+    },
+    "/en": {
+      "performance": 99,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 100,
+      "lcpMs": 1953,
+      "fcpMs": 1249,
+      "cls": 0,
+      "tbtMs": 0,
+      "transferBytes": 443168,
       "runs": 3
     }
   },
   "htmlBytes": {
-    "/": 82468,
-    "/en": 81753
+    "/": 82297,
+    "/en": 81582
   },
-  "digest": "2b27f05ea17714d930e387f75c97cd5a3e5ea60ab9100b48d57645bb5e103bf9"
+  "digest": "821558b2ae5bed20d67c05e2d4c29ffad6c164c2dd458671984f90fbf39da333"
 }
