@@ -85,8 +85,8 @@ const nb = PROJETS_SCENE.length;
   :global(html.scene-3d) .scene__plateau { position: sticky; top: 0; height: 100svh; overflow: hidden; contain: strict; cursor: pointer; }
   :global(html.scene-3d) .scene__canvas { display: block; position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity .6s; }
   :global(html.scene-3d) .scene--webgl.scene--prete .scene__canvas { opacity: 1; }
-  :global(html.scene-3d) .scene__ecrans { display: block; position: absolute; inset: 0; perspective: var(--focale, 800px); perspective-origin: 50% 50%; transform-style: preserve-3d; }
-  :global(html.scene-3d) .scene__ecrans img { position: absolute; left: 50%; top: 50%; width: 40vw; height: auto; object-fit: cover; border: 1px solid rgba(220, 230, 255, .45); border-radius: var(--r); backface-visibility: hidden; will-change: transform, opacity; }
+  :global(html.scene-3d) .scene__ecrans { display: block; position: absolute; inset: 0; perspective: var(--focale, 800px); perspective-origin: 50% 50%; }
+  :global(html.scene-3d) .scene__ecrans img { position: absolute; left: 50%; top: 50%; width: 40vw; height: auto; max-width: none; object-fit: cover; border: 1px solid rgba(220, 230, 255, .45); border-radius: var(--r); }
   /* Avant que le moteur ne prenne la main : seul le premier écran, posé. */
   :global(html.scene-3d) .scene:not(.scene--css) .scene__ecrans img { opacity: 0; }
   :global(html.scene-3d) .scene:not(.scene--css):not(.scene--webgl) .scene__ecrans img:first-child { opacity: 1; transform: translate(-28%, -10%); }

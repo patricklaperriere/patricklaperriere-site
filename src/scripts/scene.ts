@@ -296,6 +296,7 @@ export function demarrer(section: HTMLElement, voulu: Mode) {
         const d = cz! - e.z;
         if (d < 0.35) { el.style.visibility = 'hidden'; return; }
         el.style.visibility = 'visible';
+        el.style.zIndex = String(Math.max(1, Math.round(1000 - d * 50))); // le plus proche devant
         const loin = Math.min(1, Math.max(0, (d - c.d - 1.5) / 11.5));
         el.style.opacity = String(Math.min(1, (d - 0.35) / 0.5) * (1 - loin * 0.85));
         el.style.transform = `translate3d(${(e.x - cx! - sx * 0.12) * f}px, ${-(e.y - cy! + sy * 0.08) * f}px, ${f * (1 - d)}px) rotateY(${e.ry}rad)`;
