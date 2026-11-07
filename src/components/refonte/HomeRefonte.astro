@@ -5,7 +5,7 @@
 //
 // 1. Hero : Patrick, détouré, éclairé comme par l'écran ; le titre est un
 //    bloc visuel qui chevauche la photo. Une entrée courte au chargement :
-//    la salle s'allume (luminosité de la photo, balayage du titre).
+//    le titre est balayé comme par un projecteur.
 // 2. La scène 3D : ses vrais projets en profondeur (Scene.astro, scene.ts).
 // 3. BeauRegard, Avant / Après (glisseur et balayage lié au défilement).
 // 4. Ce que je fais : quatre services, en quinconce.
@@ -192,14 +192,12 @@ const altPhoto = locale === 'fr' ? 'Patrick Laperrière, souriant, en veston ble
     .r-hero__titre { max-width: 9.5ch; font-size: clamp(2.75rem, min(7.2vw, 12.5vh), 7.25rem); }
     .r-hero__bas { grid-template-columns: minmax(0, 46ch); }
   }
-  /* L'entrée : la salle s'allume. La photo passe du noir à la lumière ; le
-     titre est balayé de gauche à droite, comme par le faisceau d'un
-     projecteur. Une seule fois, moins d'une seconde. */
+  /* L'entrée : le titre est balayé de gauche à droite, comme par le
+     faisceau d'un projecteur. Une seule fois, moins d'une seconde.
+     (Miroir du 7 nov. : l'allumage de la photo, un effet de trop, retiré.) */
   @media (prefers-reduced-motion: no-preference) {
-    .r-hero__photo :global(img) { animation: r-allumage .9s cubic-bezier(.2, .7, .1, 1) both; }
     .r-hero__titre { animation: r-faisceau .7s .1s cubic-bezier(.2, .7, .1, 1) both; }
   }
-  @keyframes r-allumage { from { filter: brightness(.12); } to { filter: brightness(1); } }
   @keyframes r-faisceau { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
 
   /* ---- 3. BeauRegard ------------------------------------------------------------ */
