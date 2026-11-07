@@ -45,7 +45,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
       </label>
       {/* Anti-robots : un champ invisible qu'un humain ne remplit jamais. */}
       <label class="pl-pot" aria-hidden="true">
-        <span>Site web</span><input name="site" type="text" tabindex="-1" autocomplete="off" />
+        <span>{tx.formulaire.pot}</span><input name="site" type="text" tabindex="-1" autocomplete="off" aria-hidden="true" />
       </label>
       <label class="pl-consent">
         <input name="consentement" type="checkbox" required />
@@ -95,7 +95,22 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
   <div class="pl-cadre pl-pat">
     {PHOTOS.portrait.pret
       ? <img class="pl-photo pl-photo-img" src={PHOTOS.portrait.src} width={PHOTOS.portrait.largeur} height={PHOTOS.portrait.hauteur} alt={fr ? PHOTOS.portrait.alt : PHOTOS.portrait.altEn} loading="lazy" decoding="async" />
-      : <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>}
+      : import.meta.env.DEV
+        ? <div class="pl-photo" role="img" aria-label={tx.pat.photo}><Texte s={tx.pat.photo} /></div>
+        : (
+          /* Build sans photo : une illustration neutre (le téléphone de la
+             page et une bulle), décorative. */
+          <div class="pl-photo pl-photo-neutre" aria-hidden="true">
+            <svg viewBox="0 0 220 300" focusable="false">
+              <circle cx="110" cy="150" r="104" fill="#F4EFE6" />
+              <use href="#pl-tel" x="50" y="40" width="120" height="225" />
+              <g fill="none" stroke="#A33E9A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M84 120h52a8 8 0 0 1 8 8v24a8 8 0 0 1-8 8h-30l-14 12v-12h-8a8 8 0 0 1-8-8v-24a8 8 0 0 1 8-8z" />
+                <path d="M94 140h32M94 150h20" />
+              </g>
+            </svg>
+          </div>
+        )}
     <div>
       <h2 class="pl-h2">{tx.pat.titre}</h2>
       <p><Texte s={tx.pat.texte} /></p>
@@ -122,7 +137,7 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
     document.querySelectorAll('[data-pl-groupe]').forEach((g) => [...g.children].forEach((c, i) => {
       c.setAttribute('data-pl-revele', '');
-      (c as HTMLElement).style.setProperty('--delai', `${Math.min(i * 90, 360)}ms`);
+      (c as HTMLElement).style.setProperty('--delai', `${Math.min(i * 60, 240)}ms`);
     }));
     const io = new IntersectionObserver((es) => {
       for (const e of es) if (e.isIntersecting) { e.target.classList.add('vu'); io.unobserve(e.target); }
@@ -193,28 +208,40 @@ const apps = ['Claude → Gmail', fr ? 'Google Agenda' : 'Google Calendar', 'Gma
   .pl-trois li { background: #fff; border-radius: 1rem; padding: 1.25rem; display: grid; gap: .5rem; }
   .pl-num { display: inline-flex; width: 2rem; height: 2rem; border-radius: 999px; align-items: center; justify-content: center; background: var(--pl-vert); color: #fff; font-weight: 800; }
   .pl-jours { list-style: none; margin: 0 0 2rem; padding: 0; display: grid; gap: 1rem; }
-  .pl-panneau { display: grid; gap: 1.25rem; align-items: center; background: #fff; border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 10px 30px rgba(48, 10, 36, .08); }
-  .pl-panneau-texte { display: grid; gap: .5rem; }
+  /* Ombre nette + filet : sur la pile, le bord de chaque carte se lit
+     comme un onglet, pas comme une bande blanche. */
+  .pl-panneau { display: grid; gap: 1.25rem; align-items: center; background: #fff; border: 1px solid rgba(48, 10, 36, .1); border-radius: 1.25rem; padding: 1.5rem; box-shadow: 0 8px 18px -8px rgba(48, 10, 36, .22); }
+  .pl-panneau-texte { display: grid; gap: .5rem; align-content: center; }
   .pl-panneau-tel { width: 9rem; margin: 0 auto; }
+  /* Ordinateur : cartes compactes, téléphone d'environ 200 px de haut. */
   @media (min-width: 768px) {
-    .pl-panneau { grid-template-columns: 1fr 11rem; gap: 2.5rem; padding: 2.5rem 3rem; min-height: 22rem; }
-    .pl-panneau-tel { width: 11rem; }
+    .pl-panneau { grid-template-columns: 1fr 6.75rem; gap: 2.5rem; padding: 2rem 3rem; }
+    .pl-panneau-tel { width: 6.75rem; }
   }
-  /* L'empilement au défilement : seulement quand un panneau entier tient
-     dans la fenêtre, pour qu'aucun texte ne passe sous le panneau suivant. */
-  @media (min-width: 900px) and (min-height: 700px) {
-    .pl-jours { gap: 2rem; }
-    .pl-panneau { position: sticky; top: calc(5.5rem + var(--i) * 1rem); }
+  /* L'empilement au défilement : 1024 px et plus seulement, et quand une carte
+     entière tient dans la fenêtre. top = 80 px + rang × 16 px. */
+  @media (min-width: 1024px) and (min-height: 700px) {
+    .pl-jours { gap: 1.5rem; }
+    .pl-panneau { position: sticky; top: calc(80px + var(--i) * 16px); }
   }
   .pl-jour { font-family: var(--pl-titres); font-weight: 800; font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1; color: var(--pl-vert); }
   .pl-jour-titre { display: block; font-weight: 800; font-size: 1.25rem; }
   .pl-jour-resume { display: block; color: var(--pl-gris); font-size: 1.1rem; }
-  :global(.pl-anim) [data-pl-revele] { opacity: 0; transform: translateY(12px); transition: opacity .5s ease var(--delai, 0ms), transform .5s ease var(--delai, 0ms); }
-  :global(.pl-anim) [data-pl-revele].vu { opacity: 1; transform: none; }
+  /* Départ à 0,35 (jamais de trou vide sur mobile), 300 ms. Pour les cartes
+     de texte, le fondu passe par un voile couleur sable (::after) plutôt que
+     par l'opacité du texte : le texte garde son vrai contraste. */
+  :global(.pl-anim) [data-pl-revele] { transform: translateY(12px); transition: opacity .3s ease var(--delai, 0ms), transform .3s ease var(--delai, 0ms); }
+  :global(.pl-anim) [data-pl-revele].vu { transform: none; }
+  :global(.pl-anim) .pl-panneau-tel[data-pl-revele] { opacity: .35; }
+  :global(.pl-anim) .pl-panneau-tel[data-pl-revele].vu { opacity: 1; }
+  :global(.pl-anim) .pl-trois [data-pl-revele] { position: relative; }
+  :global(.pl-anim) .pl-trois [data-pl-revele]::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; background: var(--pl-sable); opacity: .65; pointer-events: none; transition: opacity .3s ease var(--delai, 0ms); }
+  :global(.pl-anim) .pl-trois [data-pl-revele].vu::after { opacity: 0; }
   .pl-pat { display: grid; gap: 1.5rem; align-items: center; }
   @media (min-width: 768px) { .pl-pat { grid-template-columns: 18rem 1fr; gap: 2.5rem; } }
   .pl-photo { aspect-ratio: 4 / 5; border-radius: 1.25rem; background: #E6DFD2; display: flex; align-items: center; justify-content: center; padding: 1rem; text-align: center; }
   .pl-photo-img { width: 100%; height: auto; object-fit: cover; padding: 0; }
+  .pl-photo-neutre svg { width: 80%; height: auto; }
   .pl-soiree { background: var(--pl-nuit); color: #fff; padding: 3rem 0; margin-top: 1.5rem; }
   .pl-soiree .pl-h2 { color: #fff; }
   .pl-soiree-format { font-weight: 700; font-size: 1.1rem; }

@@ -51,7 +51,7 @@ const autre = locale === 'fr' ? 'en' : 'fr';
           </nav>
         )}
         <div class="pl-nav-droite">
-          <a class="pl-langue" href={alternates[autre]} hreflang={autre} aria-label={tx.nav.autreLangueLabel}>{tx.nav.autreLangue}</a>
+          <a class="pl-langue" href={alternates[autre]} hreflang={autre} aria-label={`${tx.nav.autreLangue} (${tx.nav.autreLangueLabel})`}>{tx.nav.autreLangue}</a>
           {!cachee && <a class="pl-bouton pl-bouton-petit" href="#inscription">{tx.nav.inscription}</a>}
         </div>
       </div>
@@ -106,7 +106,12 @@ const autre = locale === 'fr' ? 'en' : 'fr';
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    /* Le pied de page reste en bas même sur une page courte (Soirée). */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
+  .patlap > main { flex: 1 0 auto; }
   .patlap *, .patlap *::before, .patlap *::after { box-sizing: border-box; }
   .patlap img { max-width: 100%; height: auto; display: block; }
   .patlap a { color: var(--pl-vert); }
