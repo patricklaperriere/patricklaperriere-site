@@ -14,11 +14,14 @@ const id = LIENS.youtube[n] || '';
 <section class="pl-section">
   <div class="pl-cadre pl-jour-cadre">
     <h1 class="pl-h2">{tx.pageJour.titre(n)}</h1>
-    <div class="pl-video">
-      {id
-        ? <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`} title={tx.pageJour.titre(n)} loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
-        : <Texte s={tx.pageJour.video} />}
-    </div>
+    {/* Sans vidéo, le build n'affiche pas de cadre vide (le jaune, en dev seulement). */}
+    {(id || import.meta.env.DEV) && (
+      <div class="pl-video">
+        {id
+          ? <iframe src={`https://www.youtube-nocookie.com/embed/${id}?rel=0`} title={tx.pageJour.titre(n)} loading="lazy" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe>
+          : <Texte s={tx.pageJour.video} />}
+      </div>
+    )}
     <div class="pl-geste">
       {tx.pageJour.geste(n).map((p) => <p><Texte s={p} /></p>)}
     </div>

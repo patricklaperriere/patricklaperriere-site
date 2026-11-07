@@ -5,24 +5,32 @@
 // désactivé et le placeholder dit ce qui manque.
 import Texte from './Texte.astro';
 import type { Locale } from '../../i18n/routes';
-import { LIENS, textes } from '../../data/patlap';
+import { LIENS, PATLAP_ROUTES, textes } from '../../data/patlap';
 
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const tx = textes(locale);
+const dev = import.meta.env.DEV;
 ---
 <section class="pl-section">
   <div class="pl-cadre pl-jour-cadre">
+    <p class="pl-retour"><a href={PATLAP_ROUTES[locale].page}>{tx.soireePage.retour}</a></p>
     <h1 class="pl-h2">{tx.soiree.titre}</h1>
     <p class="pl-soiree-format">{tx.soiree.format} · {tx.soiree.prix}</p>
     <p><Texte s={tx.soiree.date} /></p>
     <p><Texte s={tx.soiree.texte} /></p>
     {LIENS.stripeSoiree
       ? <a class="pl-bouton" href={LIENS.stripeSoiree} rel="noopener">{tx.soiree.boutonPaiement}</a>
-      : <p><span class="pl-bouton" aria-disabled="true">{tx.soiree.boutonPaiement}</span> <Texte s={tx.soiree.paiementAVenir} /></p>}
+      : dev
+        ? <p><span class="pl-bouton" aria-disabled="true">{tx.soiree.boutonPaiement}</span> <Texte s={tx.soiree.paiementAVenir} /></p>
+        : <p><span class="pl-bouton" aria-disabled="true">{tx.soiree.bientot}</span></p>}
   </div>
 </section>
 <style>
+  .pl-section { padding: 2rem 0 3rem; }
   .pl-jour-cadre { max-width: 48rem; }
   .pl-soiree-format { font-weight: 700; font-size: 1.1rem; }
+  .pl-retour { margin: 0 0 1.5rem; font-weight: 700; }
+  .pl-retour a { text-decoration: none; }
+  .pl-retour a:hover { text-decoration: underline; }
 </style>

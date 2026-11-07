@@ -1,7 +1,10 @@
 ---
-// Un texte de Pat Lap : affiché tel quel, ou en jaune s'il reste à confirmer.
+// Un texte de Pat Lap : affiché tel quel. S'il reste à confirmer, il se voit
+// en jaune en dev seulement ; le build ne l'affiche pas (liste des textes
+// manquants : docs/PATLAP-PLACEHOLDERS.md).
 import { estPlaceholder } from '../../data/patlap';
 interface Props { s: string; }
 const { s } = Astro.props;
+const dev = import.meta.env.DEV;
 ---
-{estPlaceholder(s) ? <span class="pl-tbc">{s}</span> : s}
+{estPlaceholder(s) ? (dev && <span class="pl-tbc">{s}</span>) : s}
