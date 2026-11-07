@@ -266,11 +266,12 @@ export function textes(locale: Locale) {
       site: 'patricklaperriere.com',
       projet: fr ? 'Un projet de Patrick Laperrière' : 'A Patrick Laperrière project',
       confidentialite: fr ? 'Confidentialité' : 'Privacy',
-      // Seulement les marques citées dans les pages Pat Lap (relu le 6 nov.) :
-      // ChatGPT, Claude, Gmail, Google Agenda, iPhone (jour 2), Zoom (Soirée).
+      // Seulement les marques nommées dans les pages Pat Lap (option A de
+      // Patrick, 6 nov. 19 h 32) : ChatGPT, Claude, Gmail, Google Agenda,
+      // iPhone (jour 2), Zoom (Soirée).
       marques: fr
-        ? 'ChatGPT (OpenAI), Claude (Anthropic), Gmail et Google Agenda (Google), iPhone (Apple) et Zoom sont des marques de leurs propriétaires respectifs. Pat Lap n’est affilié à aucun d’eux.'
-        : 'ChatGPT (OpenAI), Claude (Anthropic), Gmail and Google Calendar (Google), iPhone (Apple) and Zoom are trademarks of their respective owners. Pat Lap is not affiliated with any of them.',
+        ? 'Claude est une marque d’Anthropic, ChatGPT une marque d’OpenAI, Gmail et Google Agenda des marques de Google, iPhone une marque d’Apple et Zoom une marque de Zoom Communications. Pat Lap n’est affilié à aucune de ces entreprises.'
+        : 'Claude is a trademark of Anthropic, ChatGPT a trademark of OpenAI, Gmail and Google Calendar trademarks of Google, iPhone a trademark of Apple and Zoom a trademark of Zoom Communications. Pat Lap is not affiliated with any of these companies.',
     },
     soireePage: {
       retour: fr ? '← Retour au programme' : '← Back to the program',
