@@ -80,7 +80,7 @@ const dims = project.image ? await sharp(`public${project.image}`).metadata() : 
     </ul>
 
     <div class="wf__ctas">
-      <a href={href} class="btn btn-accent wf__btn">{tr.cta.viewProject} <span class="wf__arrow" aria-hidden="true">→</span></a>
+      <a href={href} class="btn btn-accent wf__btn">{tr.cta.viewProject}</a>
       {project.live && (
         <a href={project.url} class="cta-mono wf__live" target="_blank" rel="noopener">{host} <span aria-hidden="true">↗</span></a>
       )}

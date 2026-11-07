@@ -1,4 +1,4 @@
-// « La technologie pour tous » (marque Pat Lap) : tout le texte des pages.
+// « La technologie pour tous », programme de Patrick Laperrière : tout le texte des pages.
 //
 // Source qui fait foi : NEXUS-Bridge/docs/PASSATION-TECHNO-POUR-TOUS-2026-11-06.md
 // et AI-FOR-DUMMIES-MVP.md. RÈGLE : aucun texte marketing inventé. Ce qui est
@@ -209,11 +209,13 @@ export function textes(locale: Locale) {
       ? "5 jours, 5 gestes simples pour apprivoiser l’IA sur ton téléphone. Un courriel par matin, une capsule de 60 secondes, zéro jargon. Gratuit."
       : '5 days, 5 simple moves to get comfortable with AI on your phone. One email a morning, a 60-second clip, zero jargon. Free.',
     nav: {
-      marque: 'Pat Lap',
-      sousTitre: fr ? 'La technologie pour tous' : 'Tech for everyone',
+      // Décision de marque (Patrick, 7 nov.) : un seul nom, Patrick Laperrière.
+      // « La technologie pour tous » est le nom du programme.
+      marque: 'Patrick Laperrière',
+      sousTitre: fr ? 'Un programme de Patrick Laperrière' : 'A program by Patrick Laperrière',
       jours: fr ? 'Les 5 jours' : 'The 5 days',
       soiree: fr ? 'La Soirée' : 'The Evening',
-      quiPat: fr ? "C’est qui Pat ?" : "Who’s Pat?",
+      quiPat: fr ? "C’est qui, Patrick ?" : "Who’s Patrick?",
       inscription: fr ? "Je m’inscris" : 'Sign me up',
       autreLangue: fr ? 'EN' : 'FR',
       autreLangueLabel: fr ? 'English' : 'Français',
@@ -236,8 +238,8 @@ export function textes(locale: Locale) {
       courriel: fr ? 'Courriel' : 'Email',
       // Approuvé par Patrick, 6 nov. (chat NEXUS, prompt PAT-LAP-2).
       consentement: fr
-        ? "J’accepte de recevoir les 5 courriels de La technologie pour tous et, après, les nouvelles de Pat Lap. Je peux me désabonner en un clic, n’importe quand."
-        : 'I agree to receive the 5 emails from Tech for everyone and, after that, news from Pat Lap. I can unsubscribe in one click, anytime.',
+        ? "J’accepte de recevoir les 5 courriels de La technologie pour tous et, après, les nouvelles de Patrick Laperrière. Je peux me désabonner en un clic, n’importe quand."
+        : 'I agree to receive the 5 emails from Tech for everyone and, after that, news from Patrick Laperrière. I can unsubscribe in one click, anytime.',
       lienConfidentialite: fr ? 'Politique de confidentialité' : 'Privacy policy',
       bouton: fr ? "Je m’inscris" : 'Sign me up',
       envoi: fr ? 'Envoi…' : 'Sending…',
@@ -267,7 +269,7 @@ export function textes(locale: Locale) {
       libelleJour: (n: number) => (fr ? `Jour ${n}` : `Day ${n}`),
     },
     pat: {
-      titre: fr ? "C’est qui, Pat ?" : "Who’s Pat?",
+      titre: fr ? "C’est qui, Patrick ?" : "Who’s Patrick?",
       texte: fr
         ? "Je m’appelle Patrick. Je bâtis des sites web et des logiciels pour des entreprises, et je passe mes journées avec des outils d’intelligence artificielle. Le soir, c’est ma mère ou un oncle qui m’appelle parce que « le téléphone fait quelque chose de bizarre ». J’ai fini par comprendre une affaire : ce n’est pas que c’est compliqué, c’est que personne ne prend 5 minutes pour montrer. La technologie pour tous, c’est ces 5 minutes-là, sans jugement, en français, de mon téléphone au tien."
         : 'My name is Patrick. I build websites and software for small businesses, and I spend my days working with artificial intelligence tools. In the evening, it’s my mom or an uncle calling because "the phone is doing something weird." I finally figured something out: it’s not that it’s complicated, it’s that nobody takes 5 minutes to show you. Tech for everyone is those 5 minutes, no judgment, from my phone to yours.',
@@ -299,8 +301,8 @@ export function textes(locale: Locale) {
       // Patrick, 6 nov. 19 h 32) : ChatGPT, Claude, Gemini, Gmail, Google
       // Agenda, iPhone (jour 2), Zoom (Soirée).
       marques: fr
-        ? 'ChatGPT est une marque d’OpenAI, Claude une marque d’Anthropic, Gemini, Gmail et Google Agenda des marques de Google, iPhone une marque d’Apple et Zoom une marque de Zoom Communications. Pat Lap n’est affilié à aucune de ces entreprises.'
-        : 'ChatGPT is a trademark of OpenAI, Claude a trademark of Anthropic, Gemini, Gmail and Google Calendar trademarks of Google, iPhone a trademark of Apple and Zoom a trademark of Zoom Communications. Pat Lap is not affiliated with any of these companies.',
+        ? 'ChatGPT est une marque d’OpenAI, Claude une marque d’Anthropic, Gemini, Gmail et Google Agenda des marques de Google, iPhone une marque d’Apple et Zoom une marque de Zoom Communications. Patrick Laperrière n’est affilié à aucune de ces entreprises.'
+        : 'ChatGPT is a trademark of OpenAI, Claude a trademark of Anthropic, Gemini, Gmail and Google Calendar trademarks of Google, iPhone a trademark of Apple and Zoom a trademark of Zoom Communications. Patrick Laperrière is not affiliated with any of these companies.',
     },
     soireePage: {
       retour: fr ? '← Retour au programme' : '← Back to the program',

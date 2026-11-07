@@ -1,13 +1,15 @@
 ---
-// « La technologie pour tous » (marque Pat Lap) : un layout À PART.
+// « La technologie pour tous », programme de Patrick Laperrière.
 //
-// La vitrine pro ne bouge pas (passation du 6 nov., section 4) : ni son nav,
-// ni son pied de page, ni sa feuille de style ne sont chargés ici. Pat Lap a
-// son propre look (vert forêt sur sable, Figtree) et sa propre navigation.
-// Le seul pont vers le site pro est la section « C'est qui, Pat ? ».
-import SEO from '../components/SEO.astro';
+// Décision de marque (Patrick, 7 nov.) : un seul nom partout, « Patrick
+// Laperrière. ». Le programme n'a plus de marque à part : ses pages prennent
+// l'en-tête, le pied de page et le design du site (Layout.astro, thème
+// refonte), avec une barre du programme (son nom, ses sections, l'inscription).
+// Les adresses ne changent pas. Le nom du fichier est gardé pour ne rien
+// casser dans les pages qui l'importent.
+import Layout from './Layout.astro';
 import type { Locale } from '../i18n/routes';
-import { BROUILLON, LIENS, PATLAP_ROUTES, textes } from '../data/patlap';
+import { BROUILLON, PATLAP_ROUTES, textes } from '../data/patlap';
 
 interface Props {
   title: string;
@@ -22,131 +24,87 @@ interface Props {
 const { title, description, locale, alternates, path, cachee = false } = Astro.props;
 const tx = textes(locale);
 const r = PATLAP_ROUTES[locale];
-const autre = locale === 'fr' ? 'en' : 'fr';
 ---
 
-<!doctype html>
-<html lang={locale === 'fr' ? 'fr-CA' : 'en-CA'}>
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#300A24" />
-    <link rel="preload" href="/fonts/figtree.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/big-shoulders-display.woff2" as="font" type="font/woff2" crossorigin />
-    <SEO title={title} description={description} locale={locale} alternates={alternates} path={path} noindex={BROUILLON || cachee} />
-  </head>
-  <body class="patlap">
-    <a class="pl-saut" href="#contenu">{locale === 'fr' ? 'Aller au contenu' : 'Skip to content'}</a>
-    <header class="pl-nav">
-      <div class="pl-cadre pl-nav-in">
-        <a class="pl-marque" href={r.page}>
-          <span class="pl-marque-nom">{tx.nav.marque}<span class="pl-marque-point">.</span></span>
-          <span class="pl-marque-sous">{tx.nav.sousTitre}</span>
+<Layout title={title} description={description} locale={locale} alternates={alternates} path={path} noindex={BROUILLON || cachee}>
+  <div class="patlap">
+    <div class="pl-barre">
+      <div class="pl-cadre pl-barre-in">
+        <a class="pl-programme" href={r.page}>
+          <span class="pl-programme-nom">{tx.titrePage}</span>
+          <span class="pl-programme-sous">{tx.nav.sousTitre}</span>
         </a>
         {!cachee && (
-          <nav aria-label={locale === 'fr' ? 'Sections' : 'Sections'} class="pl-liens">
+          <nav aria-label={locale === 'fr' ? 'Le programme' : 'The program'} class="pl-liens">
             <a href="#jours">{tx.nav.jours}</a>
             <a href="#soiree">{tx.nav.soiree}</a>
             <a href="#pat">{tx.nav.quiPat}</a>
           </nav>
         )}
-        <div class="pl-nav-droite">
-          <a class="pl-langue" href={alternates[autre]} hreflang={autre} aria-label={`${tx.nav.autreLangue} (${tx.nav.autreLangueLabel})`}>{tx.nav.autreLangue}</a>
-          {!cachee && <a class="pl-bouton pl-bouton-petit" href="#inscription">{tx.nav.inscription}</a>}
-        </div>
+        {!cachee && <a class="pl-bouton pl-bouton-petit" href="#inscription">{tx.nav.inscription}</a>}
       </div>
-    </header>
-    <main id="contenu">
+    </div>
+    <div id="contenu">
       <slot />
-    </main>
-    <footer class="pl-pied">
-      <div class="pl-cadre pl-pied-in">
-        <a href={locale === 'fr' ? '/' : '/en'}>{tx.pied.projet}</a>
-        <a href={LIENS.instagram} rel="noopener" target="_blank">{tx.pied.instagram}</a>
-        <a href={r.confidentialite}>{tx.pied.confidentialite}</a>
-        <p class="pl-marques">{tx.pied.marques}</p>
-      </div>
-    </footer>
-  </body>
-</html>
+    </div>
+    <div class="pl-cadre pl-notes">
+      <p class="pl-marques">{tx.pied.marques}</p>
+    </div>
+  </div>
+</Layout>
 
 <style is:global>
-  /* LA MÊME FAMILLE QUE LA VITRINE (Patrick, 6 nov., « ok famille ») : les
-     titres et le wordmark dans la police des titres de patricklaperriere.com
-     (même fichier), l'accent mauve et le mauve nuit de sa charte. Le texte
-     courant garde Figtree, plus lisible en grand pour un public non techno. */
-  @font-face {
-    font-family: "Big Shoulders Display";
-    src: url("/fonts/big-shoulders-display.woff2") format("woff2");
-    font-weight: 500 900;
-    font-display: swap;
-  }
-  @font-face {
-    font-family: "Figtree";
-    src: url("/fonts/figtree.woff2") format("woff2");
-    font-weight: 400 800;
-    font-display: swap;
-    font-style: normal;
-  }
+  /* Le programme dans le design du site : graphite chaud, sable, une seule
+     police (Atkinson Hyperlegible Next), le prune de l'ancien Pat Lap comme
+     accent chaud. Les composants du programme lisent ces variables. */
   .patlap {
-    /* Mauve des boutons de la vitrine (4,94:1 sur le sable, blanc dessus
-       5,66:1), plum au survol, mauve nuit pour le texte et le bloc Soirée. */
-    --pl-vert: #A33E9A;
-    --pl-vert-fonce: #77216F;
-    --pl-nuit: #300A24;
-    --pl-sable: #F4EFE6;
-    --pl-texte: #300A24;
-    --pl-gris: #6B5563;
-    --pl-titres: "Big Shoulders Display", "Arial Narrow", "Roboto Condensed", sans-serif;
-    margin: 0;
-    background: var(--pl-sable);
+    --pl-vert: #A33E9A;        /* prune (accent chaud) : boutons, numéros */
+    --pl-vert-fonce: #8E3386;
+    --pl-nuit: #100E11;        /* bloc Soirée */
+    --pl-sable: #221E24;       /* surfaces (cartes, panneaux) */
+    --pl-texte: #F4EFE6;
+    --pl-gris: #BDB3B6;
+    --pl-titres: var(--font-sans);
     color: var(--pl-texte);
-    font-family: "Figtree", system-ui, sans-serif;
     font-size: 1.0625rem;
     line-height: 1.55;
-    -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
-    /* Le pied de page reste en bas même sur une page courte (Soirée). */
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
   }
-  .patlap > main { flex: 1 0 auto; }
-  .patlap *, .patlap *::before, .patlap *::after { box-sizing: border-box; }
   .patlap img { max-width: 100%; height: auto; display: block; }
-  .patlap a { color: var(--pl-vert); }
-  .patlap :focus-visible { outline: 3px solid var(--pl-vert); outline-offset: 2px; }
+  .patlap a:not(.pl-bouton) { color: var(--mauve-clair, #E7A3DE); }
   .pl-cadre { width: 100%; max-width: 72rem; margin: 0 auto; padding: 0 1rem; }
   @media (min-width: 768px) { .pl-cadre { padding: 0 2rem; } }
-  .pl-saut { position: absolute; left: -999px; top: 0; }
-  .pl-saut:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem 1rem; z-index: 10; }
 
-  .pl-nav { position: sticky; top: 0; z-index: 5; background: rgba(244, 239, 230, .94); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(48, 10, 36, .1); }
-  .pl-nav-in { display: flex; align-items: center; gap: 1rem; min-height: 4rem; }
-  .pl-marque { display: flex; flex-direction: column; line-height: 1.1; text-decoration: none; color: var(--pl-texte) !important; margin-right: auto; }
-  .pl-marque-nom { font-family: var(--pl-titres); font-weight: 800; font-size: 1.5rem; letter-spacing: -0.01em; color: var(--pl-texte); }
-  /* Le point du wordmark : jaune signal sur la vitrine (fond foncé) ; sur le
-     sable, ce jaune ne se lit pas (1,26:1), il prend donc l'accent mauve. */
-  .pl-marque-point { color: var(--pl-vert); }
-  .patlap h1, .patlap h2, .patlap h3 { font-family: var(--pl-titres); font-weight: 800; letter-spacing: 0; }
-  .pl-marque-sous { font-size: .8rem; color: var(--pl-gris); }
+  /* La barre du programme, sous l'en-tête du site. */
+  .pl-barre { border-bottom: 1px solid var(--filet, #342E36); background: var(--salle, #100E11); }
+  .pl-barre-in { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1.5rem; min-height: 4rem; padding-block: .5rem; }
+  .pl-programme { display: flex; flex-direction: column; line-height: 1.15; text-decoration: none !important; margin-right: auto; }
+  .pl-programme-nom { font-weight: 800; font-size: 1.25rem; letter-spacing: -.01em; color: var(--pl-texte); }
+  .pl-programme-sous { font-size: .875rem; color: var(--pl-gris); }
   .pl-liens { display: none; gap: 1.5rem; }
-  .pl-liens a { text-decoration: none; color: var(--pl-texte); font-weight: 600; font-size: .95rem; }
-  .pl-liens a:hover { color: var(--pl-vert); }
+  .pl-liens a { text-decoration: none !important; color: var(--pl-texte) !important; font-weight: 700; font-size: .95rem; }
+  .pl-liens a:hover { color: var(--mauve-clair, #E7A3DE) !important; }
   @media (min-width: 900px) { .pl-liens { display: flex; } }
-  .pl-nav-droite { display: flex; align-items: center; gap: .75rem; }
-  .pl-langue { font-weight: 700; font-size: .9rem; text-decoration: none; padding: .5rem .25rem; }
 
-  .pl-bouton { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: .75rem 1.5rem; border: 0; border-radius: 999px; background: var(--pl-vert); color: #fff !important; font: inherit; font-weight: 800; text-decoration: none; cursor: pointer; }
+  .pl-bouton { display: inline-flex; align-items: center; justify-content: center; min-height: 3rem; padding: .75rem 1.5rem; border: 0; border-radius: var(--r, 2px); background: var(--pl-vert); color: #fff !important; font: inherit; font-weight: 800; text-decoration: none !important; cursor: pointer; }
   .pl-bouton:hover { background: var(--pl-vert-fonce); }
-  .pl-bouton-petit { min-height: 2.5rem; padding: .5rem 1rem; font-size: .9rem; }
+  .pl-bouton-petit { min-height: 2.75rem; padding: .5rem 1rem; font-size: .95rem; }
   .pl-bouton[aria-disabled="true"] { opacity: .75; cursor: not-allowed; }
 
   /* Un texte absent se voit comme tel, à l'écran : jamais confondu avec le vrai. */
-  .pl-tbc { display: inline-block; background: #FFF4CC; color: #6B4E00; border: 1px dashed #B88A00; border-radius: .375rem; padding: .1rem .4rem; font-weight: 600; font-size: .95em; }
+  .pl-tbc { display: inline-block; background: #FFF4CC; color: #6B4E00; border: 1px dashed #B88A00; border-radius: 2px; padding: .1rem .4rem; font-weight: 600; font-size: .95em; }
 
-  .pl-pied { border-top: 1px solid rgba(48, 10, 36, .12); padding: 2rem 0; margin-top: 3rem; }
-  .pl-pied-in { display: flex; flex-wrap: wrap; gap: 1rem 2rem; font-size: .95rem; }
-  .pl-pied a { color: var(--pl-gris); }
-  .pl-marques { flex-basis: 100%; margin: 0; font-size: .8rem; color: var(--pl-gris); }
+  .pl-notes { padding-block: 2rem 1rem; }
+  .pl-marques { margin: 0; font-size: .875rem; color: var(--pl-gris); max-width: 70ch; }
+
+  /* Les composants du programme gardaient des cartes blanches arrondies avec
+     ombre : surfaces sombres, rayon 2 px, aucune ombre. */
+  .patlap :is(.pl-form, .pl-trois li, .pl-panneau, .pl-photo, .pl-photo-cadre, .pl-video) {
+    background: var(--pl-sable) !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+    border: 1px solid var(--filet, #342E36);
+  }
+  .patlap .pl-champ input { background: #100E11 !important; color: var(--pl-texte) !important; border: 1px solid #5A5058 !important; border-radius: 2px !important; }
+  .patlap .pl-badge { border-radius: 2px !important; }
+  .patlap .pl-soiree { background: var(--pl-nuit); }
 </style>

@@ -5,7 +5,7 @@ import { PATLAP_ROUTES, textes } from '../../../data/patlap';
 const locale = 'en';
 const tx = textes(locale);
 ---
-<PatLapLayout title={`${tx.titrePage} | Pat Lap`} description={tx.seoDescription} locale={locale}
+<PatLapLayout title={`${tx.titrePage}, ${tx.nav.sousTitre.charAt(0).toLowerCase()}${tx.nav.sousTitre.slice(1)}`} description={tx.seoDescription} locale={locale}
   alternates={{ fr: PATLAP_ROUTES.fr.page, en: PATLAP_ROUTES.en.page }} path={PATLAP_ROUTES[locale].page}>
   <PageProgramme locale={locale} />
 </PatLapLayout>

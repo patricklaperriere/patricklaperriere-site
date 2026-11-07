@@ -129,3 +129,53 @@ html.theme-report.theme-refonte {
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOUT LE SITE (SITEPERSO-2026-11-07-TOUTES-PAGES) : le langage de la home
+   s'applique aux pages qui gardent leurs anciens composants (« rapport »).
+   Ces règles retirent les signatures interdites (REGLES-DESIGN-SANS-IA.md) :
+   capitales d'étiquette, mono, filets devant les étiquettes, pilules, titres
+   en graisse fine, chiffres en décor. Les maquettes des pages Concepts et la
+   démo Habita (interfaces d'autres produits) gardent leur propre style.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Titres : la même famille et la même graisse partout. */
+html.theme-refonte :is(main, .footer) :is(h1, h2, h3):not(:where(.cpt-row *, .hs *, .ui *)) {
+  font-family: var(--font-sans) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+}
+html.theme-refonte main h1:not(.r-h) { line-height: 1; }
+
+/* Étiquettes : phrase normale, pas de capitales, pas d'espacement, pas de mono. */
+html.theme-refonte :is(.label, .kicker, .annot, .nav__link, .footer__title, .sd__price-from, .post__meta,
+  .post__author-role, .post__related-tag, .bench__label, .svc__price-from, .wfl__btn, .city-card__region,
+  main form label, .posts__tag, .svcx__price-from, .wc__meta, .case__spec dt, .case__block-label,
+  .served-label, .proof__kicker, .cta-mono, .wf__kicker, .breadcrumb, .post__body th) {
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  font-family: var(--font-sans) !important;
+}
+html.theme-refonte :is(.label, .kicker, .annot, .case__spec dt, .case__block-label, .served-label, .proof__kicker, .wc__meta, .posts__tag, .post__meta) {
+  font-size: .9375rem !important;
+  font-weight: 700 !important;
+  color: var(--gris-txt) !important;
+}
+html.theme-refonte .label-rule::before { display: none !important; }
+html.theme-refonte .label-rule { gap: 0 !important; }
+
+/* Pilules et ronds : rectangles nets. */
+html.theme-refonte :is(.wfl__btn, .btn, .tag, .chip) { border-radius: var(--r) !important; }
+
+/* Une rangée de chiffres en décor (catégories, années) : retirée. */
+html.theme-refonte .wi-stats { display: none !important; }
+
+/* Fonds : plus de grille ni de grain ; cartes sans ombre. */
+html.theme-refonte :is(.st-grid, .grain) { display: none !important; }
+html.theme-refonte main :is(.card, .svc, .svcx__item, .city-card, .wc, .posts__item) { box-shadow: none !important; }
+
+/* Boutons de l'ancien thème : mêmes rectangles que la home. */
+html.theme-refonte .btn { font-family: var(--font-sans); font-weight: 700; letter-spacing: normal; text-transform: none; min-height: 48px; }
+html.theme-refonte .btn-ghost { border-color: rgba(244, 239, 230, .55); color: var(--lumiere); }
+html.theme-refonte .cpt-secnum { display: none !important; }

@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import '../styles/report.css';
+// Refonte 2026-11 (7 nov.) : le design de la home s'applique à tout le site.
+import '../styles/refonte.css';
 import SEO from '../components/SEO.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -37,7 +39,7 @@ const {
   schema = null,
   noindex = false,
   pageType,
-  theme = 'report',
+  theme = 'refonte',
 } = Astro.props;
 
 const tr = useTranslations(locale);

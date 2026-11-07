@@ -44,7 +44,7 @@ const [first, last] = tr.brand.split(' ');
         on wide screens, « PL. » on phones), so voice users can say what
         they see (WCAG 2.5.3, label in name). No parentheses around PL: axe
         then stops finding « PL » in the name. */}
-    <a href={home} class="nav__brand" aria-label={`${tr.brand}, PL, ${tr.breadcrumb.home.toLowerCase()}`}>
+    <a href={home} class="nav__brand" aria-label={`${tr.brand}, ${tr.breadcrumb.home.toLowerCase()}`}>
       {/* The space between the names is written out, because JSX collapses
           the whitespace around the expressions and the two would run together. */}
       <span class="nav__brand-full" aria-hidden="true">
@@ -400,8 +400,9 @@ const [first, last] = tr.brand.split(' ');
     .nav__phone { display: none; }
   }
   @media (max-width: 460px) {
-    .nav__brand-full { display: none; }
-    .nav__brand-short { display: inline; }
+    /* Décision de marque (7 nov.) : le même logo texte partout, aussi sur
+       téléphone ; « PL. » n'est plus affiché. */
+    .nav__brand-full { white-space: nowrap; }
     .nav__cta { display: none; }
   }
   @media (min-width: 1024px) {
