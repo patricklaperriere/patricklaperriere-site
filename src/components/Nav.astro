@@ -80,7 +80,7 @@ const [first, last] = tr.brand.split(' ');
       <p class="nav__lang">
         <span class="nav__lang-on">{locale.toUpperCase()}</span>
         <span class="nav__lang-sep" aria-hidden="true">/</span>
-        <a href={alt} hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'} aria-label={tr.switchToLabel}>
+        <a href={alt} hreflang={other === 'fr' ? 'fr-CA' : 'en-CA'} aria-label={`${tr.switchTo}, ${tr.switchToLabel}`}>
           {other.toUpperCase()}
         </a>
       </p>

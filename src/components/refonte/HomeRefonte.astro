@@ -1,0 +1,355 @@
+---
+// La home, refonte 2026-11 (jalon 1), FR et EN. Éditoriale, cinématographique :
+// encre et os en alternance, un mot en citron, très gros titres.
+//
+// Contenu : le même que HomePage.astro (home.ts, fr.ts, en.ts), plus les
+// étiquettes de refonte.ts. Tout est dans le HTML : sans JS ou en mouvement
+// réduit, c'est la page, immobile et complète. Les effets passent par CSS
+// (scroll-driven animations, repli : tout visible) et par refonte.ts (~2 ko).
+import '../../styles/refonte.css';
+import { SITE } from '../../config';
+import type { Locale } from '../../i18n/routes';
+import { routes, workBase } from '../../i18n/routes';
+import { homeCopy } from '../../i18n/home';
+import type { ServiceKey } from '../../i18n/home';
+import { refonteCopy, accentue } from '../../i18n/refonte';
+import { useTranslations } from '../../i18n';
+import { hasPhoto } from '../../lib/photo';
+import PortraitSlot from '../PortraitSlot.astro';
+import HabitaLoop from '../HabitaLoop.astro';
+import { HABITA_LOOP } from '../../lib/habitaLoop';
+import ExternalIcon from '../ExternalIcon.astro';
+import Fiche from './Fiche.astro';
+import AvantApres from './AvantApres.astro';
+import { HOME_LIEN_PATLAP, HOME_PATLAP } from '../../data/patlap';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = homeCopy[locale];
+const rc = refonteCopy[locale];
+const tr = useTranslations(locale);
+const patlap = HOME_PATLAP[locale];
+
+const caseHref = (slug: string) => `${workBase[locale]}/${slug}`;
+const services: Record<ServiceKey, { href: string; label: string }> = {
+  svcWeb: { href: routes.svcWeb[locale], label: tr.services.web.title },
+  svcSeo: { href: routes.svcSeo[locale], label: tr.services.seo.title },
+  svcShopify: { href: routes.svcShopify[locale], label: tr.services.shopify.title },
+  svcTools: { href: routes.svcTools[locale], label: tr.services.tools.title },
+};
+const proofs = [
+  { k: t.about.proofs.stack, v: SITE.stack.join(', ') },
+  { k: t.about.proofs.languages, v: t.about.proofs.languagesValue },
+];
+const quote = t.about.testimonial;
+const two = (n: number) => String(n).padStart(2, '0');
+
+const h = {
+  inspection: accentue(t.inspection.title, rc.accent.inspection),
+  work: accentue(t.work.title, rc.accent.work),
+  about: accentue(t.about.title, rc.accent.about),
+  contact: accentue(t.contact.title, rc.accent.contact),
+};
+const beau = t.work.items.find((w) => w.slug === 'inspection-beauregard');
+const avant = beau?.media.find((m) => m.file.includes('avant'));
+const apres = beau?.media.find((m) => m.file.includes('apres'));
+---
+
+<div class="r-home">
+  {/* ---- Hero : plein écran, titre géant, la fiche du site en signature ----- */}
+  <section class="r-hero" aria-labelledby="hero-title">
+    <div class="r-wrap r-hero__in">
+      <p class="r-eyebrow">{rc.eyebrow}</p>
+      <h1 id="hero-title" class="r-h r-hero__titre">
+        {t.hero.title.map((ligne) => {
+          const a = accentue(ligne, rc.accent.hero);
+          return <span>{a.avant}{a.mot && <em class="r-citron">{a.mot}</em>}{a.apres}</span>;
+        })}
+      </h1>
+      <div class="r-hero__bas">
+        <div class="r-hero__texte">
+          <p class="r-lead">{t.hero.lead}</p>
+          <p class="r-hero__actions">
+            <a class="r-btn r-btn--plein" href={routes.contact[locale]}>{tr.cta.primary}<span class="r-btn__fleche" aria-hidden="true">→</span></a>
+            <a class="r-btn r-btn--fantome" href="#travaux">{t.hero.secondary}</a>
+          </p>
+        </div>
+        <div class="r-hero__fiche"><Fiche locale={locale} /></div>
+      </div>
+    </div>
+  </section>
+
+  {/* ---- La méthode : trois couches, colonne épinglée + rail de progression -- */}
+  <section class="r-sec r-sec--os r-insp" id="inspection" aria-labelledby="insp-title">
+    <div class="r-wrap r-insp__grille">
+      <div class="r-insp__epingle">
+        <p class="r-eyebrow">{rc.method}</p>
+        <h2 id="insp-title" class="r-h r-h--xl r-lignes"><span>{h.inspection.avant}{h.inspection.mot && <em>{h.inspection.mot}</em>}{h.inspection.apres}</span></h2>
+        <p class="r-lead r-insp__intro">{t.inspection.intro}</p>
+        <div class="r-insp__rail" aria-hidden="true"><span></span></div>
+      </div>
+      <ol class="r-insp__couches">
+        {t.inspection.layers.map((l, i) => (
+          <li class="r-couche r-revele" data-n={two(i + 1)}>
+            {/* Le grand numéro est décoratif : tracé en CSS (::before), hors du texte. */}
+            <p class="r-couche__nom">{rc.couche} · {l.name}</p>
+            <h3 class="r-h r-h--l">{l.title}</h3>
+            <p class="r-couche__corps">{l.body}</p>
+            <p class="r-couche__liens">{l.links.map((k) => <a href={services[k].href}>{services[k].label}</a>)}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* ---- Réalisations : grandes cartes, Avant/Après, chiffres ---------------- */}
+  <section class="r-sec r-work" id="travaux" aria-labelledby="work-title">
+    <div class="r-wrap">
+      <header class="r-work__tete">
+        <p class="r-eyebrow">{rc.work.eyebrow}</p>
+        <h2 id="work-title" class="r-h r-h--xxl r-lignes"><span>{h.work.avant}{h.work.mot && <em>{h.work.mot}</em>}{h.work.apres}</span></h2>
+        <p class="r-lead">{t.work.intro}</p>
+      </header>
+      <ol class="r-work__liste">
+        {t.work.items.map((w, i) => (
+          <li class="r-dossier r-carte r-revele">
+            <div class="r-dossier__texte">
+              <p class="r-dossier__ref">{t.work.file} {two(i + 1)} · {w.kind}</p>
+              <h3 class="r-h r-h--xl">{w.title}</h3>
+              <p class="r-dossier__corps">{w.body}</p>
+              {w.slug === 'inspection-beauregard' && (
+                <dl class="r-chiffres">
+                  {rc.work.chiffres.map((c) => (
+                    <div>
+                      <dt><span data-compte={c.n}>{c.n}</span></dt>
+                      <dd>{c.label}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <div class="r-dossier__pied">
+                <span class="r-dossier__statut">{w.status}</span>
+                {w.links.map((l) =>
+                  l.external
+                    ? <a class="r-dossier__lien" href={l.href} rel="noopener">{l.label}<ExternalIcon /></a>
+                    : <a class="r-dossier__lien" href={caseHref(w.slug)}>{l.label}</a>,
+                )}
+              </div>
+            </div>
+            <div class="r-dossier__media">
+              {w.slug === 'habita' ? (
+                <figure class="r-loop">
+                  <HabitaLoop poster={HABITA_LOOP.poster} alt={tr.workSection.habitaAlt} />
+                </figure>
+              ) : w.slug === 'inspection-beauregard' && avant && apres ? (
+                <AvantApres
+                  avant={{ file: avant.file, alt: avant.alt, label: rc.slider.avant }}
+                  apres={{ file: apres.file, alt: apres.alt, label: rc.slider.apres }}
+                  label={rc.slider.label}
+                  consigne={rc.slider.consigne}
+                />
+              ) : null}
+            </div>
+          </li>
+        ))}
+      </ol>
+      <p class="r-work__tout"><a class="r-btn r-btn--fantome" href={routes.work[locale]}>{t.work.all}<span class="r-btn__fleche" aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  {/* ---- Qui je suis ----------------------------------------------------------- */}
+  <section class="r-sec r-sec--os r-about" aria-labelledby="about-title">
+    <div class="r-wrap r-about__grille">
+      <div class="r-about__tete">
+        <p class="r-eyebrow">{rc.about}</p>
+        <h2 id="about-title" class="r-h r-h--xxl r-lignes"><span>{h.about.avant}{h.about.mot && <em>{h.about.mot}</em>}{h.about.apres}</span></h2>
+        {(hasPhoto || import.meta.env.DEV) && (
+          <div class="r-about__photo r-revele">
+            <PortraitSlot alt={tr.about.portraitAlt} treatment="none" sizes="(min-width: 1024px) 360px, 70vw" />
+          </div>
+        )}
+      </div>
+      <div class="r-about__texte r-revele">
+        {t.about.body.map((p) => <p>{p}</p>)}
+        <dl class="r-preuves">
+          {proofs.map((p) => (
+            <div><dt>{p.k}</dt><dd>{p.v}</dd></div>
+          ))}
+        </dl>
+        {quote && (
+          <figure class="r-citation">
+            <blockquote><p>{quote.quote}</p></blockquote>
+            <figcaption>{quote.name}, {quote.role}{quote.note && <span class="r-citation__note">{quote.note}</span>}</figcaption>
+          </figure>
+        )}
+        <p><a href={routes.about[locale]}>{t.about.more}</a></p>
+      </div>
+    </div>
+  </section>
+
+  {/* ---- La technologie pour tous (interrupteur HOME_LIEN_PATLAP, garde-fou
+      du build dans astro.config.mjs) : style de la vitrine, pas de Pat Lap. */}
+  {HOME_LIEN_PATLAP && (
+    <section class="r-sec r-patlap" aria-labelledby="patlap-title">
+      <div class="r-wrap r-patlap__in">
+        <h2 id="patlap-title" class="r-h r-h--xl">{patlap.titre}</h2>
+        <div>
+          <p class="r-lead">{patlap.texte}</p>
+          <p><a class="r-btn r-btn--fantome" href={patlap.lien}>{patlap.bouton}<span class="r-btn__fleche" aria-hidden="true">→</span></a></p>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* ---- Contact ------------------------------------------------------------------ */}
+  <section class="r-sec r-contact" aria-labelledby="contact-title">
+    <div class="r-wrap">
+      <p class="r-eyebrow">{rc.contact}</p>
+      <h2 id="contact-title" class="r-h r-h--xxl r-lignes"><span>{h.contact.avant}{h.contact.mot && <em class="r-citron">{h.contact.mot}</em>}{h.contact.apres}</span></h2>
+      <div class="r-contact__bas">
+        <p class="r-lead">{t.contact.lead}</p>
+        <dl class="r-contact__moyens">
+          <div><dt>{t.contact.email}</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+          <div><dt>{t.contact.phone}</dt><dd><a href={`tel:${SITE.phone}`}>{SITE.phoneDisplay}</a></dd></div>
+        </dl>
+        <p><a class="r-btn r-btn--plein r-contact__btn" href={routes.contact[locale]}>{tr.cta.primary}<span class="r-btn__fleche" aria-hidden="true">→</span></a></p>
+      </div>
+    </div>
+  </section>
+
+  <div class="r-curseur" aria-hidden="true"></div>
+</div>
+
+<script>
+  import '../../scripts/refonte.ts';
+</script>
+
+<style>
+  /* ---- Hero ---------------------------------------------------------------- */
+  .r-hero { min-height: 100svh; display: flex; align-items: center; padding: calc(80px + 2vh) 0 clamp(32px, 5vh, 72px); position: relative; overflow: hidden; }
+  /* Un halo cobalt, très doux, derrière la fiche : de la profondeur sans image. */
+  .r-hero::before {
+    content: ""; position: absolute; right: -10vw; bottom: -20vh; width: 70vw; height: 70vw; max-width: 1100px; max-height: 1100px;
+    background: radial-gradient(closest-side, rgba(59, 91, 255, .22), transparent 70%); pointer-events: none;
+  }
+  .r-hero__in { position: relative; }
+  /* Mobile : très gros, les phrases passent à la ligne (« sur mesure » reste
+     d'un bloc). Dès 768 px : une phrase par ligne, la taille suit la largeur
+     et la hauteur pour que tout le hero tienne dans l'écran. */
+  .r-hero__titre { font-size: 16vw; line-height: .88; margin-bottom: clamp(28px, 4.5vh, 56px); }
+  .r-hero__titre span { display: block; }
+  .r-hero__titre em { font-size: 1.04em; line-height: 0; }
+  @media (min-width: 768px) {
+    .r-hero__titre { font-size: min(10.4vw, 13vh, 13rem); line-height: .86; }
+    :global(html[lang="en"]) .r-hero__titre { font-size: min(14vw, 16vh, 14rem); }
+    .r-hero__titre span { white-space: nowrap; }
+  }
+  .r-hero__bas { display: grid; gap: 40px; align-items: end; }
+  .r-hero__actions { display: flex; flex-wrap: wrap; gap: 12px 16px; margin: 32px 0 0; }
+  /* Deux colonnes (texte | fiche) dès que la fiche en bandeau y tient. */
+  @media (min-width: 1280px) {
+    .r-hero__bas { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; }
+  }
+  @media (min-width: 1024px) {
+    /* La fiche en bandeau : la bague à gauche, les lignes en trois colonnes. */
+    .r-hero__fiche :global(.fiche) { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 32px; padding: 22px 28px; }
+    .r-hero__fiche :global(.fiche__tete), .r-hero__fiche :global(.fiche__titre), .r-hero__fiche :global(.fiche__meta) { grid-column: 1 / -1; }
+    .r-hero__fiche :global(.fiche__titre) { margin: 8px 0 14px; }
+    .r-hero__fiche :global(.fiche__score) { grid-template-columns: 96px auto; column-gap: 16px; }
+    .r-hero__fiche :global(.fiche__bague) { width: 96px; height: 96px; }
+    .r-hero__fiche :global(.fiche__n) { font-size: 3.75rem; }
+    .r-hero__fiche :global(.fiche__lignes) { margin: 0; border-top: 0; display: grid; grid-template-columns: 1.4fr 1fr 1fr; column-gap: 24px; align-self: center; }
+    .r-hero__fiche :global(.fiche__lignes > div) { flex-direction: column; align-items: flex-start; justify-content: flex-start; border-bottom: 0; border-left: 1px solid var(--line); padding: 0 0 0 16px; }
+    .r-hero__fiche :global(.fiche__lignes dd) { font-size: 1.375rem; order: -1; }
+    .r-hero__fiche :global(.fiche__lignes dt) { font-size: .8125rem; }
+    .r-hero__fiche :global(.fiche__plus) { flex-basis: auto; width: 100%; margin-top: 6px; }
+    .r-hero__fiche :global(.fiche__meta) { margin-top: 14px; }
+  }
+
+  /* ---- La méthode ---------------------------------------------------------- */
+  .r-insp__grille { display: grid; gap: 48px; timeline-scope: --couches; }
+  .r-insp__intro { margin-top: 24px; }
+  .r-insp__rail { display: none; }
+  .r-insp__couches { list-style: none; margin: 0; padding: 0; display: grid; gap: 24px; view-timeline: --couches block; }
+  .r-couche { position: relative; background: #fff; border: 1px solid rgba(11, 15, 20, .1); border-radius: 28px; padding: clamp(24px, 4vw, 48px); overflow: hidden; }
+  .r-couche::before { content: attr(data-n); position: absolute; right: 24px; top: 8px; font-family: var(--font-display); font-weight: 800; font-size: clamp(5rem, 12vw, 9rem); line-height: 1; color: var(--os-2); pointer-events: none; }
+  .r-couche > * { position: relative; }
+  .r-couche__nom { margin: 0 0 16px; font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris-os); }
+  .r-couche__corps { color: var(--gris-os); font-size: 1.125rem; line-height: 1.6; max-width: 52ch; margin: 16px 0 0; }
+  .r-couche__liens { display: flex; flex-wrap: wrap; gap: 0 24px; margin: 16px 0 0; }
+  .r-couche__liens a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 700; }
+  @media (min-width: 1024px) {
+    .r-insp__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; align-items: start; }
+    .r-insp__epingle { position: sticky; top: 120px; }
+    .r-couche { min-height: 52vh; display: flex; flex-direction: column; justify-content: center; }
+    .r-insp__rail { display: block; margin-top: 48px; width: 4px; height: 160px; border-radius: 999px; background: rgba(11, 15, 20, .12); overflow: hidden; }
+    .r-insp__rail span { display: block; height: 100%; background: var(--encre); transform-origin: top; }
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        .r-insp__rail span { animation: rail linear both; animation-timeline: --couches; animation-range: entry 30% exit 70%; }
+      }
+    }
+  }
+  @keyframes rail { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+
+  /* ---- Réalisations -------------------------------------------------------- */
+  .r-work__tete { display: grid; gap: 24px; margin-bottom: clamp(48px, 8vw, 96px); }
+  .r-work__liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 32px; }
+  .r-dossier { display: grid; gap: 32px; padding: clamp(24px, 4vw, 56px); }
+  .r-dossier__ref { margin: 0 0 16px; font-family: var(--font-mono); font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); }
+  .r-dossier__corps { color: var(--gris-clair); font-size: 1.125rem; line-height: 1.6; max-width: 50ch; margin: 20px 0 0; }
+  .r-dossier__pied { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 24px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .r-dossier__statut { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--encre); background: var(--citron); padding: 3px 10px; border-radius: 999px; }
+  .r-dossier__lien { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 700; }
+  .r-loop { margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); }
+  .r-chiffres { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 28px 0 0; }
+  .r-chiffres div { border-top: 2px solid var(--citron); padding-top: 12px; }
+  .r-chiffres dt { font-family: var(--font-display); font-weight: 800; font-size: clamp(2.75rem, 5vw, 4.5rem); line-height: 1; color: var(--os); font-variant-numeric: tabular-nums; }
+  .r-chiffres dd { margin: 8px 0 0; color: var(--gris-clair); font-size: .875rem; line-height: 1.4; }
+  .r-work__tout { margin: 48px 0 0; }
+  @media (min-width: 1024px) {
+    .r-work__tete { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: end; }
+    .r-work__tete .r-eyebrow, .r-work__tete h2 { grid-column: 1 / -1; }
+    .r-work__tete .r-lead { grid-column: 2; }
+    .r-dossier { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; min-height: 72vh; }
+    .r-work__liste > li:nth-child(even) .r-dossier__texte { order: 2; }
+  }
+
+  /* ---- Qui je suis --------------------------------------------------------- */
+  .r-about__grille { display: grid; gap: 48px; }
+  .r-about__photo { margin-top: 40px; max-width: 360px; }
+  .r-about__photo :global(.portrait) { border-radius: 28px; overflow: hidden; }
+  .r-about__texte p { color: var(--gris-os); font-size: 1.1875rem; line-height: 1.65; max-width: 54ch; margin: 0 0 24px; }
+  .r-preuves { margin: 32px 0; border-top: 1px solid rgba(11, 15, 20, .14); }
+  .r-preuves div { display: grid; grid-template-columns: 8rem 1fr; gap: 16px; padding-block: 16px; border-bottom: 1px solid rgba(11, 15, 20, .14); }
+  .r-preuves dt { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris-os); padding-top: .3em; }
+  .r-preuves dd { margin: 0; color: var(--encre); }
+  .r-citation { margin: 32px 0; padding: 28px; background: var(--encre); color: var(--os); border-radius: 28px; }
+  .r-citation blockquote { margin: 0; }
+  .r-citation blockquote p { font-family: var(--font-accent); font-style: italic; font-size: clamp(1.375rem, 2.2vw, 1.875rem); line-height: 1.3; color: var(--os) !important; margin: 0 !important; max-width: none !important; }
+  .r-citation figcaption { margin-top: 16px; color: var(--gris-clair); font-size: .9375rem; }
+  .r-citation__note { display: block; font-family: var(--font-accent); font-style: italic; margin-top: 4px; }
+  @media (min-width: 1024px) {
+    .r-about__grille { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; }
+    .r-about__tete { position: sticky; top: 120px; align-self: start; }
+    .r-about__texte { padding-top: 40px; }
+  }
+
+  /* ---- Pat Lap (interrupteur) ----------------------------------------------- */
+  .r-patlap { border-top: 1px solid var(--line); }
+  .r-patlap__in { display: grid; gap: 32px; }
+  .r-patlap__in p + p { margin-top: 28px; }
+  @media (min-width: 1024px) { .r-patlap__in { grid-template-columns: 1fr 1fr; align-items: end; } }
+
+  /* ---- Contact --------------------------------------------------------------- */
+  .r-contact { border-top: 1px solid var(--line); }
+  .r-contact__bas { display: grid; gap: 32px; margin-top: clamp(40px, 6vw, 72px); align-items: end; }
+  .r-contact__moyens { margin: 0; border-top: 1px solid var(--line); }
+  .r-contact__moyens div { display: grid; grid-template-columns: 7rem 1fr; gap: 16px; padding-block: 16px; border-bottom: 1px solid var(--line); }
+  .r-contact__moyens dt { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--gris); padding-top: .3em; }
+  .r-contact__moyens dd { margin: 0; overflow-wrap: anywhere; font-size: 1.125rem; }
+  .r-contact__btn { min-height: 64px; font-size: 1.125rem; padding: 0 36px; }
+  @media (min-width: 1024px) {
+    .r-contact__bas { grid-template-columns: 1.1fr 1fr auto; gap: 56px; }
+  }
+</style>

@@ -23,7 +23,7 @@ interface Props {
   pageType?: string;
   /** Visual theme. `report` ("le rapport d'inspection") is the site's
    *  direction, on every page (styles in src/styles/report.css). */
-  theme?: 'report';
+  theme?: 'report' | 'refonte';
 }
 
 const {
@@ -50,11 +50,13 @@ const favicon =
 ---
 
 <!doctype html>
-<html lang={htmlLang} class:list={[theme && `theme-${theme}`]}>
+{/* 'refonte' (refonte 2026-11) se pose PAR-DESSUS 'report' : ses jetons
+    (src/styles/refonte.css, importé par la page) remplacent ceux du rapport. */}
+<html lang={htmlLang} class:list={[theme === 'refonte' ? 'theme-report theme-refonte' : `theme-${theme}`]}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#300A24" />
+    <meta name="theme-color" content={theme === 'refonte' ? '#0B0F14' : '#300A24'} />
 
     {/* Marks the document as scripted BEFORE first paint. Scroll-reveal start
         states are scoped to `.js`, so without this one line the page would
@@ -79,7 +81,7 @@ const favicon =
     )}
 
     {/* Preload the faces the first screen paints with. */}
-    {theme === 'report' ? (
+    {theme === 'report' || theme === 'refonte' ? (
       <>
         <link rel="preload" href="/fonts/big-shoulders-display.woff2" as="font" type="font/woff2" crossorigin />
         <link rel="preload" href="/fonts/red-hat-text.woff2" as="font" type="font/woff2" crossorigin />

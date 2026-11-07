@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import HomePage from '../../components/home/HomePage.astro';
+import HomeRefonte from '../../components/refonte/HomeRefonte.astro';
 import { routes } from '../../i18n/routes';
 import { graph, personSchema, webSiteSchema, professionalServiceSchema } from '../../lib/schema';
 
@@ -12,6 +12,6 @@ const description =
 const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale)]);
 ---
 
-<Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} ogImage="/og/home-en.png">
-  <HomePage locale={locale} />
+<Layout title={title} description={description} locale={locale} alternates={routes.home} schema={schema} theme="refonte" ogImage="/og/home-en.png">
+  <HomeRefonte locale={locale} />
 </Layout>

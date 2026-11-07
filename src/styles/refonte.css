@@ -1,0 +1,203 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Refonte 2026-11 : système de design. Portée : html.theme-refonte (la home
+   au jalon 1 ; les autres pages au jalon 2). Chargé seulement par les pages
+   qui l'importent : le reste du site ne change pas.
+   ───────────────────────────────────────────────────────────────────────────
+   Couleur : Encre #0B0F14 (fond principal), Os #F4F1EA (sections de
+   respiration), Citron #D8FF3E (accent rare, toujours avec du texte encre),
+   Cobalt #3B5BFF (focus, détails ; en texte : #8FA2FF sur encre, #2F45D9 sur
+   os), gris chauds #1A2029 / #8A93A0.
+
+   Contraste (WCAG 2.2) :
+     os sur encre 17.0 · citron sur encre 16.7 · encre sur citron 16.7
+     #C4CAD3 sur encre 11.7, sur #1A2029 9.9 · #8A93A0 sur encre 6.2, sur #1A2029 5.3
+     #8FA2FF sur encre 8.0 · #2F45D9 sur os 6.3 · #4A5260 sur os 7.0
+     cobalt #3B5BFF (anneau de focus, graphique) sur encre 3.8, sur os 4.5
+
+   Type : Big Shoulders Display 800 (très gros titres), Instrument Serif
+   italique (un seul mot d'accent par titre), Red Hat Text (lecture), Red Hat
+   Mono (annotations).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/fonts/instrument-serif-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+/* Repli à la même chasse que l'Instrument Serif italique (mesuré : 0,79 à
+   0,89 de Georgia / Times), pour que le titre ne change pas de ligne quand la
+   police arrive (CLS 0 sans la précharger). */
+@font-face {
+  font-family: "Instrument Serif Repli";
+  src: local("Georgia Italic"), local("Georgia-Italic"), local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"), local("Liberation Serif Italic"), local("LiberationSerif-Italic");
+  font-style: italic;
+  size-adjust: 87%;
+}
+
+/* ---- Tokens : les anciens noms (report.css) suivent, pour que la nav, le
+   pied de page et les composants partagés changent sans être réécrits. ----- */
+html.theme-report.theme-refonte {
+  --encre:       #0B0F14;
+  --encre-2:     #1A2029;
+  --encre-3:     #232B36;
+  --os:          #F4F1EA;
+  --os-2:        #E9E4D8;
+  --citron:      #D8FF3E;
+  --cobalt:      #3B5BFF;
+  --cobalt-clair:#8FA2FF;
+  --cobalt-fonce:#2F45D9;
+  --gris:        #8A93A0;
+  --gris-clair:  #C4CAD3;
+  --gris-os:     #4A5260;
+
+  --ink:          var(--encre);
+  --ink-raised:   var(--encre-2);
+  --ink-high:     var(--encre-3);
+  --ink-sunken:   #070A0E;
+  --bone:         var(--os);
+  --fg:           var(--os);
+  --slate:        var(--gris-clair);
+  --slate-mute:   var(--gris);
+  --plum:         var(--encre-3);
+  --plum-wash:    rgba(59, 91, 255, 0.18);
+  --mauve:        var(--citron);
+  --mauve-hover:  #ECFF9E;
+  --signal:       var(--citron);
+  --plan-line:    #6B7584;
+  --plan-grid:    transparent;
+  --vermilion:      var(--citron);
+  --vermilion-text: var(--citron);
+  --vermilion-deep: var(--citron);
+  --accent:         var(--citron);
+  --accent-fg:      var(--encre);
+  --line:        rgba(244, 241, 234, 0.12);
+  --line-soft:   rgba(244, 241, 234, 0.06);
+  --line-strong: rgba(244, 241, 234, 0.28);
+  --btn-fill-bg: var(--citron);
+  --btn-fill-fg: var(--encre);
+
+  --font-accent: "Instrument Serif", "Instrument Serif Repli", Georgia, serif;
+
+  /* Échelle fluide. */
+  --fs-hero:  clamp(2.6rem, 11vw, 13rem);
+  --fs-xxl:   clamp(2.75rem, 8vw, 8.5rem);
+  --fs-xl:    clamp(2.25rem, 5.6vw, 5.25rem);
+  --fs-l:     clamp(1.5rem, 2.6vw, 2.25rem);
+  --fs-lead:  clamp(1.125rem, 1.5vw, 1.375rem);
+
+  --ease-out: cubic-bezier(.2, .7, .1, 1);
+  --pad-x:    clamp(20px, 5vw, 72px);
+  --sec-y:    clamp(96px, 14vw, 200px);
+
+  background: var(--encre);
+  color-scheme: dark;
+}
+html.theme-refonte[lang="en"] { --fs-hero: clamp(2.6rem, 14vw, 14rem); }
+
+/* Fond uni : plus de quadrillage. */
+.theme-refonte body { background: var(--encre); background-image: none; }
+.theme-refonte ::selection { background: var(--citron); color: var(--encre); }
+.theme-refonte :focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.theme-refonte main a:not(.btn):not(.r-btn) { color: var(--cobalt-clair); text-decoration-color: color-mix(in srgb, var(--cobalt-clair) 45%, transparent); }
+.theme-refonte main a:not(.btn):not(.r-btn):hover { color: var(--os); text-decoration-color: var(--citron); }
+
+/* Transitions de pages (View Transitions API, entre documents). */
+@view-transition { navigation: auto; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .35s; }
+
+/* ---- Mise en page ---------------------------------------------------------- */
+.r-wrap { width: 100%; max-width: 1440px; margin-inline: auto; padding-inline: var(--pad-x); }
+.r-sec { position: relative; padding-block: var(--sec-y); }
+.r-sec--os { background: var(--os); color: var(--encre); color-scheme: light; }
+.r-sec--os main a, .r-sec--os a:not(.r-btn) { color: var(--cobalt-fonce) !important; text-decoration-color: color-mix(in srgb, var(--cobalt-fonce) 40%, transparent) !important; }
+.r-sec--os a:not(.r-btn):hover { color: var(--encre) !important; }
+.r-sec--os :focus-visible { outline-color: var(--cobalt-fonce); }
+
+/* Annotation : mono, capitales, petit. */
+.r-eyebrow {
+  display: inline-flex; align-items: center; gap: .6em; margin: 0 0 24px;
+  font-family: var(--font-mono); font-size: .8125rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gris-clair);
+}
+.r-eyebrow::before { content: ""; width: 28px; height: 2px; background: var(--citron); }
+.r-sec--os .r-eyebrow { color: var(--gris-os); }
+.r-sec--os .r-eyebrow::before { background: var(--encre); }
+
+/* Titres : Big Shoulders 800 ; un mot d'accent en serif italique (<em>). */
+.r-h {
+  font-family: var(--font-display); font-weight: 800; letter-spacing: -.005em; line-height: .92;
+  text-transform: none; margin: 0; text-wrap: balance;
+}
+.r-h em { font-family: var(--font-accent); font-style: italic; font-weight: 400; letter-spacing: -.01em; padding-right: .04em; }
+.r-h--xxl { font-size: var(--fs-xxl); }
+.r-h--xl { font-size: var(--fs-xl); }
+.r-h--l { font-size: var(--fs-l); line-height: 1.02; }
+.r-citron { color: var(--citron); }
+.r-sec--os .r-citron { color: var(--encre); background: linear-gradient(transparent 62%, var(--citron) 62%); }
+.r-lead { font-size: var(--fs-lead); line-height: 1.55; color: var(--gris-clair); max-width: 46ch; margin: 0; }
+.r-sec--os .r-lead { color: var(--gris-os); }
+
+/* ---- Boutons : citron plein (encre dessus), fantôme ; magnétiques sur ordi. */
+.r-btn {
+  --mx: 0px; --my: 0px;
+  display: inline-flex; align-items: center; gap: .7em; min-height: 56px; padding: 0 28px;
+  border-radius: 999px; border: 1.5px solid transparent;
+  font-family: var(--font-sans); font-weight: 700; font-size: 1.0625rem; text-decoration: none !important;
+  transform: translate(var(--mx), var(--my));
+  transition: transform .35s var(--ease-out), background-color .2s, color .2s, border-color .2s;
+}
+.r-btn--plein { background: var(--citron); color: var(--encre) !important; }
+.r-btn--plein:hover { background: var(--os); }
+.r-btn--fantome { border-color: var(--line-strong); color: var(--os) !important; }
+.r-btn--fantome:hover { border-color: var(--citron); color: var(--citron) !important; }
+.r-sec--os .r-btn--fantome { border-color: rgba(11, 15, 20, .3); color: var(--encre) !important; }
+.r-sec--os .r-btn--fantome:hover { border-color: var(--encre); background: var(--encre); color: var(--os) !important; }
+.r-btn__fleche { transition: transform .3s var(--ease-out); }
+.r-btn:hover .r-btn__fleche { transform: translateX(4px); }
+
+/* ---- Cartes ---------------------------------------------------------------- */
+.r-carte { background: var(--encre-2); border: 1px solid var(--line); border-radius: 28px; overflow: hidden; }
+.r-sec--os .r-carte { background: #fff; border-color: rgba(11, 15, 20, .1); }
+
+/* ---- Curseur discret (ordinateur, pointeur fin, mouvement permis) -------- */
+.r-curseur { display: none; }
+@media (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .r-curseur {
+    display: block; position: fixed; left: 0; top: 0; z-index: 90; pointer-events: none;
+    width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 50%;
+    background: var(--citron); mix-blend-mode: difference; opacity: 0;
+    transform: translate3d(var(--cx, -100px), var(--cy, -100px), 0) scale(var(--cs, 1));
+    transition: opacity .3s, transform .12s linear;
+  }
+  .r-curseur.is-on { opacity: 1; }
+}
+
+/* ---- Révélations au défilement (CSS scroll-driven, repli : tout visible) -- */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .r-revele { animation: r-monte linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+    .r-lignes > * { display: block; animation: r-ligne linear both; animation-timeline: view(); animation-range: entry 0% entry 70%; }
+    .r-lignes > *:nth-child(2) { animation-range: entry 8% entry 78%; }
+    .r-lignes > *:nth-child(3) { animation-range: entry 16% entry 86%; }
+    .r-parallaxe { animation: r-parallaxe linear both; animation-timeline: view(); animation-range: cover; }
+  }
+}
+/* Sans opacité : le texte garde son vrai contraste à chaque instant (les
+   audits le mesurent tel quel), seul le mouvement et la découpe changent. */
+@keyframes r-monte { from { transform: translateY(48px) scale(.985); } to { transform: none; } }
+@keyframes r-ligne { from { transform: translateY(45%); clip-path: inset(0 0 100% 0); } to { transform: none; clip-path: inset(-10% -5% -25% -5%); } }
+@keyframes r-parallaxe { from { transform: translateY(6%); } to { transform: translateY(-6%); } }
+
+/* ---- Nav et pied de page dans le nouveau système ------------------------- */
+.theme-refonte .nav.is-stuck { background: color-mix(in srgb, var(--encre) 86%, transparent); }
+.theme-refonte .nav__cta { border-radius: 999px; }
+.theme-refonte .btn-accent, .theme-refonte .btn-primary { background: var(--citron); color: var(--encre); border-color: var(--citron); border-radius: 999px; }
+.theme-refonte .btn-accent:hover, .theme-refonte .btn-primary:hover { background: var(--os); border-color: var(--os); color: var(--encre); }
+.theme-refonte .footer { background: var(--encre); border-top: 1px solid var(--line); }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
+  .r-btn { transition: none; transform: none; }
+}

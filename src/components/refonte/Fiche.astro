@@ -1,0 +1,126 @@
+---
+// La fiche d'inspection du site, signature du hero. Mêmes chiffres que
+// SiteSheet.astro, tous lus dans src/data/site-metrics.json (npm run
+// measure) : rien n'est tapé à la main, le score affiché reste vrai.
+//
+// Animation : la bague se remplit à l'affichage, les compteurs montent de 0
+// (refonte.ts), la barre du LCP se remplit au défilement (CSS scroll-driven).
+// Le HTML porte déjà les valeurs finales : sans JS ou en mouvement réduit,
+// c'est la fiche, immobile et lisible.
+import metrics from '../../data/site-metrics.json';
+import type { Locale } from '../../i18n/routes';
+import { homeCopy } from '../../i18n/home';
+import { refonteCopy } from '../../i18n/refonte';
+
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = homeCopy[locale].sheet;
+const r = refonteCopy[locale].sheet;
+const lang = locale === 'fr' ? 'fr-CA' : 'en-CA';
+
+type PageMetrics = { performance: number; lcpMs: number; cls: number; transferBytes: number };
+const page = (metrics.pages as Record<string, PageMetrics>)[locale === 'fr' ? '/' : '/en'];
+const num = (n: number, d = 0) => new Intl.NumberFormat(lang, { minimumFractionDigits: d, maximumFractionDigits: d }).format(n);
+const date = metrics.measuredAt
+  ? new Intl.DateTimeFormat(lang, { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(metrics.measuredAt))
+  : null;
+const pass = page ? page.performance >= 90 && page.lcpMs <= 2500 && page.cls <= 0.1 : false;
+// La bague : circonférence 2πr, r = 54.
+const C = 2 * Math.PI * 54;
+const lcpS = page ? page.lcpMs / 1000 : 0;
+// Part du seuil de Google (2,5 s) qu'occupe le LCP : plus c'est court, mieux c'est.
+const lcpPart = page ? Math.min(page.lcpMs / 2500, 1) : 0;
+const sep = locale === 'fr' ? ',' : '.';
+---
+
+<aside class="fiche" aria-labelledby="fiche-titre">
+  <div class="fiche__tete">
+    <p class="fiche__ref">{t.ref}</p>
+    {page && <strong class:list={['fiche__sceau', !pass && 'fiche__sceau--non']}>{pass ? t.pass : t.fix}</strong>}
+  </div>
+  <h2 id="fiche-titre" class="fiche__titre">{t.title}</h2>
+  {page ? (
+    <>
+      <div class="fiche__score">
+        <svg class="fiche__bague" viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="54" class="fiche__piste" />
+          <circle cx="60" cy="60" r="54" class="fiche__jauge" style={`--c:${C.toFixed(2)};--fin:${(C * (1 - page.performance / 100)).toFixed(2)}`} />
+        </svg>
+        <p class="fiche__nombre">
+          <span class="fiche__n" data-compte={page.performance}>{page.performance}</span>
+          <span class="fiche__sur">{r.sur}</span>
+        </p>
+        <p class="fiche__k">{r.score}</p>
+      </div>
+      <dl class="fiche__lignes">
+        <div class="fiche__lcp">
+          <dt>{t.lcp}</dt>
+          <dd><span data-compte={lcpS.toFixed(1)} data-decimales="1" data-sep={sep}>{num(lcpS, 1)}</span> s</dd>
+          <dd class="fiche__plus">
+            <span class="fiche__barre" aria-hidden="true"><span style={`--part:${lcpPart.toFixed(3)}`}></span></span>
+            <span class="fiche__seuil">{r.seuil}</span>
+          </dd>
+        </div>
+        <div>
+          <dt>{t.cls}</dt>
+          <dd>{num(page.cls, page.cls ? 2 : 0)}</dd>
+        </div>
+        <div>
+          <dt>{t.weight}</dt>
+          <dd><span data-compte={Math.round(page.transferBytes / 1024)}>{num(page.transferBytes / 1024)}</span> {t.kb}</dd>
+        </div>
+      </dl>
+      <p class="fiche__meta">{t.measured(date ?? '', metrics.tool ?? '', (metrics as { source?: string }).source === 'production')}</p>
+    </>
+  ) : (
+    <p class="fiche__meta">{t.notMeasured}</p>
+  )}
+</aside>
+
+<style>
+  .fiche {
+    position: relative;
+    background: color-mix(in srgb, var(--encre-2) 88%, transparent);
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 24px;
+    backdrop-filter: blur(8px);
+  }
+  .fiche__tete { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .fiche__ref { margin: 0; font-family: var(--font-mono); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--gris); }
+  .fiche__sceau {
+    font-family: var(--font-mono); font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+    background: var(--citron); color: var(--encre); padding: 4px 10px; border-radius: 999px;
+  }
+  .fiche__sceau--non { background: transparent; color: var(--os); border: 1px solid var(--os); }
+  .fiche__titre { font-family: var(--font-sans); font-size: 1rem; font-weight: 700; letter-spacing: 0; text-transform: none; margin: 12px 0 20px; color: var(--os); }
+  .fiche__score { display: grid; grid-template-columns: 112px 1fr; grid-template-rows: auto auto; column-gap: 20px; align-items: center; }
+  .fiche__bague { grid-row: 1 / span 2; width: 112px; height: 112px; transform: rotate(-90deg); }
+  .fiche__piste { fill: none; stroke: var(--encre-3); stroke-width: 10; }
+  .fiche__jauge {
+    fill: none; stroke: var(--citron); stroke-width: 10; stroke-linecap: round;
+    stroke-dasharray: var(--c); stroke-dashoffset: var(--fin);
+  }
+  .fiche__nombre { margin: 0; display: flex; align-items: baseline; gap: 8px; }
+  .fiche__n { font-family: var(--font-display); font-weight: 800; font-size: 4.5rem; line-height: .9; color: var(--os); font-variant-numeric: tabular-nums; }
+  .fiche__sur { color: var(--gris); font-size: .875rem; }
+  .fiche__k { margin: 4px 0 0; color: var(--gris-clair); font-size: .9375rem; }
+  .fiche__lignes { margin: 20px 0 0; border-top: 1px solid var(--line); }
+  .fiche__lignes > div { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; padding-block: 12px; border-bottom: 1px solid var(--line); }
+  .fiche__lignes dt { color: var(--gris-clair); font-size: .9375rem; }
+  .fiche__lignes dd { margin: 0; font-family: var(--font-mono); font-weight: 500; font-variant-numeric: tabular-nums; color: var(--os); white-space: nowrap; }
+  .fiche__plus { flex-basis: 100%; display: grid; gap: 6px; font-family: var(--font-sans) !important; font-weight: 400 !important; white-space: normal !important; }
+  .fiche__barre { display: block; height: 6px; border-radius: 999px; background: var(--encre-3); overflow: hidden; }
+  .fiche__barre span { display: block; height: 100%; width: calc(var(--part) * 100%); background: var(--cobalt); border-radius: inherit; transform-origin: left; }
+  .fiche__seuil { color: var(--gris); font-size: .8125rem; }
+  .fiche__meta { color: var(--gris); font-size: .8125rem; line-height: 1.5; margin: 16px 0 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .fiche__jauge { animation: fiche-bague 1.4s var(--ease-out) .2s both; }
+    @supports (animation-timeline: view()) {
+      .fiche__barre span { animation: fiche-barre linear both; animation-timeline: view(); animation-range: entry 10% cover 45%; }
+    }
+  }
+  @keyframes fiche-bague { from { stroke-dashoffset: var(--c); } }
+  @keyframes fiche-barre { from { transform: scaleX(0); } }
+</style>
