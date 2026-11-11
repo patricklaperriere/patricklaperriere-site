@@ -27,12 +27,17 @@ export const temoignages: Temoignage[] = [
   },
 ];
 
+/** Number of reviews on the Google Business Profile (checked by Patrick, 2026-11-07). */
+export const GOOGLE_REVIEW_COUNT = 4;
+
 /** Aggregate over the displayed reviews (kept honest: matches what's shown). */
 export const reviewAggregate = {
   ratingValue: (
     temoignages.reduce((s, t) => s + t.rating, 0) / temoignages.length
   ).toFixed(1),
-  reviewCount: temoignages.length,
+  // Total on the Google Business Profile, not the number quoted above
+  // (only 2 texts are on file). Source: Patrick, 2026-11-07: 4 reviews.
+  reviewCount: GOOGLE_REVIEW_COUNT,
   bestRating: 5,
   worstRating: 1,
 };
