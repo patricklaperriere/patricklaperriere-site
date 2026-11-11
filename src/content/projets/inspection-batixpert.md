@@ -26,13 +26,13 @@ réalisation:
   fr: "Un site Astro en noir et blanc, à l’image du logo : une page par service d’inspection, une page par ville desservie et une page « Votre rapport », un exemple de rapport en lecture seule où l’on filtre les constats par gravité et où l’on fait défiler les photos annotées."
   en: "A black-and-white Astro site, matching the logo: one page per inspection service, one page per city served, and a “Your report” page, a read-only sample report where you filter findings by severity and scroll through annotated photos."
 résultat:
-  fr: "Le site est en préparation : 8 pages de services, 12 pages de villes, chacune avec sa propre photo, et le rapport de démonstration. Il sera mis en ligne quand le contenu sera complété avec le client."
-  en: "The site is in progress: 8 service pages, 12 city pages, each with its own photo, and the sample report. It will go live once the content is completed with the client."
-lien: ""
-enLigne: false
+  fr: "Le site est en ligne à inspectionbatixpert.ca : 8 pages de services, 12 pages de villes, chacune avec sa propre photo, et le rapport de démonstration."
+  en: "The site is live at inspectionbatixpert.ca: 8 service pages, 12 city pages, each with its own photo, and the sample report."
+lien: "https://inspectionbatixpert.ca"
+enLigne: true
 image: "/work/batixpert.webp"
-ordre: 3
-statut: en_cours
+ordre: 2
+statut: publié
 preuve:
   - fr: "8 pages de services"
     en: "8 service pages"
