@@ -60,7 +60,7 @@ image: ""
 aFournir:
   - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
   - "un résultat mesurable de Habita : nombre d’inspecteurs, de rapports produits ou temps gagné par rapport"
-ordre: 1
+ordre: 3
 statut: publié
 preuve:
   - fr: "En production · à partir de 59 $/mois"

@@ -52,7 +52,7 @@ captures:
     hauteur: 1624
 aFournir:
   - "scores Lighthouse mobile du site en ligne, avec la date (API PageSpeed refusée le 28 octobre 2026 : quota quotidien dépassé ; la mesure locale échoue : NO_FCP sous WSL)"
-ordre: 2
+ordre: 4
 statut: publié
 preuve:
   - fr: "Migré de Wix vers Astro"

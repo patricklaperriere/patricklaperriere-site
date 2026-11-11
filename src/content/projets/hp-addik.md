@@ -3,52 +3,49 @@ titre:
   fr: "HP Addik"
   en: "HP Addik"
 titreH1:
-  fr: "Boutique Shopify sur mesure pour HP Addik"
-  en: "Custom Shopify store for HP Addik"
+  fr: "Site web et catalogue pour HP Addik"
+  en: "Website and product catalogue for HP Addik"
 titreSeo:
-  fr: "HP Addik, boutique Shopify sur mesure"
-  en: "HP Addik, custom Shopify store"
+  fr: "HP Addik, site web et catalogue de pièces de performance"
+  en: "HP Addik, website and performance-parts catalogue"
 accroche:
-  fr: "Boutique Shopify sur mesure pour un spécialiste de pièces de performance."
-  en: "Custom Shopify store for a performance-parts specialist."
+  fr: "Site web et catalogue sur mesure pour un spécialiste de pièces de performance powersports."
+  en: "Custom website and catalogue for a powersports performance-parts specialist."
 description:
-  fr: "Étude de cas : boutique Shopify sur mesure en Liquid pour HP Addik, kits turbo et pièces de performance vendus au Canada et aux États-Unis."
-  en: "Case study: custom Liquid Shopify store for HP Addik, turbo kits and performance parts sold across Canada and the United States."
+  fr: "Étude de cas : nouveau site Astro pour HP Addik, catalogue de 40 pièces filtrable par marque et par véhicule, avec administration."
+  en: "Case study: new Astro site for HP Addik, a 40-part performance catalogue filterable by brand and vehicle type, with an admin area."
 client: "HP Addik"
 rôle:
-  fr: "Conception, thème Shopify sur mesure"
-  en: "Design, custom Shopify theme"
-stack: ["Shopify", "Liquid", { fr: "Canada et États-Unis", en: "Canada and United States" }]
+  fr: "Conception, développement, identité visuelle"
+  en: "Design, development, visual identity"
+stack: ["Astro", "Supabase", { fr: "Catalogue et administration", en: "Catalogue and admin" }]
 défi:
-  fr: "HP Addik conçoit et fabrique des kits turbo et des pièces de performance pour Honda Talon, côte à côte, VTT et motos. Il fallait une boutique capable de présenter des produits techniques clairement, pour une clientèle au Canada et aux États-Unis."
-  en: "HP Addik designs and builds turbo kits and performance parts for Honda Talons, side-by-sides, ATVs and motorcycles. The store had to present technical products clearly, for customers in Canada and the United States."
+  fr: "HP Addik conçoit et fabrique des pièces de performance pour côte-à-côte, VTT et motos, et vendait par une boutique Shopify. Il fallait un site plus rapide, à son image, que l’équipe peut tenir à jour elle-même, avec un catalogue clair pour des produits très techniques."
+  en: "HP Addik designs and builds performance parts for side-by-sides, ATVs and motorcycles, and sold through a Shopify store. It needed a faster site that matches the brand and that the team can keep up to date itself, with a clear catalogue for very technical products."
 réalisation:
-  fr: "Une boutique Shopify sur mesure en Liquid : magasinage par marque (Can-Am, Polaris, Yamaha, Honda, CF Moto) en plus de la gamme maison HP Addik, fiches produits techniques claires, sélecteur de pays et de langue pour vendre au Canada comme aux États-Unis, et une identité de marque affirmée."
-  en: "A custom Shopify store in Liquid: shop-by-brand navigation (Can-Am, Polaris, Yamaha, Honda, CF Moto) alongside the in-house HP Addik line, clear technical product pages, a country and language selector to sell in Canada and the United States, and a strong brand identity."
+  fr: "Un site Astro rouge et noir, avec un nouveau logo turbo : un catalogue de 40 pièces lu en direct, filtrable par marque (Can-Am, Polaris, Yamaha, Honda, CF Moto) et par type de véhicule, un espace d’administration pour ajouter les produits et leurs photos, et un formulaire de demande."
+  en: "A red-and-black Astro site with a new turbo logo: a live 40-part catalogue filterable by brand (Can-Am, Polaris, Yamaha, Honda, CF Moto) and vehicle type, an admin area to add products and their photos, and a request form."
 résultat:
-  fr: "La boutique est en ligne à hpaddik.com et vend au Canada et aux États-Unis, avec un sélecteur de pays et de langue."
-  en: "The store is live at hpaddik.com and sells in Canada and the United States, with a country and language selector."
+  fr: "Le site présente les 40 pièces de la gamme avec leurs photos, sur hpaddik.com. L’équipe ajoute et modifie ses produits elle-même, sans passer par un développeur."
+  en: "The site showcases the full 40-part range with photos on hpaddik.com. The team adds and edits its own products without going through a developer."
 lien: "https://hpaddik.com"
 image: "/work/hp-addik.webp"
 aFournir:
-  - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
-  - "Lighthouse de l’ancienne boutique, s’il en existait une"
-  - "délai de livraison du projet"
-  - "résultats depuis la mise en ligne (ventes, commandes US), si le client accepte de les publier"
-  - "2 à 3 captures supplémentaires (fiche produit, sélecteur de pays, mobile)"
-ordre: 5
+  - "scores Lighthouse mobile du site en ligne, avec la date"
+  - "2 à 3 captures supplémentaires (catalogue, fiche produit, mobile)"
+ordre: 1
 statut: publié
 preuve:
-  - fr: "Vente au Canada et aux États-Unis"
-    en: "Sells in Canada and the US"
-  - fr: "Magasinage par marque"
-    en: "Shop by brand"
-  - fr: "Thème Liquid sur mesure"
-    en: "Custom Liquid theme"
+  - fr: "40 pièces au catalogue"
+    en: "40 parts in the catalogue"
+  - fr: "Filtres par marque et véhicule"
+    en: "Filter by brand and vehicle"
+  - fr: "Administration du catalogue"
+    en: "Catalogue admin"
 grille:
   colonnes: 8
-année: "2025"
-catégorie: shopify
+année: "2026"
+catégorie: web
 vedette: true
 accent: "#f4d9b0"
 cadrage: cover

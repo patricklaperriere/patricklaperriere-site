@@ -51,7 +51,7 @@ aFournir:
   - "Lighthouse de l’ancien site, s’il en existait un"
   - "délai de livraison du projet"
   - "résultats depuis la mise en ligne (demandes reçues, trafic), si le client accepte de les publier"
-ordre: 4
+ordre: 5
 statut: publié
 preuve:
   - fr: "Bilingue FR/EN"
