@@ -214,14 +214,14 @@ export const en: Widen<Dict> = {
   workSection: {
     kicker: 'Work',
     title: 'Work',
-    lead: 'Software, websites and stores. For each project: where it started, what I did and what you can check today.',
+    lead: 'Software and custom websites, each built from scratch. For each project: where it started, what I did and what you can check today.',
     relatedTitle: 'Related work',
     // Work index
     viewSite: 'View site',
     inProgress: 'In progress',
     proof: 'Proof',
     filtersLabel: 'Filter projects',
-    filters: { all: 'All', logiciel: 'Software', web: 'Websites', shopify: 'Shopify' },
+    filters: { all: 'All', logiciel: 'Software', web: 'Websites' },
     results: (n: number) => `${n} ${n > 1 ? 'projects' : 'project'} shown`,
     projectsCount: (n: number) => `${String(n).padStart(2, '0')} ${n > 1 ? 'projects' : 'project'}`,
     statsLabel: 'At a glance',

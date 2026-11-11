@@ -26,7 +26,7 @@ résultat:
   fr: "<!-- À CONFIRMER PATRICK : aucun résultat n’est connu. Ne rien publier sans chiffre ou fait vérifiable. -->"
   en: "<!-- À CONFIRMER PATRICK -->"
 lien: "<!-- À CONFIRMER PATRICK : domaine pas encore acheté par le client -->"
-image: ""
+image: "/work/turbofix-mecanique.webp"
 ordre: 7
 statut: brouillon
 grille:

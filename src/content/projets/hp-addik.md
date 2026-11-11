@@ -20,8 +20,8 @@ rôle:
   en: "Design, development, visual identity"
 stack: ["Astro", "Supabase", { fr: "Catalogue et administration", en: "Catalogue and admin" }]
 défi:
-  fr: "HP Addik conçoit et fabrique des pièces de performance pour côte-à-côte, VTT et motos, et vendait par une boutique Shopify. Il fallait un site plus rapide, à son image, que l’équipe peut tenir à jour elle-même, avec un catalogue clair pour des produits très techniques."
-  en: "HP Addik designs and builds performance parts for side-by-sides, ATVs and motorcycles, and sold through a Shopify store. It needed a faster site that matches the brand and that the team can keep up to date itself, with a clear catalogue for very technical products."
+  fr: "HP Addik conçoit et fabrique des pièces de performance pour côte-à-côte, VTT et motos, et vendait par une boutique en ligne toute faite. Il fallait un site plus rapide, à son image, que l’équipe peut tenir à jour elle-même, avec un catalogue clair pour des produits très techniques."
+  en: "HP Addik designs and builds performance parts for side-by-sides, ATVs and motorcycles, and sold through an off-the-shelf online store. It needed a faster site that matches the brand and that the team can keep up to date itself, with a clear catalogue for very technical products."
 réalisation:
   fr: "Un site Astro rouge et noir, avec un nouveau logo turbo : un catalogue de 40 pièces lu en direct, filtrable par marque (Can-Am, Polaris, Yamaha, Honda, CF Moto) et par type de véhicule, un espace d’administration pour ajouter les produits et leurs photos, et un formulaire de demande."
   en: "A red-and-black Astro site with a new turbo logo: a live 40-part catalogue filterable by brand (Can-Am, Polaris, Yamaha, Honda, CF Moto) and vehicle type, an admin area to add products and their photos, and a request form."

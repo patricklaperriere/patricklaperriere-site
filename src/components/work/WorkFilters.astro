@@ -1,7 +1,7 @@
 ---
 // Sticky filter bar for the work index. Plain buttons with counts; a small
 // vanilla script hides the entries that do not match, keeps the choice in the
-// URL (?type=shopify) and announces the result to screen readers. Without
+// URL (?type=web) and announces the result to screen readers. Without
 // JavaScript the bar is hidden and every project stays listed.
 import type { Locale } from '../../i18n/routes';
 import type { WorkFilter } from '../../data/projets';
@@ -13,7 +13,7 @@ interface Props {
 }
 const { locale, counts } = Astro.props;
 const ws = useTranslations(locale).workSection;
-const keys = (['all', 'logiciel', 'web', 'shopify'] as const).filter((k) => k === 'all' || counts[k] > 0);
+const keys = (['all', 'logiciel', 'web'] as const).filter((k) => k === 'all' || counts[k] > 0);
 ---
 
 <div class="wfl" data-work-filters hidden>

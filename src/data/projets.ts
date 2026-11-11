@@ -207,12 +207,12 @@ export const CATEGORY_LABEL: Record<ProjectCategory, LocalizedField> = {
 };
 
 /** Work-index filter a project belongs to: redesigns count as websites. */
-export type WorkFilter = 'logiciel' | 'web' | 'shopify';
+export type WorkFilter = 'logiciel' | 'web';
 export const FILTER_OF: Record<ProjectCategory, WorkFilter> = {
   saas: 'logiciel',
   web: 'web',
   seo: 'web',
-  shopify: 'shopify',
+  shopify: 'web',
 };
 
 /** Year span of a list of projects, e.g. "2025–2026" (or "2026" alone). */
