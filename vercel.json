@@ -75,6 +75,16 @@
   ],
   "redirects": [
     {
+      "source": "/services/site-ecommerce-shopify",
+      "destination": "/services/boutique-en-ligne",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/shopify-ecommerce",
+      "destination": "/en/services/online-store",
+      "permanent": true
+    },
+    {
       "source": "/creation-site-web/laval",
       "destination": "/creation-site-web",
       "permanent": true

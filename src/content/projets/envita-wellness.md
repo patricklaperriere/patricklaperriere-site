@@ -48,7 +48,7 @@ cadrage: cover
 
 Notes internes (jamais publiées).
 
-Remplace l'ancienne fiche Shopify (retirée du site public le 27 octobre 2026). Prompt SITEPERSO-2026-11-11-COMPLETER-PORTFOLIO.
+Remplace l'ancienne fiche (boutique sur une plateforme toute faite, retirée du site public le 27 octobre 2026). Prompt SITEPERSO-2026-11-11-COMPLETER-PORTFOLIO.
 Faits vérifiés dans ~/projets/envita-site, branche apercu a19e6a7 : Astro 7, Tailwind 4, adaptateur Vercel,
 src/pages (9 pages EN, plus la 404) et src/pages/fr (9 pages FR), api/checkout.ts (Stripe Checkout, avertissement médical
 obligatoire), api/liste.ts (Resend, audiences Individus et Corpo). Pas publié : enLigne false, pas de lien,

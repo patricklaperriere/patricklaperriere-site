@@ -203,7 +203,7 @@ export const CATEGORY_LABEL: Record<ProjectCategory, LocalizedField> = {
   saas: { fr: 'Logiciel', en: 'Software' },
   web: { fr: 'Site sur mesure', en: 'Custom site' },
   seo: { fr: 'Refonte et SEO', en: 'Redesign and SEO' },
-  shopify: { fr: 'Boutique Shopify', en: 'Shopify store' },
+  shopify: { fr: 'Boutique en ligne', en: 'Online store' },
 };
 
 /** Work-index filter a project belongs to: redesigns count as websites. */

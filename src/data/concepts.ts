@@ -115,10 +115,10 @@ export const concepts: Concept[] = [
     accent: '#cf8aa0',
     industry: { fr: 'Boutique en ligne', en: 'Online store' },
     tagline: {
-      fr: 'Boutique Shopify sur mesure : fiches produits soignées, panier rapide et parcours d’achat simple.',
-      en: 'Custom Shopify store: polished product pages, a fast cart and an optimized checkout.',
+      fr: 'Boutique en ligne sur mesure : fiches produits soignées, panier rapide et parcours d’achat simple.',
+      en: 'Custom online store: polished product pages, a fast cart and an optimized checkout.',
     },
-    tags: { fr: ['Shopify', 'Panier', 'Paiement'], en: ['Shopify', 'Cart', 'Checkout'] },
+    tags: { fr: ['Boutique', 'Panier', 'Paiement'], en: ['Store', 'Cart', 'Checkout'] },
   },
   // ---------- SaaS / software dashboards ----------
   {
