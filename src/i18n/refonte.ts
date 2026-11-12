@@ -36,16 +36,17 @@ const fr = {
       `Mesuré le ${date} avec l’outil de mesure de Google, comme sur un téléphone, ${live ? 'sur ce site en ligne' : 'sur une copie de ce site'}. Résultat retenu sur trois essais.`,
     pasMesure: 'Pas encore mesuré.',
   },
-  // Home WOW : la scène « mes vrais projets autour de toi ». Une phrase vraie
-  // par projet, tirée des études de cas publiées.
+  // Home WOW : la scène « Projets Spotlight ». Une phrase vraie par projet,
+  // tirée des études de cas.
   scene: {
-    titre: 'Mes vrais projets',
-    intro: 'Descendez doucement. Vous passez devant des projets que j’ai faits, tels qu’ils sont en ligne.',
+    titre: 'Projets Spotlight',
+    intro: 'Descendez doucement. Vous passez devant quelques projets que j’ai bâtis sur mesure.',
     projets: {
-      habita: { nom: 'Habita', phrase: 'Le logiciel où les inspecteurs en bâtiment écrivent leurs rapports. Je le conçois et je le programme.', lien: 'Lire l’étude de cas Habita' },
+      batixpert: { nom: 'Inspection Batixpert', phrase: 'Le nouveau site d’une entreprise d’inspection et d’ingénierie du bâtiment de la grande région de Montréal.', lien: 'Lire l’étude de cas Batixpert' },
       beauregard: { nom: 'Inspection BeauRegard', phrase: 'Le nouveau site d’un inspecteur en bâtiment de Sherbrooke, fait sur mesure.', lien: 'Lire l’étude de cas BeauRegard' },
       iho: { nom: 'Inspection Habitation Outaouais', phrase: 'Le site d’un inspecteur en bâtiment de l’Outaouais, en français et en anglais.', lien: 'Lire l’étude de cas Inspection Habitation Outaouais' },
-      hpaddik: { nom: 'HP Addik', phrase: 'Une boutique en ligne faite sur mesure pour un spécialiste de pièces de performance.', lien: 'Lire l’étude de cas HP Addik' },
+      envita: { nom: 'Envita Wellness', phrase: 'Une plateforme bilingue de programmes de respiration et de mieux-être, avec paiement en ligne. Pas encore en ligne.', lien: 'Lire l’étude de cas Envita' },
+      hpaddik: { nom: 'HP Addik', phrase: 'Le nouveau site et le catalogue d’un spécialiste de pièces de performance, faits sur mesure.', lien: 'Lire l’étude de cas HP Addik' },
     },
     tout: 'Voir toutes les réalisations',
   },
@@ -133,13 +134,14 @@ const en: typeof fr = {
     pasMesure: 'Not measured yet.',
   },
   scene: {
-    titre: 'My real projects',
-    intro: 'Scroll down slowly. You are walking past projects I made, just as they are online.',
+    titre: 'Projets Spotlight',
+    intro: 'Scroll down slowly. You are walking past a few projects I built from scratch.',
     projets: {
-      habita: { nom: 'Habita', phrase: 'The software where home inspectors write their reports. I design it and I program it.', lien: 'Read the Habita case study' },
+      batixpert: { nom: 'Inspection Batixpert', phrase: 'The new website of a building inspection and engineering firm in the Greater Montréal area.', lien: 'Read the Batixpert case study' },
       beauregard: { nom: 'Inspection BeauRegard', phrase: 'The new website of a home inspector in Sherbrooke, made to measure.', lien: 'Read the BeauRegard case study' },
       iho: { nom: 'Inspection Habitation Outaouais', phrase: 'The website of a home inspector in the Outaouais, in French and in English.', lien: 'Read the Inspection Habitation Outaouais case study' },
-      hpaddik: { nom: 'HP Addik', phrase: 'An online store made to measure for a performance-parts specialist.', lien: 'Read the HP Addik case study' },
+      envita: { nom: 'Envita Wellness', phrase: 'A bilingual platform for breathwork and wellness programs, with online payments. Not online yet.', lien: 'Read the Envita case study' },
+      hpaddik: { nom: 'HP Addik', phrase: 'The new website and catalogue of a performance-parts specialist, made to measure.', lien: 'Read the HP Addik case study' },
     },
     tout: 'See all my work',
   },

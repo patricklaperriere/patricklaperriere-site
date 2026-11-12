@@ -56,7 +56,7 @@ témoignage:
     fr: "Parmi les inspecteurs qui utilisent Habita, je suis fier de vous présenter Éric Beauregard. Il a pris le logiciel en main rapidement et il gagne du temps sur chaque rapport. Voici ce qu’il en dit."
     en: "Among the inspectors who use Habita, I’m proud to introduce Éric Beauregard. He picked up the software quickly and saves time on every report. Here’s what he says about it."
 lien: "https://habita.expert"
-image: ""
+image: "/work/habita-tableau-de-bord.webp"
 aFournir:
   - "scores Lighthouse mobile du site en ligne, avec la date (la mesure locale échoue : NO_FCP sous WSL)"
   - "un résultat mesurable de Habita : nombre d’inspecteurs, de rapports produits ou temps gagné par rapport"
@@ -75,7 +75,7 @@ année: "2026"
 catégorie: saas
 vedette: true
 accent: "#7aa2ff"
-cadrage: contain
+cadrage: cover
 ---
 
 Notes internes (jamais publiées : seul le frontmatter alimente les pages).
@@ -88,4 +88,4 @@ Témoignage d'Éric : version courte approuvée par Éric (« C'est parfait »),
 Habita », octobre 2026. La version anglaise est une traduction. Éric a aussi donné son accord pour être nommé
 comme client d'Habita et du site Web, avec son logo et le lien.
 - 28 octobre 2026 (prompt SITEPERSO-2026-10-28, fourni par Patrick) : statut « en production », prix de départ 59 $/mois, inscription Capterra Canada, pratique APCHQ et norme BNQ 3009-500, capture hors ligne. Vérifiés le jour même sur habita.expert (page d’accueil et lien capterra.ca/software/1111144/Habita). L’ancienne note « conformité BNQ retirée » ne s’applique plus : la formulation retenue est « conçu pour », pas « conforme à ».
-- La vedette et le hero de la fiche sont une démo codée (components/work/HabitaShowcase.astro), plus une capture : `image` est vide.
+- La vedette et le hero de la fiche sont une démo codée (components/work/HabitaShowcase.astro). Depuis le 2026-11-11 (prompt SITEPERSO-2026-11-11-CAPTURES-MANQUANTES), `image` est le tableau de bord avec des DONNÉES FICTIVES (compte « Inspections Démo », clients inventés), capturé sur un faux Supabase local, sans réseau : aucune donnée client réelle.

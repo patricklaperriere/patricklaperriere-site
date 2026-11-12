@@ -225,14 +225,14 @@ export const fr = {
   workSection: {
     kicker: 'Réalisations',
     title: 'Réalisations',
-    lead: 'Un logiciel, des sites et des boutiques. Pour chaque projet : le point de départ, ce que j’ai fait et ce qu’on peut vérifier aujourd’hui.',
+    lead: 'Un logiciel et des sites, chacun bâti sur mesure. Pour chaque projet : le point de départ, ce que j’ai fait et ce qu’on peut vérifier aujourd’hui.',
     relatedTitle: 'Projets réalisés',
     // Work index
     viewSite: 'Voir le site',
     inProgress: 'En cours',
     proof: 'Preuve',
     filtersLabel: 'Filtrer les projets',
-    filters: { all: 'Tous', logiciel: 'Logiciel', web: 'Sites web', shopify: 'Shopify' },
+    filters: { all: 'Tous', logiciel: 'Logiciel', web: 'Sites web' },
     results: (n: number) => (n > 1 ? `${n} projets affichés` : `${n} projet affiché`),
     projectsCount: (n: number) => `${String(n).padStart(2, '0')} ${n > 1 ? 'projets' : 'projet'}`,
     statsLabel: 'En chiffres',

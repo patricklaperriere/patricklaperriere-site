@@ -3,9 +3,10 @@
 // CSS (scripts/scene.ts). Unités du monde : un écran principal fait 1,6 de
 // large ; la caméra regarde vers -z et avance d'un projet à l'autre.
 //
-// Seulement des projets publiés sur le site (src/content/projets, statut
-// publié). Captures : sites publics réels ; pour Habita, l'accueil public
-// et un écran de démonstration (aucune donnée de client).
+// Seulement des projets présents sur le site (src/content/projets, statut
+// publié ou en_cours). Ordre voulu par Patrick le 2026-11-11 : Batixpert,
+// BeauRegard, IHO, Envita (nouvelle plateforme), HP Addik (nouveau site).
+// Captures : accueils réels (aperçu pour Envita, pas encore en ligne).
 import type { Locale } from '../i18n/routes';
 
 export interface Ecran {
@@ -20,16 +21,15 @@ export interface Ecran {
   w: number; ar: number;
 }
 export interface ProjetScene {
-  id: 'habita' | 'beauregard' | 'iho' | 'hpaddik';
+  id: 'batixpert' | 'beauregard' | 'iho' | 'envita' | 'hpaddik';
   slug: string;
   ecrans: [Ecran, ...Ecran[]]; // le premier est l'écran principal
 }
 
 const L = 0.625; // 1024 x 640
 export const PROJETS_SCENE: ProjetScene[] = [
-  { id: 'habita', slug: 'habita', ecrans: [
-    { src: 'habita', x: 0.55, y: 0.05, z: 0, ry: -0.26, w: 1.6, ar: L },
-    { src: 'habita-rapport', srcEn: 'habita-rapport-en', x: -1.35, y: 0.62, z: -1.5, ry: 0.42, w: 1.15, ar: L },
+  { id: 'batixpert', slug: 'inspection-batixpert', ecrans: [
+    { src: 'batixpert', x: 0.55, y: 0.05, z: 0, ry: -0.26, w: 1.6, ar: L },
   ] },
   { id: 'beauregard', slug: 'inspection-beauregard', ecrans: [
     { src: 'beauregard', x: -0.55, y: -0.04, z: -4, ry: 0.26, w: 1.6, ar: L },
@@ -40,8 +40,11 @@ export const PROJETS_SCENE: ProjetScene[] = [
     { src: 'iho', x: 0.6, y: 0.08, z: -8, ry: -0.26, w: 1.6, ar: L },
     { src: 'iho-preachat', x: -1.4, y: 0.66, z: -9.4, ry: 0.4, w: 1.1, ar: L },
   ] },
+  { id: 'envita', slug: 'envita-wellness', ecrans: [
+    { src: 'envita', x: -0.5, y: 0, z: -12, ry: 0.22, w: 1.6, ar: L },
+  ] },
   { id: 'hpaddik', slug: 'hp-addik', ecrans: [
-    { src: 'hpaddik', x: -0.5, y: 0, z: -12, ry: 0.22, w: 1.6, ar: L },
+    { src: 'hpaddik', x: 0.55, y: 0.04, z: -16, ry: -0.24, w: 1.6, ar: L },
   ] },
 ];
 

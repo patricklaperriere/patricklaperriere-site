@@ -38,7 +38,7 @@ const stats = [
 ];
 const counter = [SHOW_PROJECT_COUNT ? ws.projectsCount(projects.length) : null, years].filter(Boolean).join(' · ');
 
-const counts: Record<'all' | WorkFilter, number> = { all: projects.length, logiciel: 0, web: 0, shopify: 0 };
+const counts: Record<'all' | WorkFilter, number> = { all: projects.length, logiciel: 0, web: 0 };
 for (const p of projects) counts[FILTER_OF[p.category]]++;
 
 // Fill rows of 12: when the next card would overflow, the previous row's last
