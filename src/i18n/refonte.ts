@@ -84,7 +84,7 @@ const fr = {
     lignes: {
       web: { titre: 'Un site web pour votre entreprise', texte: 'Un site fait sur mesure pour vous. Il s’ouvre vite et on le trouve facilement sur Google. Il explique clairement ce que vous faites et donne envie de vous appeler.' },
       seo: { titre: 'Améliorer votre site actuel', texte: 'Je regarde votre site et je trouve ce qui ne va pas. Ensuite, je corrige ce qui compte le plus, pour qu’il soit plus rapide et plus facile à trouver sur Google.' },
-      shopify: { titre: 'Une boutique en ligne', texte: 'Une boutique faite sur mesure avec Shopify, un service connu pour vendre sur Internet. Elle ressemble à votre entreprise et met vos produits en valeur.' },
+      shopify: { titre: 'Une boutique en ligne', texte: 'Une boutique en ligne faite sur mesure, pensée pour vendre vos produits. Elle ressemble à votre entreprise et met vos produits en valeur.' },
       tools: { titre: 'Des outils faits pour vous', texte: 'Des outils en ligne pour votre entreprise. Par exemple : recevoir des demandes, prendre des rendez-vous, suivre vos chiffres, ou donner à vos clients un espace bien à eux.' },
     },
   },
@@ -177,7 +177,7 @@ const en: typeof fr = {
     lignes: {
       web: { titre: 'A website for your business', texte: 'A site made to measure for you. It opens fast and people find it easily on Google. It clearly explains what you do and makes people want to call you.' },
       seo: { titre: 'Improve your current site', texte: 'I look at your site and find what is not working. Then I fix what matters most, so it gets faster and easier to find on Google.' },
-      shopify: { titre: 'An online store', texte: 'A store made to measure with Shopify, a well-known service for selling online. It looks like your business and shows off your products.' },
+      shopify: { titre: 'An online store', texte: 'An online store made to measure, built to sell your products. It looks like your business and shows off your products.' },
       tools: { titre: 'Tools made for you', texte: 'Online tools for your business. For example: receiving requests, booking appointments, following your numbers, or giving your clients a space of their own.' },
     },
   },

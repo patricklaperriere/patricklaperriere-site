@@ -8,8 +8,8 @@ export const SITE = {
     en: 'Web developer and product builder',
   },
   personDescription: {
-    fr: 'Développeur web au Québec, cofondateur de Technologies Habita inc. Sites, boutiques Shopify et outils web sur mesure pour les PME, en français et en anglais.',
-    en: 'Web developer in Quebec, co-founder of Technologies Habita inc. Websites, Shopify stores and custom web tools for small businesses, in English and French.',
+    fr: 'Développeur web au Québec, cofondateur de Technologies Habita inc. Sites, boutiques en ligne et outils web sur mesure pour les PME, en français et en anglais.',
+    en: 'Web developer in Quebec, co-founder of Technologies Habita inc. Websites, online stores and custom web tools for small businesses, in English and French.',
   },
   // L'adresse de contact, partout (page contact, pied de page, accueil,
   // données structurées, llms.txt, confidentialité) : une seule source.
@@ -49,10 +49,10 @@ export const SITE = {
   // Technologies, for Person.knowsAbout and the stack list on the site. One
   // list, tools only (no "SEO" or "Performance": those are outcomes, not tools).
   // Only tools that appear in the work shown on the site (October 2026).
-  stack: ['Astro', 'React', 'TypeScript', 'Supabase', 'Shopify', 'Liquid', 'Vercel'],
+  stack: ['Astro', 'React', 'TypeScript', 'Supabase', 'Vercel'],
   serviceDescription: {
-    fr: 'Conception et développement de sites web sur mesure, de boutiques Shopify et d’outils web sur mesure, en français et en anglais.',
-    en: 'Design and development of custom websites, Shopify stores and custom web tools, in English and French.',
+    fr: 'Conception et développement de sites web sur mesure, de boutiques en ligne et d’outils web sur mesure, en français et en anglais.',
+    en: 'Design and development of custom websites, online stores and custom web tools, in English and French.',
   },
   // Default Open Graph image (generated into /public/og/)
   ogImage: '/og/default.png',

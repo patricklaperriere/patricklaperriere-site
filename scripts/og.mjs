@@ -114,7 +114,7 @@ const images = [
     file: 'default.png',
     kicker: 'DÉVELOPPEUR WEB · WEB DEVELOPER',
     title: 'Patrick Laperrière',
-    subtitle: 'Sites web, boutiques Shopify et outils sur mesure',
+    subtitle: 'Sites web, boutiques en ligne et outils sur mesure',
   },
   {
     file: 'home-fr.png',
@@ -133,7 +133,7 @@ const images = [
     file: 'services.png',
     kicker: 'SERVICES',
     title: 'Quatre services, un interlocuteur',
-    subtitle: 'Site web, refonte et SEO, boutique Shopify, outils sur mesure',
+    subtitle: 'Site web, refonte et SEO, boutique en ligne, outils sur mesure',
   },
   {
     file: 'service-web.png',
@@ -148,10 +148,10 @@ const images = [
     subtitle: 'Mesurer d’abord, corriger dans le bon ordre',
   },
   {
-    file: 'service-shopify.png',
+    file: 'service-boutique.png',
     kicker: 'SERVICE',
-    title: 'Boutique Shopify',
-    subtitle: 'Une boutique sur mesure en Liquid',
+    title: 'Boutique en ligne',
+    subtitle: 'Une boutique bâtie sur mesure',
   },
   {
     file: 'service-tools.png',

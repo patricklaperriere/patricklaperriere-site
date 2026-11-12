@@ -15,7 +15,7 @@ C’est la première question que tout le monde se pose, et la plus difficile à
 
 - **Site vitrine simple (3 à 6 pages)** : pour une PME qui veut une présence professionnelle, rapide et bien référencée. C’est le point de départ le plus courant : voyez ce que comprend la [création d’un site web sur mesure](/services/creation-site-web).
 - **Site avec contenu sur mesure et SEO local** : plusieurs pages de services, blogue, [optimisation pour Google dans votre région](/creation-site-web). L’investissement monte, mais le retour aussi.
-- **Boutique e-commerce ([Shopify sur mesure](/services/site-ecommerce-shopify))** : fiches produits, paiement, intégrations. Le prix reflète la complexité du catalogue et des fonctions.
+- **Boutique e-commerce ([boutique sur mesure](/services/boutique-en-ligne))** : fiches produits, paiement, intégrations. Le prix reflète la complexité du catalogue et des fonctions.
 
 Méfiez-vous des deux extrêmes : le « site à 300 $ » qui finit lent, générique et invisible sur Google, et le « site à 25 000 $ » bourré de fonctions dont vous n’aurez jamais besoin.
 

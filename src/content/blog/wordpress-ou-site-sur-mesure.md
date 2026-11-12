@@ -39,6 +39,6 @@ Un site sur mesure demande un investissement initial plus réfléchi, mais c’e
 
 Soyons justes : si vous publiez du contenu chaque jour et que plusieurs personnes non techniques doivent gérer le site au quotidien, l’écosystème WordPress peut convenir. Pour un blogue très actif avec une grande équipe, c’est un outil valable. Et si votre besoin dépasse le site lui-même (demandes en ligne, prise de rendez-vous, portail client), c’est plutôt un [outil web sur mesure](/services/outils-sur-mesure) qu’il vous faut.
 
-Pour la majorité des PME, des commerces et des professionnels qui veulent un site rapide, sécuritaire et bien référencé, le sur mesure offre un bien meilleur résultat à long terme. C’est ce que je construis : des [sites web sur mesure en Astro](/services/creation-site-web) et des [boutiques Shopify sur mesure](/services/site-ecommerce-shopify).
+Pour la majorité des PME, des commerces et des professionnels qui veulent un site rapide, sécuritaire et bien référencé, le sur mesure offre un bien meilleur résultat à long terme. C’est ce que je construis : des [sites web sur mesure en Astro](/services/creation-site-web) et des [boutiques en ligne sur mesure](/services/boutique-en-ligne).
 
 Pas certain de ce qui convient à votre cas ? [Parlons-en](/contact). Je vous donne un avis honnête et une soumission gratuite. Vous pouvez aussi voir [mes services](/services) ou les [signes qu’une refonte s’impose](/blogue/signes-refonte-site-web).

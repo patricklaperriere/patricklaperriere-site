@@ -15,7 +15,7 @@ It's the first question everyone asks, and the hardest to get a straight answer 
 
 - **Simple marketing site (3 to 6 pages):** for a small business that wants a professional, fast, well-ranked presence. This is the most common starting point: see what goes into [custom website design and development](/en/services/web-design-development).
 - **Custom-content site with local SEO:** several service pages, a blog, [optimization to get found on Google in your area](/en/web-design). The investment goes up, but so does the return.
-- **E-commerce store ([custom Shopify](/en/services/shopify-ecommerce)):** product pages, checkout, integrations. The price reflects the complexity of your catalog and features.
+- **E-commerce store ([custom store](/en/services/online-store)):** product pages, checkout, integrations. The price reflects the complexity of your catalog and features.
 
 Be wary of both extremes: the "$300 site" that ends up slow, generic and invisible on Google, and the "$25,000 site" stuffed with features you'll never use.
 

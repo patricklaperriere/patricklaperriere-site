@@ -39,6 +39,6 @@ A custom site asks for a more deliberate upfront investment, but it's a stable a
 
 To be fair: if you publish content every day and several non-technical people manage the site daily, the WordPress ecosystem can fit. For a very active blog with a large team, it's a valid tool. And if your need goes beyond the site itself (online requests, booking, a client portal), what you want is a [custom web tool](/en/services/custom-tools).
 
-For most small businesses, shops and professionals who want a fast, secure, well-ranked site, custom delivers a much better long-term result. That's what I build: [custom Astro websites](/en/services/web-design-development) and [custom Shopify stores](/en/services/shopify-ecommerce).
+For most small businesses, shops and professionals who want a fast, secure, well-ranked site, custom delivers a much better long-term result. That's what I build: [custom Astro websites](/en/services/web-design-development) and [custom online stores](/en/services/online-store).
 
 Not sure what fits your case? [Let's talk](/en/contact). I'll give you an honest take and a free quote. You can also see [my services](/en/services) or the [signs you need a redesign](/en/blog/signs-you-need-website-redesign).

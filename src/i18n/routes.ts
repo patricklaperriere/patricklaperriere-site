@@ -25,7 +25,7 @@ export const routes: Record<RouteKey, Record<Locale, string>> = {
   services:   { fr: '/services',                        en: '/en/services' },
   svcWeb:     { fr: '/services/creation-site-web',      en: '/en/services/web-design-development' },
   svcSeo:     { fr: '/services/refonte-seo',            en: '/en/services/website-redesign-seo' },
-  svcShopify: { fr: '/services/site-ecommerce-shopify', en: '/en/services/shopify-ecommerce' },
+  svcShopify: { fr: '/services/boutique-en-ligne', en: '/en/services/online-store' },
   svcTools:   { fr: '/services/outils-sur-mesure',      en: '/en/services/custom-tools' },
   work:       { fr: '/realisations',                    en: '/en/work' },
   about:      { fr: '/a-propos',                         en: '/en/about' },
