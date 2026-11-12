@@ -43,6 +43,7 @@ const fr = {
     intro: 'Descendez doucement. Vous passez devant quelques projets que j’ai bâtis sur mesure.',
     projets: {
       batixpert: { nom: 'Inspection Batixpert', phrase: 'Le nouveau site d’une entreprise d’inspection et d’ingénierie du bâtiment de la grande région de Montréal.', lien: 'Lire l’étude de cas Batixpert' },
+      sansnom: { nom: 'Site web, inspection résidentielle', phrase: 'Un site fait sur mesure pour un inspecteur en bâtiment. Il n’est pas publié, et le client reste anonyme.', lien: '' },
       beauregard: { nom: 'Inspection BeauRegard', phrase: 'Le nouveau site d’un inspecteur en bâtiment de Sherbrooke, fait sur mesure.', lien: 'Lire l’étude de cas BeauRegard' },
       iho: { nom: 'Inspection Habitation Outaouais', phrase: 'Le site d’un inspecteur en bâtiment de l’Outaouais, en français et en anglais.', lien: 'Lire l’étude de cas Inspection Habitation Outaouais' },
       envita: { nom: 'Envita Wellness', phrase: 'Une plateforme bilingue de programmes de respiration et de mieux-être, avec paiement en ligne. Pas encore en ligne.', lien: 'Lire l’étude de cas Envita' },
@@ -138,6 +139,7 @@ const en: typeof fr = {
     intro: 'Scroll down slowly. You are walking past a few projects I built from scratch.',
     projets: {
       batixpert: { nom: 'Inspection Batixpert', phrase: 'The new website of a building inspection and engineering firm in the Greater Montréal area.', lien: 'Read the Batixpert case study' },
+      sansnom: { nom: 'Website, home inspection', phrase: 'A website made to measure for a home inspector. It is not published, and the client stays anonymous.', lien: '' },
       beauregard: { nom: 'Inspection BeauRegard', phrase: 'The new website of a home inspector in Sherbrooke, made to measure.', lien: 'Read the BeauRegard case study' },
       iho: { nom: 'Inspection Habitation Outaouais', phrase: 'The website of a home inspector in the Outaouais, in French and in English.', lien: 'Read the Inspection Habitation Outaouais case study' },
       envita: { nom: 'Envita Wellness', phrase: 'A bilingual platform for breathwork and wellness programs, with online payments. Not online yet.', lien: 'Read the Envita case study' },

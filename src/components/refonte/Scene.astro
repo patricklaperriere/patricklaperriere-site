@@ -42,11 +42,11 @@ const nb = PROJETS_SCENE.length;
           const e = p.ecrans[0];
           return (
             <li class:list={['scene__projet', i === 0 && 'est-actif']}>
-              <img class="scene__capture" src={urlEcran(e, locale)} alt={locale === 'fr' ? `${txt.nom}, tel qu’il est en ligne` : `${txt.nom}, as it is online`} width="1024" height="640" loading="lazy" decoding="async" />
+              <img class="scene__capture" src={urlEcran(e, locale)} alt={p.slug ? (locale === 'fr' ? `${txt.nom}, tel qu’il est en ligne` : `${txt.nom}, as it is online`) : (locale === 'fr' ? `${txt.nom}, page d’accueil` : `${txt.nom}, home page`)} width="1024" height="640" loading="lazy" decoding="async" />
               <div class="scene__legende">
                 <h3 class="r-h r-h--3">{txt.nom}</h3>
                 <p>{txt.phrase}</p>
-                <a href={`${workBase[locale]}/${p.slug}`}>{txt.lien}</a>
+                {p.slug && <a href={`${workBase[locale]}/${p.slug}`}>{txt.lien}</a>}
               </div>
             </li>
           );
