@@ -64,7 +64,7 @@ html.theme-report.theme-refonte {
   --vermilion-text: #FFFFFF;
   --vermilion-deep: #FFFFFF;
   --accent:         #FFFFFF;
-  --accent-fg:      var(--nuit);
+  --accent-fg:      var(--mauve-clair); /* texte d’accent sur fond sombre (survols, étiquettes) ; l’ancien var(--nuit) rendait ces textes invisibles */
   --line:        rgba(255, 255, 255, .16);
   --line-soft:   rgba(255, 255, 255, .08);
   --line-strong: rgba(255, 255, 255, .32);
