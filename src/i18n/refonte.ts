@@ -36,10 +36,10 @@ const fr = {
       `Mesuré le ${date} avec l’outil de mesure de Google, comme sur un téléphone, ${live ? 'sur ce site en ligne' : 'sur une copie de ce site'}. Résultat retenu sur trois essais.`,
     pasMesure: 'Pas encore mesuré.',
   },
-  // Home WOW : la scène « projets à l’affiche ». Une phrase vraie par projet,
+  // Home WOW : la scène « Projets Spotlight ». Une phrase vraie par projet,
   // tirée des études de cas.
   scene: {
-    titre: 'Projets à l’affiche',
+    titre: 'Projets Spotlight',
     intro: 'Descendez doucement. Vous passez devant quelques projets que j’ai bâtis sur mesure.',
     projets: {
       batixpert: { nom: 'Inspection Batixpert', phrase: 'Le nouveau site d’une entreprise d’inspection et d’ingénierie du bâtiment de la grande région de Montréal.', lien: 'Lire l’étude de cas Batixpert' },
@@ -134,7 +134,7 @@ const en: typeof fr = {
     pasMesure: 'Not measured yet.',
   },
   scene: {
-    titre: 'Featured projects',
+    titre: 'Projets Spotlight',
     intro: 'Scroll down slowly. You are walking past a few projects I built from scratch.',
     projets: {
       batixpert: { nom: 'Inspection Batixpert', phrase: 'The new website of a building inspection and engineering firm in the Greater Montréal area.', lien: 'Read the Batixpert case study' },
