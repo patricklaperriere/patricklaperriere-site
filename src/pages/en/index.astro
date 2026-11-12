@@ -12,7 +12,7 @@ const title = 'Patrick Laperrière, web developer in Quebec';
 const description =
   'Fast websites that are easy to find on Google, for businesses in Quebec: redesigns, online stores and custom tools, in English and French.';
 
-const projets = PROJETS_SCENE.map((p) => ({ name: refonteCopy[locale].scene.projets[p.id].nom, url: `${workBase[locale]}/${p.slug}` }));
+const projets = PROJETS_SCENE.filter((p) => p.slug).map((p) => ({ name: refonteCopy[locale].scene.projets[p.id].nom, url: `${workBase[locale]}/${p.slug}` }));
 const schema = graph([personSchema(locale), webSiteSchema(locale), professionalServiceSchema(locale), projetsHomeSchema(locale, projets)]);
 ---
 
