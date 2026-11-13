@@ -20,6 +20,7 @@ export const en: Widen<Dict> = {
 
   nav: {
     services: 'Services',
+    pricing: 'Pricing', // not shown yet: /tarifs has no English version
     work: 'Work',
     about: 'About',
     blog: 'Blog',

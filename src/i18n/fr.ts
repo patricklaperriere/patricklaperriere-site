@@ -28,6 +28,8 @@ export const fr = {
 
   nav: {
     services: 'Services',
+    // FR seulement : la page /tarifs n'existe pas encore en anglais.
+    pricing: 'Tarifs',
     work: 'Réalisations',
     about: 'À propos',
     blog: 'Blogue',
