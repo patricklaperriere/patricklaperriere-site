@@ -133,31 +133,36 @@ const crumbs = [
     padding: 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr));
-    gap: 1rem;
-    align-items: start;
+    /* Chaque carte occupe 5 rangées partagées (nom, prix, phrase, liste, bouton) :
+       les mêmes lignes tombent à la même hauteur d'une carte à l'autre, et toutes
+       les cartes d'une rangée ont exactement la même hauteur. */
+    grid-auto-rows: auto;
+    column-gap: 1rem;
+    row-gap: 2.25rem; /* entre deux rangées de cartes : place pour la pastille posée sur le bord */
+    padding-top: 1rem;
   }
   .tarif {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    position: relative;
+    display: grid;
+    grid-row: span 5;
+    grid-template-rows: subgrid;
+    row-gap: 1rem;
     padding: clamp(1.25rem, 2.5vw, 1.75rem);
-    border: 1px solid var(--line);
+    border: 2px solid var(--line);
     border-radius: 2px;
     background: var(--ink-raised, transparent);
     min-width: 0;
   }
-  /* Express et Croissance : même traitement, la carte monte et prend le mauve. */
+  /* Express et Croissance : même taille que les autres, seule la couleur change. */
   .tarif--vedette {
-    border: 2px solid var(--mauve, var(--accent));
-    background: var(--ink-high, var(--bg-raised));
+    border-color: var(--mauve, var(--accent));
   }
-  @media (min-width: 62em) {
-    .tarif--vedette {
-      transform: translateY(-0.75rem);
-    }
-  }
+  /* La pastille est posée sur le bord du haut : elle ne prend aucune place dans la carte. */
   .tarif__vedette {
-    align-self: flex-start;
+    position: absolute;
+    top: 0;
+    left: clamp(1.25rem, 2.5vw, 1.75rem);
+    transform: translateY(-50%);
     margin: 0;
     padding: 0.3rem 0.6rem;
     border-radius: 2px;
@@ -197,7 +202,7 @@ const crumbs = [
     border-top: 1px solid var(--line);
     display: grid;
     gap: 0.6rem;
-    flex: 1;
+    align-content: start;
   }
   .tarif__inclus li {
     position: relative;
@@ -216,9 +221,11 @@ const crumbs = [
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }
+  /* Même rangée pour tous les boutons : même hauteur, même ligne de bas. */
   .tarif__btn {
-    margin-top: 0.5rem;
     width: 100%;
+    height: 100%;
+    align-self: end;
     justify-content: center;
     text-align: center;
   }
