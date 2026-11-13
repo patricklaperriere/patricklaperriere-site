@@ -105,8 +105,10 @@ const crumbs = [
     <ul class="tarifs">
       {forfaits.map((f) => (
         <li class:list={['tarif', { 'tarif--vedette': f.vedette }]}>
-          {f.vedette && <p class="tarif__vedette">{f.vedette}</p>}
-          <h2 class="tarif__nom">{f.nom}</h2>
+          <div class="tarif__tete">
+            <h2 class="tarif__nom">{f.nom}</h2>
+            {f.vedette && <p class="tarif__vedette">{f.vedette}</p>}
+          </div>
           <p class="tarif__prix">
             {f.apartir && <span class="tarif__apartir">à partir de</span>}
             <span class="tarif__montant">{f.prix} $</span>
@@ -138,8 +140,7 @@ const crumbs = [
        les cartes d'une rangée ont exactement la même hauteur. */
     grid-auto-rows: auto;
     column-gap: 1rem;
-    row-gap: 2.25rem; /* entre deux rangées de cartes : place pour la pastille posée sur le bord */
-    padding-top: 1rem;
+    row-gap: 1rem;
   }
   .tarif {
     position: relative;
@@ -157,15 +158,21 @@ const crumbs = [
   .tarif--vedette {
     border-color: var(--mauve, var(--accent));
   }
-  /* La pastille est posée sur le bord du haut : elle ne prend aucune place dans la carte. */
+  /* Pastille encastrée dans le coin supérieur droit : collée aux deux bordures,
+     de la même couleur qu'elles, elle prolonge le cadre au lieu d'être posée dessus.
+     Elle ne prend aucune place dans la carte : le nom reste à la même hauteur partout. */
+  .tarif__tete {
+    min-width: 0;
+  }
   .tarif__vedette {
     position: absolute;
     top: 0;
-    left: clamp(1.25rem, 2.5vw, 1.75rem);
-    transform: translateY(-50%);
+    right: 0;
     margin: 0;
-    padding: 0.3rem 0.6rem;
-    border-radius: 2px;
+    white-space: nowrap;
+    line-height: 1.2;
+    padding: 0.35rem 0.7rem 0.4rem;
+    border-radius: 0 0 0 2px;
     background: var(--mauve, var(--accent));
     color: #fff;
     font-size: var(--fs-sm);
